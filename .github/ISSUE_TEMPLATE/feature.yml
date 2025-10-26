@@ -1,7 +1,7 @@
-name: "✨ 새로운 기능"
-description: "새로운 기능에 대한 이슈를 작성하세요!"
-title: "[새기능] "
-labels: "새기능"
+name: '✨ 새로운 기능'
+description: '새로운 기능에 대한 이슈를 작성하세요!'
+title: '[새기능] '
+labels: '새기능'
 body:
   - type: input
     attributes:
