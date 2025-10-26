@@ -4,6 +4,7 @@ const GlobalStyle = () => (
   <Global
     styles={css`
       @import url('https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css');
+      @import url('https://cdn.jsdelivr.net/gh/fonts-archive/SacheonHangGong/SacheonHangGong.css');
       *,
       *::before,
       *::after {
