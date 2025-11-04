@@ -11,6 +11,7 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: string;
   height?: string;
   as?: 'div' | 'section' | 'article' | 'main' | 'header' | 'footer' | 'nav';
+  flex?: CSSProperties['flex'];
 }
 
 export interface StyledFlexProps {
@@ -21,4 +22,5 @@ export interface StyledFlexProps {
   wrap: CSSProperties['flexWrap'];
   width: string;
   height: string;
+  flex?: CSSProperties['flex'];
 }

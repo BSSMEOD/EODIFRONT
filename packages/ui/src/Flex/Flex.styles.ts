@@ -10,4 +10,5 @@ export const StyledFlex = styled.div<StyledFlexProps>`
   flex-wrap: ${({ wrap }) => wrap};
   width: ${({ width }) => width};
   height: ${({ height }) => height};
+  flex: ${({ flex }) => flex || 'initial'};
 `;
