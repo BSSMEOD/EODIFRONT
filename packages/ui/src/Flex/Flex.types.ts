@@ -9,7 +9,6 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   wrap?: CSSProperties['flexWrap'];
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
-  flex?: CSSProperties['flex'];
   as?: 'div' | 'section' | 'article' | 'main' | 'header' | 'footer' | 'nav';
   children: React.ReactNode;
 }

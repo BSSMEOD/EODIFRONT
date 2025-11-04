@@ -12,7 +12,6 @@ const StyledFlex = styled.div<FlexProps>`
   flex-wrap: ${({ wrap }) => wrap};
   width: ${({ width }) => width};
   height: ${({ height }) => height};
-  flex: ${({ flex }) => flex || 'initial'};
 `;
 
 const Flex = (props: FlexProps) => {
@@ -24,7 +23,6 @@ const Flex = (props: FlexProps) => {
     wrap = 'nowrap',
     width = 'auto',
     height = 'auto',
-    flex,
     as = 'div',
     children,
     ...restProps
@@ -42,7 +40,6 @@ const Flex = (props: FlexProps) => {
       wrap={wrap}
       width={width}
       height={height}
-      flex={flex}
       {...restProps}
     >
       {children}
