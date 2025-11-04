@@ -9,7 +9,8 @@ export const StyledText = styled.span<StyledTextProps>`
     color[textColor as keyof typeof color] || textColor};
   width: ${({ width }) => width};
   text-align: ${({ textAlign }) => textAlign};
-  white-space: ${({ whiteSpace }) => whiteSpace};
+  white-space: ${({ whiteSpace, ellipsis }) =>
+    ellipsis ? 'nowrap' : whiteSpace};
 
   ${({ ellipsis }) =>
     ellipsis &&
