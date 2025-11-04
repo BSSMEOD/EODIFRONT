@@ -1,14 +1,62 @@
 'use client';
 
-import { useText } from './Text.hooks';
-import { StyledText } from './Text.styles';
-import type { TextProps } from './Text.types';
+import styled from '@emotion/styled';
+import color from '@styles/color';
+import font from '@/styles/font';
+import type { AllowedHTMLElement, TextProps } from './Text.types';
+
+const StyledText = styled.span<TextProps>`
+  ${({ variant = 'p2' }) => font[variant]};
+  color: ${({ color: textColor = 'black' }) =>
+    color[textColor as keyof typeof color] || textColor};
+  width: ${({ width = 'auto' }) => width};
+  text-align: ${({ textAlign = 'left' }) => textAlign};
+  white-space: ${({ whiteSpace = 'normal', ellipsis }) =>
+    ellipsis ? 'nowrap' : whiteSpace};
+
+  ${({ ellipsis }) =>
+    ellipsis &&
+    `
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  `}
+`;
 
 const Text = (props: TextProps) => {
-  const { element, styledProps, children, restProps } = useText(props);
+  const {
+    variant = 'p2',
+    color: textColor = 'black',
+    width = 'auto',
+    textAlign = 'left',
+    whiteSpace = 'normal',
+    ellipsis = false,
+    as,
+    children,
+    ...restProps
+  } = props;
+
+  const getDefaultElement = (): AllowedHTMLElement => {
+    if (as) return as;
+    if (variant === 'D1') return 'div';
+    if (variant.startsWith('H'))
+      return variant.toLowerCase() as AllowedHTMLElement;
+    return 'p';
+  };
+
+  const element = getDefaultElement();
 
   return (
-    <StyledText as={element} {...styledProps} {...restProps}>
+    <StyledText
+      as={element}
+      variant={variant}
+      color={textColor}
+      width={width}
+      textAlign={textAlign}
+      whiteSpace={whiteSpace}
+      ellipsis={ellipsis}
+      {...restProps}
+    >
       {children}
     </StyledText>
   );
