@@ -16,7 +16,8 @@ export const useText = (props: TextProps) => {
   const getDefaultElement = (): AllowedHTMLElement => {
     if (as) return as;
 
-    if (variant === 'D1' || variant.startsWith('H'))
+    if (variant === 'D1') return 'div';
+    if (variant.startsWith('H'))
       return variant.toLowerCase() as AllowedHTMLElement;
     return 'p';
   };
