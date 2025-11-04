@@ -1,14 +1,50 @@
 'use client';
 
-import { useFlex } from './Flex.hooks';
-import { StyledFlex } from './Flex.styles';
+import styled from '@emotion/styled';
 import type { FlexProps } from './Flex.types';
 
+const StyledFlex = styled.div<FlexProps>`
+  display: flex;
+  flex-direction: ${({ direction }) => direction};
+  justify-content: ${({ justify }) => justify};
+  align-items: ${({ align }) => align};
+  gap: ${({ gap }) => gap};
+  flex-wrap: ${({ wrap }) => wrap};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  flex: ${({ flex }) => flex || 'initial'};
+`;
+
 const Flex = (props: FlexProps) => {
-  const { element, styledProps, children, restProps } = useFlex(props);
+  const {
+    direction = 'row',
+    justify = 'flex-start',
+    align = 'stretch',
+    gap = 0,
+    wrap = 'nowrap',
+    width = 'auto',
+    height = 'auto',
+    flex,
+    as = 'div',
+    children,
+    ...restProps
+  } = props;
+
+  const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
 
   return (
-    <StyledFlex as={element} {...styledProps} {...restProps}>
+    <StyledFlex
+      as={as}
+      direction={direction}
+      justify={justify}
+      align={align}
+      gap={gapValue}
+      wrap={wrap}
+      width={width}
+      height={height}
+      flex={flex}
+      {...restProps}
+    >
       {children}
     </StyledFlex>
   );
