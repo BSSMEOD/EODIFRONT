@@ -5,22 +5,11 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   direction?: CSSProperties['flexDirection'];
   justify?: CSSProperties['justifyContent'];
   align?: CSSProperties['alignItems'];
-  gap?: number | string;
+  gap?: CSSProperties['gap'];
   wrap?: CSSProperties['flexWrap'];
-  children: React.ReactNode;
-  width?: string;
-  height?: string;
+  width?: CSSProperties['width'];
+  height?: CSSProperties['height'];
+  flex?: CSSProperties['flex'];
   as?: 'div' | 'section' | 'article' | 'main' | 'header' | 'footer' | 'nav';
-  flex?: CSSProperties['flex'];
-}
-
-export interface StyledFlexProps {
-  direction: CSSProperties['flexDirection'];
-  justify: CSSProperties['justifyContent'];
-  align: CSSProperties['alignItems'];
-  gap: string;
-  wrap: CSSProperties['flexWrap'];
-  width: string;
-  height: string;
-  flex?: CSSProperties['flex'];
+  children: React.ReactNode;
 }
