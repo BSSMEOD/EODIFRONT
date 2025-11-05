@@ -21,9 +21,7 @@ export type AllowedHTMLElement =
   | 'h5'
   | 'p'
   | 'span'
-  | 'div'
-  | 'label'
-  | 'button';
+  | 'div';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TextVariant;
@@ -34,6 +32,4 @@ export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   whiteSpace?: CSSProperties['whiteSpace'];
   ellipsis?: boolean;
   as?: AllowedHTMLElement;
-  htmlFor?: string;
-  type?: 'button' | 'submit' | 'reset';
 }
