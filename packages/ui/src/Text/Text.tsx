@@ -1,17 +1,15 @@
-'use client';
-
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@/styles/font';
 import type { AllowedHTMLElement, TextProps } from './Text.types';
 
 const StyledText = styled.span<TextProps>`
-  ${({ variant = 'p2' }) => font[variant]};
-  color: ${({ color: textColor = 'black' }) =>
+  ${({ variant }) => font[variant ?? 'p2']};
+  color: ${({ color: textColor }) =>
     color[textColor as keyof typeof color] || textColor};
-  width: ${({ width = 'auto' }) => width};
-  text-align: ${({ textAlign = 'left' }) => textAlign};
-  white-space: ${({ whiteSpace = 'normal', ellipsis }) =>
+  width: ${({ width }) => width};
+  text-align: ${({ textAlign }) => textAlign};
+  white-space: ${({ whiteSpace, ellipsis }) =>
     ellipsis ? 'nowrap' : whiteSpace};
 
   ${({ ellipsis }) =>
