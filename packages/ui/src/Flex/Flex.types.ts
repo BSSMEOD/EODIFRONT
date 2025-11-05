@@ -10,5 +10,6 @@ export interface FlexProps extends React.HTMLAttributes<HTMLDivElement> {
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
   as?: 'div' | 'section' | 'article' | 'main' | 'header' | 'footer' | 'nav';
+  inline?: boolean;
   children: React.ReactNode;
 }

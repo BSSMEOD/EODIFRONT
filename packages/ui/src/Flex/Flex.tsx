@@ -1,10 +1,8 @@
-'use client';
-
 import styled from '@emotion/styled';
 import type { FlexProps } from './Flex.types';
 
 const StyledFlex = styled.div<FlexProps>`
-  display: flex;
+  display: ${({ inline }) => (inline ? 'inline-flex' : 'flex')};
   flex-direction: ${({ direction }) => direction};
   justify-content: ${({ justify }) => justify};
   align-items: ${({ align }) => align};
@@ -23,6 +21,7 @@ const Flex = (props: FlexProps) => {
     wrap = 'nowrap',
     width = 'auto',
     height = 'auto',
+    inline = false,
     as = 'div',
     children,
     ...restProps
@@ -40,6 +39,7 @@ const Flex = (props: FlexProps) => {
       wrap={wrap}
       width={width}
       height={height}
+      inline={inline}
       {...restProps}
     >
       {children}
