@@ -17,7 +17,6 @@ const StyledText = styled.span<TextProps>`
     `
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
   `}
 `;
 
