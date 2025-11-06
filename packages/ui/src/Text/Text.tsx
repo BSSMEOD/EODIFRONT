@@ -23,7 +23,7 @@ const StyledText = styled.span<TextProps>`
 const Text = (props: TextProps) => {
   const {
     variant = 'p2',
-    color: textColor = 'black',
+    color: textColor = color.black,
     width = 'auto',
     textAlign = 'left',
     whiteSpace = 'normal',
