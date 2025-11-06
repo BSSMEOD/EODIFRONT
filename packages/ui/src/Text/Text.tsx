@@ -4,7 +4,7 @@ import font from '@/styles/font';
 import type { AllowedHTMLElement, TextProps } from './Text.types';
 
 const StyledText = styled.span<TextProps>`
-  ${({ variant }) => font[variant ?? 'p2']};
+  ${({ variant }) => font[variant as keyof typeof font]};
   color: ${({ color: textColor }) =>
     color[textColor as keyof typeof color] || textColor};
   width: ${({ width }) => width};
