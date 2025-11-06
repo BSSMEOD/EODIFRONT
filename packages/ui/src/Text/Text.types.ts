@@ -25,11 +25,11 @@ export type AllowedHTMLElement =
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TextVariant;
-  children: React.ReactNode;
   color?: string;
   width?: string;
   textAlign?: CSSProperties['textAlign'];
   whiteSpace?: CSSProperties['whiteSpace'];
   ellipsis?: boolean;
   as?: AllowedHTMLElement;
+  children: React.ReactNode;
 }
