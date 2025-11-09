@@ -1,3 +1,4 @@
+'use client';
 import LayoutClient from '@components/common/Layout/LayoutClient';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
