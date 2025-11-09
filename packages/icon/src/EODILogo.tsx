@@ -25,8 +25,8 @@ const EODILogo = () => {
           gradientUnits="userSpaceOnUse"
         >
           <stop stopColor="#FEFFA8" />
-          <stop offset="0.264423" stop-color="#50C878" />
-          <stop offset="1" stop-color="#87CEEB" />
+          <stop offset="0.264423" stopColor="#50C878" />
+          <stop offset="1" stopColor="#87CEEB" />
         </linearGradient>
       </defs>
     </svg>
