@@ -157,7 +157,7 @@ export default Header;
 
 const StyledHeader = styled.header`
   display: flex;
-  width: 1280px;
+  width: 100%;
   height: 70px;
   padding: 20px 180px;
   justify-content: space-between;
