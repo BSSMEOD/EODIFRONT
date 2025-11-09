@@ -5,14 +5,16 @@ import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
 import EODILogo from '../../../../packages/icon/src/EODILogo';
 import { Button } from '@ui/Button';
+import { useRouter } from 'next/navigation';
 
 const ManagerHeader = () => {
   const { isLoggedIn, login, logout } = useAuthStore();
+  const router = useRouter();
 
   return (
     <StyledHeader>
       <div
-        onClick={() => (window.location.href = ROUTES.MAIN)}
+        onClick={() => router.push(ROUTES.MAIN)}
         style={{ cursor: 'pointer' }}
       >
         <EODILogo />
@@ -20,25 +22,25 @@ const ManagerHeader = () => {
       <SortHeaderNavigation>
         <Button
           styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.MANAGE)}
+          onClick={() => router.push(ROUTES.MANAGE)}
         >
           분실물 관리
         </Button>
         <Button
           styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.RECALL)}
+          onClick={() => router.push(ROUTES.RECALL)}
         >
           회수 요청 관리
         </Button>
         <Button
           styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.DISPOSAL)}
+          onClick={() => router.push(ROUTES.DISPOSAL)}
         >
           폐기 물품 관리
         </Button>
         <Button
           styleType={'SECONDARY'}
-          onClick={() => (window.location.href = ROUTES.REGISTER)}
+          onClick={() => router.push(ROUTES.REGISTER)}
         >
           분실물 등록 하기
         </Button>
@@ -61,31 +63,29 @@ const ManagerHeader = () => {
 
 const TeacherHeader = () => {
   const { isLoggedIn, login, logout } = useAuthStore();
+  const router = useRouter();
 
   return (
     <StyledHeader>
       <div
-        onClick={() => (window.location.href = ROUTES.MAIN)}
+        onClick={() => router.push(ROUTES.MAIN)}
         style={{ cursor: 'pointer' }}
       >
         <EODILogo />
       </div>
       <SortHeaderNavigation>
-        <Button
-          styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.LOG)}
-        >
+        <Button styleType={'TERTIARY'} onClick={() => router.push(ROUTES.LOG)}>
           지급 내역 보기
         </Button>
         <Button
           styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.POINT)}
+          onClick={() => router.push(ROUTES.POINT)}
         >
           상점 처리 하기
         </Button>
         <Button
           styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.DISPOSAL)}
+          onClick={() => router.push(ROUTES.DISPOSAL)}
         >
           폐기 항목 보기
         </Button>
@@ -108,20 +108,18 @@ const TeacherHeader = () => {
 
 const StudentHeader = () => {
   const { isLoggedIn, logout } = useAuthStore();
+  const router = useRouter();
 
   return (
     <StyledHeader>
       <div
-        onClick={() => (window.location.href = ROUTES.MAIN)}
+        onClick={() => router.push(ROUTES.MAIN)}
         style={{ cursor: 'pointer' }}
       >
         <EODILogo />
       </div>
       <SortHeaderNavigation>
-        <Button
-          styleType={'TERTIARY'}
-          onClick={() => (window.location.href = ROUTES.FIND)}
-        >
+        <Button styleType={'TERTIARY'} onClick={() => router.push(ROUTES.FIND)}>
           분실물 찾기
         </Button>
         {isLoggedIn ? (
@@ -131,7 +129,7 @@ const StudentHeader = () => {
         ) : (
           <Button
             styleType={'PRIMARY'}
-            onClick={() => (window.location.href = ROUTES.LOGIN)}
+            onClick={() => router.push(ROUTES.LOGIN)}
           >
             로그인
           </Button>
