@@ -2,16 +2,14 @@
 import { css } from '@emotion/react';
 import type { ButtonHTMLAttributes } from 'react';
 import { getButtonStyle } from './Button.style';
-import type { ButtonStyleType, ButtonSize, ButtonIcon } from './Button.type';
+import type { ButtonStyleType } from './Button.type';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;
-  size?: ButtonSize;
 }
 
 export const Button = ({
   styleType = 'PRIMARY',
-  size = 'MEDIUM',
   children,
   ...props
 }: ButtonProps) => {

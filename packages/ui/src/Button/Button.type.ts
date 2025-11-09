@@ -4,7 +4,3 @@ export type ButtonStyleType =
   | 'TERTIARY'
   | 'QUATERNARY'
   | 'DISABLED';
-
-export type ButtonIcon = 'NONE';
-
-export type ButtonSize = 'LARGE' | 'MEDIUM' | 'SMALL';
