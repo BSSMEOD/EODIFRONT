@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
 'use client';
-import { useUserStore } from '@/stores';
+import { useAuthStore } from '@/stores';
 import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
 import EODILogo from '../../../../packages/icon/src/EODILogo';
 import { Button } from '@ui/Button';
 
 const ManagerHeader = () => {
-  const { isLoggedIn, login, logout } = useUserStore();
+  const { isLoggedIn, login, logout } = useAuthStore();
 
   return (
     <StyledHeader>
@@ -49,7 +49,7 @@ const ManagerHeader = () => {
         ) : (
           <Button
             styleType={'PRIMARY'}
-            onClick={() => login('관리자', 'MANAGER')}
+            onClick={() => login({ name: '관리자', authority: 'MANAGER' })}
           >
             로그인
           </Button>
@@ -60,7 +60,7 @@ const ManagerHeader = () => {
 };
 
 const TeacherHeader = () => {
-  const { isLoggedIn, login, logout } = useUserStore();
+  const { isLoggedIn, login, logout } = useAuthStore();
 
   return (
     <StyledHeader>
@@ -96,7 +96,7 @@ const TeacherHeader = () => {
         ) : (
           <Button
             styleType={'PRIMARY'}
-            onClick={() => login('선생님', 'TEACHER')}
+            onClick={() => login({ name: '선생님', authority: 'TEACHER' })}
           >
             로그인
           </Button>
@@ -107,7 +107,7 @@ const TeacherHeader = () => {
 };
 
 const StudentHeader = () => {
-  const { isLoggedIn, logout } = useUserStore();
+  const { isLoggedIn, logout } = useAuthStore();
 
   return (
     <StyledHeader>
@@ -142,7 +142,7 @@ const StudentHeader = () => {
 };
 
 const Header = () => {
-  const { authority } = useUserStore();
+  const { authority } = useAuthStore();
 
   return (
     <header>
