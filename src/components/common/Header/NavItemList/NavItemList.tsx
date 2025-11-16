@@ -1,11 +1,10 @@
-'use client';
 import type { UserAuthority } from '@/types/user/client';
 import styled from '@emotion/styled';
 import { Button } from '@ui/Button/Button';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
-import { useAuthStore } from '@/stores';
 import { NavItem } from './NavItem/NavItem';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 interface NavItemListProps {
   authority: UserAuthority;
@@ -85,7 +84,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
   );
 
   return (
-    <StyledNavList data-authority={authority}>
+    <StyledNavList>
       {authority === 'MANAGER' && ManagerNav()}
       {authority === 'TEACHER' && TeacherNav()}
       {authority === 'STUDENT' && StudentNav()}
