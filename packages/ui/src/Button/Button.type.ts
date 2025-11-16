@@ -1,6 +1,1 @@
-export type ButtonStyleType =
-  | 'PRIMARY'
-  | 'SECONDARY'
-  | 'TERTIARY'
-  | 'QUATERNARY'
-  | 'DISABLED';
+export type ButtonStyleType = 'PRIMARY' | 'SECONDARY' | 'TERTIARY' | 'GHOST';

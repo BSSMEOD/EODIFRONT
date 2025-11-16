@@ -6,13 +6,17 @@ import type { ButtonStyleType } from './Button.type';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;
+  outlined?: boolean;
 }
 
-export const Button = ({
-  styleType = 'PRIMARY',
-  children,
-  ...props
-}: ButtonProps) => {
+export const Button = (props: ButtonProps) => {
+  const {
+    styleType = 'PRIMARY',
+    outlined = false,
+    children,
+    ...restProps
+  } = props;
+
   const baseStyle = css`
     display: flex;
     align-items: center;
@@ -22,11 +26,11 @@ export const Button = ({
     cursor: pointer;
     transition: all 0.2s ease-in-out;
 
-    ${getButtonStyle[styleType]}
+    ${getButtonStyle[styleType](outlined)}
   `;
 
   return (
-    <button css={baseStyle} {...props}>
+    <button css={baseStyle} {...restProps}>
       {children}
     </button>
   );
