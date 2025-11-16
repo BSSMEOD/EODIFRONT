@@ -1,9 +1,11 @@
-import { useAuthStore } from '@/stores';
+'use client';
+
 import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
-import EODILogo from '../../../../packages/icon/src/EODILogo';
 import { useRouter } from 'next/navigation';
 import { NavItemList } from '@components/common/Header/NavItemList/NavItemList';
+import EODILogo from '@package/icon/src/EODILogo';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 const Header = () => {
   const { authority } = useAuthStore();

@@ -26,7 +26,8 @@
       "@utils/*": ["src/utils/*"],
       "@styles/*": ["src/styles/*"],
       "@design-system/*": ["packages/design-system/src/*"],
-      "@ui/*": ["packages/ui/src/*"]
+      "@ui/*": ["packages/ui/src/*"],
+      "@package/*": ["packages/*"]
     },
     "types": ["node"],
     "plugins": [
