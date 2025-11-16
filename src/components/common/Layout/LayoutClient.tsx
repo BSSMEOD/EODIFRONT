@@ -1,5 +1,3 @@
-/** @jsxImportSource @emotion/react */
-'use client';
 import Header from '@components/common/Header/Header';
 import Footer from '@components/common/Footer/Footer';
 import GlobalStyle from '@styles/global';
