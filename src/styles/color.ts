@@ -3,7 +3,7 @@ const color = {
   black: '#000000',
 
   primary: '#87CEEB',
-  second: '#50C878',
+  secondary: '#50C878',
 
   gray100: '#F6F6F6',
   gray200: '#DEDEDE',

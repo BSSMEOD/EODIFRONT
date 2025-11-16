@@ -20,18 +20,18 @@ const fontFamily = {
 };
 
 const font = {
-  D1: fontGenerator(fontFamily.logo, 400, 1.5, 150, -2.2),
+  D1: fontGenerator(fontFamily.logo, 400, 1.5, 150, 0),
 
-  H1: fontGenerator(fontFamily.default, 700, 1.5, 150, -2.2),
-  H2: fontGenerator(fontFamily.default, 700, 1.25, 150, -2.2),
-  H3: fontGenerator(fontFamily.default, 700, 1.125, 150, -2.2),
-  H4: fontGenerator(fontFamily.default, 700, 1, 150, -2.2),
-  H5: fontGenerator(fontFamily.default, 700, 0.875, 150, -2.2),
+  H1: fontGenerator(fontFamily.default, 700, 1.5, 150, 0),
+  H2: fontGenerator(fontFamily.default, 700, 1.25, 150, 0),
+  H3: fontGenerator(fontFamily.default, 700, 1.125, 150, 0),
+  H4: fontGenerator(fontFamily.default, 700, 1, 150, 0),
+  H5: fontGenerator(fontFamily.default, 700, 0.875, 150, 0),
 
-  p1: fontGenerator(fontFamily.default, 400, 1.125, 160, -2.2),
-  p2: fontGenerator(fontFamily.default, 400, 1, 160, -2.2),
-  p3: fontGenerator(fontFamily.default, 400, 0.875, 160, -2.2),
-  p4: fontGenerator(fontFamily.default, 400, 0.75, 160, -2.2),
+  p1: fontGenerator(fontFamily.default, 400, 1.125, 160, 0),
+  p2: fontGenerator(fontFamily.default, 400, 1, 160, 0),
+  p3: fontGenerator(fontFamily.default, 400, 0.875, 160, 0),
+  p4: fontGenerator(fontFamily.default, 400, 0.75, 160, 0),
 };
 
 export default font;

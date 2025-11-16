@@ -1,12 +1,12 @@
-export const metadata = {
-  title: 'EODI',
-  description: 'Next + Emotion',
-};
+'use client';
+import LayoutClient from '@components/common/Layout/LayoutClient';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="ko">
-      <body suppressHydrationWarning>{children}</body>
+      <body style={{ margin: 0, padding: 0, width: '100%', height: '100%' }}>
+        <LayoutClient>{children}</LayoutClient>
+      </body>
     </html>
   );
 };
