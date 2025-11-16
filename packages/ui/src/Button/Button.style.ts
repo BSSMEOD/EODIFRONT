@@ -1,4 +1,3 @@
-// Button.style.ts
 import { css } from '@emotion/react';
 import color from '@styles/color';
 import font from '@styles/font';
