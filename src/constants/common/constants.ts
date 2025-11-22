@@ -9,4 +9,5 @@ export const ROUTES = {
   MANAGE: '/manage',
   RECALL: '/recall',
   REGISTER: '/register',
+  RULES: '/rules',
 };
