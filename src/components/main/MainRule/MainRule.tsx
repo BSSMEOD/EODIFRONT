@@ -46,14 +46,3 @@ const Title = styled.p`
   ${font.H1}
   margin: 0;
 `;
-
-const Description = styled.p`
-  ${font.p2}
-  margin: 0;
-`;
-
-const TextBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 48px;
-`;
