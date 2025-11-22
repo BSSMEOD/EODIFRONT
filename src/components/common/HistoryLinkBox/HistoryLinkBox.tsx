@@ -21,14 +21,12 @@ const HistoryLinkBox = ({
   height,
 }: HistoryLinkBoxProps) => {
   return (
-    <StyledHistoryLinkBox height={addPX(height)}>
+    <StyledHistoryLinkBox height={addPX(height)} href={route}>
       <Flex direction="column">
         <Text variant="p2">{title}</Text>
         <Text variant="H1">{count}건</Text>
       </Flex>
-      <Link href={route}>
-        <ArrowRightTop />
-      </Link>
+      <ArrowRightTop />
     </StyledHistoryLinkBox>
   );
 };
@@ -37,7 +35,7 @@ interface StyledHistoryLinkBoxProps {
   height: CSSProperties['height'];
 }
 
-const StyledHistoryLinkBox = styled.div<StyledHistoryLinkBoxProps>`
+const StyledHistoryLinkBox = styled(Link)<StyledHistoryLinkBoxProps>`
   border: 1px solid ${color.gray200};
   height: ${({ height }) => height};
   padding: 20px 16px;
