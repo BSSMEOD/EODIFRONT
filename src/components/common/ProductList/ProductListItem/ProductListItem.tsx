@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Flex from '@ui/Flex/Flex';
 import Text from '@ui/Text/Text';
 import { ROUTES } from '@/constants/common/constants';
-import { useRouter } from 'next/navigation';
 import { Product } from '@/types/product/client';
 import Link from 'next/link';
 
@@ -14,7 +13,6 @@ interface ProductListItem {
 }
 
 const ProductListItem = ({ product, size }: ProductListItem) => {
-  const router = useRouter();
   const { id, imageUrl, title, date, location } = product;
 
   return (
