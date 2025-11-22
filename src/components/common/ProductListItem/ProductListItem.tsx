@@ -6,25 +6,45 @@ import Text from '@ui/Text/Text';
 
 interface ProductListItem {
   size: 'small' | 'medium' | 'big';
+  imageUrl: string;
+  title: string;
+  date: string;
+  location: string;
 }
 
-const ProductListItem = ({ size }: ProductListItem) => {
+const ProductListItem = ({
+  size,
+  imageUrl,
+  title,
+  date,
+  location,
+}: ProductListItem) => {
   return (
-    <StyledProductListItem>
-      <ProductImage src={''} alt="분실물 사진" />
+    <StyledProductListItem size={size}>
+      <ProductImage src={imageUrl} alt="분실물 사진" />
       <Flex direction="column" justify="space-between">
-        <Text variant="H2">긱시크 안경</Text>
+        <Text variant="H2">{title}</Text>
         <Text variant="p2" color={color.gray200}>
-          2025. 06. 19.
+          {date}
         </Text>
-        <Text variant="p2">기타 / 운동장</Text>
+        <Text variant="p2">{location}</Text>
       </Flex>
     </StyledProductListItem>
   );
 };
 
-const StyledProductListItem = styled.div`
-  width: 300px;
+const productSize = {
+  small: '300px',
+  medium: '450px',
+  big: '920px',
+};
+
+interface StyledProductListItemProps {
+  size: 'small' | 'medium' | 'big';
+}
+
+const StyledProductListItem = styled.div<StyledProductListItemProps>`
+  width: ${({ size }) => productSize[size]};
   flex-shrink: 0;
   padding: 12px;
   display: flex;
