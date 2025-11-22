@@ -14,7 +14,7 @@ const MainPage = () => {
       <SortMainRules>
         <MainRuleNav>
           <p css={font.D1}>
-            분실물 관리 서비스 ,
+            분실물 관리 서비스,
             <br />
             어디
           </p>
