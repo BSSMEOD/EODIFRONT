@@ -184,16 +184,6 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const CategoryTd = styled(Td)`
-  font-weight: 500;
-`;
-
-const ContentTd = styled(Td)`
-  flex: 1;
-  justify-content: flex-start;
-  padding-left: 12px;
-`;
-
 const ImportantMark = styled.span`
   color: ${color.red};
   font-weight: 600;

@@ -124,13 +124,3 @@ const Row = styled.div`
   display: flex;
   width: 100%;
 `;
-
-const CategoryTd = styled(Td)`
-  font-weight: 500;
-`;
-
-const ContentTd = styled(Td)`
-  flex: 1;
-  justify-content: flex-start;
-  padding-left: 12px;
-`;

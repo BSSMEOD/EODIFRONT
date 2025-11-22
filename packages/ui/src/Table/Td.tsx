@@ -10,11 +10,6 @@ const Td = ({
   borderTopRightRadius,
   borderBottomLeftRadius,
   borderBottomRightRadius,
-  isBottom = false,
-  isTop = false,
-  isLeft = false,
-  isRight = false,
-  isBottomBold = false,
 }: TableProps) => {
   return (
     <StyledTd
@@ -26,11 +21,6 @@ const Td = ({
         borderBottomLeftRadius,
         borderBottomRightRadius,
       }}
-      isBottom={isBottom}
-      isTop={isTop}
-      isLeft={isLeft}
-      isRight={isRight}
-      isBottomBold={isBottomBold}
     >
       {children}
     </StyledTd>
@@ -39,13 +29,7 @@ const Td = ({
 
 export default Td;
 
-const StyledTd = styled.div<{
-  isBottom: boolean;
-  isTop: boolean;
-  isLeft: boolean;
-  isRight: boolean;
-  isBottomBold: boolean;
-}>`
+const StyledTd = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
