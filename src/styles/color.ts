@@ -5,6 +5,9 @@ const color = {
   primary: '#87CEEB',
   secondary: '#50C878',
 
+  lightblue: '#F9FDFE',
+  lightgreen: '#F6FCF8',
+
   gray100: '#F6F6F6',
   gray200: '#DEDEDE',
   gray300: '#CCCCCC',
