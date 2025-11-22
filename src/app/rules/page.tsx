@@ -11,7 +11,7 @@ const RulePage = () => {
     <StyledRulePage>
       <RuleNav />
       <SortRules>
-        <StandardApplyingPoint id="standardApplyingPont" />
+        <StandardApplyingPoint id="standardApplyingPoint" />
         <RewardRule id="rewardRule" />
         <PenaltyRule id="penaltyRule" />
         <CommitteeRule id="committeeRule" />
