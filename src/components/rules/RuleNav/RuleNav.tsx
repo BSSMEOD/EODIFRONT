@@ -4,7 +4,7 @@ import font from '@styles/font';
 import { useState, useEffect } from 'react';
 
 const NAV_ITEMS = [
-  { id: 'standardApplyingPont', title: '상벌점제 적용 기준' },
+  { id: 'standardApplyingPoint', title: '상벌점제 적용 기준' },
   { id: 'rewardRule', title: '상점 기준' },
   { id: 'penaltyRule', title: '벌점 기준' },
   { id: 'committeeRule', title: '즉시 선도위원회 회부' },
