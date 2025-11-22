@@ -29,6 +29,8 @@ const GlobalStyle = () => (
         color: #000;
         line-height: 1.5;
         -webkit-font-smoothing: antialiased;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
       }
 
       a {
@@ -57,6 +59,10 @@ const GlobalStyle = () => (
         display: block;
         max-width: 100%;
         height: auto;
+      }
+
+      ::-webkit-scrollbar {
+        display: none;
       }
     `}
   />

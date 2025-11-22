@@ -1,17 +1,29 @@
 'use client';
+
 import styled from '@emotion/styled';
 import MainRule from '@components/main/MainRule/MainRule';
-import font from '@styles/font';
+import Text from '@ui/Text/Text';
 import { Button } from '@ui/Button/Button';
 import { useRouter } from 'next/navigation';
-import LostItemVergeDiscard from '@components/main/LostItemVergeDiscard/LostItemVergeDiscard';
+import color from '@styles/color';
+import Flex from '@ui/Flex/Flex';
+import { ROUTES } from '@/constants/common/constants';
+import React from 'react';
+import SmallProductList from '@components/common/ProductList/SmallProductList';
+import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useEffect } from 'react';
 
 const MainPage = () => {
   const router = useRouter();
-
   const { authority, isLoggedIn } = useAuthStore();
+  const { data: disposalProductListData } = { data: [] };
+  const { data: recallProductListData } = { data: [] };
+  const { data: productsCount } = {
+    data: { disposalCount: 0, recallCount: 0 },
+  };
+
+  const isManager = authority === 'MANAGER';
 
   useEffect(() => {
     if (isLoggedIn && authority === 'TEACHER') {
@@ -21,20 +33,53 @@ const MainPage = () => {
 
   return (
     <StyledMainPage>
-      <SortMainRules>
-        <MainRuleNav>
-          <p css={font.D1}>
-            분실물 관리 서비스,
-            <br />
-            어디
-          </p>
-          <Button styleType={'SECONDARY'} onClick={() => router.push('/rules')}>
-            <p css={font.H3}>상벌점제 규정 확인하기</p>
-          </Button>
-        </MainRuleNav>
-        <MainRule />
-      </SortMainRules>
-      <LostItemVergeDiscard />
+      <Flex gap={24} width="100%">
+        {authority === 'MANAGER' ? (
+          <Flex direction="column" gap={20} width="30%">
+            <HistoryLinkBox
+              title="회수 신청 요청"
+              count={productsCount.disposalCount}
+              route={ROUTES.RECALL}
+              height={176}
+            />
+            <HistoryLinkBox
+              title="폐기 예정 물품"
+              count={productsCount.recallCount}
+              route={ROUTES.DISPOSAL}
+              height={176}
+            />
+          </Flex>
+        ) : (
+          <Flex direction="column" gap={100} width="30%">
+            <Text variant="D1">
+              분실물 관리 서비스,
+              <br />
+              어디
+            </Text>
+            <Button
+              styleType={'SECONDARY'}
+              onClick={() => router.push(ROUTES.RULES)}
+            >
+              <Text variant="H4" color={color.white}>
+                상벌점제 규정 확인하기
+              </Text>
+            </Button>
+          </Flex>
+        )}
+        <MainRule canEdit={isManager} />
+      </Flex>
+      {isManager && (
+        <SmallProductList
+          title="회수 신청 요청이 있는 물품"
+          productList={recallProductListData}
+          href={ROUTES.RECALL}
+        />
+      )}
+      <SmallProductList
+        title="폐기 직전인 분실물"
+        productList={disposalProductListData}
+        href={isManager ? ROUTES.DISPOSAL : undefined}
+      />
     </StyledMainPage>
   );
 };
@@ -42,21 +87,10 @@ const MainPage = () => {
 export default MainPage;
 
 const StyledMainPage = styled.div`
-  width: 100%;
-  gap: 24px;
-  margin: 0 auto;
-`;
-
-const MainRuleNav = styled.div`
-  width: 25%;
-  gap: 100px;
   display: flex;
   flex-direction: column;
-`;
-
-const SortMainRules = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 24px;
+  gap: 40px;
   width: 100%;
+  margin: 0 auto;
+  padding-top: 66px;
 `;

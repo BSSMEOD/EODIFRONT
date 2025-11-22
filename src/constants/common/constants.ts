@@ -2,7 +2,6 @@ export const ROUTES = {
   MAIN: '/',
   FIND: '/find',
   LOGIN: '/login',
-  LOGOUT: '/logout',
   LOG: '/log',
   POINT: '/point',
   DISPOSAL: '/disposal',
@@ -10,4 +9,5 @@ export const ROUTES = {
   RECALL: '/recall',
   REGISTER: '/register',
   RULES: '/rules',
+  MARKDOWN: '/markdown',
 };

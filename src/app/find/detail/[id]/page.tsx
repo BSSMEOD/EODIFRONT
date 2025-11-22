@@ -7,8 +7,8 @@ import Image from 'next/image';
 import Text from '@ui/Text/Text';
 import { Button } from '@ui/Button/Button';
 import color from '@styles/color';
-import ProductListItem from '@components/common/ProductListItem/ProductListItem';
 import { Divider } from '@components/common/Divider/Divider';
+import SmallProductList from '@components/common/ProductList/SmallProductList';
 
 const StyledProductDetailPage = styled.div`
   display: flex;
@@ -30,6 +30,8 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   const { id } = React.use(params);
+  const { data: disposalProductListData } = { data: [] };
+
   return (
     <StyledProductDetailPage>
       <Flex direction="row" gap={50} align="flex-end">
@@ -63,18 +65,10 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
           </Button>
         </Flex>
       </Flex>
-      <Flex direction="column" gap={13} width={920}>
-        <Text variant="H1">폐기 직전인 분실물</Text>
-        <Flex width="100%" gap={20} style={{ overflowX: 'scroll' }}>
-          <ProductListItem
-            size="small"
-            imageUrl={'/images/sample-product.jpg'}
-            title={'테무 안경'}
-            date={'2025년 6월 19일'}
-            location={'기타/운동장'}
-          />
-        </Flex>
-      </Flex>
+      <SmallProductList
+        title="폐기 직전인 분실물"
+        productList={disposalProductListData}
+      />
     </StyledProductDetailPage>
   );
 };
