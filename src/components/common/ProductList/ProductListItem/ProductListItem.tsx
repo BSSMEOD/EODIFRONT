@@ -3,24 +3,24 @@ import color from '@styles/color';
 import Image from 'next/image';
 import Flex from '@ui/Flex/Flex';
 import Text from '@ui/Text/Text';
+import { ROUTES } from '@/constants/common/constants';
+import { useRouter } from 'next/navigation';
+import { Product } from '@/types/product/client';
 
 interface ProductListItem {
+  product: Product;
   size: 'small' | 'medium' | 'big';
-  imageUrl: string;
-  title: string;
-  date: string;
-  location: string;
 }
 
-const ProductListItem = ({
-  size,
-  imageUrl,
-  title,
-  date,
-  location,
-}: ProductListItem) => {
+const ProductListItem = ({ product, size }: ProductListItem) => {
+  const router = useRouter();
+  const { id, imageUrl, title, date, location } = product;
+
   return (
-    <StyledProductListItem size={size}>
+    <StyledProductListItem
+      size={size}
+      onClick={() => router.push(`${ROUTES.FIND}/detail/${id}`)}
+    >
       <ProductImage src={imageUrl} alt="분실물 사진" width={98} height={98} />
       <Flex direction="column" justify="space-between">
         <Text variant="H2">{title}</Text>
