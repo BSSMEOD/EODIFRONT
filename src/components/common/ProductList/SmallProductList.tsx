@@ -19,8 +19,8 @@ const SmallProductList = ({ title, productList, href }: ProductListProps) => {
           </Link>
         )}
       </Flex>
-      <Flex width="100%" gap={20} style={{ overflowX: 'scroll' }}>
-        {productList.map((product) => (
+      <Flex width="100%" gap={20} style={{ overflowX: 'auto' }}>
+        {productList?.map((product) => (
           <ProductListItem
             key={`product-${product.id}`}
             product={product}
