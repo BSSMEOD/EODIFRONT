@@ -2,11 +2,11 @@ import { create } from 'zustand';
 import { Product } from '@/types/product/client';
 
 interface ProductListInfo {
-  disposalProductList: Product[];
+  recallProductList: Product[];
 }
 
-export const useDisposalStore = create<ProductListInfo>((set) => ({
-  disposalProductList: [
+export const useRecallStore = create<ProductListInfo>((set) => ({
+  recallProductList: [
     {
       id: 1,
       imageUrl: '',

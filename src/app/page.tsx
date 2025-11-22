@@ -13,11 +13,15 @@ import SmallProductList from '@components/common/ProductList/SmallProductList';
 import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useDisposalStore } from '@/stores/useDisposalStore';
+import { useRecallStore } from '@/stores/useRecallStore';
 
 const MainPage = () => {
   const router = useRouter();
   const { authority } = useAuthStore();
   const { disposalProductList } = useDisposalStore();
+  const { recallProductList } = useRecallStore();
+
+  const isManager = authority === 'MANAGER';
 
   return (
     <StyledMainPage>
@@ -54,12 +58,20 @@ const MainPage = () => {
             </Button>
           </Flex>
         )}
-        <MainRule authority={authority} />
+        <MainRule canEdit={isManager} />
       </Flex>
-      <Flex direction="column" gap={13} width="100%">
-        <Text variant="H1">폐기 직전인 분실물</Text>
-        <SmallProductList productList={disposalProductList} />
-      </Flex>
+      {isManager && (
+        <SmallProductList
+          title="회수 신청 요청이 있는 물품"
+          productList={recallProductList}
+          href={ROUTES.RECALL}
+        />
+      )}
+      <SmallProductList
+        title="폐기 직전인 분실물"
+        productList={disposalProductList}
+        href={isManager ? ROUTES.DISPOSAL : undefined}
+      />
     </StyledMainPage>
   );
 };

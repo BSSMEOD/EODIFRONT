@@ -7,10 +7,10 @@ import { ROUTES } from '@/constants/common/constants';
 import Link from 'next/link';
 
 interface MainRuleProps {
-  authority: UserAuthority;
+  canEdit: boolean;
 }
 
-const MainRule = ({ authority }: MainRuleProps) => {
+const MainRule = ({ canEdit }: MainRuleProps) => {
   return (
     <StyledMainRule>
       <div>
@@ -36,7 +36,7 @@ const MainRule = ({ authority }: MainRuleProps) => {
           학기가 지나고 폐기된 분실물을 다시 찾기는 불가
         </p>
       </div>
-      {authority === 'MANAGER' && (
+      {canEdit && (
         <Link href={ROUTES.MARKDOWN}>
           <EditSquare />
         </Link>

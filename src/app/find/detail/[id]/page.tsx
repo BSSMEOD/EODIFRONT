@@ -10,6 +10,7 @@ import color from '@styles/color';
 import { Divider } from '@components/common/Divider/Divider';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import { useDisposalStore } from '@/stores/useDisposalStore';
+import { ROUTES } from '@/constants/common/constants';
 
 const StyledProductDetailPage = styled.div`
   display: flex;
@@ -66,10 +67,10 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
           </Button>
         </Flex>
       </Flex>
-      <Flex direction="column" gap={13} width={920}>
-        <Text variant="H1">폐기 직전인 분실물</Text>
-        <SmallProductList productList={disposalProductList} />
-      </Flex>
+      <SmallProductList
+        title="폐기 직전인 분실물"
+        productList={disposalProductList}
+      />
     </StyledProductDetailPage>
   );
 };
