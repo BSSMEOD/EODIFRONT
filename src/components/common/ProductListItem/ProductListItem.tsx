@@ -21,7 +21,7 @@ const ProductListItem = ({
 }: ProductListItem) => {
   return (
     <StyledProductListItem size={size}>
-      <ProductImage src={imageUrl} alt="분실물 사진" />
+      <ProductImage src={imageUrl} alt="분실물 사진" width={98} height={98} />
       <Flex direction="column" justify="space-between">
         <Text variant="H2">{title}</Text>
         <Text variant="p2" color={color.gray200}>
