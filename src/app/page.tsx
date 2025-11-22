@@ -18,8 +18,8 @@ import { useRecallStore } from '@/stores/useRecallStore';
 const MainPage = () => {
   const router = useRouter();
   const { authority } = useAuthStore();
-  const { disposalProductList } = useDisposalStore();
-  const { recallProductList } = useRecallStore();
+  const { disposalProductList, count: disposalCount } = useDisposalStore();
+  const { recallProductList, count: RecallCount } = useRecallStore();
 
   const isManager = authority === 'MANAGER';
 
@@ -30,13 +30,13 @@ const MainPage = () => {
           <Flex direction="column" gap={20} width="30%">
             <HistoryLinkBox
               title="회수 신청 요청"
-              count={3}
+              count={RecallCount}
               route={ROUTES.RECALL}
               height={176}
             />
             <HistoryLinkBox
               title="폐기 예정 물품"
-              count={3}
+              count={disposalCount}
               route={ROUTES.DISPOSAL}
               height={176}
             />

@@ -3,6 +3,7 @@ import { Product } from '@/types/product/client';
 
 interface ProductListInfo {
   recallProductList: Product[];
+  count: 0;
 }
 
 export const useRecallStore = create<ProductListInfo>((set) => ({
@@ -43,4 +44,5 @@ export const useRecallStore = create<ProductListInfo>((set) => ({
       location: '기타/운동장',
     },
   ],
+  count: 0,
 }));

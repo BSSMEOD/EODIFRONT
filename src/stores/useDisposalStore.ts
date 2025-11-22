@@ -3,6 +3,7 @@ import { Product } from '@/types/product/client';
 
 interface ProductListInfo {
   disposalProductList: Product[];
+  count: number;
 }
 
 export const useDisposalStore = create<ProductListInfo>((set) => ({
@@ -43,4 +44,5 @@ export const useDisposalStore = create<ProductListInfo>((set) => ({
       location: '기타/운동장',
     },
   ],
+  count: 0,
 }));
