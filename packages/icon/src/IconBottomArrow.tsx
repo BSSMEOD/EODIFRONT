@@ -1,0 +1,20 @@
+import { SVGProps } from 'react';
+
+const IconBottomArrow = (props: SVGProps<SVGSVGElement>) => {
+  return (
+    <svg
+      {...props}
+      viewBox="0 0 11 6"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        d="M10.5 0.5L5.5 5.5L0.5 0.5"
+        stroke="black"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+};
+export default IconBottomArrow;
