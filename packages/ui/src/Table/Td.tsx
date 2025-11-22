@@ -6,6 +6,7 @@ const Td = ({
   children,
   width,
   height,
+  textFont,
   borderTopLeftRadius,
   borderTopRightRadius,
   borderBottomLeftRadius,
@@ -16,6 +17,7 @@ const Td = ({
       style={{
         width,
         height,
+        font: textFont,
         borderTopLeftRadius,
         borderTopRightRadius,
         borderBottomLeftRadius,
