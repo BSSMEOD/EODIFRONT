@@ -49,21 +49,21 @@ const DisposalTable = () => {
             width="25%"
             height={56}
             borderTopLeftRadius={10}
-            color={color.white}
+            textColor={color.white}
           >
             폐기 날짜
           </Th>
-          <Th width="25%" height={56} color={color.white}>
+          <Th width="25%" height={56} textColor={color.white}>
             물품명
           </Th>
-          <Th width="25%" height={56} color={color.white}>
+          <Th width="25%" height={56} textColor={color.white}>
             폐기 여부
           </Th>
           <Th
             width="25%"
             height={56}
             borderTopRightRadius={10}
-            color={color.white}
+            textColor={color.white}
           >
             폐기 처리 상태
           </Th>

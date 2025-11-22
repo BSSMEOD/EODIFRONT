@@ -48,9 +48,9 @@ const Title = styled.p`
 `;
 
 const ScrollContainer = styled.div`
-  max-height: 400px;
-  overflow-y: auto;
-  padding-right: 8px;
+  max-width: 100%;
+  overflow-x: auto;
+  padding-bottom: 8px;
   scrollbar-width: none;
 `;
 

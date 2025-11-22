@@ -75,24 +75,24 @@ const PointTable = () => {
             width="20%"
             height={56}
             borderTopLeftRadius={10}
-            color={color.white}
+            textColor={color.white}
           >
             물품명
           </Th>
-          <Th width="20%" height={56} color={color.white}>
+          <Th width="20%" height={56} textColor={color.white}>
             수령 학생
           </Th>
-          <Th width="20%" height={56} color={color.white}>
+          <Th width="20%" height={56} textColor={color.white}>
             신고자
           </Th>
-          <Th width="20%" height={56} color={color.white}>
+          <Th width="20%" height={56} textColor={color.white}>
             상점 상태
           </Th>
           <Th
             width="20%"
             height={56}
             borderTopRightRadius={10}
-            color={color.white}
+            textColor={color.white}
           >
             수정
           </Th>
@@ -117,7 +117,7 @@ const PointTable = () => {
               </StatusText>
             </Td>
             <Td width="20%" height={56}>
-              <ConvertButton onClick={() => handleConvert}>
+              <ConvertButton onClick={handleConvert}>
                 <IconConvert width={24} height={24} />
               </ConvertButton>
             </Td>
