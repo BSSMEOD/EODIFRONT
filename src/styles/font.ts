@@ -21,6 +21,8 @@ const fontFamily = {
 
 const font = {
   D1: fontGenerator(fontFamily.logo, 400, 1.5, 150, 0),
+  D2: fontGenerator(fontFamily.default, 700, 2.5, 150, 0),
+  D3: fontGenerator(fontFamily.default, 700, 2, 150, 0),
 
   H1: fontGenerator(fontFamily.default, 700, 1.5, 150, 0),
   H2: fontGenerator(fontFamily.default, 700, 1.25, 150, 0),

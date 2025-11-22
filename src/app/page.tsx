@@ -12,10 +12,11 @@ import React from 'react';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useEffect } from 'react';
 
 const MainPage = () => {
   const router = useRouter();
-  const { authority } = useAuthStore();
+  const { authority, isLoggedIn } = useAuthStore();
   const { data: disposalProductListData } = { data: [] };
   const { data: recallProductListData } = { data: [] };
   const { data: productsCount } = {
@@ -23,6 +24,12 @@ const MainPage = () => {
   };
 
   const isManager = authority === 'MANAGER';
+
+  useEffect(() => {
+    if (isLoggedIn && authority === 'TEACHER') {
+      router.replace('/teacher-main');
+    }
+  }, [isLoggedIn, authority, router]);
 
   return (
     <StyledMainPage>

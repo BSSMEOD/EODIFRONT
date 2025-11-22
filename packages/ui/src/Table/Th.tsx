@@ -7,6 +7,8 @@ const Th = ({
   children,
   width,
   height,
+  textColor,
+  textFont,
   backgroundColor,
   borderTopLeftRadius,
   borderTopRightRadius,
@@ -18,6 +20,8 @@ const Th = ({
       style={{
         width,
         height,
+        color: textColor,
+        font: textFont,
         backgroundColor,
         borderTopLeftRadius,
         borderTopRightRadius,
@@ -37,8 +41,9 @@ const StyledTh = styled.div`
   align-items: center;
   justify-content: center;
   ${font.p2}
-  background-color: ${color.primary};
+  font-weight: 500;
   color: ${color.black};
+  background-color: ${color.primary};
   border-right: 1px solid ${color.white};
   border-bottom: 1px solid ${color.white};
   &:last-child {
