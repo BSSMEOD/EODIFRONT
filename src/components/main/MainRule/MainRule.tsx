@@ -1,8 +1,7 @@
 import color from '@styles/color';
 import styled from '@emotion/styled';
 import font from '@styles/font';
-import type { UserAuthority } from '@/types/user/client';
-import { EditSquare } from '@package/icon/src/EditSquare';
+import { EditSquare } from '@package/icon';
 import { ROUTES } from '@/constants/common/constants';
 import Link from 'next/link';
 

@@ -1,4 +1,4 @@
-const EODILogo = () => {
+export const EODILogo = () => {
   return (
     <svg
       width="125"
@@ -32,5 +32,3 @@ const EODILogo = () => {
     </svg>
   );
 };
-
-export default EODILogo;

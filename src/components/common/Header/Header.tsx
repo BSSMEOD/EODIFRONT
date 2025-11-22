@@ -4,8 +4,8 @@ import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
 import { useRouter } from 'next/navigation';
 import { NavItemList } from '@components/common/Header/NavItemList/NavItemList';
-import EODILogo from '@package/icon/src/EODILogo';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { EODILogo } from '@package/icon';
 
 const Header = () => {
   const { authority } = useAuthStore();

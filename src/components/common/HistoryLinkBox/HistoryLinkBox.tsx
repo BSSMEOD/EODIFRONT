@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import Flex from '@ui/Flex/Flex';
 import Text from '@ui/Text/Text';
-import ArrowRightTop from '@package/icon/src/ArrowRightTop';
+import { ArrowRightTop } from '@package/icon';
 import Link from 'next/link';
 import { CSSProperties } from 'react';
 import { addPX } from '@utils/addPX';
