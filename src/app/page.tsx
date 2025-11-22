@@ -71,13 +71,13 @@ const MainPage = () => {
       {isManager && (
         <SmallProductList
           title="회수 신청 요청이 있는 물품"
-          productList={disposalProductListData}
+          productList={recallProductListData}
           href={ROUTES.RECALL}
         />
       )}
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={recallProductListData}
+        productList={disposalProductListData}
         href={isManager ? ROUTES.DISPOSAL : undefined}
       />
     </StyledMainPage>
