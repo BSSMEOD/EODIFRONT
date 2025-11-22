@@ -16,22 +16,18 @@ export const Divider = ({
   ...props
 }: DividerProps) => {
   const lengthValue = typeof length === 'number' ? `${length}px` : length;
-  return (
-    <>
-      {orientation === 'horizontal' ? (
-        <StyledHorizontalDivider
-          length={lengthValue}
-          color={dividerColor}
-          {...props}
-        />
-      ) : (
-        <StyledVerticalDivider
-          length={lengthValue}
-          color={dividerColor}
-          {...props}
-        />
-      )}
-    </>
+  return orientation === 'horizontal' ? (
+    <StyledHorizontalDivider
+      length={lengthValue}
+      color={dividerColor}
+      {...props}
+    />
+  ) : (
+    <StyledVerticalDivider
+      length={lengthValue}
+      color={dividerColor}
+      {...props}
+    />
   );
 };
 
