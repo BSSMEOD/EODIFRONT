@@ -24,5 +24,5 @@ const StyledFooter = styled.footer`
   background-color: ${color.black};
   padding: 36px 183px 87px 183px;
   align-items: flex-start;
-  margin-top: auto;
+  margin-top: 100px;
 `;
