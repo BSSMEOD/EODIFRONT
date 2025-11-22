@@ -4,8 +4,8 @@ export interface TableProps {
   children: ReactNode;
   width: CSSProperties['width'];
   height: CSSProperties['height'];
-  color?: CSSProperties['color'];
-  font?: CSSProperties['font'];
+  textColor?: CSSProperties['color'];
+  textFont?: CSSProperties['font'];
   backgroundColor?: CSSProperties['backgroundColor'];
   borderTopLeftRadius?: CSSProperties['borderTopLeftRadius'];
   borderTopRightRadius?: CSSProperties['borderTopRightRadius'];
