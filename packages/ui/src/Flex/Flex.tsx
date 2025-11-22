@@ -28,6 +28,8 @@ const Flex = (props: FlexProps) => {
   } = props;
 
   const gapValue = typeof gap === 'number' ? `${gap}px` : gap;
+  const widthValue = typeof width === 'number' ? `${width}px` : width;
+  const heightValue = typeof height === 'number' ? `${height}px` : height;
 
   return (
     <StyledFlex
@@ -37,8 +39,8 @@ const Flex = (props: FlexProps) => {
       align={align}
       gap={gapValue}
       wrap={wrap}
-      width={width}
-      height={height}
+      width={widthValue}
+      height={heightValue}
       inline={inline}
       {...restProps}
     >
