@@ -33,5 +33,6 @@ const Body = styled.div`
 const Main = styled.main`
   flex: 1;
   width: 100%;
-  height: 100%;
+  height: fit-content;
+  padding: 0 180px;
 `;

@@ -28,10 +28,10 @@ const font = {
   H4: fontGenerator(fontFamily.default, 700, 1, 150, 0),
   H5: fontGenerator(fontFamily.default, 700, 0.875, 150, 0),
 
-  p1: fontGenerator(fontFamily.default, 400, 1.125, 160, 0),
-  p2: fontGenerator(fontFamily.default, 400, 1, 160, 0),
-  p3: fontGenerator(fontFamily.default, 400, 0.875, 160, 0),
-  p4: fontGenerator(fontFamily.default, 400, 0.75, 160, 0),
+  p1: fontGenerator(fontFamily.default, 400, 1.125, 150, 0),
+  p2: fontGenerator(fontFamily.default, 400, 1, 150, 0),
+  p3: fontGenerator(fontFamily.default, 400, 0.875, 150, 0),
+  p4: fontGenerator(fontFamily.default, 400, 0.75, 150, 0),
 };
 
 export default font;
