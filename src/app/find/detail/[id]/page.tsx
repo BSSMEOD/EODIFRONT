@@ -9,8 +9,6 @@ import { Button } from '@ui/Button/Button';
 import color from '@styles/color';
 import { Divider } from '@components/common/Divider/Divider';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
-import { useDisposalStore } from '@/stores/useDisposalStore';
-import { ROUTES } from '@/constants/common/constants';
 
 const StyledProductDetailPage = styled.div`
   display: flex;
@@ -32,7 +30,7 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   const { id } = React.use(params);
-  const { disposalProductList } = useDisposalStore();
+  const { data: disposalProductListData } = { data: [] };
 
   return (
     <StyledProductDetailPage>
@@ -69,7 +67,7 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
       </Flex>
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={disposalProductList}
+        productList={disposalProductListData}
       />
     </StyledProductDetailPage>
   );

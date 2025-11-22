@@ -12,14 +12,15 @@ import React from 'react';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { useDisposalStore } from '@/stores/useDisposalStore';
-import { useRecallStore } from '@/stores/useRecallStore';
 
 const MainPage = () => {
   const router = useRouter();
   const { authority } = useAuthStore();
-  const { disposalProductList, count: disposalCount } = useDisposalStore();
-  const { recallProductList, count: RecallCount } = useRecallStore();
+  const { data: disposalProductListData } = { data: [] };
+  const { data: recallProductListData } = { data: [] };
+  const { data: productsCount } = {
+    data: { disposalCount: 0, recallCount: 0 },
+  };
 
   const isManager = authority === 'MANAGER';
 
@@ -30,13 +31,13 @@ const MainPage = () => {
           <Flex direction="column" gap={20} width="30%">
             <HistoryLinkBox
               title="회수 신청 요청"
-              count={RecallCount}
+              count={productsCount.disposalCount}
               route={ROUTES.RECALL}
               height={176}
             />
             <HistoryLinkBox
               title="폐기 예정 물품"
-              count={disposalCount}
+              count={productsCount.recallCount}
               route={ROUTES.DISPOSAL}
               height={176}
             />
@@ -63,13 +64,13 @@ const MainPage = () => {
       {isManager && (
         <SmallProductList
           title="회수 신청 요청이 있는 물품"
-          productList={recallProductList}
+          productList={disposalProductListData}
           href={ROUTES.RECALL}
         />
       )}
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={disposalProductList}
+        productList={recallProductListData}
         href={isManager ? ROUTES.DISPOSAL : undefined}
       />
     </StyledMainPage>
