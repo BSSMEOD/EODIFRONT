@@ -68,10 +68,10 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
         <Flex width="100%" gap={20} style={{ overflowX: 'scroll' }}>
           <ProductListItem
             size="small"
-            imageUrl={''}
-            title={''}
-            date={''}
-            location={''}
+            imageUrl={'/images/sample-product.jpg'}
+            title={'테무 안경'}
+            date={'2025년 6월 19일'}
+            location={'기타/운동장'}
           />
         </Flex>
       </Flex>
