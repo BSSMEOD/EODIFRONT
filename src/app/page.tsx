@@ -5,9 +5,19 @@ import font from '@styles/font';
 import { Button } from '@ui/Button/Button';
 import { useRouter } from 'next/navigation';
 import LostItemVergeDiscard from '@components/main/LostItemVergeDiscard/LostItemVergeDiscard';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { useEffect } from 'react';
 
 const MainPage = () => {
   const router = useRouter();
+
+  const { authority, isLoggedIn } = useAuthStore();
+
+  useEffect(() => {
+    if (isLoggedIn && authority === 'TEACHER') {
+      router.replace('/teacher-main');
+    }
+  }, [isLoggedIn, authority, router]);
 
   return (
     <StyledMainPage>
@@ -33,6 +43,7 @@ export default MainPage;
 
 const StyledMainPage = styled.div`
   width: 100%;
+  gap: 24px;
   margin: 0 auto;
 `;
 
