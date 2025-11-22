@@ -35,7 +35,7 @@ export default MainRule;
 const StyledMainRule = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
+  flex: 1;
   padding: 20px 30px;
   border-radius: 20px;
   gap: 16px;

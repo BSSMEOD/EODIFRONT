@@ -1,10 +1,10 @@
 import styled from '@emotion/styled';
-import font from '@styles/font';
+import Text from '@ui/Text/Text';
 
 const LostItemVergeDiscard = () => {
   return (
     <StyledLostItemVergeDiscard>
-      <p css={font.H1}>폐기 직전인 분실물</p>
+      <Text variant="H1">폐기 직전인 분실물</Text>
     </StyledLostItemVergeDiscard>
   );
 };
@@ -15,5 +15,5 @@ const StyledLostItemVergeDiscard = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
 `;
