@@ -1,1 +1,8 @@
 export const CATEGORY = ['전자기기', '의류', '액세서리', '기타'];
+
+export const STATUS = {
+  LOST: '보관중',
+  FOUND: '지급 완료',
+  TO_BE_DISCARDED: '폐기 예정',
+  DISCARDED: '폐기 완료',
+};
