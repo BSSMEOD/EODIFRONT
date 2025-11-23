@@ -23,18 +23,18 @@ const MainPage = () => {
     data: { disposalCount: 0, recallCount: 0 },
   };
 
-  const isManager = authority === 'MANAGER';
-
+  const isManager = authority === 'ADMIN';
+  const isTeacher = authority === 'TEACHER';
   useEffect(() => {
-    if (isLoggedIn && authority === 'TEACHER') {
+    if (isTeacher) {
       router.replace('/teacher-main');
     }
   }, [isLoggedIn, authority, router]);
 
   return (
     <StyledMainPage>
-      <Flex gap={24} width="100%">
-        {authority === 'MANAGER' ? (
+      <Flex gap={40} width="100%">
+        {authority === 'ADMIN' ? (
           <Flex direction="column" gap={20} width="30%">
             <HistoryLinkBox
               title="회수 신청 요청"
@@ -50,7 +50,7 @@ const MainPage = () => {
             />
           </Flex>
         ) : (
-          <Flex direction="column" gap={100} width="30%">
+          <Flex direction="column" gap={39} width="20%">
             <Text variant="D1">
               분실물 관리 서비스,
               <br />
@@ -78,7 +78,6 @@ const MainPage = () => {
       <SmallProductList
         title="폐기 직전인 분실물"
         productList={disposalProductListData}
-        href={isManager ? ROUTES.DISPOSAL : undefined}
       />
     </StyledMainPage>
   );
@@ -89,8 +88,6 @@ export default MainPage;
 const StyledMainPage = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 14px;
   width: 100%;
-  margin: 0 auto;
-  padding-top: 66px;
 `;
