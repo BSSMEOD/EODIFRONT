@@ -4,7 +4,7 @@ import React, { LegacyRef, useState } from 'react';
 import Image from 'next/image';
 import Flex from '@ui/Flex/Flex';
 import Text from '@ui/Text/Text';
-import { UploadFile } from '@package/icon';
+import { IconUploadFile } from '@package/icon';
 
 interface ImageUploaderProps {
   ref: LegacyRef<HTMLInputElement>;
@@ -34,7 +34,7 @@ const ImageUploader = ({ ref }: ImageUploaderProps) => {
         <PreviewImage src={preview} alt="제품 이미지" fill />
       ) : (
         <Flex direction="column" gap={15}>
-          <UploadFile />
+          <IconUploadFile />
           <Text variant="p2">
             파일을 선택하거나 <br />
             여기로 끌어다 놓으세요
