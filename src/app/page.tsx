@@ -33,7 +33,7 @@ const MainPage = () => {
 
   return (
     <StyledMainPage>
-      <Flex gap={24} width="100%">
+      <Flex gap={40} width="100%">
         {authority === 'ADMIN' ? (
           <Flex direction="column" gap={20} width="30%">
             <HistoryLinkBox
@@ -50,7 +50,7 @@ const MainPage = () => {
             />
           </Flex>
         ) : (
-          <Flex direction="column" gap={100} width="20%">
+          <Flex direction="column" gap={39} width="20%">
             <Text variant="D1">
               분실물 관리 서비스,
               <br />
@@ -78,7 +78,6 @@ const MainPage = () => {
       <SmallProductList
         title="폐기 직전인 분실물"
         productList={disposalProductListData}
-        href={ROUTES.FIND}
       />
     </StyledMainPage>
   );
@@ -89,7 +88,6 @@ export default MainPage;
 const StyledMainPage = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 14px;
   width: 100%;
-  margin: 0 auto;
 `;
