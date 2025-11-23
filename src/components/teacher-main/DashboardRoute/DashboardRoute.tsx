@@ -3,25 +3,35 @@ import { ROUTES } from '@/constants/common/constants';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
 
-const DashboardRoute = () => {
+interface DashboardRouteProps {
+  pendingCount: number;
+  logCount: number;
+  disposalCount: number;
+}
+
+const DashboardRoute = ({
+  pendingCount,
+  logCount,
+  disposalCount,
+}: DashboardRouteProps) => {
   const router = useRouter();
   return (
     <StyledDashboard>
       <DashboardRouteCard
         title="상점요청 대기"
-        count={3}
+        count={pendingCount}
         onClick={() => router.push(ROUTES.POINT)}
         variant="primary"
       />
       <RightSectionWrapper>
         <DashboardRouteCard
           title="상품 처리하기"
-          count={3}
+          count={logCount}
           onClick={() => router.push(ROUTES.LOG)}
         />
         <DashboardRouteCard
           title="폐기 예정 물품"
-          count={3}
+          count={disposalCount}
           onClick={() => router.push(ROUTES.DISPOSAL)}
         />
       </RightSectionWrapper>

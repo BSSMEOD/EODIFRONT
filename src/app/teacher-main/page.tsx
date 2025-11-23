@@ -10,10 +10,15 @@ const TeacherMainPage = () => {
   const router = useRouter();
   const { data: unPointProductListData } = { data: [] };
   const { data: disposalProductListData } = { data: [] };
+  const { data: logListData } = { data: [] };
 
   return (
     <StyledTeacherMainPage>
-      <DashboardRoute />
+      <DashboardRoute
+        pendingCount={unPointProductListData.length}
+        logCount={logListData.length}
+        disposalCount={disposalProductListData.length}
+      />
       <SmallProductList
         title="상점 미지급 상태 분실물"
         productList={unPointProductListData}
