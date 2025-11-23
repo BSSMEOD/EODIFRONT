@@ -6,7 +6,7 @@ import { addPX } from '@utils/addPX';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import { CSSProperties, InputHTMLAttributes } from 'react';
-import { IconCalender } from '@icon/index';
+import { IconCalender } from '@package/icon/src/IconCalender';
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
