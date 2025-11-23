@@ -11,7 +11,7 @@ import { CATEGORY } from '@/constants/product/constant';
 import { useForm } from '@app/register/register.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const ResisterPage = () => {
+const RegisterPage = () => {
   const { fileRef, form, handleFormChange } = useForm();
 
   return (
@@ -70,4 +70,4 @@ const StyledResisterPage = styled.div`
   gap: 42px;
 `;
 
-export default ResisterPage;
+export default RegisterPage;
