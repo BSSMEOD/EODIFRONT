@@ -38,11 +38,7 @@ const FilterDateSelect = ({
       className += ' selecting-start';
     }
 
-    return (
-      <span className={className} onMouseEnter={() => date}>
-        {day}
-      </span>
-    );
+    return <span className={className}>{day}</span>;
   };
 
   return (
