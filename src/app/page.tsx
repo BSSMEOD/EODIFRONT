@@ -24,9 +24,9 @@ const MainPage = () => {
   };
 
   const isManager = authority === 'MANAGER';
-
+  const isTeacher = authority === 'TEACHER';
   useEffect(() => {
-    if (isLoggedIn && authority === 'TEACHER') {
+    if (isTeacher) {
       router.replace('/teacher-main');
     }
   }, [isLoggedIn, authority, router]);
@@ -50,7 +50,7 @@ const MainPage = () => {
             />
           </Flex>
         ) : (
-          <Flex direction="column" gap={100} width="30%">
+          <Flex direction="column" gap={100} width="20%">
             <Text variant="D1">
               분실물 관리 서비스,
               <br />
@@ -78,7 +78,7 @@ const MainPage = () => {
       <SmallProductList
         title="폐기 직전인 분실물"
         productList={disposalProductListData}
-        href={isManager ? ROUTES.DISPOSAL : undefined}
+        href={ROUTES.FIND}
       />
     </StyledMainPage>
   );
@@ -92,5 +92,4 @@ const StyledMainPage = styled.div`
   gap: 40px;
   width: 100%;
   margin: 0 auto;
-  padding-top: 66px;
 `;
