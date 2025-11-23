@@ -15,7 +15,7 @@ const RegisterPage = () => {
   const { fileRef, form, handleFormChange } = useForm();
 
   return (
-    <StyledResisterPage>
+    <StyledRegisterPage>
       <Flex direction="row" justify="space-between" align="center">
         <Text variant="H2">분실물 등록하기</Text>
         <Button styleType="SECONDARY">등록</Button>
@@ -58,11 +58,11 @@ const RegisterPage = () => {
           />
         </Flex>
       </Flex>
-    </StyledResisterPage>
+    </StyledRegisterPage>
   );
 };
 
-const StyledResisterPage = styled.div`
+const StyledRegisterPage = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
