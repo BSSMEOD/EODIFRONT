@@ -23,7 +23,7 @@ const MainPage = () => {
     data: { disposalCount: 0, recallCount: 0 },
   };
 
-  const isManager = authority === 'MANAGER';
+  const isManager = authority === 'ADMIN';
   const isTeacher = authority === 'TEACHER';
   useEffect(() => {
     if (isTeacher) {
@@ -34,7 +34,7 @@ const MainPage = () => {
   return (
     <StyledMainPage>
       <Flex gap={24} width="100%">
-        {authority === 'MANAGER' ? (
+        {authority === 'ADMIN' ? (
           <Flex direction="column" gap={20} width="30%">
             <HistoryLinkBox
               title="회수 신청 요청"
