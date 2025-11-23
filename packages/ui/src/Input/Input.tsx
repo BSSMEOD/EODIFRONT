@@ -6,7 +6,7 @@ import { addPX } from '@utils/addPX';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import { CSSProperties, InputHTMLAttributes } from 'react';
-import { IconCalender } from '@package/icon/src/IconCalender';
+import { IconCalendar } from '@package/icon/src/IconCalendar';
 
 export interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
@@ -54,7 +54,7 @@ const Input = ({
           dateFormat="yyyy. MM. dd."
           dateFormatCalendar="MM월 yyyy"
           locale={ko}
-          icon={<IconCalender />}
+          icon={<IconCalendar />}
         />
       ) : (
         <StyledInput
