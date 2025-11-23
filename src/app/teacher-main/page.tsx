@@ -7,7 +7,7 @@ import IconWhiteArrow from '@package/icon/src/IconWhiteArrow';
 import IconBlackArrow from '@package/icon/src/IconBlackArrow';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
-import ProductListItem from '@components/common/ProductListItem/ProductListItem';
+import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 
 const ITEMS = [
   {
@@ -86,14 +86,7 @@ const TeacherMainPage = () => {
         <ScrollContainer>
           <ItemList>
             {ITEMS.map((item) => (
-              <ProductListItem
-                key={item.id}
-                size="small"
-                imageUrl={item.imageUrl}
-                title={item.title}
-                date={item.date}
-                location={item.location}
-              />
+              <ProductListItem key={item.id} product={item} size="small" />
             ))}
           </ItemList>
         </ScrollContainer>
@@ -108,14 +101,7 @@ const TeacherMainPage = () => {
         <ScrollContainer>
           <ItemList>
             {ITEMS.map((item) => (
-              <ProductListItem
-                key={item.id}
-                size="small"
-                imageUrl={item.imageUrl}
-                title={item.title}
-                date={item.date}
-                location={item.location}
-              />
+              <ProductListItem key={item.id} product={item} size="small" />
             ))}
           </ItemList>
         </ScrollContainer>

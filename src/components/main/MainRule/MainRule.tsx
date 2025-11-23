@@ -54,6 +54,7 @@ const StyledMainRule = styled.div`
   padding: 20px 30px;
   border-radius: 20px;
   gap: 16px;
+  width: 100%;
   background-color: ${color.lightblue};
 `;
 
