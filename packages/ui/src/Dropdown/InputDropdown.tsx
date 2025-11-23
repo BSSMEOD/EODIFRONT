@@ -1,21 +1,20 @@
-import type { CSSProperties } from 'react';
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import font from '@styles/font';
 import color from '@styles/color';
 import IconBottomArrow from '@package/icon/src/IconBottomArrow';
-import { DropdownProps } from '@ui/Dropdown/Dropdown.types';
-import { useDropdown } from '@ui/Dropdown/Dropdown.hooks';
+import { DropdownProps } from './Dropdown.types';
+import { useDropdown } from './Dropdown.hooks';
 
-const Dropdown = ({
+const InputDropdown = ({
   label,
   data,
-  width = '320px',
+  width = '100%',
   value = '',
   onChange,
   name,
-  placeholder = '선택해주세요',
+  placeholder = '',
   doubled,
   isError = false,
   background = 'White',
@@ -71,16 +70,16 @@ const Dropdown = ({
   );
 };
 
-export default Dropdown;
+export default InputDropdown;
 
 const Container = styled.div`
   position: relative;
 `;
 
 const Label = styled.p`
-  ${font.p3}
+  ${font.p4}
   color: ${color.gray500};
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 `;
 
 const StyledDropdown = styled.div<{
@@ -93,8 +92,8 @@ const StyledDropdown = styled.div<{
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  height: 40px;
-  padding: 0 16px;
+  height: 50px;
+  padding: 0 20px;
   border-radius: 8px;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
   background-color: ${({ $background }) =>
@@ -114,11 +113,12 @@ const StyledDropdown = styled.div<{
       `;
     }
     return css`
-      border: 1px solid ${color.gray300};
+      border: 1px solid ${color.gray500};
     `;
   }}
 
   transition: all 0.2s ease;
+  margin-bottom: 10px;
 `;
 
 const IconWrapper = styled.div<{ $isOpen: boolean }>`
@@ -146,32 +146,34 @@ const DropdownList = styled.div<{ $isMultiple?: boolean }>`
   display: grid;
   z-index: 10;
   position: absolute;
-  margin-top: 8px;
-  padding: 8px 0;
+  margin-top: 0;
   width: ${({ $isMultiple }) => ($isMultiple ? '200%' : '100%')};
   max-height: 240px;
   overflow-y: auto;
   background-color: ${color.white};
-  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+  box-shadow:
+    -4px -4px 4px 0px rgba(0, 0, 0, 0.05),
+    4px 4px 4px 0px rgba(0, 0, 0, 0.05);
   grid-template-columns: ${({ $isMultiple }) =>
     $isMultiple ? '1fr 1fr' : '1fr'};
-  border-radius: 6px;
+  border-radius: 8px;
 `;
 
 const DropdownItem = styled.button<{ $isSelected: boolean }>`
-  ${font.p2}
+  ${font.p4}
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 8px 10px;
   width: 100%;
-  text-align: left;
+  text-align: center;
   background-color: ${({ $isSelected }) =>
     $isSelected ? color.lightblue : 'transparent'};
   color: ${color.black};
-  font-weight: ${({ $isSelected }) => ($isSelected ? 600 : 400)};
+  font-weight: 300;
   border: none;
   cursor: pointer;
   transition: background-color 0.15s ease;
+  min-height: 34px;
 
   &:hover {
     background-color: ${color.lightblue};
