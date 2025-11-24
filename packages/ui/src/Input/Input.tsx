@@ -49,7 +49,7 @@ const Input = ({
       {!!label && <Label>{label}</Label>}
       {type === 'date' ? (
         <DatePicker
-          selected={new Date(value)}
+          selected={value ? new Date(value) : null}
           onChange={handleChange}
           dateFormat="yyyy. MM. dd."
           dateFormatCalendar="MM월 yyyy"

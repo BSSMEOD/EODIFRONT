@@ -12,13 +12,15 @@ import { useForm } from '@app/register/register.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const RegisterPage = () => {
-  const { fileRef, form, handleFormChange } = useForm();
+  const { fileRef, form, handleFormChange, handleSubmit } = useForm();
 
   return (
     <StyledRegisterPage>
       <Flex direction="row" justify="space-between" align="center">
         <Text variant="H2">분실물 등록하기</Text>
-        <Button styleType="SECONDARY">등록</Button>
+        <Button styleType="SECONDARY" onClick={handleSubmit}>
+          등록
+        </Button>
       </Flex>
       <Flex direction="row" gap={52}>
         <ImageUploader ref={fileRef} />
