@@ -9,7 +9,7 @@ interface AuthState extends User {
 
 export const useAuthStore = create<AuthState>((set) => ({
   name: '',
-  authority: 'TEACHER',
+  authority: 'STUDENT',
   isLoggedIn: false,
   login: (user) => set({ ...user, isLoggedIn: true }),
   logout: () => set({ name: '', authority: 'STUDENT', isLoggedIn: false }),
