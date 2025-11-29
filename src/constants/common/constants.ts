@@ -1,7 +1,7 @@
 export const ROUTES = {
   MAIN: '/',
   FIND: '/find',
-  LOGIN: '/login',
+  LOGIN: process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || '/login',
   LOG: '/log',
   POINT: '/point',
   DISPOSAL: '/disposal',
@@ -11,3 +11,8 @@ export const ROUTES = {
   RULES: '/rules',
   MARKDOWN: '/markdown',
 };
+
+export const TOKEN = {
+  ACCESS: 'access-token',
+  REFRESH: 'refresh-token',
+} as const;
