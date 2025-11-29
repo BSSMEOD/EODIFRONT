@@ -13,7 +13,7 @@ const FilterActiveTags = ({ filters, onRemove }: FilterActiveTagsProps) => {
     ([, value]) => value !== ''
   );
 
-  if (activeFilters.length === 0) return null;
+  if (activeFilters.length === 0) return;
 
   return (
     <>
