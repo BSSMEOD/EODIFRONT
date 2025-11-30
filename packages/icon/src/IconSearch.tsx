@@ -13,10 +13,10 @@ const IconSearch = (props: SVGProps<SVGSVGElement>) => {
       <path
         d="M11.6667 11.6667L17 17M7.22222 13.4444C3.78578 13.4444 1 10.6587 1 7.22222C1 3.78578 3.78578 1 7.22222 1C10.6587 1 13.4444 3.78578 13.4444 7.22222C13.4444 10.6587 10.6587 13.4444 7.22222 13.4444Z"
         stroke="black"
-        stroke-opacity="0.3"
-        stroke-width="2"
-        stroke-linecap="round"
-        stroke-linejoin="round"
+        strokeOpacity="0.3"
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
