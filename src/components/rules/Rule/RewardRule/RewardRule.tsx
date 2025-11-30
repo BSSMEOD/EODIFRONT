@@ -105,12 +105,12 @@ const StyledRewardRule = styled.div`
   width: 100%;
   padding: 20px 30px;
   border-radius: 20px;
+  gap: 20px;
   background-color: ${color.lightgreen};
 `;
 
 const Title = styled.p`
   ${font.H2}
-  margin-bottom: 16px;
   color: ${color.black};
 `;
 

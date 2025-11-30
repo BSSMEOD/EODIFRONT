@@ -36,7 +36,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
       ) : (
         <Button
           styleType={'PRIMARY'}
-          onClick={() => login({ name: '관리자', authority: 'MANAGER' })}
+          onClick={() => login({ name: '관리자', authority: 'ADMIN' })}
         >
           로그인
         </Button>
@@ -85,7 +85,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
 
   return (
     <StyledNavList>
-      {authority === 'MANAGER' && ManagerNav()}
+      {authority === 'ADMIN' && ManagerNav()}
       {authority === 'TEACHER' && TeacherNav()}
       {authority === 'STUDENT' && StudentNav()}
     </StyledNavList>
