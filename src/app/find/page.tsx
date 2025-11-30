@@ -372,6 +372,7 @@ const FindPage = () => {
           placeholder="물품"
           width="120px"
         />
+        {/* TODO: datepicker 라이브러리로 교체 예정 */}
         <Dropdown
           name="date"
           data={[]}
