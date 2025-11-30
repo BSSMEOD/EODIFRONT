@@ -28,7 +28,7 @@ const SearchBar = ({
     }
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       handleSearch();
     }
@@ -41,9 +41,9 @@ const SearchBar = ({
         placeholder={placeholder}
         value={searchTerm}
         onChange={handleInputChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
       />
-      <SearchIconButton onClick={handleSearch}>
+      <SearchIconButton type="button" onClick={handleSearch} aria-label="검색">
         <IconSearch />
       </SearchIconButton>
     </StyledSearchBar>
