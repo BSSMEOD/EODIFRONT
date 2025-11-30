@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import Dropdown from '@ui/Dropdown/Dropdown';
@@ -311,6 +311,11 @@ const FindPage = () => {
     date: '',
     location: [] as string[],
   });
+
+  // 필터 변경 시 첫 페이지로 이동
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters.category, filters.date, filters.location]);
 
   const handleFilterChange = (value: string, name: string) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
