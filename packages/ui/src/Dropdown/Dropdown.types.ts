@@ -18,3 +18,14 @@ export interface DropdownProps {
   disabled?: boolean;
   background?: 'White' | 'Gray';
 }
+
+export interface MultiSelectDropdownProps {
+  label?: string;
+  data: string[];
+  width?: CSSProperties['width'];
+  value?: string[];
+  onChange: (values: string[], name: string) => void;
+  name: string;
+  placeholder?: string;
+  disabled?: boolean;
+}
