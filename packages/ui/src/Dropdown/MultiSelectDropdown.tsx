@@ -42,7 +42,13 @@ const MultiSelectDropdown = ({
   };
 
   const getDisplayValue = () => {
-    return placeholder;
+    if (value.length === 0) {
+      return placeholder;
+    }
+    if (value.length === 1) {
+      return value[0];
+    }
+    return `${value[0]} 외 ${value.length - 1}개`;
   };
 
   return (
@@ -53,7 +59,7 @@ const MultiSelectDropdown = ({
         $isOpen={isOpen}
         $disabled={disabled}
       >
-        <ValueText $hasValue={false}>{getDisplayValue()}</ValueText>
+        <ValueText $hasValue={value.length > 0}>{getDisplayValue()}</ValueText>
         <IconWrapper $isOpen={isOpen}>
           <IconBottomArrow color={color.gray500} width={11} height={6} />
         </IconWrapper>
