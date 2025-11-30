@@ -140,7 +140,7 @@ const PenaltyRule = ({ id }: PenaltyRuleProps) => {
             </Td>
             <Td width={'100%'} height={44}>
               {item.content}
-              {item.isImportant && <ImportantMark>*</ImportantMark>}
+              {item.isImportant && <Asterisk>*</Asterisk>}
             </Td>
             <Td width={80} height={44}>
               {item.score}
@@ -149,7 +149,7 @@ const PenaltyRule = ({ id }: PenaltyRuleProps) => {
         ))}
       </TableWrapper>
       <Notice>
-        <ImportantMark>*</ImportantMark>
+        <Asterisk>*</Asterisk>
         중대사안. 생활교육위원회 회부 후 최대 5점까지 추가 부여 가능
       </Notice>
     </StyledPenaltyRule>
@@ -162,6 +162,7 @@ const StyledPenaltyRule = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  gap: 20px;
   padding: 20px 30px;
   border-radius: 20px;
   background-color: ${color.lightblue};
@@ -169,7 +170,6 @@ const StyledPenaltyRule = styled.div`
 
 const Title = styled.p`
   ${font.H2}
-  margin-bottom: 16px;
   color: ${color.black};
 `;
 
@@ -184,10 +184,9 @@ const Row = styled.div`
   width: 100%;
 `;
 
-const ImportantMark = styled.span`
+const Asterisk = styled.span`
   color: ${color.red};
-  font-weight: 600;
-  margin-left: 2px;
+  ${font.p2};
 `;
 
 const Notice = styled.p`
