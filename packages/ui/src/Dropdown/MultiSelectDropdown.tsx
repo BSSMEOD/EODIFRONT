@@ -84,7 +84,9 @@ const MultiSelectDropdown = ({
               );
             })}
           </DropdownList>
-          <ApplyButton onClick={closeDropdown}>완료</ApplyButton>
+          <ApplyButton type="button" onClick={closeDropdown}>
+            완료
+          </ApplyButton>
         </DropdownListWrapper>
       </DropdownListBox>
     </Container>
