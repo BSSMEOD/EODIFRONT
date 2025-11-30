@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import Dropdown from '@ui/Dropdown/Dropdown';
-import SearchBar from '@/components/common/SearchBar/SearchBar';
+import SearchInput from '@ui/Input/SearchInput';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import { Product } from '@/types/product/client';
 import MultiSelectDropdown from '@ui/Dropdown/MultiSelectDropdown';
@@ -19,6 +19,7 @@ const FindPage = () => {
       date: '2025.06.19.',
       location: '야외 - 창의관 앞 벤치',
       imageUrl: '/images/glasses.jpg',
+      status: 'LOST',
     },
     {
       id: 2,
@@ -26,6 +27,7 @@ const FindPage = () => {
       date: '2025.06.19.',
       location: 'SRC 3층 남자기숙사 중앙홀',
       imageUrl: '/images/earbuds.jpg',
+      status: 'LOST',
     },
     {
       id: 3,
@@ -33,6 +35,7 @@ const FindPage = () => {
       date: '2025.06.19.',
       location: 'SRC 4층 맨 끝 비상계단',
       imageUrl: '/images/umbrella.jpg',
+      status: 'LOST',
     },
     {
       id: 4,
@@ -40,6 +43,7 @@ const FindPage = () => {
       date: '2025.06.18.',
       location: '본관 3층 컴퓨터실',
       imageUrl: '/images/cable.jpg',
+      status: 'LOST',
     },
     {
       id: 5,
@@ -47,6 +51,7 @@ const FindPage = () => {
       date: '2025.06.18.',
       location: '체육관 로비',
       imageUrl: '/images/wallet.jpg',
+      status: 'LOST',
     },
     {
       id: 6,
@@ -54,6 +59,7 @@ const FindPage = () => {
       date: '2025.06.17.',
       location: '별관 2층 강의실',
       imageUrl: '/images/pen.jpg',
+      status: 'LOST',
     },
     {
       id: 7,
@@ -61,6 +67,7 @@ const FindPage = () => {
       date: '2025.06.17.',
       location: '기숙사 A동 로비',
       imageUrl: '/images/mask.jpg',
+      status: 'LOST',
     },
     {
       id: 8,
@@ -68,6 +75,7 @@ const FindPage = () => {
       date: '2025.06.16.',
       location: '창의관 카페테리아',
       imageUrl: '/images/tumbler.jpg',
+      status: 'LOST',
     },
     {
       id: 9,
@@ -75,6 +83,7 @@ const FindPage = () => {
       date: '2025.06.16.',
       location: '본관 1층 로비',
       imageUrl: '/images/airpods-case.jpg',
+      status: 'LOST',
     },
     {
       id: 10,
@@ -82,6 +91,7 @@ const FindPage = () => {
       date: '2025.06.15.',
       location: 'SRC 5층 열람실',
       imageUrl: '/images/hoodie.jpg',
+      status: 'LOST',
     },
     {
       id: 11,
@@ -89,6 +99,7 @@ const FindPage = () => {
       date: '2025.06.15.',
       location: '도서관 2층',
       imageUrl: '/images/highlighter.jpg',
+      status: 'LOST',
     },
     {
       id: 12,
@@ -96,6 +107,7 @@ const FindPage = () => {
       date: '2025.06.14.',
       location: '별관 1층 엘리베이터 앞',
       imageUrl: '/images/keyring.jpg',
+      status: 'LOST',
     },
     {
       id: 13,
@@ -103,6 +115,7 @@ const FindPage = () => {
       date: '2025.06.14.',
       location: '체육관 탈의실',
       imageUrl: '/images/sneakers.jpg',
+      status: 'LOST',
     },
     {
       id: 14,
@@ -110,6 +123,7 @@ const FindPage = () => {
       date: '2025.06.13.',
       location: '본관 식당',
       imageUrl: '/images/student-id.jpg',
+      status: 'LOST',
     },
     {
       id: 15,
@@ -117,6 +131,7 @@ const FindPage = () => {
       date: '2025.06.13.',
       location: '운동장 벤치',
       imageUrl: '/images/bottle.jpg',
+      status: 'LOST',
     },
     {
       id: 16,
@@ -124,6 +139,7 @@ const FindPage = () => {
       date: '2025.06.12.',
       location: 'SRC 1층 편의점',
       imageUrl: '/images/phone-case.jpg',
+      status: 'LOST',
     },
     {
       id: 17,
@@ -131,6 +147,7 @@ const FindPage = () => {
       date: '2025.06.12.',
       location: '창의관 2층 화장실',
       imageUrl: '/images/necktie.jpg',
+      status: 'LOST',
     },
     {
       id: 18,
@@ -138,6 +155,7 @@ const FindPage = () => {
       date: '2025.06.11.',
       location: '도서관 1층 스터디룸',
       imageUrl: '/images/laptop-pouch.jpg',
+      status: 'LOST',
     },
     {
       id: 19,
@@ -145,6 +163,7 @@ const FindPage = () => {
       date: '2025.06.11.',
       location: '체육관 샤워실',
       imageUrl: '/images/ring.jpg',
+      status: 'LOST',
     },
     {
       id: 20,
@@ -152,6 +171,7 @@ const FindPage = () => {
       date: '2025.06.10.',
       location: '본관 현관',
       imageUrl: '/images/red-umbrella.jpg',
+      status: 'LOST',
     },
     {
       id: 21,
@@ -159,6 +179,7 @@ const FindPage = () => {
       date: '2025.06.10.',
       location: '별관 3층 컴퓨터실',
       imageUrl: '/images/mouse.jpg',
+      status: 'LOST',
     },
     {
       id: 22,
@@ -166,6 +187,7 @@ const FindPage = () => {
       date: '2025.06.09.',
       location: '기숙사 B동 식당',
       imageUrl: '/images/cap.jpg',
+      status: 'LOST',
     },
     {
       id: 23,
@@ -173,6 +195,7 @@ const FindPage = () => {
       date: '2025.06.09.',
       location: 'SRC 컴퓨터실',
       imageUrl: '/images/usb.jpg',
+      status: 'LOST',
     },
     {
       id: 24,
@@ -180,6 +203,7 @@ const FindPage = () => {
       date: '2025.06.08.',
       location: '창의관 강의실',
       imageUrl: '/images/binder.jpg',
+      status: 'LOST',
     },
     {
       id: 25,
@@ -187,6 +211,7 @@ const FindPage = () => {
       date: '2025.06.08.',
       location: '체육관',
       imageUrl: '/images/watch.jpg',
+      status: 'LOST',
     },
     {
       id: 26,
@@ -194,6 +219,7 @@ const FindPage = () => {
       date: '2025.06.07.',
       location: '도서관 3층',
       imageUrl: '/images/textbook.jpg',
+      status: 'LOST',
     },
     {
       id: 27,
@@ -201,6 +227,7 @@ const FindPage = () => {
       date: '2025.06.07.',
       location: '본관 2층 화장실',
       imageUrl: '/images/hand-cream.jpg',
+      status: 'LOST',
     },
     {
       id: 28,
@@ -208,6 +235,7 @@ const FindPage = () => {
       date: '2025.06.06.',
       location: '체육관 라커룸',
       imageUrl: '/images/gym-pants.jpg',
+      status: 'LOST',
     },
     {
       id: 29,
@@ -215,6 +243,7 @@ const FindPage = () => {
       date: '2025.06.06.',
       location: '별관 수학교실',
       imageUrl: '/images/calculator.jpg',
+      status: 'LOST',
     },
     {
       id: 30,
@@ -222,6 +251,7 @@ const FindPage = () => {
       date: '2025.06.05.',
       location: 'SRC 도서관',
       imageUrl: '/images/glasses-case.jpg',
+      status: 'LOST',
     },
     {
       id: 31,
@@ -229,6 +259,7 @@ const FindPage = () => {
       date: '2025.06.05.',
       location: '창의관 1층 로비',
       imageUrl: '/images/earphones.jpg',
+      status: 'LOST',
     },
     {
       id: 32,
@@ -236,6 +267,7 @@ const FindPage = () => {
       date: '2025.06.04.',
       location: '본관 4층 강의실',
       imageUrl: '/images/pencil-case.jpg',
+      status: 'LOST',
     },
     {
       id: 33,
@@ -243,6 +275,7 @@ const FindPage = () => {
       date: '2025.06.04.',
       location: '기숙사 A동 휴게실',
       imageUrl: '/images/phone-stand.jpg',
+      status: 'LOST',
     },
     {
       id: 34,
@@ -250,6 +283,7 @@ const FindPage = () => {
       date: '2025.06.03.',
       location: '체육관 벤치',
       imageUrl: '/images/towel.jpg',
+      status: 'LOST',
     },
     {
       id: 35,
@@ -257,6 +291,7 @@ const FindPage = () => {
       date: '2025.06.03.',
       location: 'SRC 식당',
       imageUrl: '/images/lunchbox.jpg',
+      status: 'LOST',
     },
     {
       id: 36,
@@ -264,6 +299,7 @@ const FindPage = () => {
       date: '2025.06.02.',
       location: '별관 엘리베이터',
       imageUrl: '/images/card-wallet.jpg',
+      status: 'LOST',
     },
     {
       id: 37,
@@ -271,6 +307,7 @@ const FindPage = () => {
       date: '2025.06.02.',
       location: '창의관 화장실',
       imageUrl: '/images/lip-balm.jpg',
+      status: 'LOST',
     },
     {
       id: 38,
@@ -278,6 +315,7 @@ const FindPage = () => {
       date: '2025.06.01.',
       location: '기숙사 B동 세탁실',
       imageUrl: '/images/socks.jpg',
+      status: 'LOST',
     },
     {
       id: 39,
@@ -285,6 +323,7 @@ const FindPage = () => {
       date: '2025.06.01.',
       location: '본관 체육관',
       imageUrl: '/images/smartwatch.jpg',
+      status: 'LOST',
     },
     {
       id: 40,
@@ -292,6 +331,7 @@ const FindPage = () => {
       date: '2025.05.31.',
       location: '도서관 4층 열람실',
       imageUrl: '/images/bookmark.jpg',
+      status: 'LOST',
     },
   ];
 
@@ -362,7 +402,7 @@ const FindPage = () => {
 
   return (
     <StyledFindPage>
-      <SearchBar />
+      <SearchInput />
       <FilterWrapper>
         <MultiSelectDropdown
           name="category"
