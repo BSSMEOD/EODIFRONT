@@ -71,7 +71,11 @@ const Pagination = ({
         </PaginationButton>
       )}
 
-      <PaginationButton disabled={currentPage === 1} onClick={handlePrevious}>
+      <PaginationButton
+        disabled={currentPage === 1}
+        onClick={handlePrevious}
+        aria-label="이전 페이지"
+      >
         <IconLeftArrow width={20} height={20} />
       </PaginationButton>
 
@@ -88,6 +92,7 @@ const Pagination = ({
       <PaginationButton
         disabled={currentPage === totalPages}
         onClick={handleNext}
+        aria-label="다음 페이지"
       >
         <IconRightArrow width={20} height={20} />
       </PaginationButton>
