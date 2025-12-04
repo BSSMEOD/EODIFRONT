@@ -3,10 +3,10 @@
 import { useState } from 'react';
 import styled from '@emotion/styled';
 import BigProductList from '@components/common/ProductList/BigProductList';
-import SearchInput from '@ui/Input/SearchInput';
-import Dropdown from '@ui/Dropdown/Dropdown';
+import SearchInput from '@components/common/Input/SearchInput';
+import Dropdown from '@components/common/Dropdown/Dropdown';
 import { CATEGORY } from '@/constants/product/constant';
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 
 interface Filters {
   search: string;

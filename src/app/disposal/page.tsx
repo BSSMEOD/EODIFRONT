@@ -6,7 +6,7 @@ import { format } from 'date-fns';
 import font from '@styles/font';
 import color from '@styles/color';
 import DisposalTable from '@components/disposal/DisposalTable/DisposalTable';
-import Dropdown from '@ui/Dropdown/Dropdown';
+import Dropdown from '@components/common/Dropdown/Dropdown';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 

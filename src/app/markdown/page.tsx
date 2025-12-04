@@ -4,7 +4,7 @@ import React from 'react';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import styled from '@emotion/styled';
-import { Button } from '@ui/Button/Button';
+import { Button } from '@components/common/Button/Button';
 import ReactMarkdown from 'react-markdown';
 
 const MarkdownPage = () => {

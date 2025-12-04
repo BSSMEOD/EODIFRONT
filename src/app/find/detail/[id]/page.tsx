@@ -2,10 +2,10 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 import Image from 'next/image';
-import Text from '@ui/Text/Text';
-import { Button } from '@ui/Button/Button';
+import Text from '@components/common/Text/Text';
+import { Button } from '@components/common/Button/Button';
 import color from '@styles/color';
 import { Divider } from '@components/common/Divider/Divider';
 import SmallProductList from '@components/common/ProductList/SmallProductList';

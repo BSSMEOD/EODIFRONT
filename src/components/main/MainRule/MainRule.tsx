@@ -1,7 +1,7 @@
 import color from '@styles/color';
 import styled from '@emotion/styled';
 import font from '@styles/font';
-import { EditSquare } from '@package/icon';
+import { EditSquare } from '@/icons';
 import { ROUTES } from '@/constants/common/constants';
 import Link from 'next/link';
 import ReactMarkdown from 'react-markdown';

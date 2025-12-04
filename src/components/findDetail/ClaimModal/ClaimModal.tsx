@@ -2,10 +2,10 @@ import React, { useState } from 'react';
 import styled from '@emotion/styled';
 import font from '@styles/font';
 import color from '@styles/color';
-import Flex from '@ui/Flex/Flex';
-import Text from '@ui/Text/Text';
-import IconCheck from '@package/icon/src/IconCheck';
-import { IconClose } from '@package/icon';
+import Flex from '@components/common/Flex/Flex';
+import Text from '@components/common/Text/Text';
+import IconCheck from '@/icons/src/IconCheck';
+import { IconClose } from '@/icons';
 
 interface ClaimModalProps {
   isOpen: boolean;

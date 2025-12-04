@@ -3,12 +3,12 @@
 import { useState, useEffect } from 'react';
 import styled from '@emotion/styled';
 import color from '@styles/color';
-import Dropdown from '@ui/Dropdown/Dropdown';
-import SearchInput from '@ui/Input/SearchInput';
+import Dropdown from '@components/common/Dropdown/Dropdown';
+import SearchInput from '@components/common/Input/SearchInput';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import { Product } from '@/types/product/client';
-import MultiSelectDropdown from '@ui/Dropdown/MultiSelectDropdown';
-import IconMinus from '@package/icon/src/IconMinus';
+import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
+import IconMinus from '@/icons/src/IconMinus';
 import Pagination from '@components/common/Pagination/Pagination';
 
 const FindPage = () => {

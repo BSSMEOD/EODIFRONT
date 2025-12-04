@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
-import IconWhiteArrow from '@package/icon/src/IconWhiteArrow';
-import IconBlackArrow from '@package/icon/src/IconBlackArrow';
+import IconWhiteArrow from '@/icons/src/IconWhiteArrow';
+import IconBlackArrow from '@/icons/src/IconBlackArrow';
 
 interface DashboardStatCardProps {
   title: string;
