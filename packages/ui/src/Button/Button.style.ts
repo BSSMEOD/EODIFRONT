@@ -41,8 +41,6 @@ export const getButtonStyle = {
     color: ${color.gray400};
     padding: 10px 20px;
     font: ${font.p2};
-    &:hover {
-      border: 1.5px solid ${color.gray300};
-    }
+    border: 1px solid ${color.gray300};
   `,
 };
