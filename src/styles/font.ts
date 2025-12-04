@@ -15,7 +15,7 @@ const fontGenerator = (
 `;
 
 const fontFamily = {
-  default: 'Pretendard Variable',
+  default: 'Pretendard',
   logo: 'SacheonHangGong',
 };
 
