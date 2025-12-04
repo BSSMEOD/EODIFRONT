@@ -2,8 +2,8 @@
 
 import styled from '@emotion/styled';
 import color from '@styles/color';
-import IconLeftArrow from '@package/icon/src/IconLeftArrow';
-import IconRightArrow from '@package/icon/src/IconRightArrow';
+import IconLeftArrow from '@/icons/src/IconLeftArrow';
+import IconRightArrow from '@/icons/src/IconRightArrow';
 import { PaginationProps } from './Pagination.types';
 
 const Pagination = ({

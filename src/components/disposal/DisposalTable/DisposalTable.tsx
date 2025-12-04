@@ -1,11 +1,11 @@
 import styled from '@emotion/styled';
 import font from '@styles/font';
 import color from '@styles/color';
-import Flex from '@ui/Flex/Flex';
-import Th from '@ui/Table/Th';
-import Td from '@ui/Table/Td';
-import IconLink from '@package/icon/src/IconLink';
-import IconConvert from '@package/icon/src/IconConvert';
+import Flex from '@components/common/Flex/Flex';
+import Th from '@components/common/Table/Th';
+import Td from '@components/common/Table/Td';
+import IconLink from '@/icons/src/IconLink';
+import IconConvert from '@/icons/src/IconConvert';
 import { useOverlay } from '@toss/use-overlay';
 import DisposalReasonModal from '@components/disposal/DisposalReasonModal/DisposalReasonModal';
 

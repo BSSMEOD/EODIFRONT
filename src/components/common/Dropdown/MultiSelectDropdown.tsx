@@ -6,7 +6,7 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import font from '@styles/font';
 import color from '@styles/color';
-import IconBottomArrow from '@package/icon/src/IconBottomArrow';
+import IconBottomArrow from '@/icons/src/IconBottomArrow';
 import { MultiSelectDropdownProps } from './Dropdown.types';
 
 const MultiSelectDropdown = ({

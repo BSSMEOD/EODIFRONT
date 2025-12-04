@@ -1,6 +1,6 @@
 import { useBooleanState } from '@hooks/useBooleanState';
 import { useOutsideClick } from '@hooks/useOutsideClick';
-import { Data } from '@ui/Dropdown/Dropdown.types';
+import { Data } from '@components/common/Dropdown/Dropdown.types';
 
 export const useDropdown = (
   disabled: boolean,

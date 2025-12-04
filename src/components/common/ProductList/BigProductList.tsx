@@ -1,4 +1,4 @@
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 import React from 'react';
 import ProductListItem from './ProductListItem/ProductListItem';
 import { ProductListProps } from './ProductList.types';

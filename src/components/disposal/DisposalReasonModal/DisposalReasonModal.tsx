@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from '@emotion/styled';
 import font from '@styles/font';
 import color from '@styles/color';
-import IconCheck from '@package/icon/src/IconCheck';
+import IconCheck from '@/icons/src/IconCheck';
 
 interface DisposalReasonModalProps {
   isOpen: boolean;

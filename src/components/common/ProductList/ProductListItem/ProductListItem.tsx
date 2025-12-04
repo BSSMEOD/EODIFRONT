@@ -1,14 +1,14 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import Image from 'next/image';
-import Flex from '@ui/Flex/Flex';
-import Text from '@ui/Text/Text';
+import Flex from '@components/common/Flex/Flex';
+import Text from '@components/common/Text/Text';
 import { ROUTES } from '@/constants/common/constants';
 import { Product } from '@/types/product/client';
 import Link from 'next/link';
 import { STATUS } from '@/constants/product/constant';
 import font from '@styles/font';
-import { IconClose, IconEdit } from '@package/icon';
+import { IconClose, IconEdit } from '@/icons';
 
 interface ProductListItem {
   product: Product;

@@ -4,9 +4,9 @@ import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import font from '@styles/font';
 import color from '@styles/color';
-import IconBottomArrow from '@package/icon/src/IconBottomArrow';
-import { DropdownProps } from '@ui/Dropdown/Dropdown.types';
-import { useDropdown } from '@ui/Dropdown/Dropdown.hooks';
+import IconBottomArrow from '@/icons/src/IconBottomArrow';
+import { DropdownProps } from '@components/common/Dropdown/Dropdown.types';
+import { useDropdown } from '@components/common/Dropdown/Dropdown.hooks';
 
 const Dropdown = ({
   label,

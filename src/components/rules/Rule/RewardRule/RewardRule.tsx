@@ -1,8 +1,8 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
-import Th from '@ui/Table/Th';
-import Td from '@ui/Table/Td';
+import Th from '@components/common/Table/Th';
+import Td from '@components/common/Table/Td';
 
 interface RewardRuleProps {
   id?: string;
