@@ -1,10 +1,11 @@
 'use client';
+
 import RuleNav from '@components/rules/RuleNav/RuleNav';
-import StandardApplyingPoint from '@components/rules/StandardApplyingPoint/StandardApplyingPoint';
+import StandardApplyingPoint from '@components/rules/Rule/StandardApplyingPoint/StandardApplyingPoint';
 import styled from '@emotion/styled';
-import CommitteeRule from '@components/rules/CommitteeRule/CommitteeRule';
-import RewardRule from '@components/rules/RewardRule/RewardRule';
-import PenaltyRule from '@components/rules/PenaltyRule/PenaltyRule';
+import CommitteeRule from '@components/rules/Rule/CommitteeRule/CommitteeRule';
+import RewardRule from '@components/rules/Rule/RewardRule/RewardRule';
+import PenaltyRule from '@components/rules/Rule/PenaltyRule/PenaltyRule';
 
 const RulePage = () => {
   return (
@@ -34,6 +35,6 @@ const StyledRulePage = styled.div`
 const SortRules = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   width: 100%;
 `;

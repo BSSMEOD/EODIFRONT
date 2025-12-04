@@ -1,5 +1,5 @@
-import DormitoryCommitteeRule from '@components/rules/CommitteeRule/DormitoryCommitteeRule/DormitoryCommitteeRule';
-import LeadingCommitteeRule from '@components/rules/CommitteeRule/LeadingCommitteeRule/LeadingCommitteeRule';
+import DormitoryCommitteeRule from '@components/rules/Rule/CommitteeRule/DormitoryCommitteeRule/DormitoryCommitteeRule';
+import LeadingCommitteeRule from '@components/rules/Rule/CommitteeRule/LeadingCommitteeRule/LeadingCommitteeRule';
 import styled from '@emotion/styled';
 
 interface CommitteeRuleProps {
@@ -9,8 +9,8 @@ interface CommitteeRuleProps {
 const CommitteeRule = ({ id }: CommitteeRuleProps) => {
   return (
     <StyledCommitteeRules id={id}>
-      <DormitoryCommitteeRule />
       <LeadingCommitteeRule />
+      <DormitoryCommitteeRule />
     </StyledCommitteeRules>
   );
 };
@@ -21,5 +21,5 @@ const StyledCommitteeRules = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  gap: 24px;
+  gap: 20px;
 `;

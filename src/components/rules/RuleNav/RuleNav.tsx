@@ -11,7 +11,7 @@ const NAV_ITEMS = [
 ];
 
 const OBSERVER_OPTIONS = {
-  rootMargin: '-50% 0px -50% 0px',
+  rootMargin: '-10% 0px -80% 0px',
   threshold: 0,
 };
 
@@ -37,16 +37,29 @@ const RuleNav = () => {
       if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
-  }, []);
+    const handleScroll = () => {
+      const { scrollTop, scrollHeight, clientHeight } =
+        document.documentElement;
 
+      if (scrollTop + clientHeight >= scrollHeight - 2) {
+        setActiveSection(NAV_ITEMS[NAV_ITEMS.length - 1].id);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      observer.disconnect();
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
   const handleClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
     document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
   };
 
   return (
-    <Container>
+    <StyledRuleNav>
       <Title>상벌점제 규정</Title>
       <NavList>
         {NAV_ITEMS.map(({ id, title }) => (
@@ -57,20 +70,20 @@ const RuleNav = () => {
           </NavItem>
         ))}
       </NavList>
-    </Container>
+    </StyledRuleNav>
   );
 };
 
 export default RuleNav;
 
-const Container = styled.nav`
+const StyledRuleNav = styled.nav`
   position: sticky;
   top: 20px;
   width: 200px;
   height: fit-content;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 20px;
   align-self: flex-start;
 `;
 
