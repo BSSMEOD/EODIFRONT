@@ -25,6 +25,11 @@ const ProductListItem = ({
 }: ProductListItem) => {
   const { id, imageUrl, title, date, location, status } = product;
 
+  const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
+    e.preventDefault();
+    const isConfirm = confirm(`${title} 분실물을 삭제하시겠습니까?`);
+  };
+
   return (
     <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
       <Flex direction="row" gap={20} align="center">
@@ -45,7 +50,7 @@ const ProductListItem = ({
           <Link href={`/edit/${id}`}>
             <IconEdit />
           </Link>
-          <IconClose />
+          <IconClose onClick={handleDelete} />
         </Flex>
       )}
     </StyledProductListItem>

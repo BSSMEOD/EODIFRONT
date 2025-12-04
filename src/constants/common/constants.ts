@@ -1,6 +1,6 @@
 export const ROUTES = {
   MAIN: '/',
-  FIND: '/find',
+  FIND: '/findDetail',
   LOGIN: '/login',
   LOG: '/log',
   POINT: '/point',

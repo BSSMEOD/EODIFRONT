@@ -38,6 +38,10 @@ export const useForm = () => {
     }
   };
 
+  const handleSubmit = () => {
+    const isConfirm = confirm('분실물을 등록하시겠습니까?');
+  };
+
   return {
     fileRef,
     form,
@@ -45,5 +49,6 @@ export const useForm = () => {
     handleFormChange,
     handleFileChange,
     clearFile,
+    handleSubmit,
   };
 };
