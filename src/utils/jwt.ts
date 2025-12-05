@@ -31,5 +31,5 @@ export const mapRoleToAuthority = (role: string): UserAuthority => {
   if (role === 'TEACHER') {
     return 'TEACHER';
   }
-  return 'STUDENT';
+  return 'USER';
 };

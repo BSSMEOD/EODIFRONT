@@ -71,7 +71,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
     </StyledNavItemsList>
   );
 
-  const StudentNav = () => (
+  const UserNav = () => (
     <StyledNavItemsList>
       <NavItem onClick={() => router.push(ROUTES.FIND)}>분실물 찾기</NavItem>
       {isLoggedIn ? (
@@ -90,7 +90,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
     <StyledNavList>
       {authority === 'ADMIN' && ManagerNav()}
       {authority === 'TEACHER' && TeacherNav()}
-      {authority === 'STUDENT' && StudentNav()}
+      {authority === 'USER' && UserNav()}
     </StyledNavList>
   );
 };

@@ -1,4 +1,4 @@
-export type UserAuthority = 'ADMIN' | 'TEACHER' | 'STUDENT';
+export type UserAuthority = 'ADMIN' | 'TEACHER' | 'USER';
 
 export interface User {
   name: string;

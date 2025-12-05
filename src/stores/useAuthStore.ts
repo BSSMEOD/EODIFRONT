@@ -12,7 +12,7 @@ interface AuthState extends User {
 
 export const useAuthStore = create<AuthState>((set) => ({
   name: '',
-  authority: 'STUDENT',
+  authority: 'USER',
   isLoggedIn: false,
   accessToken: null,
 
@@ -30,7 +30,7 @@ export const useAuthStore = create<AuthState>((set) => ({
     } finally {
       set({
         name: '',
-        authority: 'STUDENT',
+        authority: 'USER',
         isLoggedIn: false,
         accessToken: null,
       });
