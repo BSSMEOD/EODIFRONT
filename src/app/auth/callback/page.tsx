@@ -35,14 +35,23 @@ const AuthCallbackPage = () => {
 
         const authority = mapRoleToAuthority(payload.role);
         const userEmail = payload.email || '';
-        await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/oauth/callback`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-          credentials: 'include',
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BASE_URL}/auth/oauth/callback`,
+          {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`,
+            },
+            credentials: 'include',
+          }
+        );
+
+        if (!response.ok) {
+          alert('로그인에 실패했습니다. 다시 로그인해주세요.');
+          router.push(ROUTES.LOGIN);
+          return;
+        }
 
         login(
           {
