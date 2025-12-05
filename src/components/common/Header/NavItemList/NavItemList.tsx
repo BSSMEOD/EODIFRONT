@@ -2,10 +2,9 @@ import type { UserAuthority } from '@/types/user/client';
 import styled from '@emotion/styled';
 import { Button } from '@ui/Button/Button';
 import { useRouter } from 'next/navigation';
-import { ROUTES, TOKEN } from '@/constants/common/constants';
+import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { Storage } from '@/api/storage/storage';
 
 interface NavItemListProps {
   authority: UserAuthority;
@@ -13,16 +12,15 @@ interface NavItemListProps {
 
 export const NavItemList = ({ authority }: NavItemListProps) => {
   const router = useRouter();
-  const { isLoggedIn, login, logout } = useAuthStore();
+  const { isLoggedIn, logout } = useAuthStore();
 
   const handleLogin = () => {
     router.push(ROUTES.LOGIN);
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logout();
     router.push(ROUTES.MAIN);
-    Storage.removeItem(TOKEN.ACCESS);
-    Storage.removeItem(TOKEN.REFRESH);
   };
 
   const ManagerNav = () => (
