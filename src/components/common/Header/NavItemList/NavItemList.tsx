@@ -12,7 +12,16 @@ interface NavItemListProps {
 
 export const NavItemList = ({ authority }: NavItemListProps) => {
   const router = useRouter();
-  const { isLoggedIn, login, logout } = useAuthStore();
+  const { isLoggedIn, logout } = useAuthStore();
+
+  const handleLogin = () => {
+    router.push(ROUTES.LOGIN);
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    router.push(ROUTES.MAIN);
+  };
 
   const ManagerNav = () => (
     <StyledNavItemsList>
@@ -30,14 +39,11 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
         분실물 등록 하기
       </Button>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => logout()}>
+        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
           로그아웃
         </Button>
       ) : (
-        <Button
-          styleType={'PRIMARY'}
-          onClick={() => login({ name: '관리자', authority: 'ADMIN' })}
-        >
+        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
           로그인
         </Button>
       )}
@@ -54,29 +60,26 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
         폐기 항목 보기
       </NavItem>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => logout()}>
+        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
           로그아웃
         </Button>
       ) : (
-        <Button
-          styleType={'PRIMARY'}
-          onClick={() => login({ name: '선생님', authority: 'TEACHER' })}
-        >
+        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
           로그인
         </Button>
       )}
     </StyledNavItemsList>
   );
 
-  const StudentNav = () => (
+  const UserNav = () => (
     <StyledNavItemsList>
       <NavItem onClick={() => router.push(ROUTES.FIND)}>분실물 찾기</NavItem>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => logout()}>
+        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => router.push(ROUTES.LOGIN)}>
+        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
           로그인
         </Button>
       )}
@@ -87,7 +90,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
     <StyledNavList>
       {authority === 'ADMIN' && ManagerNav()}
       {authority === 'TEACHER' && TeacherNav()}
-      {authority === 'STUDENT' && StudentNav()}
+      {authority === 'USER' && UserNav()}
     </StyledNavList>
   );
 };

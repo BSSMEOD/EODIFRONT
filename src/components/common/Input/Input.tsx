@@ -8,8 +8,10 @@ import DatePicker from 'react-datepicker';
 import { CSSProperties, InputHTMLAttributes } from 'react';
 import { IconCalendar } from '@/icons/src/IconCalendar';
 
-export interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'onChange'> {
+export interface InputProps extends Omit<
+  InputHTMLAttributes<HTMLInputElement>,
+  'onChange'
+> {
   name: string;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
@@ -61,6 +63,8 @@ const Input = ({
           type={type}
           height={addPX(height)}
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => handleChange(e.target.value)}
           data-placeholder={placeholder}
           {...restProps}
         />
