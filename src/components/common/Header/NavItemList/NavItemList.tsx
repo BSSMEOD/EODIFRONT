@@ -1,6 +1,6 @@
 import type { UserAuthority } from '@/types/user/client';
 import styled from '@emotion/styled';
-import { Button } from '@ui/Button/Button';
+import { Button } from '@components/common/Button/Button';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';

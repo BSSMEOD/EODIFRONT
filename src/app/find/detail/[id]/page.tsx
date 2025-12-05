@@ -2,13 +2,15 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 import Image from 'next/image';
-import Text from '@ui/Text/Text';
-import { Button } from '@ui/Button/Button';
+import Text from '@components/common/Text/Text';
+import { Button } from '@components/common/Button/Button';
 import color from '@styles/color';
 import { Divider } from '@components/common/Divider/Divider';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
+import { useOverlay } from '@toss/use-overlay';
+import ClaimModal from '@components/findDetail/ClaimModal/ClaimModal';
 
 const StyledProductDetailPage = styled.div`
   display: flex;
@@ -31,6 +33,19 @@ interface ProductDetailPageProps {
 const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   const { id } = React.use(params);
   const { data: disposalProductListData } = { data: [] };
+  const overlay = useOverlay();
+
+  const handleClaimClick = () => {
+    overlay.open(({ isOpen, close }) => (
+      <ClaimModal
+        isOpen={isOpen}
+        onClose={close}
+        onSubmit={(reason) => {
+          console.log('Claim submitted:', { productId: id, reason });
+        }}
+      />
+    ));
+  };
 
   return (
     <StyledProductDetailPage>
@@ -58,7 +73,7 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
               <Text variant="p1">기타/운동장</Text>
             </Flex>
           </Flex>
-          <Button styleType="PRIMARY" height={50}>
+          <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
             <Text variant="H3" color={color.white}>
               내 물건이에요!
             </Text>

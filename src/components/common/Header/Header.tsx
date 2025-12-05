@@ -5,7 +5,7 @@ import { ROUTES } from '@/constants/common/constants';
 import { useRouter } from 'next/navigation';
 import { NavItemList } from '@components/common/Header/NavItemList/NavItemList';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { EODILogo } from '@package/icon';
+import { EODILogo } from '@/icons';
 
 const Header = () => {
   const { authority } = useAuthStore();

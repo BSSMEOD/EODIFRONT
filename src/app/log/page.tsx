@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import color from '@styles/color';
 import font from '@styles/font';
-import Dropdown from '@ui/Dropdown/Dropdown';
+import Dropdown from '@components/common/Dropdown/Dropdown';
 import LogTable from '@components/log/LogTable/LogTable';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';

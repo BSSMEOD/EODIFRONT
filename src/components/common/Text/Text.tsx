@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
-import font from '@/styles/font';
+import font from '@styles/font';
 import type { AllowedHTMLElement, TextProps } from './Text.types';
 
 const StyledText = styled.span<TextProps>`

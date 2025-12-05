@@ -1,7 +1,7 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
-import IconMinus from '@package/icon/src/IconMinus';
+import IconMinus from '@/icons/src/IconMinus';
 
 interface FilterActiveTagsProps {
   filters: Record<string, string>;

@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import IconBottomArrow from '@package/icon/src/IconBottomArrow';
+import IconBottomArrow from '@/icons/src/IconBottomArrow';
 import color from '@styles/color';
 import styled from '@emotion/styled';
 import font from '@styles/font';

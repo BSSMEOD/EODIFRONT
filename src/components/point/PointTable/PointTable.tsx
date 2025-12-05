@@ -1,11 +1,11 @@
-import Th from '@ui/Table/Th';
-import Td from '@ui/Table/Td';
-import Flex from '@ui/Flex/Flex';
+import Th from '@components/common/Table/Th';
+import Td from '@components/common/Table/Td';
+import Flex from '@components/common/Flex/Flex';
 import styled from '@emotion/styled';
 import color from '@styles/color';
-import IconConvert from '@package/icon/src/IconConvert';
+import IconConvert from '@/icons/src/IconConvert';
 import font from '@styles/font';
-import IconLink from '@package/icon/src/IconLink';
+import IconLink from '@/icons/src/IconLink';
 
 interface PointItem {
   itemName: string;

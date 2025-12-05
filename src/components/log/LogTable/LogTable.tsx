@@ -1,8 +1,8 @@
-import Th from '@ui/Table/Th';
-import Td from '@ui/Table/Td';
-import IconLink from '@package/icon/src/IconLink';
+import Th from '@components/common/Table/Th';
+import Td from '@components/common/Table/Td';
+import IconLink from '@/icons/src/IconLink';
 import styled from '@emotion/styled';
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 import color from '@styles/color';
 
 interface LogItem {

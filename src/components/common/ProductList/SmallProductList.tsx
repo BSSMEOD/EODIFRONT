@@ -1,8 +1,8 @@
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 import React from 'react';
 import ProductListItem from './ProductListItem/ProductListItem';
 import { ProductListProps } from './ProductList.types';
-import Text from '@ui/Text/Text';
+import Text from '@components/common/Text/Text';
 import Link from 'next/link';
 import color from '@styles/color';
 

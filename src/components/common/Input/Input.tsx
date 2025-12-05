@@ -1,12 +1,12 @@
 import styled from '@emotion/styled';
-import Flex from '@ui/Flex/Flex';
+import Flex from '@components/common/Flex/Flex';
 import font from '@styles/font';
 import color from '@styles/color';
 import { addPX } from '@utils/addPX';
 import { ko } from 'date-fns/locale';
 import DatePicker from 'react-datepicker';
 import { CSSProperties, InputHTMLAttributes } from 'react';
-import { IconCalendar } from '@package/icon/src/IconCalendar';
+import { IconCalendar } from '@/icons/src/IconCalendar';
 
 export interface InputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -51,7 +51,7 @@ const Input = ({
       {!!label && <Label>{label}</Label>}
       {type === 'date' ? (
         <DatePicker
-          selected={new Date(value)}
+          selected={value ? new Date(value) : null}
           onChange={handleChange}
           dateFormat="yyyy. MM. dd."
           dateFormatCalendar="MM월 yyyy"

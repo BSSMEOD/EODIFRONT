@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import font from '@styles/font';
-import { IconSearch } from '@package/icon';
+import { IconSearch } from '@/icons';
 
 interface SearchInputProps {
   placeholder?: string;

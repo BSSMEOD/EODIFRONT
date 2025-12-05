@@ -2,9 +2,9 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import React, { LegacyRef, useState } from 'react';
 import Image from 'next/image';
-import Flex from '@ui/Flex/Flex';
-import Text from '@ui/Text/Text';
-import { IconUploadFile } from '@package/icon';
+import Flex from '@components/common/Flex/Flex';
+import Text from '@components/common/Text/Text';
+import { IconUploadFile } from '@/icons';
 
 interface ImageUploaderProps {
   ref: LegacyRef<HTMLInputElement>;
