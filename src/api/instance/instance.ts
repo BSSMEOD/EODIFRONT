@@ -16,10 +16,9 @@ export const eodi = axios.create({
 let isRefreshing = false;
 let refreshPromise: Promise<string | null> | null = null;
 
-const handleLogoutAndRedirect = (message: string): null => {
+const handleLogoutAndRedirect = async (message: string): Promise<null> => {
   alert(message);
-  useAuthStore.getState().logout();
-
+  await useAuthStore.getState().logout();
   window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
   return null;
 };
@@ -61,9 +60,9 @@ eodi.interceptors.response.use(
         refreshPromise = null;
 
         refreshPromise = refreshAccessToken()
-          .then((newToken) => {
+          .then(async (newToken) => {
             if (!newToken) {
-              return handleLogoutAndRedirect(
+              return await handleLogoutAndRedirect(
                 '토큰 갱신에 실패했습니다. 다시 로그인해주세요.'
               );
             }
@@ -72,11 +71,10 @@ eodi.interceptors.response.use(
 
             return newToken;
           })
-          .catch(() => {
-            handleLogoutAndRedirect(
+          .catch(async () => {
+            return await handleLogoutAndRedirect(
               '인증 정보가 완전히 만료되었습니다. 다시 로그인해주세요.'
             );
-            return null;
           })
           .finally(() => {
             isRefreshing = false;
