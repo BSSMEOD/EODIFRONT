@@ -1,29 +1,40 @@
-import type { AxiosError } from 'axios';
+import type { AxiosError, AxiosRequestConfig } from 'axios';
 import axios from 'axios';
-import { ROUTES, TOKEN } from '@/constants/common/constants';
-import { Storage } from '@/api/storage/storage';
+import { ROUTES } from '@/constants/common/constants';
+import { refreshAccessToken } from '@/api/auth/auth';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export const eodi = axios.create({
   baseURL: process.env.NEXT_PUBLIC_BASE_URL,
   timeout: 15000,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-const handleUnauthorized = () => {
-  alert('인증 정보가 만료되었습니다. 다시 로그인해주세요.');
-  Storage.removeItem(TOKEN.ACCESS);
-  Storage.removeItem(TOKEN.REFRESH);
+let isRefreshing = false;
+let refreshPromise: Promise<string | null> | null = null;
+
+const handleLogoutAndRedirect = (message: string): null => {
+  alert(message);
+  useAuthStore.getState().logout();
+
   window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
+  return null;
 };
+
+interface ExtendedAxiosRequestConfig extends AxiosRequestConfig {
+  _retry?: boolean;
+}
 
 eodi.interceptors.request.use(
   (config) => {
-    const token = Storage.getItem(TOKEN.ACCESS);
-    if (token) {
+    const { accessToken } = useAuthStore.getState();
+
+    if (accessToken) {
       config.headers = config.headers || {};
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${accessToken}`;
     }
     return config;
   },
@@ -31,13 +42,58 @@ eodi.interceptors.request.use(
 );
 
 eodi.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    return response;
+  },
   async (error: AxiosError) => {
-    const isUnauthorized = error.response?.status === 401;
+    const originalRequest = error.config as ExtendedAxiosRequestConfig;
+    const { status } = error.response || {};
+    const { accessToken } = useAuthStore.getState();
 
-    if (isUnauthorized) {
-      handleUnauthorized();
-      return Promise.reject(error);
+    const isTokenExpiredAndValidToRefresh =
+      status === 401 && !!accessToken && !originalRequest._retry;
+
+    if (isTokenExpiredAndValidToRefresh) {
+      originalRequest._retry = true;
+
+      if (!isRefreshing) {
+        isRefreshing = true;
+        refreshPromise = null;
+
+        refreshPromise = refreshAccessToken()
+          .then((newToken) => {
+            if (!newToken) {
+              return handleLogoutAndRedirect(
+                '토큰 갱신에 실패했습니다. 다시 로그인해주세요.'
+              );
+            }
+            useAuthStore.getState().updateAccessToken(newToken);
+            eodi.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+
+            return newToken;
+          })
+          .catch(() => {
+            handleLogoutAndRedirect(
+              '인증 정보가 완전히 만료되었습니다. 다시 로그인해주세요.'
+            );
+            return null;
+          })
+          .finally(() => {
+            isRefreshing = false;
+          });
+      }
+
+      const newToken = await refreshPromise;
+
+      if (newToken) {
+        originalRequest.headers = {
+          ...originalRequest.headers,
+          Authorization: `Befarer ${newToken}`,
+        };
+        return eodi(originalRequest);
+      } else {
+        return Promise.reject(error);
+      }
     }
 
     return Promise.reject(error);
