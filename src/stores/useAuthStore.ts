@@ -25,14 +25,16 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: async () => {
     const { accessToken } = useAuthStore.getState();
-    await logoutApi(accessToken);
-
-    set({
-      name: '',
-      authority: 'STUDENT',
-      isLoggedIn: false,
-      accessToken: null,
-    });
+    try {
+      await logoutApi(accessToken);
+    } finally {
+      set({
+        name: '',
+        authority: 'STUDENT',
+        isLoggedIn: false,
+        accessToken: null,
+      });
+    }
   },
 
   updateAccessToken: (token) =>

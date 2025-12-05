@@ -88,7 +88,7 @@ eodi.interceptors.response.use(
       if (newToken) {
         originalRequest.headers = {
           ...originalRequest.headers,
-          Authorization: `Befarer ${newToken}`,
+          Authorization: `Bearer ${newToken}`,
         };
         return eodi(originalRequest);
       } else {

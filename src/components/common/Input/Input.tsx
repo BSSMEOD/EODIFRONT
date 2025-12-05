@@ -63,6 +63,8 @@ const Input = ({
           type={type}
           height={addPX(height)}
           placeholder={placeholder}
+          value={value}
+          onChange={(e) => handleChange(e.target.value)}
           data-placeholder={placeholder}
           {...restProps}
         />

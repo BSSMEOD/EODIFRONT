@@ -20,9 +20,7 @@ export const refreshAccessToken = async (): Promise<string | null> => {
   return newAccessToken;
 };
 
-export const logoutApi = async (
-  accessToken: string | null
-): Promise<boolean> => {
+export const logoutApi = async (accessToken: string | null): Promise<void> => {
   await axios.post(`${process.env.NEXT_PUBLIC_BASE_URL}/auth/logout`, null, {
     withCredentials: true,
     headers: {
@@ -30,5 +28,4 @@ export const logoutApi = async (
       ...(accessToken && { Authorization: `Bearer ${accessToken}` }),
     },
   });
-  return true;
 };
