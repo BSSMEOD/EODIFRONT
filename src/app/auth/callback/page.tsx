@@ -14,10 +14,16 @@ const AuthCallbackPage = () => {
   useEffect(() => {
     const handleCallback = async () => {
       try {
-        const hash = window.location.hash;
-        const params = new URLSearchParams(
-          hash.startsWith('#') ? hash.substring(1) : hash
-        );
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        if (params.has('error')) {
+          const errorType = params.get('error');
+          const errorMessage =
+            params.get('message') || 'OAuth 인증에 실패했습니다.';
+          alert(decodeURIComponent(errorMessage));
+          router.push(ROUTES.LOGIN);
+          return;
+        }
         const token = params.get('token');
 
         if (!token) {
@@ -35,24 +41,6 @@ const AuthCallbackPage = () => {
 
         const authority = mapRoleToAuthority(payload.role);
         const userEmail = payload.email || '';
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_BASE_URL}/auth/oauth/callback`,
-          {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            credentials: 'include',
-          }
-        );
-
-        if (!response.ok) {
-          alert('로그인에 실패했습니다. 다시 로그인해주세요.');
-          router.push(ROUTES.LOGIN);
-          return;
-        }
-
         login(
           {
             name: userEmail.split('@')[0] || '사용자',
@@ -60,9 +48,9 @@ const AuthCallbackPage = () => {
           },
           token
         );
+
         const returnUrl = sessionStorage.getItem('returnUrl') || ROUTES.MAIN;
         sessionStorage.removeItem('returnUrl');
-
         router.push(returnUrl);
       } catch (error) {
         router.push(ROUTES.LOGIN);
