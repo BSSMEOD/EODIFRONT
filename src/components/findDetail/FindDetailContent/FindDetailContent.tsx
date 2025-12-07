@@ -27,6 +27,8 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
     }
   }, [error, router]);
 
+  if (!itemData) return null;
+
   const handleClaimClick = () => {
     overlay.open(({ isOpen, close }) => (
       <ClaimModal
@@ -40,28 +42,31 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   };
 
   return (
-    <Flex direction="row" gap={50} align="flex-end">
+    <StyledFindDetailContent>
       <ProductImage
         width={400}
         height={400}
-        src={itemData?.image_url || ''}
+        src={itemData.image_url}
         alt="상품 이미지"
       />
-      <Flex direction="column" gap={20} width={470}>
-        <Flex direction="column" gap={20}>
-          <Text variant="H2">{itemData?.name}</Text>
-          <Flex direction="row" gap={20} align="center">
-            <Text variant="p1">최초 발견 일시</Text>
-            <Divider orientation="vertical" length={16} color={color.gray400} />
-            <Text variant="p1">{itemData?.found_at}</Text>
-          </Flex>
-          <Flex direction="row" gap={20} align="center">
-            <Text variant="p1">최초 발견 장소</Text>
-            <Divider orientation="vertical" length={16} color={color.gray400} />
-            <Text variant="p1">
-              {itemData?.found_place}/{itemData?.found_place_detail}
-            </Text>
-          </Flex>
+      <Flex
+        direction="column"
+        gap={20}
+        style={{ flex: '1 0 auto' }}
+        width={400}
+      >
+        <Text variant="H2">{itemData.name}</Text>
+        <Flex direction="row" gap={20} align="center">
+          <Text variant="p1">최초 발견 일시</Text>
+          <Divider orientation="vertical" length={16} color={color.gray400} />
+          <Text variant="p1">{itemData?.found_at}</Text>
+        </Flex>
+        <Flex direction="row" gap={20} align="center">
+          <Text variant="p1">최초 발견 장소</Text>
+          <Divider orientation="vertical" length={16} color={color.gray400} />
+          <Text variant="p1">
+            {itemData?.found_place}/{itemData?.found_place_detail}
+          </Text>
         </Flex>
         <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
           <Text variant="H3" color={color.white}>
@@ -69,12 +74,26 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
           </Text>
         </Button>
       </Flex>
-    </Flex>
+    </StyledFindDetailContent>
   );
 };
 
+const StyledFindDetailContent = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 50px;
+  align-items: flex-end;
+  width: 100%;
+  height: 100%;
+`;
+
 const ProductImage = styled(Image)`
   border-radius: 12px;
+  width: 40%;
+  min-width: 400px;
+  height: 400px;
+  object-fit: contain;
+  background: ${color.gray100};
 `;
 
 export default FindDetailContent;

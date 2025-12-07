@@ -4,6 +4,7 @@ import React from 'react';
 import styled from '@emotion/styled';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import FindDetailContent from '@components/findDetail/FindDetailContent/FindDetailContent';
+import { useItemListQuery } from '@services/item/queries';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -13,14 +14,17 @@ interface ProductDetailPageProps {
 
 const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   const { id } = React.use(params);
-  const { data: disposalProductListData } = { data: [] };
+  const { data: disposalProductListData } = useItemListQuery({
+    status: 'TO_BE_DISCARDED',
+    size: 5,
+  });
 
   return (
     <StyledProductDetailPage>
       <FindDetailContent id={id} />
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={disposalProductListData}
+        productList={disposalProductListData?.content}
       />
     </StyledProductDetailPage>
   );

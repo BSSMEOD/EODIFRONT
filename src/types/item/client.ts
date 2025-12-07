@@ -1,4 +1,4 @@
-import { STATUS } from '@/constants/item/constant';
+export type Status = 'LOST' | 'FOUND' | 'TO_BE_DISCARDED' | 'DISCARDED';
 
 export interface Item {
   id: number;
@@ -6,5 +6,5 @@ export interface Item {
   title: string;
   date: string;
   location: string;
-  status: keyof typeof STATUS;
+  status: Status;
 }
