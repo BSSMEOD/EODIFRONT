@@ -1,25 +1,19 @@
-export interface GetItemDetailRes {
-  id: number;
-  name: string;
-  image_url: string;
-  found_at: string;
-  found_place: string;
-  found_place_detail: string;
-}
+import { Item } from '@/types/item/client';
+
+export type GetItemDetailRes = Omit<Item, 'status'>;
 
 export interface GetItemListParams {
   page?: number;
   size?: number;
   status: string;
-  place_id?: number;
+  placeId?: number;
 }
 
 export interface GetItemListRes {
-  content: GetItemDetailRes[];
+  content: Item[];
   page: number;
   size: number;
-  total_elements: number;
-  total_pages: number;
-  is_last: boolean;
-  last: boolean;
+  totalElements: number;
+  totalPages: number;
+  isLast: boolean;
 }
