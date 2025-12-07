@@ -23,11 +23,11 @@ const ProductListItem = ({
   showStatus = false,
   auth = false,
 }: ProductListItem) => {
-  const { id, imageUrl, title, date, location, status } = product;
+  const { id, imageUrl, name, foundAt, foundPlace, status } = product;
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
-    const isConfirm = confirm(`${title} 분실물을 삭제하시겠습니까?`);
+    const isConfirm = confirm(`${name} 분실물을 삭제하시겠습니까?`);
   };
 
   return (
@@ -37,12 +37,12 @@ const ProductListItem = ({
         <Flex direction="column" justify="space-between" height="100%">
           <Flex direction="row" gap={5} align="center">
             {showStatus && <Status status={status}>{STATUS[status]}</Status>}
-            <Text variant="H2">{title}</Text>
+            <Text variant="H2">{name}</Text>
           </Flex>
           <Text variant="p2" color={color.gray200}>
-            {date}
+            {foundAt}
           </Text>
-          <Text variant="p2">{location}</Text>
+          <Text variant="p2">{foundPlace}</Text>
         </Flex>
       </Flex>
       {auth && (
