@@ -46,7 +46,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
       <ProductImage
         width={400}
         height={400}
-        src={itemData.image_url}
+        src={itemData.imageUrl}
         alt="상품 이미지"
       />
       <Flex
@@ -59,13 +59,13 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         <Flex direction="row" gap={20} align="center">
           <Text variant="p1">최초 발견 일시</Text>
           <Divider orientation="vertical" length={16} color={color.gray400} />
-          <Text variant="p1">{itemData?.found_at}</Text>
+          <Text variant="p1">{itemData?.foundAt}</Text>
         </Flex>
         <Flex direction="row" gap={20} align="center">
           <Text variant="p1">최초 발견 장소</Text>
           <Divider orientation="vertical" length={16} color={color.gray400} />
           <Text variant="p1">
-            {itemData?.found_place}/{itemData?.found_place_detail}
+            {itemData?.foundPlace}/{itemData?.foundPlaceDetail}
           </Text>
         </Flex>
         <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
