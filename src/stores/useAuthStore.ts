@@ -1,6 +1,9 @@
 import { create } from 'zustand';
+import { persist, createJSONStorage } from 'zustand/middleware';
 import { User } from '@/types/user/client';
 import { logoutApi } from '@/api/auth/auth';
+import { Storage } from '@/api/storage/storage';
+import { TOKEN } from '@/constants/common/constants';
 
 interface AuthState extends User {
   isLoggedIn: boolean;
@@ -10,35 +13,48 @@ interface AuthState extends User {
   updateAccessToken: (token: string) => void;
 }
 
-export const useAuthStore = create<AuthState>((set) => ({
-  name: '',
-  authority: 'USER',
-  isLoggedIn: false,
-  accessToken: null,
+export const useAuthStore = create<AuthState>()(
+  persist(
+    (set) => ({
+      name: '',
+      authority: 'USER',
+      isLoggedIn: false,
+      accessToken: null,
 
-  login: (user, token) =>
-    set({
-      ...user,
-      isLoggedIn: true,
-      accessToken: token,
+      login: (user, token) => {
+        Storage.setItem(TOKEN.ACCESS, token);
+        set({
+          ...user,
+          isLoggedIn: true,
+          accessToken: token,
+        });
+      },
+
+      logout: async () => {
+        const { accessToken } = useAuthStore.getState();
+        try {
+          await logoutApi(accessToken);
+        } finally {
+          Storage.removeItem(TOKEN.ACCESS);
+          set({
+            name: '',
+            authority: 'USER',
+            isLoggedIn: false,
+            accessToken: null,
+          });
+        }
+      },
+
+      updateAccessToken: (token) => {
+        Storage.setItem(TOKEN.ACCESS, token);
+        set({
+          accessToken: token,
+        });
+      },
     }),
-
-  logout: async () => {
-    const { accessToken } = useAuthStore.getState();
-    try {
-      await logoutApi(accessToken);
-    } finally {
-      set({
-        name: '',
-        authority: 'USER',
-        isLoggedIn: false,
-        accessToken: null,
-      });
+    {
+      name: 'auth-storage',
+      storage: createJSONStorage(() => localStorage),
     }
-  },
-
-  updateAccessToken: (token) =>
-    set({
-      accessToken: token,
-    }),
-}));
+  )
+);
