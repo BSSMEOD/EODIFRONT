@@ -5,7 +5,7 @@ import styled from '@emotion/styled';
 import BigProductList from '@components/common/ProductList/BigProductList';
 import SearchInput from '@components/common/Input/SearchInput';
 import Dropdown from '@components/common/Dropdown/Dropdown';
-import { CATEGORY } from '@/constants/product/constant';
+import { CATEGORY } from '@/constants/item/constant';
 import Flex from '@components/common/Flex/Flex';
 
 interface Filters {

@@ -4,14 +4,14 @@ import Image from 'next/image';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import { ROUTES } from '@/constants/common/constants';
-import { Product } from '@/types/product/client';
+import { Item } from '@/types/item/client';
 import Link from 'next/link';
-import { STATUS } from '@/constants/product/constant';
+import { STATUS } from '@/constants/item/constant';
 import font from '@styles/font';
 import { IconClose, IconEdit } from '@/icons';
 
 interface ProductListItem {
-  product: Product;
+  product: Item;
   size: 'small' | 'medium' | 'big';
   showStatus?: boolean;
   auth?: boolean;

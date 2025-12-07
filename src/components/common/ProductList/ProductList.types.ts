@@ -1,8 +1,8 @@
-import { Product } from '@/types/product/client';
+import { Item } from '@/types/item/client';
 
 export interface ProductListProps {
   title?: string;
-  productList: Product[];
+  productList: Item[];
   href?: string;
   auth?: boolean;
 }

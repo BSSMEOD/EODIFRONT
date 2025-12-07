@@ -7,7 +7,7 @@ import Text from '@components/common/Text/Text';
 import { Button } from '@components/common/Button/Button';
 import Input from '@components/common/Input/Input';
 import InputDropdown from '@components/common/Dropdown/InputDropdown';
-import { CATEGORY } from '@/constants/product/constant';
+import { CATEGORY } from '@/constants/item/constant';
 import { useForm } from '@app/register/register.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
 

@@ -1,6 +1,6 @@
-import { STATUS } from '@/constants/product/constant';
+import { STATUS } from '@/constants/item/constant';
 
-export interface Product {
+export interface Item {
   id: number;
   imageUrl: string;
   title: string;
