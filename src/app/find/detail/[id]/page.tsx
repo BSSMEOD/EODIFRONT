@@ -24,7 +24,7 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
       <FindDetailContent id={id} />
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={disposalProductListData?.content}
+        productList={disposalProductListData?.content || []}
       />
     </StyledProductDetailPage>
   );
