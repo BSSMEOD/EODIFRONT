@@ -17,3 +17,7 @@ export interface GetItemListRes {
   totalPages: number;
   isLast: boolean;
 }
+
+export interface PostItemClaimReq {
+  claim_reason: string;
+}

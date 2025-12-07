@@ -31,13 +31,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
 
   const handleClaimClick = () => {
     overlay.open(({ isOpen, close }) => (
-      <ClaimModal
-        isOpen={isOpen}
-        onClose={close}
-        onSubmit={(reason) => {
-          console.log('Claim submitted:', { productId: id, reason });
-        }}
-      />
+      <ClaimModal id={id} isOpen={isOpen} onClose={close} />
     ));
   };
 
