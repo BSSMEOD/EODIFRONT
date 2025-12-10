@@ -7,16 +7,22 @@ import {
   QueryClientProvider as EODIQueryClientProvider,
 } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { useApiError } from '@hooks/useApiError';
 
 interface QueryClientProviderProps {
   children: ReactNode;
 }
 
 const TanstackQueryProvider = ({ children }: QueryClientProviderProps) => {
+  const { handleError } = useApiError();
+
   const [queryClient] = useState(
     () =>
       new QueryClient({
         defaultOptions: {
+          mutations: {
+            onError: handleError,
+          },
           queries: {
             refetchOnWindowFocus: false,
           },
