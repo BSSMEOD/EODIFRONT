@@ -1,11 +1,11 @@
-import { Item } from '@/types/item/client';
+import { Item, Status } from '@/types/item/client';
 
 export type GetItemDetailRes = Omit<Item, 'status'>;
 
 export interface GetItemListParams {
   page?: number;
   size?: number;
-  status: string;
+  status: Status;
   placeId?: number;
 }
 
