@@ -10,14 +10,12 @@ const ERROR: Record<ErrorStatus, string> = {
 };
 
 export const useApiError = () => {
-  let errorMessage = '';
   const handleError = (error: unknown) => {
-    if (isAxiosError(error)) {
-      if (error.response) {
-        const status = error.response.status as ErrorStatus;
-        const message = error.response.data.message;
-        errorMessage = message ?? ERROR[status];
-      }
+    let errorMessage;
+    if (isAxiosError(error) && error.response) {
+      const status = error.response.status as ErrorStatus;
+      const message = error.response.data?.message;
+      errorMessage = message ?? ERROR[status];
     } else {
       errorMessage = '알 수 없는 오류가 발생하였습니다.';
     }
