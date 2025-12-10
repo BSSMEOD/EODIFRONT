@@ -19,5 +19,5 @@ export interface GetItemListRes {
 }
 
 export interface PostItemClaimReq {
-  claim_reason: string;
+  claimReason: string;
 }

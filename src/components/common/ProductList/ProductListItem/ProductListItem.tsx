@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { STATUS } from '@/constants/item/constant';
 import font from '@styles/font';
 import { IconClose, IconEdit } from '@/icons';
+import { formatDateDot } from '@utils/formatDate';
 
 interface ProductListItem {
   product: Item;
@@ -40,7 +41,7 @@ const ProductListItem = ({
             <Text variant="H2">{name}</Text>
           </Flex>
           <Text variant="p2" color={color.gray200}>
-            {foundAt}
+            {foundAt && formatDateDot(foundAt)}
           </Text>
           <Text variant="p2">{foundPlace}</Text>
         </Flex>
@@ -79,6 +80,10 @@ const StyledProductListItem = styled(Link)<StyledProductListItemProps>`
 
 const ProductImage = styled(Image)`
   border-radius: 12px;
+  object-fit: contain;
+  width: 98px;
+  height: 98px;
+  background: ${color.gray100};
 `;
 
 const statusColor = {

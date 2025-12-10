@@ -10,6 +10,7 @@ import { useOverlay } from '@toss/use-overlay';
 import ClaimModal from '@components/findDetail/ClaimModal/ClaimModal';
 import { useFindDetailQuery } from '@services/item/queries';
 import { useRouter } from 'next/navigation';
+import { formatDateKor } from '@/utils';
 
 interface FindDetailContentProps {
   id: number;
@@ -53,7 +54,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         <Flex direction="row" gap={20} align="center">
           <Text variant="p1">최초 발견 일시</Text>
           <Divider orientation="vertical" length={16} color={color.gray400} />
-          <Text variant="p1">{itemData?.foundAt}</Text>
+          <Text variant="p1">{formatDateKor(itemData?.foundAt)}</Text>
         </Flex>
         <Flex direction="row" gap={20} align="center">
           <Text variant="p1">최초 발견 장소</Text>

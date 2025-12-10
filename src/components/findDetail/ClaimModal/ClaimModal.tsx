@@ -17,16 +17,16 @@ interface ClaimModalProps {
 }
 
 const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
-  const [reason, setReason] = useState('');
+  const [claimReason, setClaimReason] = useState('');
   const outsideClickRef = useOutsideClick(onClose);
   const { mutate: itemClaimMutate } = useItemClaimMutation(id);
 
   const handleSubmit = () => {
-    if (!reason.trim()) {
+    if (!claimReason.trim()) {
       alert('이유를 작성해주세요.');
       return;
     }
-    itemClaimMutate({ claim_reason: reason });
+    itemClaimMutate({ claimReason });
     onClose();
   };
 
@@ -48,8 +48,8 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
           <TextArea
             height={178}
             placeholder="소유권을 주장하는 이유를 상세히 작성해주세요."
-            value={reason}
-            onChange={(e) => setReason(e.target.value)}
+            value={claimReason}
+            onChange={(e) => setClaimReason(e.target.value)}
           />
           <Button styleType="SECONDARY" onClick={handleSubmit}>
             <IconCheck width={24} height={24} />
