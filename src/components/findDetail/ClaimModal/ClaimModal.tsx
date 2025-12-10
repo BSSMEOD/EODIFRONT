@@ -26,8 +26,7 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
       alert('이유를 작성해주세요.');
       return;
     }
-    itemClaimMutate({ claimReason });
-    onClose();
+    itemClaimMutate({ claimReason }, { onSuccess: onClose });
   };
 
   return (
