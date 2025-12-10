@@ -9,6 +9,7 @@ import { useOutsideClick } from '@hooks/useOutsideClick';
 import { Button } from '@components/common/Button/Button';
 import TextArea from '@components/common/TextArea/TextArea';
 import { useItemClaimMutation } from '@services/item/mutations';
+import { toast } from 'react-toastify';
 
 interface ClaimModalProps {
   id: number;
@@ -23,7 +24,7 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
 
   const handleSubmit = () => {
     if (!claimReason.trim()) {
-      alert('이유를 작성해주세요.');
+      toast.warn('이유를 작성해주세요.');
       return;
     }
     itemClaimMutate({ claimReason }, { onSuccess: onClose });
