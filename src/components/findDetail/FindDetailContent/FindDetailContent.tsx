@@ -60,7 +60,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
           <Text variant="p1">최초 발견 장소</Text>
           <Divider orientation="vertical" length={16} color={color.gray400} />
           <Text variant="p1">
-            {itemData?.foundPlace}/{itemData?.foundPlaceDetail}
+            {itemData.foundPlace}/{itemData.foundPlaceDetail}
           </Text>
         </Flex>
         <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
