@@ -1,14 +1,10 @@
 'use client';
 
 import { useState, useMemo } from 'react';
-import DatePicker, { registerLocale } from 'react-datepicker';
-import { ko } from 'date-fns/locale';
 import { format, isSameDay } from 'date-fns';
 import 'react-datepicker/dist/react-datepicker.css';
 import CustomInput from '@components/common/Filter/FilterDateSelect/FilterDateCustomInput/FilterDateCustomInput';
-import { StyledDatePickerWrapper } from './FilterDateSelect.styles';
-
-registerLocale('ko', ko);
+import DateSelector from '@components/common/DateSelector/DateSelector';
 
 interface FilterDateSelectProps {
   startDate: Date | null;
@@ -40,29 +36,27 @@ const FilterDateSelect = ({
   };
 
   return (
-    <StyledDatePickerWrapper>
-      <DatePicker
-        locale="ko"
-        selected={startDate}
-        startDate={startDate}
-        endDate={endDate}
-        onChange={onChange}
-        selectsRange
-        customInput={
-          <CustomInput
-            text={displayText}
-            hasValue={!!startDate}
-            isOpen={isOpen}
-          />
-        }
-        onCalendarOpen={() => setIsOpen(true)}
-        onCalendarClose={() => setIsOpen(false)}
-        shouldCloseOnSelect={false}
-        dateFormat="yyyy.MM.dd"
-        popperPlacement="bottom-start"
-        renderDayContents={renderDayContents}
-      />
-    </StyledDatePickerWrapper>
+    <DateSelector
+      locale="ko"
+      selected={startDate}
+      startDate={startDate}
+      endDate={endDate}
+      onChange={onChange}
+      selectsRange
+      customInput={
+        <CustomInput
+          text={displayText}
+          hasValue={!!startDate}
+          isOpen={isOpen}
+        />
+      }
+      onCalendarOpen={() => setIsOpen(true)}
+      onCalendarClose={() => setIsOpen(false)}
+      shouldCloseOnSelect={false}
+      dateFormat="yyyy.MM.dd"
+      popperPlacement="bottom-start"
+      renderDayContents={renderDayContents}
+    />
   );
 };
 

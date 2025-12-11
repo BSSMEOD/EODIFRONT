@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
 
-export const StyledDatePickerWrapper = styled.div`
+export const StyledDateSelector = styled.div`
   .react-datepicker {
     border: none;
     border-radius: 12px;
