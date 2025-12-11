@@ -1,8 +1,14 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
+import { addPX } from '@/utils';
 
-export const StyledDateSelector = styled.div`
+export const StyledDateSelector = styled.div<{ width: string | number }>`
+  .react-datepicker-wrapper,
+  .react-datepicker__input-container {
+    width: ${({ width }) => addPX(width)};
+  }
+
   .react-datepicker {
     border: none;
     border-radius: 12px;

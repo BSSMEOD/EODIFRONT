@@ -8,12 +8,14 @@ import { StyledDateSelector } from './DateSelector.styles';
 
 registerLocale('ko', ko);
 
-type DateSelectorProps = DatePickerProps;
+type DateSelectorProps = DatePickerProps & {
+  width?: string;
+};
 
-const DateSelector = (props: DateSelectorProps) => {
+const DateSelector = ({ width = '100%', ...restProps }: DateSelectorProps) => {
   return (
-    <StyledDateSelector>
-      <DatePicker {...props} locale="ko" />
+    <StyledDateSelector width={width}>
+      <DatePicker {...restProps} locale="ko" />
     </StyledDateSelector>
   );
 };

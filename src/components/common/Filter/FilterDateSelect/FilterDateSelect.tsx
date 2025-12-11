@@ -37,6 +37,7 @@ const FilterDateSelect = ({
 
   return (
     <DateSelector
+      width="auto"
       locale="ko"
       selected={startDate}
       startDate={startDate}

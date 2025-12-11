@@ -10,6 +10,8 @@ import InputDropdown from '@components/common/Dropdown/InputDropdown';
 import { CATEGORY } from '@/constants/item/constant';
 import { useForm } from '@app/register/register.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
+import DateSelector from '@components/common/DateSelector/DateSelector';
+import { IconCalendar } from '@/icons/src/IconCalendar';
 
 const RegisterPage = () => {
   const { fileRef, form, handleFormChange, handleSubmit } = useForm();
@@ -29,6 +31,7 @@ const RegisterPage = () => {
             label="물품명"
             placeholder="물품명 입력"
             name="name"
+            value={form.name}
             onChange={handleFormChange}
           />
           <Input
@@ -37,12 +40,19 @@ const RegisterPage = () => {
             name="reporter"
             onChange={handleFormChange}
           />
-          <Input
-            label="습득 날짜"
-            placeholder="습득 날짜 선택"
-            type="date"
-            name="date"
-            onChange={handleFormChange}
+          <DateSelector
+            placeholderText="습득 날짜 선택"
+            selected={form.date}
+            onChange={(date) => handleFormChange(date, 'date')}
+            customInput={
+              <Input
+                label="습득 날짜"
+                name="date"
+                rightIcon={<IconCalendar width={24} height={24} />}
+              />
+            }
+            dateFormat="yyyy. MM. dd. "
+            popperPlacement="bottom-end"
           />
           <Input
             label="습득 장소"

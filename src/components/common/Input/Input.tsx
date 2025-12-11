@@ -3,10 +3,8 @@ import Flex from '@components/common/Flex/Flex';
 import font from '@styles/font';
 import color from '@styles/color';
 import { addPX } from '@utils/addPX';
-import { ko } from 'date-fns/locale';
-import DatePicker from 'react-datepicker';
-import { CSSProperties, InputHTMLAttributes } from 'react';
-import { IconCalendar } from '@/icons/src/IconCalendar';
+import { CSSProperties, InputHTMLAttributes, ReactNode, useMemo } from 'react';
+import Text from '@components/common/Text/Text';
 
 export interface InputProps extends Omit<
   InputHTMLAttributes<HTMLInputElement>,
@@ -17,8 +15,9 @@ export interface InputProps extends Omit<
   height?: CSSProperties['height'];
   label?: string;
   readonly?: boolean;
-  onChange: (value: string, name: string) => void;
+  onChange?: (value: string, name: string) => void;
   value?: string;
+  rightIcon?: ReactNode;
 }
 
 const Input = ({
@@ -30,6 +29,7 @@ const Input = ({
   label,
   placeholder,
   onChange,
+  rightIcon,
   ...restProps
 }: InputProps) => {
   const handleChange = (inputValue: string | Date | null) => {
@@ -43,22 +43,17 @@ const Input = ({
       updateValue = inputValue;
     }
 
-    onChange(updateValue, name);
+    onChange?.(updateValue, name);
   };
 
   return (
     <Flex direction="column" gap={8} width={addPX(width)}>
-      {!!label && <Label>{label}</Label>}
-      {type === 'date' ? (
-        <DatePicker
-          selected={value ? new Date(value) : null}
-          onChange={handleChange}
-          dateFormat="yyyy. MM. dd."
-          dateFormatCalendar="MM월 yyyy"
-          locale={ko}
-          icon={<IconCalendar />}
-        />
-      ) : (
+      {!!label && (
+        <Text variant="p4" color={color.gray400}>
+          {label}
+        </Text>
+      )}
+      <InputWrapper>
         <StyledInput
           type={type}
           height={addPX(height)}
@@ -68,25 +63,31 @@ const Input = ({
           data-placeholder={placeholder}
           {...restProps}
         />
-      )}
+        {!!rightIcon && rightIcon}
+      </InputWrapper>
     </Flex>
   );
 };
 
-const StyledInput = styled.input`
+const InputWrapper = styled.label`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  cursor: text;
   border: 1px solid ${color.gray500};
-  padding: 13px 20px;
+  padding: 14px 20px;
   border-radius: 8px;
-
-  &::placeholder {
-    ${font.p3};
-    color: ${color.gray300};
-  }
 `;
 
-const Label = styled.span`
-  ${font.p4};
-  color: ${color.gray400};
+const StyledInput = styled.input`
+  height: 24px;
+  flex: 1;
+  ${font.p2};
+
+  &::placeholder {
+    ${font.p2};
+    color: ${color.gray300};
+  }
 `;
 
 export default Input;
