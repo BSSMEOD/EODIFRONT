@@ -51,7 +51,7 @@ const RegisterPage = () => {
                 rightIcon={<IconCalendar width={24} height={24} />}
               />
             }
-            dateFormat="yyyy. MM. dd. "
+            dateFormat="yyyy. MM. dd."
             popperPlacement="bottom-end"
           />
           <Input
