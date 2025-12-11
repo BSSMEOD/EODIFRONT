@@ -3,7 +3,7 @@ import Flex from '@components/common/Flex/Flex';
 import font from '@styles/font';
 import color from '@styles/color';
 import { addPX } from '@utils/addPX';
-import { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
+import { InputHTMLAttributes, ReactNode } from 'react';
 import Text from '@components/common/Text/Text';
 
 export interface InputProps extends Omit<
@@ -11,8 +11,8 @@ export interface InputProps extends Omit<
   'onChange'
 > {
   name: string;
-  width?: CSSProperties['width'];
-  height?: CSSProperties['height'];
+  width?: number | string;
+  height?: number | string;
   label?: string;
   readonly?: boolean;
   onChange?: (value: string, name: string) => void;
@@ -53,8 +53,9 @@ const Input = ({
           {label}
         </Text>
       )}
-      <InputWrapper>
+      <InputWrapper height={addPX(height)} htmlFor={name}>
         <StyledInput
+          name={name}
           type={type}
           height={addPX(height)}
           placeholder={placeholder}
@@ -69,7 +70,8 @@ const Input = ({
   );
 };
 
-const InputWrapper = styled.label`
+const InputWrapper = styled.label<{ height: string }>`
+  height: ${(props) => props.height};
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -80,7 +82,6 @@ const InputWrapper = styled.label`
 `;
 
 const StyledInput = styled.input`
-  height: 24px;
   flex: 1;
   ${font.p2};
 
