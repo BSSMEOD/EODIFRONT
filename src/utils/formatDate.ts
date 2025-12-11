@@ -1,14 +1,14 @@
-import dayjs, { Dayjs } from 'dayjs';
+import { format } from 'date-fns';
 
-const toDayjs = (date: Dayjs | string) =>
-  typeof date === 'string' ? dayjs(date) : date;
+const toDate = (date: Date | string) =>
+  typeof date === 'string' ? new Date(date) : date;
 
-export const formatDateKor = (date: Dayjs | string) => {
-  const dayjsDate = toDayjs(date);
-  return dayjsDate.format('YYYY년 MM월 DD일');
+export const formatDateKor = (date: Date | string) => {
+  const parsed = toDate(date);
+  return format(parsed, 'yyyy년 MM월 dd일');
 };
 
-export const formatDateDot = (date: Dayjs | string) => {
-  const dayjsDate = toDayjs(date);
-  return dayjsDate.format('YYYY.MM.DD');
+export const formatDateDot = (date: Date | string) => {
+  const parsed = toDate(date);
+  return format(parsed, 'yyyy.MM.dd');
 };
