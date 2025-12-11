@@ -3,7 +3,7 @@ import Flex from '@components/common/Flex/Flex';
 import font from '@styles/font';
 import color from '@styles/color';
 import { addPX } from '@utils/addPX';
-import { CSSProperties, InputHTMLAttributes, ReactNode, useMemo } from 'react';
+import { CSSProperties, InputHTMLAttributes, ReactNode } from 'react';
 import Text from '@components/common/Text/Text';
 
 export interface InputProps extends Omit<
