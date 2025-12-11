@@ -1,7 +1,14 @@
-import { format } from 'date-fns';
+import { format, isValid } from 'date-fns';
 
-const toDate = (date: Date | string) =>
-  typeof date === 'string' ? new Date(date) : date;
+const toDate = (date: Date | string): Date => {
+  const parsed = typeof date === 'string' ? new Date(date) : date;
+
+  if (!isValid(parsed)) {
+    throw new Error(`유효하지 않은 날짜입니다: ${date}`);
+  }
+
+  return parsed;
+};
 
 export const formatDateKor = (date: Date | string) => {
   const parsed = toDate(date);
