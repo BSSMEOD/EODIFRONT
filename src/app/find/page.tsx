@@ -6,13 +6,13 @@ import color from '@styles/color';
 import Dropdown from '@components/common/Dropdown/Dropdown';
 import SearchInput from '@components/common/Input/SearchInput';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
-import { Product } from '@/types/product/client';
+import { Item } from '@/types/item/client';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import IconMinus from '@/icons/src/IconMinus';
 import Pagination from '@components/common/Pagination/Pagination';
 
 const FindPage = () => {
-  const allItems: Product[] = [
+  const allItems: Item[] = [
     {
       id: 1,
       title: '긱시크 안경',

@@ -2,15 +2,33 @@
 
 import React from 'react';
 import styled from '@emotion/styled';
-import Flex from '@components/common/Flex/Flex';
-import Image from 'next/image';
-import Text from '@components/common/Text/Text';
-import { Button } from '@components/common/Button/Button';
-import color from '@styles/color';
-import { Divider } from '@components/common/Divider/Divider';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
-import { useOverlay } from '@toss/use-overlay';
-import ClaimModal from '@components/findDetail/ClaimModal/ClaimModal';
+import FindDetailContent from '@components/findDetail/FindDetailContent/FindDetailContent';
+import { useItemListQuery } from '@services/item/queries';
+
+interface ProductDetailPageProps {
+  params: Promise<{
+    id: number;
+  }>;
+}
+
+const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
+  const { id } = React.use(params);
+  const { data: disposalProductListData } = useItemListQuery({
+    status: 'TO_BE_DISCARDED',
+    size: 5,
+  });
+
+  return (
+    <StyledProductDetailPage>
+      <FindDetailContent id={id} />
+      <SmallProductList
+        title="폐기 직전인 분실물"
+        productList={disposalProductListData?.content || []}
+      />
+    </StyledProductDetailPage>
+  );
+};
 
 const StyledProductDetailPage = styled.div`
   display: flex;
@@ -19,73 +37,5 @@ const StyledProductDetailPage = styled.div`
   align-items: center;
   padding: 46px;
 `;
-
-const ProductImage = styled(Image)`
-  border-radius: 12px;
-`;
-
-interface ProductDetailPageProps {
-  params: Promise<{
-    id: string;
-  }>;
-}
-
-const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
-  const { id } = React.use(params);
-  const { data: disposalProductListData } = { data: [] };
-  const overlay = useOverlay();
-
-  const handleClaimClick = () => {
-    overlay.open(({ isOpen, close }) => (
-      <ClaimModal
-        isOpen={isOpen}
-        onClose={close}
-        onSubmit={(reason) => {
-          console.log('Claim submitted:', { productId: id, reason });
-        }}
-      />
-    ));
-  };
-
-  return (
-    <StyledProductDetailPage>
-      <Flex direction="row" gap={50} align="flex-end">
-        <ProductImage width={400} height={400} src="" alt="상품 이미지" />
-        <Flex direction="column" gap={20} width={470}>
-          <Flex direction="column" gap={20}>
-            <Text variant="H2">테무 안경</Text>
-            <Flex direction="row" gap={20} align="center">
-              <Text variant="p1">최초 발견 일시</Text>
-              <Divider
-                orientation="vertical"
-                length={16}
-                color={color.gray400}
-              />
-              <Text variant="p1">2025년 6월 19일</Text>
-            </Flex>
-            <Flex direction="row" gap={20} align="center">
-              <Text variant="p1">최초 발견 장소</Text>
-              <Divider
-                orientation="vertical"
-                length={16}
-                color={color.gray400}
-              />
-              <Text variant="p1">기타/운동장</Text>
-            </Flex>
-          </Flex>
-          <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
-            <Text variant="H3" color={color.white}>
-              내 물건이에요!
-            </Text>
-          </Button>
-        </Flex>
-      </Flex>
-      <SmallProductList
-        title="폐기 직전인 분실물"
-        productList={disposalProductListData}
-      />
-    </StyledProductDetailPage>
-  );
-};
 
 export default ProductDetailPage;
