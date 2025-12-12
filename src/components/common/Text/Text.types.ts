@@ -21,7 +21,8 @@ export type AllowedHTMLElement =
   | 'h5'
   | 'p'
   | 'span'
-  | 'div';
+  | 'div'
+  | 'label';
 
 export interface TextProps extends React.HTMLAttributes<HTMLElement> {
   variant?: TextVariant;

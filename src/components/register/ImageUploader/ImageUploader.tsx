@@ -50,8 +50,9 @@ const StyledImageUploader = styled.label<{ hasPreview: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 375px;
-  height: 375px;
+  width: 40%;
+  min-width: 375px;
+  aspect-ratio: 1;
   border: 1px ${({ hasPreview }) => (hasPreview ? 'solid' : 'dashed')}
     ${color.gray300};
   background: ${color.gray100};
@@ -76,7 +77,7 @@ const HiddenInput = styled.input`
 `;
 
 const PreviewImage = styled(Image)`
-  object-fit: cover;
+  object-fit: contain;
   border-radius: 8px;
 `;
 
