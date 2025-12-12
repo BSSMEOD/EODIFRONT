@@ -22,8 +22,23 @@ export const useForm = () => {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
-  const handleFormChange = (value: string | Date | null, name: string) => {
-    setForm({ ...form, [name]: value });
+  const updateFormField = <K extends keyof Form>(name: K, value: Form[K]) => {
+    setForm((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    updateFormField(name as keyof Form, value as Form[keyof Form]);
+  };
+
+  const handleDropdownChange = (value: string, name: string) => {
+    updateFormField(name as keyof Form, value as Form[keyof Form]);
+  };
+
+  const handleDateChange = (date: Date | string | null) => {
+    const parsedDate =
+      typeof date === 'string' ? new Date(date) : (date as Date | null);
+    updateFormField('date', parsedDate);
   };
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -47,6 +62,8 @@ export const useForm = () => {
     form,
     selectedFile,
     handleFormChange,
+    handleDropdownChange,
+    handleDateChange,
     handleFileChange,
     clearFile,
     handleSubmit,

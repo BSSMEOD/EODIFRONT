@@ -1,41 +1,15 @@
 'use client';
 
-import { useState } from 'react';
 import styled from '@emotion/styled';
 import BigProductList from '@components/common/ProductList/BigProductList';
 import SearchInput from '@components/common/Input/SearchInput';
 import Dropdown from '@components/common/Dropdown/Dropdown';
 import { CATEGORY } from '@/constants/item/constant';
 import Flex from '@components/common/Flex/Flex';
-
-interface Filters {
-  search: string;
-  category: string;
-  time: string;
-  location: string;
-}
+import { useForm } from '@app/manage/manage.hooks';
 
 const ManagePage = () => {
-  const [filters, setFilters] = useState<Filters>({
-    search: '',
-    category: '',
-    time: '',
-    location: '',
-  });
-
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      search: e.target.value,
-    }));
-  };
-
-  const handleDropdownChange = (name: string) => (value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-  };
+  const { filters, handleInputChange, handleDropdownChange } = useForm();
 
   const categoryOptions = CATEGORY.map((category) => ({
     label: category,
@@ -51,63 +25,40 @@ const ManagePage = () => {
     { label: '강의실', value: 'classroom' },
   ];
 
-  const mockProducts = [
-    {
-      id: 1,
-      title: '긱시크 안경',
-      imageUrl: '',
-      date: '2025.06.19.',
-      location: '기타 / 운동장',
-      status: 'LOST' as const,
-    },
-    {
-      id: 2,
-      title: '검정 우산',
-      imageUrl: '',
-      date: '2025.06.19.',
-      location: '기타 / 운동장',
-      status: 'LOST' as const,
-    },
-    {
-      id: 3,
-      title: '무선 이어폰 (버즈2)',
-      imageUrl: '',
-      date: '2025.06.19.',
-      location: '기타 / 운동장',
-      status: 'FOUND' as const,
-    },
-  ];
-
   return (
     <StyledManagePage>
-      <SearchInput value={filters.search} onChange={handleSearchChange} />
+      <SearchInput
+        value={filters.search}
+        onChange={handleInputChange}
+        name="search"
+      />
       <Flex gap={12} align="center">
         <Dropdown
           data={categoryOptions}
-          onChange={handleDropdownChange('category')}
+          onChange={handleDropdownChange}
           name="category"
-          placeholder="물품"
+          placeholder="카테고리"
           value={filters.category}
-          width="100px"
+          width={120}
         />
         <Dropdown
           data={timeOptions}
-          onChange={handleDropdownChange('time')}
+          onChange={handleDropdownChange}
           name="time"
           placeholder="시간"
           value={filters.time}
-          width="100px"
+          width={100}
         />
         <Dropdown
           data={locationOptions}
-          onChange={handleDropdownChange('location')}
+          onChange={handleDropdownChange}
           name="location"
           placeholder="장소"
           value={filters.location}
-          width="100px"
+          width={100}
         />
       </Flex>
-      <BigProductList productList={mockProducts} auth />
+      <BigProductList productList={[]} auth />
     </StyledManagePage>
   );
 };

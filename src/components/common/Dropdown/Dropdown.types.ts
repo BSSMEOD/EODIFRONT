@@ -8,7 +8,7 @@ export interface Data {
 export interface DropdownProps {
   label?: string;
   data: Data[] | string[];
-  width?: CSSProperties['width'];
+  width?: string | number;
   value?: string;
   onChange: (value: string, name: string) => void;
   name: string;

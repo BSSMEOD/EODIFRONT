@@ -14,7 +14,14 @@ import DateSelector from '@components/common/DateSelector/DateSelector';
 import { IconCalendar } from '@/icons/src/IconCalendar';
 
 const RegisterPage = () => {
-  const { fileRef, form, handleFormChange, handleSubmit } = useForm();
+  const {
+    fileRef,
+    form,
+    handleFormChange,
+    handleDropdownChange,
+    handleDateChange,
+    handleSubmit,
+  } = useForm();
 
   return (
     <StyledRegisterPage>
@@ -43,7 +50,7 @@ const RegisterPage = () => {
           <DateSelector
             placeholderText="습득 날짜 선택"
             selected={form.date}
-            onChange={(date) => handleFormChange(date, 'date')}
+            onChange={handleDateChange}
             customInput={
               <Input
                 label="습득 날짜"
@@ -65,7 +72,7 @@ const RegisterPage = () => {
             placeholder="물품 카테고리 선택"
             value={form.category}
             data={CATEGORY}
-            onChange={handleFormChange}
+            onChange={handleDropdownChange}
             name="category"
           />
         </Flex>

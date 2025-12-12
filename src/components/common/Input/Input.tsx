@@ -3,20 +3,12 @@ import Flex from '@components/common/Flex/Flex';
 import font from '@styles/font';
 import color from '@styles/color';
 import { addPX } from '@utils/addPX';
-import { InputHTMLAttributes, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import Text from '@components/common/Text/Text';
+import { BaseInputProps } from '@components/common/Input/Input.types';
 
-export interface InputProps extends Omit<
-  InputHTMLAttributes<HTMLInputElement>,
-  'onChange'
-> {
-  name: string;
-  width?: number | string;
-  height?: number | string;
+export interface InputProps extends BaseInputProps {
   label?: string;
-  readonly?: boolean;
-  onChange?: (value: string, name: string) => void;
-  value?: string;
   rightIcon?: ReactNode;
 }
 
@@ -32,20 +24,6 @@ const Input = ({
   rightIcon,
   ...restProps
 }: InputProps) => {
-  const handleChange = (inputValue: string | Date | null) => {
-    let updateValue: string;
-
-    if (inputValue === null) {
-      updateValue = '';
-    } else if (inputValue instanceof Date) {
-      updateValue = inputValue.toString();
-    } else {
-      updateValue = inputValue;
-    }
-
-    onChange?.(updateValue, name);
-  };
-
   return (
     <Flex direction="column" gap={8} width={addPX(width)}>
       {!!label && (
@@ -60,7 +38,7 @@ const Input = ({
           height={addPX(height)}
           placeholder={placeholder}
           value={value}
-          onChange={(e) => handleChange(e.target.value)}
+          onChange={onChange}
           data-placeholder={placeholder}
           {...restProps}
         />

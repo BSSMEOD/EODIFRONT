@@ -1,5 +1,4 @@
-import type { CSSProperties } from 'react';
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import font from '@styles/font';
@@ -7,6 +6,7 @@ import color from '@styles/color';
 import IconBottomArrow from '@/icons/src/IconBottomArrow';
 import { DropdownProps } from '@components/common/Dropdown/Dropdown.types';
 import { useDropdown } from '@components/common/Dropdown/Dropdown.hooks';
+import { addPX } from '@/utils';
 
 const Dropdown = ({
   label,
@@ -30,7 +30,7 @@ const Dropdown = ({
   } = useDropdown(disabled, onChange, name, value, data);
 
   return (
-    <Container ref={dropdownRef} style={{ width }}>
+    <Container ref={dropdownRef} width={addPX(width)}>
       {label && <Label>{label}</Label>}
       <StyledDropdown
         onClick={handleDropdownClick}
@@ -73,7 +73,8 @@ const Dropdown = ({
 
 export default Dropdown;
 
-const Container = styled.div`
+const Container = styled.div<{ width: string }>`
+  width: ${({ width }) => width};
   position: relative;
 `;
 
