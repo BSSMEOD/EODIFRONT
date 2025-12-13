@@ -4,14 +4,15 @@ import Image from 'next/image';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import { ROUTES } from '@/constants/common/constants';
-import { Product } from '@/types/product/client';
+import { Item } from '@/types/item/client';
 import Link from 'next/link';
-import { STATUS } from '@/constants/product/constant';
+import { STATUS } from '@/constants/item/constant';
 import font from '@styles/font';
 import { IconClose, IconEdit } from '@/icons';
+import { formatDateDot } from '@utils/formatDate';
 
 interface ProductListItem {
-  product: Product;
+  product: Item;
   size: 'small' | 'medium' | 'big';
   showStatus?: boolean;
   auth?: boolean;
@@ -23,11 +24,11 @@ const ProductListItem = ({
   showStatus = false,
   auth = false,
 }: ProductListItem) => {
-  const { id, imageUrl, title, date, location, status } = product;
+  const { id, imageUrl, name, foundAt, foundPlace, status } = product;
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
-    const isConfirm = confirm(`${title} 분실물을 삭제하시겠습니까?`);
+    const isConfirm = confirm(`${name} 분실물을 삭제하시겠습니까?`);
   };
 
   return (
@@ -37,12 +38,12 @@ const ProductListItem = ({
         <Flex direction="column" justify="space-between" height="100%">
           <Flex direction="row" gap={5} align="center">
             {showStatus && <Status status={status}>{STATUS[status]}</Status>}
-            <Text variant="H2">{title}</Text>
+            <Text variant="H2">{name}</Text>
           </Flex>
           <Text variant="p2" color={color.gray200}>
-            {date}
+            {foundAt && formatDateDot(foundAt)}
           </Text>
-          <Text variant="p2">{location}</Text>
+          <Text variant="p2">{foundPlace}</Text>
         </Flex>
       </Flex>
       {auth && (
@@ -79,6 +80,10 @@ const StyledProductListItem = styled(Link)<StyledProductListItemProps>`
 
 const ProductImage = styled(Image)`
   border-radius: 12px;
+  object-fit: contain;
+  width: 98px;
+  height: 98px;
+  background: ${color.gray100};
 `;
 
 const statusColor = {

@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { CATEGORY } from '@/constants/product/constant';
+import { CATEGORY } from '@/constants/item/constant';
 
 interface Form {
   name: string;
