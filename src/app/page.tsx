@@ -27,7 +27,7 @@ const MainPage = () => {
   const isTeacher = authority === 'TEACHER';
   useEffect(() => {
     if (isTeacher) {
-      router.replace('/teacher-main');
+      router.replace(ROUTES.TEACHER);
     }
   }, [isLoggedIn, authority, router]);
 

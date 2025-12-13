@@ -1,4 +1,4 @@
-import DashboardRouteCard from '@components/teacher-main/DashboardRoute/DashboardRouteCard/DashboardRouteCard';
+import DashboardRouteCard from '@components/teacher/DashboardRoute/DashboardRouteCard/DashboardRouteCard';
 import { ROUTES } from '@/constants/common/constants';
 import styled from '@emotion/styled';
 import { useRouter } from 'next/navigation';
