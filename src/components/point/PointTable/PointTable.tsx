@@ -6,67 +6,99 @@ import color from '@styles/color';
 import IconConvert from '@/icons/src/IconConvert';
 import font from '@styles/font';
 import IconLink from '@/icons/src/IconLink';
-
-interface PointItem {
-  itemName: string;
-  studentName: string;
-  reporter: string;
-  status: 'paid' | 'unpaid';
-}
+import { useState } from 'react';
+import { giveReward } from '@/api/point/point';
+import type { PointItem } from '@/types/point/client';
+import { toast } from 'react-toastify';
 
 const PointTable = () => {
-  const pointData: PointItem[] = [
+  const [pointData, setPointData] = useState<PointItem[]>([
     {
+      itemId: 1,
+      studentId: 101,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'paid',
     },
     {
+      itemId: 2,
+      studentId: 102,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'paid',
     },
     {
+      itemId: 3,
+      studentId: 103,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'paid',
     },
     {
+      itemId: 4,
+      studentId: 104,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'unpaid',
     },
     {
+      itemId: 5,
+      studentId: 105,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'unpaid',
     },
     {
+      itemId: 6,
+      studentId: 106,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'unpaid',
     },
     {
+      itemId: 7,
+      studentId: 107,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'paid',
     },
     {
+      itemId: 8,
+      studentId: 108,
       itemName: '에어팟 3세대',
       studentName: '문소정',
       reporter: '조재민',
       status: 'unpaid',
     },
-  ];
+  ]);
 
-  const handleConvert = () => {};
+  const handleConvert = async (
+    itemId: number,
+    studentId: number,
+    index: number
+  ) => {
+    try {
+      await giveReward({ itemId, studentId });
+      setPointData((prevData) => {
+        const newData = [...prevData];
+        newData[index] = {
+          ...newData[index],
+          status: newData[index].status === 'paid' ? 'unpaid' : 'paid',
+        };
+        return newData;
+      });
+    } catch (error) {
+      toast.error('상점 지급에 실패했습니다.');
+    }
+  };
+
   return (
     <StyledPointTable>
       <TableWrapper>
@@ -117,7 +149,11 @@ const PointTable = () => {
               </StatusText>
             </Td>
             <Td width="20%" height={56}>
-              <ConvertButton onClick={handleConvert}>
+              <ConvertButton
+                onClick={() =>
+                  handleConvert(item.itemId, item.studentId, index)
+                }
+              >
                 <IconConvert width={24} height={24} />
               </ConvertButton>
             </Td>
@@ -138,11 +174,6 @@ const StyledPointTable = styled.div`
 const TableWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-`;
-
-const Row = styled.div`
-  display: flex;
   width: 100%;
 `;
 
