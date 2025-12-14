@@ -9,6 +9,7 @@ export const useDisposalHistory = () => {
     disposalDate: '',
     category: '',
     location: '',
+    date: '',
   });
 
   const handleDropdownChange = (name: string) => (value: string) => {

@@ -15,6 +15,7 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
     category: '',
     time: '',
     location: '',
+    date: '',
   });
 
   const [isDisposalModalOpen, setIsDisposalModalOpen] = useState(false);
