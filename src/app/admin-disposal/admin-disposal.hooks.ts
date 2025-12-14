@@ -13,7 +13,6 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
   const [filters, setFilters] = useState({
     disposalDate: '',
     category: '',
-    time: '',
     location: '',
     date: '',
   });
