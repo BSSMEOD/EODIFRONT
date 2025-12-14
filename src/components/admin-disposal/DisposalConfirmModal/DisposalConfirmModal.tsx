@@ -26,14 +26,15 @@ const DisposalConfirmModal = ({
   const [disposalReason, setDisposalReason] = useState('');
 
   useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
     if (isOpen) {
       document.body.style.overflow = 'hidden';
     } else {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = originalOverflow;
     }
 
     return () => {
-      document.body.style.overflow = 'unset';
+      document.body.style.overflow = originalOverflow;
     };
   }, [isOpen]);
 
