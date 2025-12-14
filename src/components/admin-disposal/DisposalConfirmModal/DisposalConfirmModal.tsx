@@ -40,10 +40,13 @@ const DisposalConfirmModal = ({
   if (!isOpen || !item) return null;
 
   const handleConfirm = () => {
-    if (disposalReason.trim()) {
-      onConfirm(item.id, disposalReason);
+    const trimmedReason = disposalReason.trim();
+    if (trimmedReason) {
+      onConfirm(item.id, trimmedReason);
       setDisposalReason('');
       onClose();
+    } else {
+      alert('폐기 사유를 입력해주세요.');
     }
   };
 

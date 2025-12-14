@@ -86,11 +86,14 @@ const ExtensionModal = ({
   };
 
   const handleConfirm = () => {
-    if (extensionReason.trim()) {
-      onConfirm(item.id, parseInt(extensionDays), extensionReason);
+    const trimmedReason = extensionReason.trim();
+    if (trimmedReason) {
+      onConfirm(item.id, parseInt(extensionDays), trimmedReason);
       setExtensionDays('7');
       setExtensionReason('');
       onClose();
+    } else {
+      alert('연장 사유를 입력해주세요.');
     }
   };
 
