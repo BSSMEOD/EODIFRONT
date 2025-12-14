@@ -15,8 +15,13 @@ import { useSubmitDisposalReasonMutation } from '@/services/disposal/mutations';
 import { useCalculateRemainDays } from '@/hooks/disposal/useCalculateRemainDays';
 import { toast } from 'react-toastify';
 import Text from '@components/common/Text/Text';
+import type { GetItemListParams } from '@/types/item/remote';
 
-const DisposalTable = () => {
+interface DisposalTableProps {
+  filters?: Omit<GetItemListParams, 'status'>;
+}
+
+const DisposalTable = ({ filters }: DisposalTableProps) => {
   const overlay = useOverlay();
   const router = useRouter();
   const { calculateRemainDays } = useCalculateRemainDays();
@@ -25,6 +30,7 @@ const DisposalTable = () => {
     status: 'TO_BE_DISCARDED',
     page: 1,
     size: 100,
+    ...filters,
   });
 
   const { mutate: submitReason } = useSubmitDisposalReasonMutation();
