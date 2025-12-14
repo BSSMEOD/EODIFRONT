@@ -10,6 +10,7 @@ const SearchInput = ({
   placeholder = '분실물의 이름, 잃어버린 위치 등을 검색해 분실물을 찾아보세요.',
   value,
   onChange,
+  name,
 }: SearchInputProps) => {
   return (
     <StyledSearchInput>
@@ -18,8 +19,14 @@ const SearchInput = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        name={name}
       />
-      <IconSearch />
+      <IconSearch
+        color={color.gray400}
+        cursor="pointer"
+        width={20}
+        height={20}
+      />
     </StyledSearchInput>
   );
 };

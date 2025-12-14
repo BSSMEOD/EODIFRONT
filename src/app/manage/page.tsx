@@ -7,23 +7,30 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import { CATEGORY } from '@/constants/item/constant';
 import Flex from '@components/common/Flex/Flex';
 import { useForm } from '@app/manage/manage.hooks';
+import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
+import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 
 const ManagePage = () => {
-  const { filters, handleInputChange, handleDropdownChange } = useForm();
+  const { filters, handleInputChange, handleDropdownChange, handleDateChange } =
+    useForm();
+
+  const { data: productListData } = useItemListQuery({
+    page: 0,
+    size: 10,
+    placeId: filters.placeId,
+  });
 
   const categoryOptions = CATEGORY.map((category) => ({
     label: category,
     value: category,
   }));
-  const timeOptions = [
-    { label: '최신순', value: 'latest' },
-    { label: '오래된순', value: 'oldest' },
-  ];
-  const locationOptions = [
-    { label: '운동장', value: 'playground' },
-    { label: '도서관', value: 'library' },
-    { label: '강의실', value: 'classroom' },
-  ];
+
+  const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: String(place.id),
+    })) ?? [];
 
   return (
     <StyledManagePage>
@@ -41,24 +48,21 @@ const ManagePage = () => {
           value={filters.category}
           width={120}
         />
-        <Dropdown
-          data={timeOptions}
-          onChange={handleDropdownChange}
-          name="time"
-          placeholder="시간"
-          value={filters.time}
-          width={100}
+        <FilterDateSelect
+          startDate={filters.startDate}
+          endDate={filters.endDate}
+          onChange={handleDateChange}
         />
         <Dropdown
-          data={locationOptions}
+          data={placeOptions}
           onChange={handleDropdownChange}
-          name="location"
+          name="placeId"
           placeholder="장소"
-          value={filters.location}
+          value={filters.placeId}
           width={100}
         />
       </Flex>
-      <BigProductList productList={[]} auth />
+      <BigProductList productList={productListData?.content || []} auth />
     </StyledManagePage>
   );
 };

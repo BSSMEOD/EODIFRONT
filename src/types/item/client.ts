@@ -9,3 +9,8 @@ export interface Item {
   foundPlaceDetail: string;
   status: Status;
 }
+
+export interface Place {
+  id: number;
+  name: string;
+}

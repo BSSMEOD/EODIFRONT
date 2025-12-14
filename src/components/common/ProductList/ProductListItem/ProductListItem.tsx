@@ -40,7 +40,7 @@ const ProductListItem = ({
             {showStatus && <Status status={status}>{STATUS[status]}</Status>}
             <Text variant="H2">{name}</Text>
           </Flex>
-          <Text variant="p2" color={color.gray200}>
+          <Text variant="p2" color={color.gray400}>
             {foundAt && formatDateDot(foundAt)}
           </Text>
           <Text variant="p2">{foundPlace}</Text>

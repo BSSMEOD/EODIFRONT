@@ -18,7 +18,6 @@ const Dropdown = ({
   placeholder = '선택해주세요',
   doubled,
   isError = false,
-  background = 'White',
   disabled = false,
 }: DropdownProps) => {
   const {
@@ -36,7 +35,6 @@ const Dropdown = ({
         onClick={handleDropdownClick}
         $isOpen={isOpen}
         $isError={isError}
-        $background={background}
         $disabled={disabled}
       >
         <ValueText $hasValue={!!value}>
@@ -87,7 +85,6 @@ const Label = styled.p`
 const StyledDropdown = styled.div<{
   $isOpen: boolean;
   $isError: boolean;
-  $background: 'White' | 'Gray';
   $disabled: boolean;
 }>`
   display: flex;
@@ -98,8 +95,7 @@ const StyledDropdown = styled.div<{
   padding: 0 16px;
   border-radius: 8px;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  background-color: ${({ $background }) =>
-    $background === 'White' ? color.white : color.gray100};
+  background-color: ${color.white};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
   ${({ $isOpen, $disabled, $isError }) => {
