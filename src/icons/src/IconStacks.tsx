@@ -1,11 +1,12 @@
 import { SVGProps } from 'react';
 
-const IconHistory = ({
+const IconStacks = ({
   color = '#999999',
   ...props
 }: SVGProps<SVGSVGElement>) => {
   return (
     <svg
+      {...props}
       xmlns="http://www.w3.org/2000/svg"
       width="16"
       height="16"
@@ -19,4 +20,4 @@ const IconHistory = ({
     </svg>
   );
 };
-export default IconHistory;
+export default IconStacks;
