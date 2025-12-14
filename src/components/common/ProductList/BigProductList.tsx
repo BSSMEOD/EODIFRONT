@@ -3,11 +3,17 @@ import React from 'react';
 import ProductListItem from './ProductListItem/ProductListItem';
 import { ProductListProps } from './ProductList.types';
 
-interface BigProductListProps extends ProductListProps {
-  disposalMode?: boolean;
-  onDisposal?: (id: number) => void;
-  onExtension?: (id: number) => void;
-}
+type BigProductListProps =
+  | (ProductListProps & {
+      disposalMode?: false;
+      onDisposal?: never;
+      onExtension?: never;
+    })
+  | (ProductListProps & {
+      disposalMode: true;
+      onDisposal: (id: number) => void;
+      onExtension: (id: number) => void;
+    });
 
 const BigProductList = ({
   productList,
