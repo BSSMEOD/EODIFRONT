@@ -6,26 +6,29 @@ import IconCheck from '@/icons/src/IconCheck';
 
 interface DisposalReasonModalProps {
   isOpen: boolean;
+  itemId: number;
   itemName: string;
   remainDays: number;
   onClose: () => void;
-  onSubmit: (reason: string) => void;
+  onSubmit: (itemId: number, reason: string, days: number) => void;
 }
 
 const DisposalReasonModal = ({
   isOpen,
+  itemId,
   itemName,
   remainDays,
   onClose,
   onSubmit,
 }: DisposalReasonModalProps) => {
   const [reason, setReason] = useState('');
+  const [days, setDays] = useState(0);
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
     if (reason.trim()) {
-      onSubmit(reason);
+      onSubmit(itemId, reason, days);
       onClose();
     }
   };
@@ -36,6 +39,17 @@ const DisposalReasonModal = ({
       <StyledModal onClick={(e) => e.stopPropagation()}>
         <Title>{itemName}의 보류 사유를 입력해주세요.</Title>
         <SubTitle>{remainDays}일 남았어요.</SubTitle>
+        <DaysInputWrapper>
+          <DaysLabel>보류 일수</DaysLabel>
+          <DaysInput
+            type="number"
+            min="1"
+            max="90"
+            value={days}
+            onChange={(e) => setDays(Number(e.target.value))}
+          />
+          <DaysUnit>일</DaysUnit>
+        </DaysInputWrapper>
         <TextAreaWrapper>
           <StyledTextArea
             placeholder="내용을 입력해주세요."
@@ -99,6 +113,40 @@ const SubTitle = styled.p`
   ${font.p2}
   color: ${color.gray500};
   margin-bottom: 24px;
+`;
+
+const DaysInputWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 24px;
+`;
+
+const DaysLabel = styled.label`
+  ${font.p1}
+  color: ${color.black};
+  font-weight: 600;
+`;
+
+const DaysInput = styled.input`
+  ${font.p1}
+  width: 80px;
+  height: 40px;
+  padding: 0 12px;
+  background-color: ${color.gray100};
+  border: none;
+  border-radius: 8px;
+  text-align: center;
+  outline: none;
+
+  &:focus {
+    outline: 2px solid ${color.primary};
+  }
+`;
+
+const DaysUnit = styled.span`
+  ${font.p1}
+  color: ${color.gray500};
 `;
 
 const TextAreaWrapper = styled.div`
