@@ -3,6 +3,7 @@ import color from '@styles/color';
 import Image from 'next/image';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
+import { Button } from '@components/common/Button/Button';
 import { ROUTES } from '@/constants/common/constants';
 import { Item } from '@/types/item/client';
 import Link from 'next/link';
@@ -12,10 +13,13 @@ import { IconClose, IconEdit } from '@/icons';
 import { formatDateDot } from '@utils/formatDate';
 
 interface ProductListItem {
-  product: Item;
+  product: Item & { daysToDisposal?: number };
   size: 'small' | 'medium' | 'big';
   showStatus?: boolean;
   auth?: boolean;
+  disposalMode?: boolean;
+  onDisposal?: (id: number) => void;
+  onExtension?: (id: number) => void;
 }
 
 const ProductListItem = ({
@@ -23,16 +27,20 @@ const ProductListItem = ({
   size,
   showStatus = false,
   auth = false,
+  disposalMode = false,
+  onDisposal,
+  onExtension,
 }: ProductListItem) => {
-  const { id, imageUrl, name, foundAt, foundPlace, status } = product;
+  const { id, imageUrl, name, foundAt, foundPlace, status, daysToDisposal } =
+    product;
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
     const isConfirm = confirm(`${name} 분실물을 삭제하시겠습니까?`);
   };
 
-  return (
-    <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
+  const itemContent = (
+    <>
       <Flex direction="row" gap={20} align="center">
         <ProductImage src={imageUrl} alt="분실물 사진" width={98} height={98} />
         <Flex direction="column" justify="space-between" height="100%">
@@ -46,14 +54,50 @@ const ProductListItem = ({
           <Text variant="p2">{foundPlace}</Text>
         </Flex>
       </Flex>
-      {auth && (
-        <Flex>
-          <Link href={`/edit/${id}`}>
-            <IconEdit />
-          </Link>
-          <IconClose onClick={handleDelete} />
+      {disposalMode && daysToDisposal !== undefined ? (
+        <Flex direction="column" justify="center">
+          <Text
+            variant="p1"
+            color={daysToDisposal <= 3 ? '#eb0101' : 'black'}
+            style={{ textAlign: 'right' }}
+          >
+            폐기까지 D-{daysToDisposal}
+          </Text>
+          <Flex gap={4}>
+            <Button
+              styleType="GHOST"
+              size="small"
+              onClick={() => onDisposal?.(id)}
+            >
+              폐기처리
+            </Button>
+            <Button
+              styleType="GHOST"
+              size="small"
+              onClick={() => onExtension?.(id)}
+            >
+              기간연장
+            </Button>
+          </Flex>
         </Flex>
+      ) : (
+        auth && (
+          <Flex>
+            <Link href={`/edit/${id}`}>
+              <IconEdit />
+            </Link>
+            <IconClose onClick={handleDelete} />
+          </Flex>
+        )
       )}
+    </>
+  );
+
+  return disposalMode ? (
+    <StyledProductListDiv size={size}>{itemContent}</StyledProductListDiv>
+  ) : (
+    <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
+      {itemContent}
     </StyledProductListItem>
   );
 };
@@ -69,6 +113,16 @@ interface StyledProductListItemProps {
 }
 
 const StyledProductListItem = styled(Link)<StyledProductListItemProps>`
+  width: ${({ size }) => productSize[size]};
+  flex-shrink: 0;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  border: ${color.gray200} 1px solid;
+  border-radius: 8px;
+`;
+
+const StyledProductListDiv = styled.div<StyledProductListItemProps>`
   width: ${({ size }) => productSize[size]};
   flex-shrink: 0;
   padding: 12px;

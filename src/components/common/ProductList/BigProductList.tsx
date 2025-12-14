@@ -3,7 +3,19 @@ import React from 'react';
 import ProductListItem from './ProductListItem/ProductListItem';
 import { ProductListProps } from './ProductList.types';
 
-const BigProductList = ({ productList, auth = false }: ProductListProps) => {
+interface BigProductListProps extends ProductListProps {
+  disposalMode?: boolean;
+  onDisposal?: (id: number) => void;
+  onExtension?: (id: number) => void;
+}
+
+const BigProductList = ({
+  productList,
+  auth = false,
+  disposalMode = false,
+  onDisposal,
+  onExtension,
+}: BigProductListProps) => {
   return (
     <Flex direction="column" gap={20} width="100%">
       {productList?.map((product) => (
@@ -11,8 +23,11 @@ const BigProductList = ({ productList, auth = false }: ProductListProps) => {
           key={`product-${product.id}`}
           product={product}
           size="big"
-          showStatus={true}
+          showStatus={!disposalMode}
           auth={auth}
+          disposalMode={disposalMode}
+          onDisposal={onDisposal}
+          onExtension={onExtension}
         />
       ))}
     </Flex>
