@@ -58,7 +58,7 @@ const ProductListItem = ({
         <Flex direction="column" justify="center">
           <Text
             variant="p1"
-            color={daysToDisposal <= 3 ? color.redAlert : 'black'}
+            color={daysToDisposal <= 3 ? color.red : 'black'}
             style={{ textAlign: 'right' }}
           >
             폐기까지 D-{daysToDisposal}
