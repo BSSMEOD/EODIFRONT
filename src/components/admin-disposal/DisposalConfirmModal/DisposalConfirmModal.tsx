@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
@@ -24,17 +24,30 @@ const DisposalConfirmModal = ({
   onConfirm,
 }: DisposalConfirmModalProps) => {
   const [disposalReason, setDisposalReason] = useState('');
+  const originalOverflowRef = useRef<string | null>(null);
+  const isOverflowSetByModalRef = useRef(false);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
     if (isOpen) {
+      if (originalOverflowRef.current === null) {
+        originalOverflowRef.current = document.body.style.overflow;
+      }
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = originalOverflow;
+      isOverflowSetByModalRef.current = true;
     }
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      if (
+        isOverflowSetByModalRef.current &&
+        document.body.style.overflow === 'hidden'
+      ) {
+        document.body.style.overflow = originalOverflowRef.current || '';
+      }
+
+      if (!isOpen) {
+        originalOverflowRef.current = null;
+        isOverflowSetByModalRef.current = false;
+      }
     };
   }, [isOpen]);
 
