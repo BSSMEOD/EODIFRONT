@@ -70,7 +70,6 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
   };
 
   const handleDisposalConfirm = (id: number, reason: string) => {
-    console.log('폐기처리:', id, '사유:', reason);
     setIsDisposalModalOpen(false);
     setSelectedItem(null);
   };
@@ -80,7 +79,6 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
     extensionDays: number,
     reason: string
   ) => {
-    console.log('기간연장:', id, '일수:', extensionDays, '사유:', reason);
     setIsExtensionModalOpen(false);
     setSelectedItem(null);
   };
