@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
@@ -26,17 +26,29 @@ const ExtensionModal = ({
 }: ExtensionModalProps) => {
   const [extensionDays, setExtensionDays] = useState('7');
   const [extensionReason, setExtensionReason] = useState('');
+  const originalOverflowRef = useRef<string | null>(null);
+  const isOverflowSetByModalRef = useRef(false);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
     if (isOpen) {
+      if (originalOverflowRef.current === null) {
+        originalOverflowRef.current = document.body.style.overflow;
+      }
       document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = originalOverflow;
+      isOverflowSetByModalRef.current = true;
     }
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      if (
+        isOverflowSetByModalRef.current &&
+        document.body.style.overflow === 'hidden'
+      ) {
+        document.body.style.overflow = originalOverflowRef.current || '';
+      }
+      if (!isOpen) {
+        originalOverflowRef.current = null;
+        isOverflowSetByModalRef.current = false;
+      }
     };
   }, [isOpen]);
 
@@ -48,13 +60,9 @@ const ExtensionModal = ({
     { label: '30일', value: '30' },
   ];
 
-  // 현재 폐기 예정일 계산
-  const getCurrentDisposalDate = () => {
-    const today = new Date();
-    const currentDisposalDate = new Date(
-      today.getTime() + item.daysToDisposal * 24 * 60 * 60 * 1000
-    );
-    return currentDisposalDate
+  // 공통 유틸 함수들
+  const formatDateToKorean = (date: Date) => {
+    return date
       .toLocaleDateString('ko-KR', {
         year: 'numeric',
         month: '2-digit',
@@ -64,26 +72,28 @@ const ExtensionModal = ({
       .replace(/\.$/, '');
   };
 
+  const calculateDisposalDate = (
+    baseDaysFromToday: number,
+    additionalDays = 0
+  ) => {
+    const today = new Date();
+    const totalDays = baseDaysFromToday + additionalDays;
+    return new Date(today.getTime() + totalDays * 24 * 60 * 60 * 1000);
+  };
+
+  // 현재 폐기 예정일 계산
+  const getCurrentDisposalDate = () => {
+    const currentDisposalDate = calculateDisposalDate(item.daysToDisposal);
+    return formatDateToKorean(currentDisposalDate);
+  };
+
   // 새로운 폐기 예정일 계산
   const calculateNewDate = () => {
-    const today = new Date();
-    // 현재 폐기 예정일 = 오늘 + daysToDisposal
-    const currentDisposalDate = new Date(
-      today.getTime() + item.daysToDisposal * 24 * 60 * 60 * 1000
+    const newDisposalDate = calculateDisposalDate(
+      item.daysToDisposal,
+      parseInt(extensionDays)
     );
-    // 새 폐기 예정일 = 현재 폐기 예정일 + 연장 일수
-    const newDate = new Date(
-      currentDisposalDate.getTime() +
-        parseInt(extensionDays) * 24 * 60 * 60 * 1000
-    );
-    return newDate
-      .toLocaleDateString('ko-KR', {
-        year: 'numeric',
-        month: '2-digit',
-        day: '2-digit',
-      })
-      .replace(/\. /g, '.')
-      .replace(/\.$/, '');
+    return formatDateToKorean(newDisposalDate);
   };
 
   const handleConfirm = () => {
