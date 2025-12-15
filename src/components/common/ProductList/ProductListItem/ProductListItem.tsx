@@ -93,7 +93,7 @@ const ProductListItem = ({
     </>
   );
 
-  return disposalMode ? (
+  return disposalMode || auth ? (
     <StyledProductListDiv size={size}>{itemContent}</StyledProductListDiv>
   ) : (
     <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
