@@ -66,15 +66,23 @@ export const getButtonStyle = {
   `,
   GHOST: (outlined: boolean, size: ButtonSize) => css`
     background-color: ${color.white};
-    color: ${color.gray400};
+    color: ${color.black};
     ${getSizeStyle(size)};
-    border: 1px solid ${color.gray300};
+    border: 0.5px solid ${color.gray200};
+
+    &:hover {
+      background-color: ${color.gray100};
+    }
   `,
   GHOST_SECONDARY: (outlined: boolean, size: ButtonSize) => css`
     background-color: ${color.white};
     color: ${color.secondary};
     ${getSizeStyle(size)};
     border: 1px solid ${color.secondary};
+
+    &:hover {
+      background-color: ${color.gray100};
+    }
   `,
   GHOST_DANGER: (outlined: boolean, size: ButtonSize) => css`
     background-color: ${color.white};

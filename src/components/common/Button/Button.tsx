@@ -5,6 +5,7 @@ import type { ButtonSize, ButtonStyleType } from './Button.type';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;
+  size?: ButtonSize;
   outlined?: boolean;
   size?: ButtonSize;
   width?: CSSProperties['width'];
@@ -14,6 +15,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = (props: ButtonProps) => {
   const {
     styleType = 'PRIMARY',
+    size = 'medium',
     outlined = false,
     size = 'medium',
     width = 'auto',
@@ -34,6 +36,7 @@ export const Button = (props: ButtonProps) => {
     border: none;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
+    white-space: nowrap;
     width: ${widthValue};
     height: ${heightValue};
 
