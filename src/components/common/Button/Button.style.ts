@@ -86,9 +86,9 @@ export const getButtonStyle = {
   `,
   GHOST_DANGER: (outlined: boolean, size: ButtonSize) => css`
     background-color: ${color.white};
-    color: ${color.secondary};
+    color: ${color.red};
     ${getSizeStyle(size)};
-    border: 1px solid ${color.secondary};
+    border: 1px solid ${color.red};
 
     &:hover {
       background-color: ${color.red};
