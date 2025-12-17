@@ -1,11 +1,12 @@
 import { css } from '@emotion/react';
 import type { ButtonHTMLAttributes, CSSProperties } from 'react';
 import { getButtonStyle } from './Button.style';
-import type { ButtonStyleType } from './Button.type';
+import type { ButtonSize, ButtonStyleType } from './Button.type';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;
   outlined?: boolean;
+  size?: ButtonSize;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
 }
@@ -14,6 +15,7 @@ export const Button = (props: ButtonProps) => {
   const {
     styleType = 'PRIMARY',
     outlined = false,
+    size = 'medium',
     width = 'auto',
     height = 'auto',
     children,
@@ -35,7 +37,7 @@ export const Button = (props: ButtonProps) => {
     width: ${widthValue};
     height: ${heightValue};
 
-    ${getButtonStyle[styleType](outlined)}
+    ${getButtonStyle[styleType](outlined, size)}
   `;
 
   return (

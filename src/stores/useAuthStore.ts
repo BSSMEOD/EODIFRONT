@@ -17,7 +17,7 @@ export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
       name: '',
-      authority: 'USER',
+      authority: 'ADMIN',
       isLoggedIn: false,
       accessToken: null,
 
@@ -38,7 +38,7 @@ export const useAuthStore = create<AuthState>()(
           Storage.removeItem(TOKEN.ACCESS);
           set({
             name: '',
-            authority: 'USER',
+            authority: 'ADMIN',
             isLoggedIn: false,
             accessToken: null,
           });

@@ -10,12 +10,20 @@ import { STATUS } from '@/constants/item/constant';
 import font from '@styles/font';
 import { IconClose, IconEdit } from '@/icons';
 import { formatDateDot } from '@utils/formatDate';
+import { Button } from '@components/common/Button/Button';
 
 interface ProductListItem {
-  product: Item;
+  product: Item & { daysToDisposal?: number; requestMessage?: string };
   size: 'small' | 'medium' | 'big';
   showStatus?: boolean;
   auth?: boolean;
+  disposalMode?: boolean;
+  recallMode?: boolean;
+  isRejectModalOpen?: boolean;
+  onDisposal?: (id: number) => void;
+  onExtension?: (id: number) => void;
+  onApprove?: (id: number) => void;
+  onReject?: (id: number) => void;
 }
 
 const ProductListItem = ({
@@ -23,37 +31,116 @@ const ProductListItem = ({
   size,
   showStatus = false,
   auth = false,
+  disposalMode = false,
+  recallMode = false,
+  isRejectModalOpen = false,
+  onDisposal,
+  onExtension,
+  onApprove,
+  onReject,
 }: ProductListItem) => {
-  const { id, imageUrl, name, foundAt, foundPlace, status } = product;
+  const {
+    id,
+    imageUrl,
+    name,
+    foundAt,
+    foundPlace,
+    status,
+    daysToDisposal,
+    requestMessage,
+  } = product;
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
     const isConfirm = confirm(`${name} 분실물을 삭제하시겠습니까?`);
   };
 
-  return (
-    <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
+  const handleReject = () => {
+    onReject?.(id);
+  };
+
+  const itemContent = (
+    <>
       <Flex direction="row" gap={20} align="center">
         <ProductImage src={imageUrl} alt="분실물 사진" width={98} height={98} />
-        <Flex direction="column" justify="space-between" height="100%">
+        <InfoSection $recallMode={recallMode}>
           <Flex direction="row" gap={5} align="center">
             {showStatus && <Status status={status}>{STATUS[status]}</Status>}
             <Text variant="H2">{name}</Text>
           </Flex>
-          <Text variant="p2" color={color.gray200}>
-            {foundAt && formatDateDot(foundAt)}
-          </Text>
-          <Text variant="p2">{foundPlace}</Text>
-        </Flex>
+          {recallMode && requestMessage ? (
+            <Text variant="p1">{requestMessage}</Text>
+          ) : (
+            <>
+              <Text variant="p2" color={color.gray200}>
+                {foundAt && formatDateDot(foundAt)}
+              </Text>
+              <Text variant="p2">{foundPlace}</Text>
+            </>
+          )}
+        </InfoSection>
       </Flex>
-      {auth && (
-        <Flex>
-          <Link href={`/edit/${id}`}>
-            <IconEdit />
-          </Link>
-          <IconClose onClick={handleDelete} />
+      {disposalMode && daysToDisposal !== undefined ? (
+        <Flex direction="column" justify="center">
+          <Text
+            variant="p1"
+            color={daysToDisposal <= 3 ? color.red : 'black'}
+            style={{ textAlign: 'right' }}
+          >
+            폐기까지 D-{daysToDisposal}
+          </Text>
+          <Flex gap={4}>
+            <Button
+              styleType="GHOST"
+              size="small"
+              onClick={() => onDisposal?.(id)}
+            >
+              폐기처리
+            </Button>
+            <Button
+              styleType="GHOST"
+              size="small"
+              onClick={() => onExtension?.(id)}
+            >
+              기간연장
+            </Button>
+          </Flex>
         </Flex>
+      ) : recallMode ? (
+        <Flex gap={10} align="center">
+          <Button
+            styleType={isRejectModalOpen ? 'DANGER' : 'GHOST_DANGER'}
+            size="compact"
+            onClick={handleReject}
+          >
+            반려
+          </Button>
+          <Button
+            styleType="SECONDARY"
+            size="compact"
+            onClick={() => onApprove?.(id)}
+          >
+            승인
+          </Button>
+        </Flex>
+      ) : (
+        auth && (
+          <Flex>
+            <Link href={`/edit/${id}`}>
+              <IconEdit />
+            </Link>
+            <IconClose onClick={handleDelete} />
+          </Flex>
+        )
       )}
+    </>
+  );
+
+  return disposalMode || auth || recallMode ? (
+    <StyledProductListDiv size={size}>{itemContent}</StyledProductListDiv>
+  ) : (
+    <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
+      {itemContent}
     </StyledProductListItem>
   );
 };
@@ -78,12 +165,33 @@ const StyledProductListItem = styled(Link)<StyledProductListItemProps>`
   border-radius: 8px;
 `;
 
+const StyledProductListDiv = styled.div<StyledProductListItemProps>`
+  width: ${({ size }) => productSize[size]};
+  flex-shrink: 0;
+  padding: 12px;
+  display: flex;
+  justify-content: space-between;
+  border: ${color.gray200} 1px solid;
+  border-radius: 8px;
+`;
+
 const ProductImage = styled(Image)`
   border-radius: 12px;
   object-fit: contain;
   width: 98px;
   height: 98px;
   background: ${color.gray100};
+`;
+
+const InfoSection = styled.div<{ $recallMode?: boolean }>`
+  display: flex;
+  flex-direction: column;
+  justify-content: ${({ $recallMode }) =>
+    $recallMode ? 'flex-start' : 'space-between'};
+  height: 100%;
+  flex: 1;
+  min-width: 0;
+  gap: 5px;
 `;
 
 const statusColor = {
