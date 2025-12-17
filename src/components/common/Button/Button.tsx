@@ -7,7 +7,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;
   size?: ButtonSize;
   outlined?: boolean;
-  size?: ButtonSize;
   width?: CSSProperties['width'];
   height?: CSSProperties['height'];
 }
@@ -17,7 +16,6 @@ export const Button = (props: ButtonProps) => {
     styleType = 'PRIMARY',
     size = 'medium',
     outlined = false,
-    size = 'medium',
     width = 'auto',
     height = 'auto',
     children,
