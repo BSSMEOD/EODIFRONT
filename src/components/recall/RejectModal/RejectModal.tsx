@@ -26,17 +26,16 @@ const RejectModal = ({
 
   useEffect(() => {
     if (isOpen && textareaRef.current) {
-      // 모달이 열릴 때 애니메이션 등을 고려하여 약간의 딜레이를 줄 수 있음
-      setTimeout(() => {
-        textareaRef.current?.focus();
-      }, 50);
+      textareaRef.current.focus();
     }
   }, [isOpen]);
 
   const handleConfirm = () => {
+    if (!item) return;
+
     const trimmedReason = rejectReason.trim();
     if (trimmedReason) {
-      onConfirm(item!.id, trimmedReason);
+      onConfirm(item.id, trimmedReason);
       setRejectReason('');
       setIsError(false);
       onClose();
