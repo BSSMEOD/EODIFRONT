@@ -101,10 +101,5 @@ export const getButtonStyle = {
     color: ${color.white};
     ${getSizeStyle(size)};
     border: 1px solid ${color.red};
-
-    &:hover {
-      background-color: ${color.red};
-      color: ${color.white};
-    }
   `,
 };
