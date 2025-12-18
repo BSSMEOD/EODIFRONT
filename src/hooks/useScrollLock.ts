@@ -11,6 +11,15 @@ export const useScrollLock = (isOpen: boolean) => {
       }
       document.body.style.overflow = 'hidden';
       isOverflowSetByModalRef.current = true;
+    } else {
+      if (
+        isOverflowSetByModalRef.current &&
+        document.body.style.overflow === 'hidden'
+      ) {
+        document.body.style.overflow = originalOverflowRef.current || '';
+      }
+      originalOverflowRef.current = null;
+      isOverflowSetByModalRef.current = false;
     }
 
     return () => {
@@ -19,11 +28,6 @@ export const useScrollLock = (isOpen: boolean) => {
         document.body.style.overflow === 'hidden'
       ) {
         document.body.style.overflow = originalOverflowRef.current || '';
-      }
-
-      if (!isOpen) {
-        originalOverflowRef.current = null;
-        isOverflowSetByModalRef.current = false;
       }
     };
   }, [isOpen]);
