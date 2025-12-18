@@ -1,8 +1,8 @@
 'use client';
 
 import styled from '@emotion/styled';
+import Flex from '@components/common/Flex/Flex';
 import Dropdown from '@components/common/Dropdown/Dropdown';
-
 import { useState } from 'react';
 import RecallRequestList from '@components/recall/RecallRequestList/RecallRequestList';
 
@@ -16,7 +16,7 @@ const RecallPage = () => {
 
   return (
     <StyledRecallPage>
-      <FilterWrapper>
+      <Flex align="center" gap={12} wrap="wrap">
         <Dropdown
           name="sort"
           data={sortOptions}
@@ -25,7 +25,7 @@ const RecallPage = () => {
           placeholder="최신순"
           width="120px"
         />
-      </FilterWrapper>
+      </Flex>
 
       <RecallRequestList />
     </StyledRecallPage>
@@ -40,11 +40,4 @@ const StyledRecallPage = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
-
-const FilterWrapper = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
 `;
