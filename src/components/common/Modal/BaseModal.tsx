@@ -1,11 +1,14 @@
-import { useEffect, useRef, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
+import type { ButtonStyleType } from '@components/common/Button/Button.type';
 import Text from '@components/common/Text/Text';
 import color from '@styles/color';
 import { IconClose } from '@/icons/src/IconClose';
 import IconCheck from '@/icons/src/IconCheck';
+import { useScrollLock } from '@/hooks/useScrollLock';
+import { useModalKeyboard } from '@/hooks/useModalKeyboard';
 
 interface BaseModalProps {
   isOpen: boolean;
@@ -15,7 +18,8 @@ interface BaseModalProps {
   cancelText?: string;
   width?: string;
   children: ReactNode;
-  confirmButtonType?: 'SECONDARY' | 'GHOST_DANGER';
+  confirmButtonType?: ButtonStyleType;
+  titleId?: string;
 }
 
 const BaseModal = ({
@@ -27,39 +31,22 @@ const BaseModal = ({
   width = '412px',
   children,
   confirmButtonType = 'SECONDARY',
+  titleId,
 }: BaseModalProps) => {
-  const originalOverflowRef = useRef<string | null>(null);
-  const isOverflowSetByModalRef = useRef(false);
-
-  useEffect(() => {
-    if (isOpen) {
-      if (originalOverflowRef.current === null) {
-        originalOverflowRef.current = document.body.style.overflow;
-      }
-      document.body.style.overflow = 'hidden';
-      isOverflowSetByModalRef.current = true;
-    }
-
-    return () => {
-      if (
-        isOverflowSetByModalRef.current &&
-        document.body.style.overflow === 'hidden'
-      ) {
-        document.body.style.overflow = originalOverflowRef.current || '';
-      }
-
-      if (!isOpen) {
-        originalOverflowRef.current = null;
-        isOverflowSetByModalRef.current = false;
-      }
-    };
-  }, [isOpen]);
+  useScrollLock(isOpen);
+  useModalKeyboard(isOpen, onClose);
 
   if (!isOpen) return null;
 
   return (
     <ModalOverlay onClick={onClose}>
-      <ModalContent onClick={(e) => e.stopPropagation()} width={width}>
+      <ModalContent
+        onClick={(e) => e.stopPropagation()}
+        width={width}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+      >
         <Flex direction="column" gap={10}>
           {children}
 
@@ -89,7 +76,6 @@ const BaseModal = ({
     </ModalOverlay>
   );
 };
-
 const ModalOverlay = styled.div`
   position: fixed;
   top: 0;
