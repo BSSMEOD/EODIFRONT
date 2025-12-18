@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Flex from '@components/common/Flex/Flex';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import RejectModal from '../RejectModal/RejectModal';
+import ApproveModal from '../ApproveModal/ApproveModal';
 import { Item } from '@/types/item/client';
 import { toast } from 'react-toastify';
 
@@ -9,7 +10,7 @@ const mockRecallRequests = [
   {
     id: 1,
     name: '제 우산입니다.',
-    requestMessage: '안녕하세요 제 물건이예요 돌려주세요',
+    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
     imageUrl: '',
     foundAt: '',
     foundPlace: '',
@@ -19,7 +20,7 @@ const mockRecallRequests = [
   {
     id: 2,
     name: '제 버즈입니다.',
-    requestMessage: '안녕하세요 제 물건이예요 돌려주세요',
+    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
     imageUrl: '',
     foundAt: '',
     foundPlace: '',
@@ -29,7 +30,7 @@ const mockRecallRequests = [
   {
     id: 3,
     name: '제 안경입니다.',
-    requestMessage: '안녕하세요 제 물건이예요 돌려주세요',
+    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
     imageUrl: '',
     foundAt: '',
     foundPlace: '',
@@ -39,7 +40,7 @@ const mockRecallRequests = [
   {
     id: 4,
     name: '제 우산입니다.',
-    requestMessage: '안녕하세요 제 물건이예요 돌려주세요',
+    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
     imageUrl: '',
     foundAt: '',
     foundPlace: '',
@@ -49,7 +50,7 @@ const mockRecallRequests = [
   {
     id: 5,
     name: '제 버즈입니다.',
-    requestMessage: '안녕하세요 제 물건이예요 돌려주세요',
+    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
     imageUrl: '',
     foundAt: '',
     foundPlace: '',
@@ -60,14 +61,22 @@ const mockRecallRequests = [
 
 const RecallRequestList = () => {
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
+  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<Item | null>(null);
 
   const handleApprove = (id: number) => {
-    if (window.confirm('회수 요청을 승인하시겠습니까?')) {
-      console.log('Approve request:', id);
-      // 승인 로직 구현
-      toast.success('회수 요청이 승인되었습니다.');
+    const item = mockRecallRequests.find((request) => request.id === id);
+    if (item) {
+      setSelectedItem(item);
+      setIsApproveModalOpen(true);
     }
+  };
+
+  const handleApproveConfirm = (id: number) => {
+    // TODO: API 통합 후 실제 승인 로직 구현 필요
+    toast.success('회수 요청이 승인되었습니다.');
+    setIsApproveModalOpen(false);
+    setSelectedItem(null);
   };
 
   const handleReject = (id: number) => {
@@ -79,8 +88,7 @@ const RecallRequestList = () => {
   };
 
   const handleRejectConfirm = (id: number, reason: string) => {
-    console.log('Reject request:', id, 'Reason:', reason);
-    // 반려 로직 구현
+    // TODO: API 통합 후 실제 반려 로직 구현 필요 (id, reason 활용)
     toast.success('회수 요청이 반려되었습니다.');
     setIsRejectModalOpen(false);
     setSelectedItem(null);
@@ -88,6 +96,11 @@ const RecallRequestList = () => {
 
   const handleCloseRejectModal = () => {
     setIsRejectModalOpen(false);
+    setSelectedItem(null);
+  };
+
+  const handleCloseApproveModal = () => {
+    setIsApproveModalOpen(false);
     setSelectedItem(null);
   };
 
@@ -115,6 +128,13 @@ const RecallRequestList = () => {
         item={selectedItem}
         onClose={handleCloseRejectModal}
         onConfirm={handleRejectConfirm}
+      />
+
+      <ApproveModal
+        isOpen={isApproveModalOpen}
+        item={selectedItem}
+        onClose={handleCloseApproveModal}
+        onConfirm={handleApproveConfirm}
       />
     </>
   );
