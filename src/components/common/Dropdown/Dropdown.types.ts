@@ -21,7 +21,7 @@ export interface DropdownProps {
 
 export interface MultiSelectDropdownProps {
   label?: string;
-  data: string[];
+  data: string[] | Data[];
   width?: CSSProperties['width'];
   value?: string[];
   onChange: (values: string[], name: string) => void;

@@ -80,7 +80,7 @@ const StyledProductListItem = styled(Link)<StyledProductListItemProps>`
 
 const ProductImage = styled(Image)`
   border-radius: 12px;
-  object-fit: contain;
+  object-fit: cover;
   width: 98px;
   height: 98px;
   background: ${color.gray100};

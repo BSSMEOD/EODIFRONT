@@ -27,3 +27,8 @@ export const formatRangeDateDot = (
   if (!endDate) return formatDateDot(startDate);
   return `${formatDateDot(startDate)} ~ ${formatDateDot(endDate)}`;
 };
+
+export const formatDateDash = (date: Date | string) => {
+  const parsed = toDate(date);
+  return format(parsed, 'yyyy-MM-dd');
+};

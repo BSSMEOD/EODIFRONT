@@ -9,27 +9,28 @@ import Flex from '@components/common/Flex/Flex';
 import { useForm } from '@app/manage/manage.hooks';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
+import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 
 const ManagePage = () => {
-  const { filters, handleInputChange, handleDropdownChange, handleDateChange } =
-    useForm();
+  const {
+    filters,
+    handleInputChange,
+    handleDropdownChange,
+    handleDateChange,
+    buildItemListParams,
+  } = useForm();
 
   const { data: productListData } = useItemListQuery({
-    page: 0,
+    page: 1,
     size: 10,
-    placeId: filters.placeId,
+    ...buildItemListParams(filters),
   });
-
-  const categoryOptions = CATEGORY.map((category) => ({
-    label: category,
-    value: category,
-  }));
 
   const { data: placeListData } = usePlaceListQuery();
   const placeOptions =
     placeListData?.map((place) => ({
       label: place.name,
-      value: String(place.id),
+      value: place.id.toString(),
     })) ?? [];
 
   return (
@@ -41,7 +42,7 @@ const ManagePage = () => {
       />
       <Flex gap={12} align="center">
         <Dropdown
-          data={categoryOptions}
+          data={CATEGORY}
           onChange={handleDropdownChange}
           name="category"
           placeholder="카테고리"
@@ -53,13 +54,13 @@ const ManagePage = () => {
           endDate={filters.endDate}
           onChange={handleDateChange}
         />
-        <Dropdown
+        <MultiSelectDropdown
+          value={filters.placeIds}
           data={placeOptions}
           onChange={handleDropdownChange}
-          name="placeId"
           placeholder="장소"
-          value={filters.placeId}
-          width={100}
+          name="placeIds"
+          width={200}
         />
       </Flex>
       <BigProductList productList={productListData?.content || []} auth />

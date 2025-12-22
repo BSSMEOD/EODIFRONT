@@ -6,7 +6,10 @@ export interface GetItemListParams {
   page?: number;
   size?: number;
   status?: Status;
-  placeId?: string;
+  category?: string;
+  placeIds?: number[];
+  foundAtFrom?: string;
+  foundAtTo?: string;
 }
 
 export interface GetItemListRes {

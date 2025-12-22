@@ -1,11 +1,12 @@
 import { useState } from 'react';
+import { formatDateDash } from '@utils/formatDate';
 
-interface Filters {
+export interface Filters {
   search: string;
   category: string;
   startDate: Date | null;
   endDate: Date | null;
-  placeId: string;
+  placeIds: string[];
 }
 
 export const useForm = () => {
@@ -14,7 +15,7 @@ export const useForm = () => {
     category: '',
     startDate: null,
     endDate: null,
-    placeId: '',
+    placeIds: [],
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +26,7 @@ export const useForm = () => {
     }));
   };
 
-  const handleDropdownChange = (value: string | number[], name: string) => {
+  const handleDropdownChange = (value: string | string[], name: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
@@ -41,5 +42,21 @@ export const useForm = () => {
     }));
   };
 
-  return { filters, handleInputChange, handleDropdownChange, handleDateChange };
+  const buildItemListParams = (filters: Filters) => ({
+    search: filters.search,
+    category: filters.category,
+    placeIds: filters.placeIds.map((id) => parseInt(id)),
+    foundAtFrom: filters.startDate
+      ? formatDateDash(filters.startDate)
+      : undefined,
+    foundAtTo: filters.endDate ? formatDateDash(filters.endDate) : undefined,
+  });
+
+  return {
+    filters,
+    handleInputChange,
+    handleDropdownChange,
+    handleDateChange,
+    buildItemListParams,
+  };
 };
