@@ -55,12 +55,8 @@ const LogTable = ({ filters }: LogTableProps) => {
           상세 장소
         </Th>
       </Flex>
-      {isLoading ? (
-        <Text>로딩중 입니다.</Text>
-      ) : isError ? (
-        <Text>물품 불러오기에 실패했습니다.</Text>
-      ) : logData.length === 0 ? (
-        <Text>지급 내역이 없습니다.</Text>
+      {isError ? (
+        <Text>다시 시도해 주세요.</Text>
       ) : (
         logData.map((item) => (
           <Flex key={item.id}>
