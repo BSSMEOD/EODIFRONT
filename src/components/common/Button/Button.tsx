@@ -1,7 +1,7 @@
 import { css } from '@emotion/react';
 import type { ButtonHTMLAttributes, CSSProperties } from 'react';
 import { getButtonStyle } from './Button.style';
-import type { ButtonStyleType, ButtonSize } from './Button.type';
+import type { ButtonSize, ButtonStyleType } from './Button.type';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;

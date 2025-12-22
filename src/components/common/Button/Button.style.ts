@@ -20,6 +20,11 @@ const getSizeStyle = (size: ButtonSize) => {
         padding: 2px 8px;
         ${font.p2};
       `;
+    case 'compact':
+      return css`
+        padding: 5px 20px;
+        ${font.p2};
+      `;
     default:
       return css`
         padding: 10px 20px;
@@ -78,5 +83,23 @@ export const getButtonStyle = {
     &:hover {
       background-color: ${color.gray100};
     }
+  `,
+  GHOST_DANGER: (outlined: boolean, size: ButtonSize) => css`
+    background-color: ${color.white};
+    color: ${color.red};
+    ${getSizeStyle(size)};
+    border: 1px solid ${color.red};
+
+    &:hover {
+      background-color: ${color.red};
+      color: ${color.white};
+      border-color: ${color.red};
+    }
+  `,
+  DANGER: (outlined: boolean, size: ButtonSize) => css`
+    background-color: ${color.red};
+    color: ${color.white};
+    ${getSizeStyle(size)};
+    border: 1px solid ${color.red};
   `,
 };

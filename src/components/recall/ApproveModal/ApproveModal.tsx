@@ -1,0 +1,53 @@
+import Flex from '@components/common/Flex/Flex';
+import Text from '@components/common/Text/Text';
+import BaseModal from '@components/common/Modal/BaseModal';
+import color from '@styles/color';
+import { Item } from '@/types/item/client';
+import IconStacks from '@/icons/src/IconStacks';
+
+interface ApproveModalProps {
+  isOpen: boolean;
+  item: Item | null;
+  onClose: () => void;
+  onConfirm: (id: number) => void;
+}
+
+const ApproveModal = ({
+  isOpen,
+  item,
+  onClose,
+  onConfirm,
+}: ApproveModalProps) => {
+  const handleConfirm = () => {
+    if (item) {
+      onConfirm(item.id);
+    }
+  };
+
+  if (!item) return null;
+
+  return (
+    <BaseModal
+      isOpen={isOpen}
+      onClose={onClose}
+      onConfirm={handleConfirm}
+      confirmText="승인"
+      cancelText="취소"
+    >
+      <Flex direction="column" gap={40} style={{ paddingBottom: '40px' }}>
+        <Flex gap={4} align="center">
+          <IconStacks width={16} height={16} />
+          <Text variant="p4" color={color.gray500}>
+            물품명: {item.name}
+          </Text>
+        </Flex>
+
+        <Text variant="H3" color={color.black} textAlign="center">
+          승인하시겠습니까?
+        </Text>
+      </Flex>
+    </BaseModal>
+  );
+};
+
+export default ApproveModal;

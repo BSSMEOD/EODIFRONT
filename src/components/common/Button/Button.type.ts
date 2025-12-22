@@ -3,5 +3,7 @@ export type ButtonStyleType =
   | 'SECONDARY'
   | 'TERTIARY'
   | 'GHOST'
-  | 'GHOST_SECONDARY';
-export type ButtonSize = 'medium' | 'small' | 'modal';
+  | 'GHOST_SECONDARY'
+  | 'GHOST_DANGER'
+  | 'DANGER';
+export type ButtonSize = 'medium' | 'small' | 'modal' | 'compact';
