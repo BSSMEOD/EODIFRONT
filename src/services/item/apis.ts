@@ -11,7 +11,6 @@ export const getItemDetail = async (id: number) => {
   const { data } = await eodi.get<GetItemDetailRes>(`/items/${id}`);
   return data;
 };
-
 export const getItemList = async (params?: GetItemListParams) => {
   const { data } = await eodi.get<GetItemListRes>('/items/search', { params });
   return data;

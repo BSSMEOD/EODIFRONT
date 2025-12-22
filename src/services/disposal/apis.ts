@@ -5,7 +5,6 @@ export interface SubmitDisposalReasonReq {
   reason: string;
   days: number;
 }
-
 export const getDisposalItems = async (params: GetItemListParams) => {
   const { data } = await eodi.get<GetItemListRes>('/items/search', { params });
   return data;

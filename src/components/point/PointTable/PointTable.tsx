@@ -6,98 +6,99 @@ import color from '@styles/color';
 import IconConvert from '@/icons/src/IconConvert';
 import font from '@styles/font';
 import IconLink from '@/icons/src/IconLink';
-import { useState } from 'react';
-import { giveReward } from '@/api/point/point';
+import { useRewardHistoryQuery } from '@/services/point/queries';
+import { useGiveRewardMutation } from '@/services/point/mutations';
 import type { PointItem } from '@/types/point/client';
 import { toast } from 'react-toastify';
+import { useMemo } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
 
-const PointTable = () => {
-  const [pointData, setPointData] = useState<PointItem[]>([
-    {
-      itemId: 1,
-      studentId: 101,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemId: 2,
-      studentId: 102,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemId: 3,
-      studentId: 103,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemId: 4,
-      studentId: 104,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-    {
-      itemId: 5,
-      studentId: 105,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-    {
-      itemId: 6,
-      studentId: 106,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-    {
-      itemId: 7,
-      studentId: 107,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemId: 8,
-      studentId: 108,
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-  ]);
+interface PointTableProps {
+  userId?: number;
+  date?: string;
+  grade?: number;
+  class?: number;
+}
 
-  const handleConvert = async (
-    itemId: number,
-    studentId: number,
-    index: number
-  ) => {
+const PointTable = ({
+  userId,
+  date,
+  grade,
+  class: classNum,
+}: PointTableProps = {}) => {
+  const queryClient = useQueryClient();
+
+  const { data, isLoading, error } = useRewardHistoryQuery({
+    userId,
+    date,
+    grade,
+    class: classNum,
+  });
+  const { mutate: giveReward } = useGiveRewardMutation();
+
+  const pointData = useMemo<PointItem[]>(() => {
+    if (!data?.histories) return [];
+
+    return data.histories.map((item, index) => ({
+      itemId: index + 1,
+      studentId: userId || 0,
+      itemName: item.item_name,
+      studentName: item.student_name,
+      reporter: '',
+      status: item.given_at ? 'paid' : 'unpaid',
+      receivedAt: item.received_at,
+      givenAt: item.given_at,
+    }));
+  }, [data, userId]);
+
+  const handleConvert = async (itemId: number, studentId: number) => {
     try {
-      await giveReward({ itemId, studentId });
-      setPointData((prevData) => {
-        const newData = [...prevData];
-        newData[index] = {
-          ...newData[index],
-          status: newData[index].status === 'paid' ? 'unpaid' : 'paid',
-        };
-        return newData;
-      });
-    } catch (error) {
+      await giveReward(
+        { itemId, studentId },
+        {
+          onSuccess: () => {
+            toast.success('상점이 성공적으로 지급되었습니다.');
+            queryClient.invalidateQueries({ queryKey: ['reward', 'history'] });
+          },
+          onError: (error: Error) => {
+            const errorMessage =
+              (
+                error as unknown as {
+                  response?: { data?: { message?: string } };
+                }
+              )?.response?.data?.message || '상점 지급에 실패했습니다.';
+            toast.error(errorMessage);
+          },
+        }
+      );
+    } catch {
       toast.error('상점 지급에 실패했습니다.');
     }
   };
+
+  if (isLoading) {
+    return (
+      <StyledPointTable>
+        <LoadingMessage>데이터를 불러오는 중...</LoadingMessage>
+      </StyledPointTable>
+    );
+  }
+
+  if (error) {
+    return (
+      <StyledPointTable>
+        <ErrorMessage>데이터를 불러오는데 실패했습니다.</ErrorMessage>
+      </StyledPointTable>
+    );
+  }
+
+  if (pointData.length === 0) {
+    return (
+      <StyledPointTable>
+        <EmptyMessage>상점 지급 이력이 없습니다.</EmptyMessage>
+      </StyledPointTable>
+    );
+  }
 
   return (
     <StyledPointTable>
@@ -115,7 +116,7 @@ const PointTable = () => {
             수령 학생
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
-            신고자
+            수령 날짜
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
             상점 상태
@@ -141,7 +142,7 @@ const PointTable = () => {
               {item.studentName}
             </Td>
             <Td width="20%" height={56}>
-              {item.reporter}
+              {item.receivedAt}
             </Td>
             <Td width="20%" height={56}>
               <StatusText $status={item.status}>
@@ -150,9 +151,8 @@ const PointTable = () => {
             </Td>
             <Td width="20%" height={56}>
               <ConvertButton
-                onClick={() =>
-                  handleConvert(item.itemId, item.studentId, index)
-                }
+                onClick={() => handleConvert(item.itemId, item.studentId)}
+                disabled={item.status === 'paid'}
               >
                 <IconConvert width={24} height={24} />
               </ConvertButton>
@@ -199,7 +199,33 @@ const ConvertButton = styled.button`
   border-radius: 4px;
   transition: background-color 0.2s ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: ${color.gray100};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+`;
+
+const LoadingMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
+`;
+
+const ErrorMessage = styled.div`
+  ${font.p1}
+  color: ${color.red};
+  text-align: center;
+  padding: 40px;
+`;
+
+const EmptyMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
 `;

@@ -48,8 +48,13 @@ const DisposalPage = () => {
 
   const apiFilters = useMemo<Omit<GetItemListParams, 'status'>>(() => {
     const params: Omit<GetItemListParams, 'status'> = {};
+    if (startDate && endDate) {
+      params.found_at_from = format(startDate, 'yyyy-MM-dd');
+      params.found_at_to = format(endDate, 'yyyy-MM-dd');
+    }
+
     return params;
-  }, [filters]);
+  }, [startDate, endDate]);
 
   return (
     <StyledDisposalPage>
