@@ -43,7 +43,7 @@ export const useForm = () => {
   };
 
   const buildItemListParams = (filters: Filters) => ({
-    search: filters.search,
+    query: filters.search,
     category: filters.category,
     placeIds: filters.placeIds.map((id) => parseInt(id)),
     foundAtFrom: filters.startDate
