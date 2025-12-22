@@ -7,7 +7,7 @@ export interface Data {
 
 export interface DropdownProps {
   label?: string;
-  data: Data[] | string[];
+  data: readonly Data[] | readonly string[];
   width?: string | number;
   value?: string;
   onChange: (value: string, name: string) => void;
@@ -21,7 +21,7 @@ export interface DropdownProps {
 
 export interface MultiSelectDropdownProps {
   label?: string;
-  data: string[] | Data[];
+  data: ReadonlyArray<string> | ReadonlyArray<Data>;
   width?: CSSProperties['width'];
   value?: string[];
   onChange: (values: string[], name: string) => void;

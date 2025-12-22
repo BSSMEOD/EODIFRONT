@@ -10,7 +10,6 @@ import { useForm } from '@app/manage/manage.hooks';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
-import { useItemDeleteMutation } from '@services/item/mutations';
 
 const ManagePage = () => {
   const {

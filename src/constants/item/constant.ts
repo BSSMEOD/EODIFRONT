@@ -15,4 +15,4 @@ export const CATEGORY = [
   '전자기기',
   '안경',
   '기타',
-];
+] as const;
