@@ -10,6 +10,7 @@ import { STATUS } from '@/constants/item/constant';
 import font from '@styles/font';
 import { IconClose, IconEdit } from '@/icons';
 import { formatDateDot } from '@utils/formatDate';
+import { useItemDeleteMutation } from '@services/item/mutations';
 
 interface ProductListItem {
   product: Item;
@@ -25,10 +26,14 @@ const ProductListItem = ({
   auth = false,
 }: ProductListItem) => {
   const { id, imageUrl, name, foundAt, foundPlace, status } = product;
+  const { mutate } = useItemDeleteMutation(id);
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
     const isConfirm = confirm(`${name} 분실물을 삭제하시겠습니까?`);
+    if (isConfirm) {
+      mutate();
+    }
   };
 
   return (

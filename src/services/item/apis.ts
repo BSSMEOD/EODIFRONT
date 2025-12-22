@@ -27,3 +27,8 @@ export const getPlaceList = async () => {
   const { data } = await eodi.get<GetPlaceListRes>('/places');
   return data;
 };
+
+export const deleteItem = async (id: number) => {
+  const { data } = await eodi.delete(`/items/${id}`, authorization());
+  return data;
+};
