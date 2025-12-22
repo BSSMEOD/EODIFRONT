@@ -7,6 +7,8 @@ export interface GetItemListParams {
   size?: number;
   status: Status;
   placeId?: number;
+  found_at_from?: string;
+  found_at_to?: string;
 }
 
 export interface GetItemListRes {
