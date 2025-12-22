@@ -1,20 +1,48 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import MdEditor from 'react-markdown-editor-lite';
 import 'react-markdown-editor-lite/lib/index.css';
 import styled from '@emotion/styled';
 import { Button } from '@components/common/Button/Button';
 import ReactMarkdown from 'react-markdown';
+import { useIntroduceQuery } from '@services/introduce/queries';
+import { useIntroduceMutation } from '@services/introduce/mutations';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/common/constants';
 
 const MarkdownPage = () => {
+  const { data } = useIntroduceQuery();
+  const [markdownText, setMarkdownText] = useState<string>('');
+  const { mutate } = useIntroduceMutation();
+  const router = useRouter();
+
+  useEffect(() => {
+    setMarkdownText(data?.content || '');
+  }, [data]);
+
+  const handleMarkdownChange = (data: { text: string; html: string }) => {
+    setMarkdownText(data.text);
+  };
+
+  const handleMarkdownSubmit = () => {
+    mutate(markdownText);
+    router.push(ROUTES.MAIN);
+  };
+
   return (
     <StyledMarkdownPage>
       <MdEditor
+        value={markdownText}
         style={{ width: '100%', height: '500px' }}
-        renderHTML={(text) => <ReactMarkdown>{text}</ReactMarkdown>}
+        renderHTML={(text) => (
+          <ReactMarkdown>{text.replace(/\n/g, '\n\n')}</ReactMarkdown>
+        )}
+        onChange={handleMarkdownChange}
       />
-      <Button styleType="GHOST">저장하기</Button>
+      <Button styleType="GHOST" onClick={handleMarkdownSubmit}>
+        저장하기
+      </Button>
     </StyledMarkdownPage>
   );
 };
