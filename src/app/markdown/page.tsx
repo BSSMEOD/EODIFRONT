@@ -26,8 +26,11 @@ const MarkdownPage = () => {
   };
 
   const handleMarkdownSubmit = () => {
-    mutate(markdownText);
-    router.push(ROUTES.MAIN);
+    mutate(markdownText, {
+      onSuccess: () => {
+        router.push(ROUTES.MAIN);
+      },
+    });
   };
 
   return (

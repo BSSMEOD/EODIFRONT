@@ -7,7 +7,7 @@ export const useIntroduceMutation = () => {
   const { handleSuccess } = useApiHandler();
   const { mutate, ...restMutation } = useMutation({
     mutationFn: (content: string) => patchIntroduce({ content }),
-    onSuccess: (data) => {
+    onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['introduce'] });
       handleSuccess('소개글이 수정되었습니다');
     },
