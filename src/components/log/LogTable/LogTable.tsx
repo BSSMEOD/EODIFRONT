@@ -61,7 +61,7 @@ const LogTable = ({ filters }: LogTableProps) => {
         logData.map((item) => (
           <Flex key={item.id}>
             <Td width="25%" height={56}>
-              {item.foundDate}
+              {item.foundAt}
             </Td>
             <Td width="25%" height={56}>
               {item.foundPlace}

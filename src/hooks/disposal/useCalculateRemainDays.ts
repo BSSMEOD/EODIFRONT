@@ -1,8 +1,8 @@
 import { useCallback } from 'react';
 
 export const useCalculateRemainDays = () => {
-  const calculateRemainDays = useCallback((foundDate: string): number => {
-    const found = new Date(foundDate);
+  const calculateRemainDays = useCallback((foundAt: string): number => {
+    const found = new Date(foundAt);
     const today = new Date();
     const diffTime = today.getTime() - found.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
