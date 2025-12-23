@@ -1,4 +1,4 @@
-import { giveReward, getRewardHistory } from '@/api/point/point';
+import { eodi } from '@/api/instance/instance';
 import type {
   GiveRewardRequest,
   GiveRewardResponse,
@@ -9,11 +9,20 @@ import type {
 export const postGiveReward = async (
   data: GiveRewardRequest
 ): Promise<GiveRewardResponse> => {
-  return await giveReward(data);
+  const response = await eodi.post<GiveRewardResponse>('/rewards', data);
+  return response.data;
 };
 
 export const fetchRewardHistory = async (
   params: RewardHistoryParams
 ): Promise<RewardHistoryResponse> => {
-  return await getRewardHistory(params);
+  const response = await eodi.get<RewardHistoryResponse>('/rewards/history', {
+    params: {
+      user_id: params.userId,
+      date: params.date,
+      grade: params.grade,
+      class: params.class,
+    },
+  });
+  return response.data;
 };
