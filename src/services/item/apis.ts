@@ -36,6 +36,6 @@ export const getClaimItemCount = async () => {
 };
 
 export const postItemClaim = async (id: number, req: PostItemClaimReq) => {
-  const { data } = await eodi.post(`/items/${id}/claim`, req, authorization());
+  const { data } = await eodi.post(`/items/${id}/claims`, req, authorization());
   return data;
 };
