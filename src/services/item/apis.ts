@@ -1,5 +1,7 @@
 import { eodi } from '@/api/instance/instance';
-import type {
+import {
+  GetClaimItemCountRes,
+  GetClaimItemListRes,
   GetItemDetailRes,
   GetItemListParams,
   GetItemListRes,
@@ -14,6 +16,22 @@ export const getItemDetail = async (id: number) => {
 
 export const getItemList = async (params?: GetItemListParams) => {
   const { data } = await eodi.get<GetItemListRes>('/items/search', { params });
+  return data;
+};
+
+export const getClaimItemList = async () => {
+  const { data } = await eodi.get<GetClaimItemListRes>(
+    `/items/claims`,
+    authorization()
+  );
+  return data;
+};
+
+export const getClaimItemCount = async () => {
+  const { data } = await eodi.get<GetClaimItemCountRes>(
+    `/items/claims/count`,
+    authorization()
+  );
   return data;
 };
 

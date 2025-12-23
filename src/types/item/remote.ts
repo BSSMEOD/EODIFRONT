@@ -18,6 +18,14 @@ export interface GetItemListRes {
   isLast: boolean;
 }
 
+export interface GetClaimItemListRes {
+  items: Item[];
+}
+
+export interface GetClaimItemCountRes {
+  count: number;
+}
+
 export interface PostItemClaimReq {
   claimReason: string;
 }
