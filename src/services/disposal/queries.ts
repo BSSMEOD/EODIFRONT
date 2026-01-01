@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { getDisposalItems } from './apis';
-import type { GetItemListParams } from '@/types/item/remote';
+import type { GetItemListParams } from '@/types/item/params';
 
 export const useDisposalItemsQuery = (params: GetItemListParams) => {
   const { data, ...restQuery } = useQuery({

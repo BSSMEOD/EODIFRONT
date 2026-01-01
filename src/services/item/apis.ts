@@ -1,10 +1,6 @@
 import { eodi } from '@/api/instance/instance';
-import type {
-  GetItemDetailRes,
-  GetItemListParams,
-  GetItemListRes,
-  PostItemClaimReq,
-} from '@/types/item/remote';
+import type { GetItemDetailRes, GetItemListRes } from '@/types/item/response';
+import type { GetItemListParams, PostItemClaimReq } from '@/types/item/params';
 import authorization from '@/api/token/token';
 
 export const getItemDetail = async (id: number) => {

@@ -1,10 +1,12 @@
 import { eodi } from '@/api/instance/instance';
 import type {
-  GiveRewardRequest,
   GiveRewardResponse,
   RewardHistoryResponse,
+} from '@/types/point/response';
+import type {
+  GiveRewardRequest,
   RewardHistoryParams,
-} from '@/types/point/client';
+} from '@/types/point/params';
 
 export const postGiveReward = async (
   data: GiveRewardRequest
