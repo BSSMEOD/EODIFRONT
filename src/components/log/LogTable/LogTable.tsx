@@ -4,8 +4,9 @@ import IconLink from '@/icons/src/IconLink';
 import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import color from '@styles/color';
+import font from '@styles/font';
 import { useLogListQuery } from '@/services/log/queries';
-import type { GetLogListParams } from '@/types/log/remote';
+import type { GetLogListParams } from '@/types/log/params';
 import Text from '@components/common/Text/Text';
 import { useRouter } from 'next/navigation';
 
@@ -28,6 +29,24 @@ const LogTable = ({ filters }: LogTableProps) => {
   };
 
   const logData = data?.content || [];
+
+  if (isLoading) {
+    return (
+      <LogTableWrapper>
+        <StatusMessage>데이터를 불러오는 중...</StatusMessage>
+      </LogTableWrapper>
+    );
+  }
+
+  if (isError) {
+    return (
+      <LogTableWrapper>
+        <ErrorMessage>
+          데이터를 불러오는데 실패했습니다. 다시 시도해 주세요.
+        </ErrorMessage>
+      </LogTableWrapper>
+    );
+  }
 
   return (
     <LogTableWrapper>
@@ -55,8 +74,8 @@ const LogTable = ({ filters }: LogTableProps) => {
           상세 장소
         </Th>
       </Flex>
-      {isError ? (
-        <Text>다시 시도해 주세요.</Text>
+      {logData.length === 0 ? (
+        <StatusMessage>분실물 기록이 없습니다.</StatusMessage>
       ) : (
         logData.map((item) => (
           <Flex key={item.id}>
@@ -69,7 +88,10 @@ const LogTable = ({ filters }: LogTableProps) => {
             <Td width="25%" height={56}>
               <ItemName>
                 {item.name}
-                <IconLinkButton onClick={() => handleItemClick(item.id)}>
+                <IconLinkButton
+                  type="button"
+                  onClick={() => handleItemClick(item.id)}
+                >
                   <IconLink width={24} height={24} color={color.secondary} />
                 </IconLinkButton>
               </ItemName>
@@ -111,4 +133,18 @@ const IconLinkButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
+`;
+
+const StatusMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
+`;
+
+const ErrorMessage = styled.div`
+  ${font.p1}
+  color: ${color.red};
+  text-align: center;
+  padding: 40px;
 `;
