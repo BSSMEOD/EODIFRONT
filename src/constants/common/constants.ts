@@ -6,6 +6,8 @@ export const ROUTES = {
   LOG: '/log',
   POINT: '/point',
   DISPOSAL: '/disposal',
+  ADMIN_DISPOSAL: '/admin-disposal',
+  DISPOSAL_HISTORY: '/disposal-history',
   MANAGE: '/manage',
   RECALL: '/recall',
   REGISTER: '/register',
