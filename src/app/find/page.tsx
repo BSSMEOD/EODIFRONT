@@ -4,7 +4,6 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import SearchInput from '@components/common/Input/SearchInput';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
-import Dropdown from '@components/common/Dropdown/Dropdown';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import IconMinus from '@/icons/src/IconMinus';
 import Pagination from '@components/common/Pagination/Pagination';
