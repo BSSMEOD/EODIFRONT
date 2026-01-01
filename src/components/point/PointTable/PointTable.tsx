@@ -12,6 +12,7 @@ import type { PointItem } from '@/types/point/client';
 import { toast } from 'react-toastify';
 import { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
 interface PointTableProps {
   userId?: number;
@@ -26,6 +27,7 @@ const PointTable = ({
   grade,
   class: classNum,
 }: PointTableProps = {}) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
   const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
 
@@ -78,6 +80,10 @@ const PointTable = ({
         return newSet;
       });
     }
+  };
+
+  const handleItemClick = (itemId: number) => {
+    router.push(`/find/detail/${itemId}`);
   };
 
   if (isLoading) {
@@ -142,6 +148,7 @@ const PointTable = ({
                 <button
                   type="button"
                   aria-label={`${item.itemName} 상세 정보 보기`}
+                  onClick={() => handleItemClick(item.itemId)}
                   style={{
                     background: 'none',
                     border: 'none',

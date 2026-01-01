@@ -127,19 +127,12 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
                   </ItemName>
                 </Td>
                 <Td width="25%" height={56}>
-                  <StatusText
-                    $status={
-                      item.status === 'TO_BE_DISCARDED'
-                        ? 'expected'
-                        : 'completed'
-                    }
-                  >
-                    {item.status === 'TO_BE_DISCARDED' ? '예정' : '완료'}
-                  </StatusText>
+                  <StatusText $status="expected">예정</StatusText>
                 </Td>
                 <Td width="25%" height={56}>
                   <ConvertButton
                     type="button"
+                    aria-label={`${item.name} 보류 처리`}
                     onClick={() => handleConvert(item)}
                   >
                     <IconConvert width={24} height={24} color={color.black} />
