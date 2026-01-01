@@ -15,7 +15,7 @@ import { useSubmitDisposalReasonMutation } from '@/services/disposal/mutations';
 import { useCalculateRemainDays } from '@/hooks/disposal/useCalculateRemainDays';
 import { toast } from 'react-toastify';
 import Text from '@components/common/Text/Text';
-import type { GetItemListParams } from '@/types/item/remote';
+import type { GetItemListParams } from '@/types/item/params';
 
 interface DisposalTableProps {
   filters?: Omit<GetItemListParams, 'status'>;
@@ -113,7 +113,10 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
                 <Td width="25%" height={56}>
                   <ItemName>
                     {item.name}
-                    <IconLinkButton onClick={() => handleItemClick(item.id)}>
+                    <IconLinkButton
+                      type="button"
+                      onClick={() => handleItemClick(item.id)}
+                    >
                       <IconLink
                         width={24}
                         height={24}
@@ -134,7 +137,10 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
                   </StatusText>
                 </Td>
                 <Td width="25%" height={56}>
-                  <ConvertButton onClick={() => handleConvert(item)}>
+                  <ConvertButton
+                    type="button"
+                    onClick={() => handleConvert(item)}
+                  >
                     <IconConvert width={24} height={24} color={color.black} />
                   </ConvertButton>
                 </Td>
