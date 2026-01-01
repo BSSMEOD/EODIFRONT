@@ -9,7 +9,7 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import LogTable from '@components/log/LogTable/LogTable';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
-import type { GetLogListParams } from '@/types/log/remote';
+import type { GetLogListParams } from '@/types/log/params';
 
 const LogPage = () => {
   const gradeOptions = ['1학년', '2학년', '3학년'];
@@ -51,8 +51,22 @@ const LogPage = () => {
 
   const apiFilters = useMemo<GetLogListParams>(() => {
     const params: GetLogListParams = {};
+
+    if (startDate && endDate) {
+      params.foundAtFrom = format(startDate, 'yyyy-MM-dd');
+      params.foundAtTo = format(endDate, 'yyyy-MM-dd');
+    }
+
+    if (filters.grade) {
+      params.grade = parseInt(filters.grade.replace('학년', ''));
+    }
+
+    if (filters.class) {
+      params.class = parseInt(filters.class.replace('반', ''));
+    }
+
     return params;
-  }, [filters]);
+  }, [startDate, endDate, filters.grade, filters.class]);
 
   return (
     <StyledLogPage>
