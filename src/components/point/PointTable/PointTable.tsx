@@ -10,7 +10,7 @@ import { useRewardHistoryQuery } from '@/services/point/queries';
 import { useGiveRewardMutation } from '@/services/point/mutations';
 import type { PointItem } from '@/types/point/client';
 import { toast } from 'react-toastify';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 
 interface PointTableProps {
@@ -27,6 +27,7 @@ const PointTable = ({
   class: classNum,
 }: PointTableProps = {}) => {
   const queryClient = useQueryClient();
+  const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
 
   const { data, isLoading, error } = useRewardHistoryQuery({
     userId,
@@ -34,14 +35,14 @@ const PointTable = ({
     grade,
     class: classNum,
   });
-  const { mutate: giveReward } = useGiveRewardMutation();
+  const { mutateAsync } = useGiveRewardMutation();
 
   const pointData = useMemo<PointItem[]>(() => {
     if (!data?.histories) return [];
 
-    return data.histories.map((item, index) => ({
-      itemId: index + 1,
-      studentId: userId || 0,
+    return data.histories.map((item) => ({
+      itemId: item.item_id,
+      studentId: item.student_id,
       itemName: item.item_name,
       studentName: item.student_name,
       reporter: '',
@@ -49,49 +50,35 @@ const PointTable = ({
       receivedAt: item.received_at,
       givenAt: item.given_at,
     }));
-  }, [data, userId]);
+  }, [data]);
 
   const handleConvert = async (itemId: number, studentId: number) => {
+    const key = `${itemId}-${studentId}`;
+
+    if (loadingItems.has(key)) return;
+
+    setLoadingItems((prev) => new Set(prev).add(key));
+
     try {
-      await giveReward(
-        { itemId, studentId },
-        {
-          onSuccess: () => {
-            toast.success('상점이 성공적으로 지급되었습니다.');
-            queryClient.invalidateQueries({ queryKey: ['reward', 'history'] });
-          },
-          onError: (error: Error) => {
-            const errorMessage =
-              (
-                error as unknown as {
-                  response?: { data?: { message?: string } };
-                }
-              )?.response?.data?.message || '상점 지급에 실패했습니다.';
-            toast.error(errorMessage);
-          },
-        }
-      );
-    } catch {
-      toast.error('상점 지급에 실패했습니다.');
+      await mutateAsync({ itemId, studentId });
+      toast.success('상점이 성공적으로 지급되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['reward', 'history'] });
+    } catch (error) {
+      const errorMessage =
+        (
+          error as {
+            response?: { data?: { message?: string } };
+          }
+        )?.response?.data?.message || '상점 지급에 실패했습니다.';
+      toast.error(errorMessage);
+    } finally {
+      setLoadingItems((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(key);
+        return newSet;
+      });
     }
   };
-
-  if (isLoading) {
-    return (
-      <StyledPointTable>
-        <LoadingMessage>데이터를 불러오는 중...</LoadingMessage>
-      </StyledPointTable>
-    );
-  }
-
-  if (error) {
-    return (
-      <StyledPointTable>
-        <ErrorMessage>데이터를 불러오는데 실패했습니다.</ErrorMessage>
-      </StyledPointTable>
-    );
-  }
-
   if (pointData.length === 0) {
     return (
       <StyledPointTable>
@@ -151,8 +138,12 @@ const PointTable = ({
             </Td>
             <Td width="20%" height={56}>
               <ConvertButton
+                type="button"
                 onClick={() => handleConvert(item.itemId, item.studentId)}
-                disabled={item.status === 'paid'}
+                disabled={
+                  item.status === 'paid' ||
+                  loadingItems.has(`${item.itemId}-${item.studentId}`)
+                }
               >
                 <IconConvert width={24} height={24} />
               </ConvertButton>
