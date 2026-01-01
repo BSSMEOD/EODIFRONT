@@ -22,13 +22,14 @@ const DisposalReasonModal = ({
   onSubmit,
 }: DisposalReasonModalProps) => {
   const [reason, setReason] = useState('');
-  const [days, setDays] = useState(0);
+  const [days, setDays] = useState<number>(1);
 
   if (!isOpen) return null;
 
   const handleSubmit = () => {
-    if (reason.trim()) {
-      onSubmit(itemId, reason, days);
+    const trimmed = reason.trim();
+    if (trimmed && Number.isFinite(days) && days >= 1 && days <= 90) {
+      onSubmit(itemId, trimmed, Math.trunc(days));
       onClose();
     }
   };
@@ -40,13 +41,17 @@ const DisposalReasonModal = ({
         <Title>{itemName}의 보류 사유를 입력해주세요.</Title>
         <SubTitle>{remainDays}일 남았어요.</SubTitle>
         <DaysInputWrapper>
-          <DaysLabel>보류 일수</DaysLabel>
+          <DaysLabel htmlFor="disposal-days">보류 일수</DaysLabel>
           <DaysInput
+            id="disposal-days"
             type="number"
             min="1"
             max="90"
             value={days}
-            onChange={(e) => setDays(Number(e.target.value))}
+            onChange={(e) => {
+              const v = e.target.value;
+              setDays(v === '' ? 1 : Number(v));
+            }}
           />
           <DaysUnit>일</DaysUnit>
         </DaysInputWrapper>
