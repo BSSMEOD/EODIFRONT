@@ -9,7 +9,7 @@ import DisposalTable from '@components/disposal/DisposalTable/DisposalTable';
 import Dropdown from '@components/common/Dropdown/Dropdown';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
-import type { GetItemListParams } from '@/types/item/remote';
+import type { GetItemListParams } from '@/types/item/params';
 
 const DisposalPage = () => {
   const holdOptions = ['보류', '예정'];
@@ -49,12 +49,16 @@ const DisposalPage = () => {
   const apiFilters = useMemo<Omit<GetItemListParams, 'status'>>(() => {
     const params: Omit<GetItemListParams, 'status'> = {};
     if (startDate && endDate) {
-      params.found_at_from = format(startDate, 'yyyy-MM-dd');
-      params.found_at_to = format(endDate, 'yyyy-MM-dd');
+      params.foundAtFrom = format(startDate, 'yyyy-MM-dd');
+      params.foundAtTo = format(endDate, 'yyyy-MM-dd');
+    }
+
+    if (filters.hold === '보류' || filters.hold === '예정') {
+      params.holdStatus = filters.hold;
     }
 
     return params;
-  }, [startDate, endDate]);
+  }, [startDate, endDate, filters.hold]);
 
   return (
     <StyledDisposalPage>
