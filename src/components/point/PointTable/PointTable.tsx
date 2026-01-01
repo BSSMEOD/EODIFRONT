@@ -79,6 +79,23 @@ const PointTable = ({
       });
     }
   };
+
+  if (isLoading) {
+    return (
+      <StyledPointTable>
+        <LoadingMessage>데이터를 불러오는 중...</LoadingMessage>
+      </StyledPointTable>
+    );
+  }
+
+  if (error) {
+    return (
+      <StyledPointTable>
+        <ErrorMessage>데이터를 불러오는데 실패했습니다.</ErrorMessage>
+      </StyledPointTable>
+    );
+  }
+
   if (pointData.length === 0) {
     return (
       <StyledPointTable>
@@ -122,7 +139,19 @@ const PointTable = ({
             <Td width="20%" height={56}>
               <ItemName>
                 {item.itemName}
-                <IconLink width={24} />
+                <button
+                  type="button"
+                  aria-label={`${item.itemName} 상세 정보 보기`}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                  }}
+                >
+                  <IconLink width={24} />
+                </button>
               </ItemName>
             </Td>
             <Td width="20%" height={56}>

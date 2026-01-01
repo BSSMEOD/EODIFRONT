@@ -7,5 +7,4 @@ export interface GetLogListRes {
   totalElements: number;
   totalPages: number;
   isLast: boolean;
-  last: boolean;
 }
