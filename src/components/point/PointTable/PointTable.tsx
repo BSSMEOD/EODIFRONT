@@ -6,67 +6,110 @@ import color from '@styles/color';
 import IconConvert from '@/icons/src/IconConvert';
 import font from '@styles/font';
 import IconLink from '@/icons/src/IconLink';
+import { useRewardHistoryQuery } from '@/services/point/queries';
+import { useGiveRewardMutation } from '@/services/point/mutations';
+import type { PointItem } from '@/types/point/client';
+import { toast } from 'react-toastify';
+import { useMemo, useState } from 'react';
+import { useQueryClient } from '@tanstack/react-query';
+import { useRouter } from 'next/navigation';
 
-interface PointItem {
-  itemName: string;
-  studentName: string;
-  reporter: string;
-  status: 'paid' | 'unpaid';
+interface PointTableProps {
+  userId?: number;
+  date?: string;
+  grade?: number;
+  class?: number;
 }
 
-const PointTable = () => {
-  const pointData: PointItem[] = [
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'paid',
-    },
-    {
-      itemName: '에어팟 3세대',
-      studentName: '문소정',
-      reporter: '조재민',
-      status: 'unpaid',
-    },
-  ];
+const PointTable = ({
+  userId,
+  date,
+  grade,
+  class: classNum,
+}: PointTableProps = {}) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+  const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
 
-  const handleConvert = () => {};
+  const { data, isLoading, error } = useRewardHistoryQuery({
+    userId,
+    date,
+    grade,
+    class: classNum,
+  });
+  const { mutateAsync } = useGiveRewardMutation();
+
+  const pointData = useMemo<PointItem[]>(() => {
+    if (!data?.histories) return [];
+
+    return data.histories.map((item) => ({
+      itemId: item.item_id,
+      studentId: item.student_id,
+      itemName: item.item_name,
+      studentName: item.student_name,
+      reporter: '',
+      status: item.given_at ? 'paid' : 'unpaid',
+      receivedAt: item.received_at,
+      givenAt: item.given_at,
+    }));
+  }, [data]);
+
+  const handleConvert = async (itemId: number, studentId: number) => {
+    const key = `${itemId}-${studentId}`;
+
+    if (loadingItems.has(key)) return;
+
+    setLoadingItems((prev) => new Set(prev).add(key));
+
+    try {
+      await mutateAsync({ itemId, studentId });
+      toast.success('상점이 성공적으로 지급되었습니다.');
+      queryClient.invalidateQueries({ queryKey: ['reward', 'history'] });
+    } catch (error) {
+      const errorMessage =
+        (
+          error as {
+            response?: { data?: { message?: string } };
+          }
+        )?.response?.data?.message || '상점 지급에 실패했습니다.';
+      toast.error(errorMessage);
+    } finally {
+      setLoadingItems((prev) => {
+        const newSet = new Set(prev);
+        newSet.delete(key);
+        return newSet;
+      });
+    }
+  };
+
+  const handleItemClick = (itemId: number) => {
+    router.push(`/find/detail/${itemId}`);
+  };
+
+  if (isLoading) {
+    return (
+      <StyledPointTable>
+        <LoadingMessage>데이터를 불러오는 중...</LoadingMessage>
+      </StyledPointTable>
+    );
+  }
+
+  if (error) {
+    return (
+      <StyledPointTable>
+        <ErrorMessage>데이터를 불러오는데 실패했습니다.</ErrorMessage>
+      </StyledPointTable>
+    );
+  }
+
+  if (pointData.length === 0) {
+    return (
+      <StyledPointTable>
+        <EmptyMessage>상점 지급 이력이 없습니다.</EmptyMessage>
+      </StyledPointTable>
+    );
+  }
+
   return (
     <StyledPointTable>
       <TableWrapper>
@@ -83,7 +126,7 @@ const PointTable = () => {
             수령 학생
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
-            신고자
+            수령 날짜
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
             상점 상태
@@ -102,14 +145,27 @@ const PointTable = () => {
             <Td width="20%" height={56}>
               <ItemName>
                 {item.itemName}
-                <IconLink width={24} />
+                <button
+                  type="button"
+                  aria-label={`${item.itemName} 상세 정보 보기`}
+                  onClick={() => handleItemClick(item.itemId)}
+                  style={{
+                    background: 'none',
+                    border: 'none',
+                    cursor: 'pointer',
+                    padding: 0,
+                    display: 'flex',
+                  }}
+                >
+                  <IconLink width={24} />
+                </button>
               </ItemName>
             </Td>
             <Td width="20%" height={56}>
               {item.studentName}
             </Td>
             <Td width="20%" height={56}>
-              {item.reporter}
+              {item.receivedAt}
             </Td>
             <Td width="20%" height={56}>
               <StatusText $status={item.status}>
@@ -117,7 +173,14 @@ const PointTable = () => {
               </StatusText>
             </Td>
             <Td width="20%" height={56}>
-              <ConvertButton onClick={handleConvert}>
+              <ConvertButton
+                type="button"
+                onClick={() => handleConvert(item.itemId, item.studentId)}
+                disabled={
+                  item.status === 'paid' ||
+                  loadingItems.has(`${item.itemId}-${item.studentId}`)
+                }
+              >
                 <IconConvert width={24} height={24} />
               </ConvertButton>
             </Td>
@@ -138,11 +201,6 @@ const StyledPointTable = styled.div`
 const TableWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
-`;
-
-const Row = styled.div`
-  display: flex;
   width: 100%;
 `;
 
@@ -168,7 +226,33 @@ const ConvertButton = styled.button`
   border-radius: 4px;
   transition: background-color 0.2s ease;
 
-  &:hover {
+  &:hover:not(:disabled) {
     background-color: ${color.gray100};
   }
+
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+`;
+
+const LoadingMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
+`;
+
+const ErrorMessage = styled.div`
+  ${font.p1}
+  color: ${color.red};
+  text-align: center;
+  padding: 40px;
+`;
+
+const EmptyMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
 `;
