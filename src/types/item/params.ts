@@ -10,6 +10,7 @@ export interface GetItemListParams {
   foundAtFrom?: string;
   foundAtTo?: string;
   holdStatus?: '보류' | '예정';
+  query?: string;
 }
 
 export interface PostItemClaimReq {
