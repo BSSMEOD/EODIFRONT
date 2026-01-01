@@ -1,5 +1,9 @@
 import { eodi } from '@/api/instance/instance';
-import type { GetItemDetailRes, GetItemListRes } from '@/types/item/response';
+import type {
+  GetItemDetailRes,
+  GetItemListRes,
+  GetPlaceListRes,
+} from '@/types/item/response';
 import type { GetItemListParams, PostItemClaimReq } from '@/types/item/params';
 import authorization from '@/api/token/token';
 
@@ -14,5 +18,15 @@ export const getItemList = async (params?: GetItemListParams) => {
 
 export const postItemClaim = async (id: number, req: PostItemClaimReq) => {
   const { data } = await eodi.post(`/items/${id}/claim`, req, authorization());
+  return data;
+};
+
+export const getPlaceList = async () => {
+  const { data } = await eodi.get<GetPlaceListRes>('/places');
+  return data;
+};
+
+export const deleteItem = async (id: number) => {
+  const { data } = await eodi.delete(`/items/${id}`, authorization());
   return data;
 };
