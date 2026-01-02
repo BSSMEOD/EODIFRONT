@@ -15,14 +15,3 @@ export const CATEGORY = [
   '전자기기',
   '기타',
 ] as const;
-
-export const LOCATION_MAP: { [key: string]: number } = {
-  본관: 1,
-  창의관: 2,
-  체육관: 3,
-  별관: 4,
-  '기숙사 A동': 5,
-  '기숙사 B동': 6,
-  SRC관: 7,
-  기타: 8,
-};
