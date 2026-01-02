@@ -1,0 +1,12 @@
+import { useQuery } from '@tanstack/react-query';
+import { getLogList } from './apis';
+import type { GetLogListParams } from '@/types/log/params';
+
+export const useLogListQuery = (params: GetLogListParams) => {
+  const { data, ...restQuery } = useQuery({
+    queryKey: ['log', 'list', params],
+    queryFn: () => getLogList(params),
+    retry: false,
+  });
+  return { data, ...restQuery };
+};

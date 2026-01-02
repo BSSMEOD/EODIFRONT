@@ -5,7 +5,7 @@ import {
   getItemDetail,
   getItemList,
 } from './apis';
-import type { GetItemListParams } from '@/types/item/remote';
+import type { GetItemListParams } from '@/types/item/params';
 
 export const useFindDetailQuery = (id: number) => {
   const { data, ...restQuery } = useQuery({

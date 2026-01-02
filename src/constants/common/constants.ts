@@ -1,10 +1,13 @@
 export const ROUTES = {
   MAIN: '/',
+  TEACHER: '/teacher',
   FIND: '/find',
   LOGIN: process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || '/login',
   LOG: '/log',
   POINT: '/point',
   DISPOSAL: '/disposal',
+  ADMIN_DISPOSAL: '/admin-disposal',
+  DISPOSAL_HISTORY: '/disposal-history',
   MANAGE: '/manage',
   RECALL: '/recall',
   REGISTER: '/register',

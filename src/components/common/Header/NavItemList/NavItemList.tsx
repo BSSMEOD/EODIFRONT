@@ -29,7 +29,7 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
       <NavItem onClick={() => router.push(ROUTES.RECALL)}>
         회수 요청 관리
       </NavItem>
-      <NavItem onClick={() => router.push(ROUTES.DISPOSAL)}>
+      <NavItem onClick={() => router.push(ROUTES.ADMIN_DISPOSAL)}>
         폐기 물품 관리
       </NavItem>
       <Button
