@@ -12,7 +12,7 @@ export const getDisposalItems = async (params: GetItemListParams) => {
       page: params.page,
       size: params.size,
       status: params.status,
-      place_id: params.placeId,
+      place_id: params.placeIds?.[0],
       found_at_from: params.foundAtFrom,
       found_at_to: params.foundAtTo,
       hold_status: params.holdStatus,

@@ -6,7 +6,6 @@ export interface GetItemListParams {
   status: Status;
   categories?: string[];
   placeIds?: number[];
-  placeId?: number;
   foundAtFrom?: string;
   foundAtTo?: string;
   holdStatus?: '보류' | '예정';
