@@ -81,7 +81,7 @@ export const useFindPage = () => {
     }
 
     if (filters.category.length > 0) {
-      params.category = filters.category[0];
+      params.categories = filters.category;
     }
 
     if (filters.startDate) {
