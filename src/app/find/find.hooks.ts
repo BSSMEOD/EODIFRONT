@@ -1,7 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 import { formatDateDash } from '@utils/formatDate';
-import { LOCATION_MAP } from '@/constants/item/constant';
 import { GetItemListParams } from '@/types/item/params';
 
 interface Filters {
@@ -26,10 +25,7 @@ export const useFindPage = () => {
 
   const { data: placeListData } = usePlaceListQuery();
 
-  const locationOptions =
-    placeListData && placeListData.length > 0
-      ? placeListData.map((place) => place.name)
-      : Object.keys(LOCATION_MAP);
+  const locationOptions = placeListData?.map((place) => place.name) || [];
 
   useEffect(() => {
     setCurrentPage(1);
@@ -66,52 +62,68 @@ export const useFindPage = () => {
           ? (prev[name] as string[]).filter((v) => v !== valueToRemove)
           : [],
       }));
+    } else if (name === 'query') {
+      setFilters((prev) => ({
+        ...prev,
+        query: '',
+      }));
+    } else if (name === 'startDate') {
+      setFilters((prev) => ({
+        ...prev,
+        startDate: null,
+      }));
+    } else if (name === 'endDate') {
+      setFilters((prev) => ({
+        ...prev,
+        endDate: null,
+      }));
+    } else if (name === 'date') {
+      setFilters((prev) => ({
+        ...prev,
+        startDate: null,
+        endDate: null,
+      }));
     }
   };
 
-  const buildApiParams = (filters: Filters) => {
-    const params: GetItemListParams = {
-      page: currentPage,
-      size: itemsPerPage,
-      status: 'LOST',
-    };
+  const buildApiParams = useCallback(
+    (filters: Filters) => {
+      const params: GetItemListParams = {
+        page: currentPage,
+        size: itemsPerPage,
+        status: 'LOST',
+      };
 
-    if (filters.query) {
-      params.query = filters.query;
-    }
+      if (filters.query) {
+        params.query = filters.query;
+      }
 
-    if (filters.category.length > 0) {
-      params.categories = filters.category;
-    }
+      if (filters.category.length > 0) {
+        params.categories = filters.category;
+      }
 
-    if (filters.startDate) {
-      params.foundAtFrom = formatDateDash(filters.startDate);
-    }
+      if (filters.startDate) {
+        params.foundAtFrom = formatDateDash(filters.startDate);
+      }
 
-    if (filters.endDate) {
-      params.foundAtTo = formatDateDash(filters.endDate);
-    }
+      if (filters.endDate) {
+        params.foundAtTo = formatDateDash(filters.endDate);
+      }
 
-    if (filters.location.length > 0) {
-      let selectedPlaceIds: number[] = [];
-
-      if (placeListData && placeListData.length > 0) {
-        selectedPlaceIds = placeListData
+      if (filters.location.length > 0 && placeListData) {
+        const selectedPlaceIds = placeListData
           .filter((place) => filters.location.includes(place.name))
           .map((place) => place.id);
-      } else {
-        selectedPlaceIds = filters.location
-          .map((loc) => LOCATION_MAP[loc])
-          .filter((id) => id !== undefined);
+
+        if (selectedPlaceIds.length > 0) {
+          params.placeIds = selectedPlaceIds;
+        }
       }
 
-      if (selectedPlaceIds.length > 0) {
-        params.placeIds = selectedPlaceIds;
-      }
-    }
-
-    return params;
-  };
+      return params;
+    },
+    [currentPage, placeListData]
+  );
 
   const {
     data: itemListData,
