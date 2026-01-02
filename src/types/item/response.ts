@@ -10,3 +10,11 @@ export interface GetItemListRes {
   totalPages: number;
   isLast: boolean;
 }
+
+export interface GetClaimItemCountRes {
+  count: number;
+}
+
+export interface GetClaimItemListRes {
+  items: Item[];
+}
