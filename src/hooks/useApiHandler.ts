@@ -9,7 +9,7 @@ const ERROR: Record<ErrorStatus, string> = {
   500: '서버에 알 수 없는 오류가 발생하였습니다.',
 };
 
-export const useApiError = () => {
+export const useApiHandler = () => {
   const handleError = (error: unknown) => {
     let errorMessage;
     if (isAxiosError(error) && error.response) {
@@ -21,5 +21,11 @@ export const useApiError = () => {
     }
     toast.error(errorMessage);
   };
-  return { handleError };
+
+  const handleSuccess = (message?: string) => {
+    if (!message) return;
+    toast.success(message);
+  };
+
+  return { handleError, handleSuccess };
 };

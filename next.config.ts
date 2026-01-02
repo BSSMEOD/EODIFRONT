@@ -9,10 +9,6 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'plchldr.co',
       },
-      {
-        protocol: 'https',
-        hostname: 'example.com',
-      },
     ],
   },
 };
