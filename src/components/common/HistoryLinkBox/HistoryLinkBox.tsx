@@ -11,7 +11,7 @@ interface HistoryLinkBoxProps {
   title: string;
   count: number;
   route: string;
-  height: string | number;
+  height: CSSProperties['height'];
 }
 
 const HistoryLinkBox = ({
