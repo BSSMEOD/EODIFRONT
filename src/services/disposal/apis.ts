@@ -7,7 +7,17 @@ export interface SubmitDisposalReasonReq {
   days: number;
 }
 export const getDisposalItems = async (params: GetItemListParams) => {
-  const { data } = await eodi.get<GetItemListRes>('/items/search', { params });
+  const { data } = await eodi.get<GetItemListRes>('/items/search', {
+    params: {
+      page: params.page,
+      size: params.size,
+      status: params.status,
+      place_ids: params.placeIds,
+      found_at_from: params.foundAtFrom,
+      found_at_to: params.foundAtTo,
+      hold_status: params.holdStatus,
+    },
+  });
   return data;
 };
 
