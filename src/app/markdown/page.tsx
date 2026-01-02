@@ -8,14 +8,11 @@ import { Button } from '@components/common/Button/Button';
 import ReactMarkdown from 'react-markdown';
 import { useIntroduceQuery } from '@services/introduce/queries';
 import { useIntroduceMutation } from '@services/introduce/mutations';
-import { useRouter } from 'next/navigation';
-import { ROUTES } from '@/constants/common/constants';
 
 const MarkdownPage = () => {
   const { data } = useIntroduceQuery();
   const [markdownText, setMarkdownText] = useState<string>('');
   const { mutate } = useIntroduceMutation();
-  const router = useRouter();
 
   useEffect(() => {
     setMarkdownText(data?.content || '');
@@ -26,11 +23,7 @@ const MarkdownPage = () => {
   };
 
   const handleMarkdownSubmit = () => {
-    mutate(markdownText, {
-      onSuccess: () => {
-        router.push(ROUTES.MAIN);
-      },
-    });
+    mutate(markdownText);
   };
 
   return (
