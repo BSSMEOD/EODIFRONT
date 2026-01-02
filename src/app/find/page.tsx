@@ -49,86 +49,92 @@ const FindPage = () => {
   }
 
   return (
-    <Flex direction="column" gap={20} width="100%" style={{ paddingTop: 40 }}>
-      <SearchInput value={filters.query} onChange={handleSearchChange} />
-      <Flex align="center" gap={12} wrap="wrap">
-        <MultiSelectDropdown
-          name="category"
-          data={categoryOptions}
-          value={filters.category}
-          onChange={handleMultiSelectFilterChange}
-          placeholder="물품"
-          width="120px"
-        />
-        <FilterDateSelect
-          startDate={filters.startDate}
-          endDate={filters.endDate}
-          onChange={handleDateChange}
-        />
-        <MultiSelectDropdown
-          name="location"
-          data={locationOptions}
-          value={filters.location}
-          onChange={handleMultiSelectFilterChange}
-          placeholder="장소"
-          width="120px"
-        />
-        {filters.category.length > 0 && (
-          <FilterTag>
-            <span>
-              {filters.category.length === 1
-                ? filters.category[0]
-                : `${filters.category[0]} 외 ${filters.category.length - 1}`}
-            </span>
-            <RemoveButton onClick={() => handleRemoveFilter('category')}>
-              <IconMinus width={10} color={color.white} />
-            </RemoveButton>
-          </FilterTag>
-        )}
-        {filters.location.length > 0 && (
-          <FilterTag>
-            <span>
-              {filters.location.length === 1
-                ? filters.location[0]
-                : `${filters.location[0]} 외 ${filters.location.length - 1}`}
-            </span>
-            <RemoveButton onClick={() => handleRemoveFilter('location')}>
-              <IconMinus width={10} color={color.white} />
-            </RemoveButton>
-          </FilterTag>
-        )}
-      </Flex>
+    <PageContainer>
+      <Flex direction="column" gap={20} width="100%">
+        <SearchInput value={filters.query} onChange={handleSearchChange} />
+        <Flex align="center" gap={12} wrap="wrap">
+          <MultiSelectDropdown
+            name="category"
+            data={categoryOptions}
+            value={filters.category}
+            onChange={handleMultiSelectFilterChange}
+            placeholder="물품"
+            width="120px"
+          />
+          <FilterDateSelect
+            startDate={filters.startDate}
+            endDate={filters.endDate}
+            onChange={handleDateChange}
+          />
+          <MultiSelectDropdown
+            name="location"
+            data={locationOptions}
+            value={filters.location}
+            onChange={handleMultiSelectFilterChange}
+            placeholder="장소"
+            width="120px"
+          />
+          {filters.category.length > 0 && (
+            <FilterTag>
+              <span>
+                {filters.category.length === 1
+                  ? filters.category[0]
+                  : `${filters.category[0]} 외 ${filters.category.length - 1}`}
+              </span>
+              <RemoveButton onClick={() => handleRemoveFilter('category')}>
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
+          {filters.location.length > 0 && (
+            <FilterTag>
+              <span>
+                {filters.location.length === 1
+                  ? filters.location[0]
+                  : `${filters.location[0]} 외 ${filters.location.length - 1}`}
+              </span>
+              <RemoveButton onClick={() => handleRemoveFilter('location')}>
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
+        </Flex>
 
-      <Flex direction="row" wrap="wrap" gap={20} width="100%">
-        {allItems.length > 0 ? (
-          allItems.map((item) => (
-            <div key={item.id} style={{ width: 'calc(50% - 10px)' }}>
-              <ProductListItem product={item} size="big" />
-            </div>
-          ))
-        ) : (
-          <Flex
-            justify="center"
-            align="center"
-            height={100}
-            width="100%"
-            color={color.gray500}
-          >
-            검색 결과가 없습니다.
-          </Flex>
-        )}
-      </Flex>
+        <Flex direction="row" wrap="wrap" gap={20} width="100%">
+          {allItems.length > 0 ? (
+            allItems.map((item) => (
+              <ItemWrapper key={item.id}>
+                <ProductListItem product={item} size="big" />
+              </ItemWrapper>
+            ))
+          ) : (
+            <Flex
+              justify="center"
+              align="center"
+              height={100}
+              width="100%"
+              color={color.gray500}
+            >
+              검색 결과가 없습니다.
+            </Flex>
+          )}
+        </Flex>
 
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={setCurrentPage}
-      />
-    </Flex>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
+      </Flex>
+    </PageContainer>
   );
 };
 
 export default FindPage;
+
+const PageContainer = styled.div`
+  padding-top: 40px;
+`;
 
 const FilterTag = styled.div`
   display: flex;
@@ -162,4 +168,8 @@ const RemoveButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
+`;
+
+const ItemWrapper = styled.div`
+  width: calc(50% - 10px);
 `;
