@@ -6,6 +6,7 @@ import {
   getItemList,
 } from './apis';
 import type { GetItemListParams } from '@/types/item/params';
+import { getPlaceList } from './apis';
 
 export const useFindDetailQuery = (id: number) => {
   const { data, ...restQuery } = useQuery({
@@ -37,6 +38,14 @@ export const useClaimItemCountQuery = () => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'claim', 'count'],
     queryFn: () => getClaimItemCount(),
+  });
+  return { data, ...restQuery };
+};
+
+export const usePlaceListQuery = () => {
+  const { data, ...restQuery } = useQuery({
+    queryKey: ['place', 'list'],
+    queryFn: () => getPlaceList(),
   });
   return { data, ...restQuery };
 };

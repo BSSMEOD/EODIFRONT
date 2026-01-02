@@ -4,10 +4,12 @@ export interface GetItemListParams {
   page?: number;
   size?: number;
   status: Status;
-  placeId?: number;
+  categories?: string[];
+  placeIds?: number[];
   foundAtFrom?: string;
   foundAtTo?: string;
   holdStatus?: '보류' | '예정';
+  query?: string;
 }
 
 export interface PostItemClaimReq {

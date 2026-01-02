@@ -1,4 +1,4 @@
-import { Item } from './client';
+import { Item, Place } from './client';
 
 export type GetItemDetailRes = Omit<Item, 'status'>;
 
@@ -18,3 +18,5 @@ export interface GetClaimItemCountRes {
 export interface GetClaimItemListRes {
   items: Item[];
 }
+
+export type GetPlaceListRes = Place[];

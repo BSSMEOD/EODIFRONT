@@ -45,10 +45,22 @@ const MultiSelectDropdown = ({
     if (value.length === 0) {
       return placeholder;
     }
+
+    const selectedValueFirst = data.find((item) => {
+      if (typeof item === 'string') return item === value[0];
+      return item.value === value[0];
+    });
+
+    const selectedLabelFirst =
+      typeof selectedValueFirst === 'string'
+        ? selectedValueFirst
+        : selectedValueFirst?.label;
+
     if (value.length === 1) {
-      return value[0];
+      return selectedLabelFirst;
     }
-    return `${value[0]} 외 ${value.length - 1}개`;
+
+    return `${selectedLabelFirst} 외 ${value.length - 1}개`;
   };
 
   return (
@@ -68,7 +80,9 @@ const MultiSelectDropdown = ({
         <DropdownListWrapper>
           <DropdownList>
             {data?.map((item, index) => {
-              const isSelected = value.includes(item);
+              const isSelected = value.includes(
+                typeof item === 'string' ? item : item.value
+              );
 
               return (
                 <DropdownItem key={`dropdown-${index}`}>
@@ -76,9 +90,15 @@ const MultiSelectDropdown = ({
                     <Checkbox
                       type="checkbox"
                       checked={isSelected}
-                      onChange={() => handleCheckboxChange(item)}
+                      onChange={() =>
+                        handleCheckboxChange(
+                          typeof item === 'string' ? item : item.value
+                        )
+                      }
                     />
-                    <CheckboxLabel>{item}</CheckboxLabel>
+                    <CheckboxLabel>
+                      {typeof item === 'string' ? item : item.label}
+                    </CheckboxLabel>
                   </CheckboxWrapper>
                 </DropdownItem>
               );

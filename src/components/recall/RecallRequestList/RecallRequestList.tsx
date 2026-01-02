@@ -16,6 +16,8 @@ const mockRecallRequests = [
     foundPlace: '',
     foundPlaceDetail: '',
     status: 'LOST' as const,
+    category: '기타' as const,
+    reporterName: '홍길동',
   },
   {
     id: 2,
@@ -26,6 +28,8 @@ const mockRecallRequests = [
     foundPlace: '',
     foundPlaceDetail: '',
     status: 'LOST' as const,
+    category: '전자기기' as const,
+    reporterName: '김철수',
   },
   {
     id: 3,
@@ -36,6 +40,8 @@ const mockRecallRequests = [
     foundPlace: '',
     foundPlaceDetail: '',
     status: 'LOST' as const,
+    category: '안경' as const,
+    reporterName: '이영희',
   },
   {
     id: 4,
@@ -46,6 +52,8 @@ const mockRecallRequests = [
     foundPlace: '',
     foundPlaceDetail: '',
     status: 'LOST' as const,
+    category: '기타' as const,
+    reporterName: '박민수',
   },
   {
     id: 5,
@@ -56,6 +64,8 @@ const mockRecallRequests = [
     foundPlace: '',
     foundPlaceDetail: '',
     status: 'LOST' as const,
+    category: '전자기기' as const,
+    reporterName: '최지원',
   },
 ];
 

@@ -4,6 +4,7 @@ import type {
   GetClaimItemListRes,
   GetItemDetailRes,
   GetItemListRes,
+  GetPlaceListRes,
 } from '@/types/item/response';
 import type { GetItemListParams, PostItemClaimReq } from '@/types/item/params';
 import authorization from '@/api/token/token';
@@ -14,7 +15,18 @@ export const getItemDetail = async (id: number) => {
 };
 
 export const getItemList = async (params?: GetItemListParams) => {
-  const { data } = await eodi.get<GetItemListRes>('/items/search', { params });
+  const { data } = await eodi.get<GetItemListRes>('/items/search', {
+    params: {
+      page: params?.page,
+      size: params?.size,
+      query: params?.query,
+      status: params?.status,
+      categories: params?.categories,
+      place_ids: params?.placeIds,
+      found_at_from: params?.foundAtFrom,
+      found_at_to: params?.foundAtTo,
+    },
+  });
   return data;
 };
 
@@ -36,5 +48,10 @@ export const getClaimItemCount = async () => {
 
 export const postItemClaim = async (id: number, req: PostItemClaimReq) => {
   const { data } = await eodi.post(`/items/${id}/claims`, req, authorization());
+  return data;
+};
+
+export const getPlaceList = async () => {
+  const { data } = await eodi.get<GetPlaceListRes>('/places');
   return data;
 };
