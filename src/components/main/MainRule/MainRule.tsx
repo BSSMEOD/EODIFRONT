@@ -17,7 +17,7 @@ const MainRule = ({ canEdit }: MainRuleProps) => {
   return (
     <StyledMainRule>
       <div>
-        <ReactMarkdown>{data?.content.replace(/\n/g, '\n\n')}</ReactMarkdown>
+        <ReactMarkdown>{data?.content?.replace(/\n/g, '\n\n') || ''}</ReactMarkdown>
       </div>
       {canEdit && (
         <Link href={ROUTES.MARKDOWN}>
