@@ -26,10 +26,6 @@ export const useItemListQuery = (params: GetItemListParams) => {
   return { data, ...restQuery };
 };
 
-export const usePlaceListQuery = () => {
-  const { data, ...restQuery } = useQuery({
-    queryKey: ['place', 'list'],
-    queryFn: () => getPlaceList(),
 export const useClaimItemListQuery = () => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'claim'],
@@ -42,6 +38,14 @@ export const useClaimItemCountQuery = () => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'claim', 'count'],
     queryFn: () => getClaimItemCount(),
+  });
+  return { data, ...restQuery };
+};
+
+export const usePlaceListQuery = () => {
+  const { data, ...restQuery } = useQuery({
+    queryKey: ['place', 'list'],
+    queryFn: () => getPlaceList(),
   });
   return { data, ...restQuery };
 };

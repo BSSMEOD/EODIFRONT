@@ -11,7 +11,6 @@ export interface GetItemListRes {
   isLast: boolean;
 }
 
-=======
 export interface GetClaimItemCountRes {
   count: number;
 }
