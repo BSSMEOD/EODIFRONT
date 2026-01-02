@@ -1,5 +1,6 @@
 import { eodi } from '@/api/instance/instance';
 import { GetIntroduceRes, PostIntroduceReq } from '@/types/introduce/remote';
+import authorization from '@/api/token/token';
 
 export const getIntroduce = async () => {
   const { data } = await eodi.get<GetIntroduceRes>('/introduce');
@@ -7,6 +8,6 @@ export const getIntroduce = async () => {
 };
 
 export const patchIntroduce = async (req: PostIntroduceReq) => {
-  const { data } = await eodi.patch('/introduce', req);
+  const { data } = await eodi.patch('/introduce', req, authorization());
   return data;
 };
