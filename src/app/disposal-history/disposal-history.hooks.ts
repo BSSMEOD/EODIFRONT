@@ -124,14 +124,11 @@ export const useDisposalHistory = () => {
   }));
 
   const locationOptions = placeListData
-    ? [
-        { label: '전체', value: '' },
-        ...placeListData.map((place) => ({
-          label: place.name,
-          value: place.name,
-        })),
-      ]
-    : [{ label: '전체', value: '' }];
+    ? placeListData.map((place) => ({
+        label: place.name,
+        value: place.name,
+      }))
+    : [];
 
   return {
     filters: {
