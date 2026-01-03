@@ -20,7 +20,6 @@ interface ProductListItem {
   disposalMode?: boolean;
   recallMode?: boolean;
   isRejectModalOpen?: boolean;
-  onDisposal?: (id: number) => void;
   onExtension?: (id: number) => void;
   onApprove?: (id: number) => void;
   onReject?: (id: number) => void;
@@ -34,7 +33,6 @@ const ProductListItem = ({
   disposalMode = false,
   recallMode = false,
   isRejectModalOpen = false,
-  onDisposal,
   onExtension,
   onApprove,
   onReject,
@@ -89,22 +87,13 @@ const ProductListItem = ({
           >
             폐기까지 D-{daysToDisposal}
           </Text>
-          <Flex gap={4}>
-            <Button
-              styleType="GHOST"
-              size="small"
-              onClick={() => onDisposal?.(id)}
-            >
-              폐기처리
-            </Button>
-            <Button
-              styleType="GHOST"
-              size="small"
-              onClick={() => onExtension?.(id)}
-            >
-              기간연장
-            </Button>
-          </Flex>
+          <Button
+            styleType="GHOST"
+            size="small"
+            onClick={() => onExtension?.(id)}
+          >
+            기간연장
+          </Button>
         </Flex>
       ) : recallMode ? (
         <Flex gap={10} align="center">
