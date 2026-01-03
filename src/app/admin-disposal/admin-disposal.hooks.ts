@@ -45,6 +45,10 @@ export const useAdminDisposal = () => {
       size: 100,
     };
 
+    if (filters.disposalDate) {
+      params.sort = filters.disposalDate === 'fastest' ? 'LATEST' : 'OLDEST';
+    }
+
     if (filters.categories.length > 0) {
       params.categories = filters.categories;
     }
