@@ -142,28 +142,17 @@ export const useAdminDisposal = () => {
     reason: string
   ) => {
     try {
-      console.log(
-        '🔵 [연장 시작] itemId:',
-        id,
-        'days:',
-        extensionDays,
-        'reason:',
-        reason
-      );
-
       // 1단계: 사유 등록 (응답에 reasonId 포함)
       const reasonResponse = await postDisposalReasonMutation.mutateAsync({
         itemId: id,
         req: { reason, days: extensionDays },
       });
-      console.log('✅ [POST 완료] reasonResponse:', reasonResponse);
 
       // 2단계: 연장 처리 - POST 응답의 reasonId 사용
       const patchResponse = await patchItemDiscardedMutation.mutateAsync({
         itemId: id,
         req: { reasonId: reasonResponse.reasonId },
       });
-      console.log('✅ [PATCH 완료] patchResponse:', patchResponse);
 
       // 3단계: PATCH 응답의 extendedDisposalDate를 즉시 캐시에 적용
       queryClient.setQueryData(
@@ -185,16 +174,10 @@ export const useAdminDisposal = () => {
         }
       );
 
-      console.log(
-        '🔄 [캐시 업데이트] disposalDate:',
-        patchResponse.extendedDisposalDate
-      );
-
       toast.success('연장 처리가 완료되었습니다.');
       setIsExtensionModalOpen(false);
       setSelectedItem(null);
     } catch (error) {
-      console.error('❌ [연장 실패]', error);
       toast.error('연장 처리 중 오류가 발생했습니다.');
     }
   };
@@ -248,20 +231,10 @@ export const useAdminDisposal = () => {
       handleCloseModals,
     },
     data: {
-      disposalItems: (disposalItemsData?.content || []).map((item) => {
-        console.log(
-          `📦 [물품 ${item.id}] foundAt:`,
-          item.foundAt,
-          'disposalDate:',
-          item.disposalDate,
-          'D-day:',
-          calculateRemainDays(item.foundAt, item.disposalDate)
-        );
-        return {
-          ...item,
-          daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
-        };
-      }),
+      disposalItems: (disposalItemsData?.content || []).map((item) => ({
+        ...item,
+        daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
+      })),
       isLoading,
       error,
     },
