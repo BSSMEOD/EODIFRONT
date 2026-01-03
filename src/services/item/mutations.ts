@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteItem, postItemClaim } from '@services/item/apis';
-import { PostItemClaimReq } from '@/types/item/remote';
+import { PostItemClaimReq } from '@/types/item/params';
 
 export const useItemClaimMutation = (id: number) => {
   const { mutate, ...restMutation } = useMutation({

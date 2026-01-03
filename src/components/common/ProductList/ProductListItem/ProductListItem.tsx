@@ -50,8 +50,8 @@ const ProductListItem = ({
     daysToDisposal,
     requestMessage,
   } = product;
-        
-  const { mutate } = useItemDeleteMutation(id);=
+
+  const { mutate } = useItemDeleteMutation(id);
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();

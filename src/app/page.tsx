@@ -13,21 +13,27 @@ import SmallProductList from '@components/common/ProductList/SmallProductList';
 import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useEffect } from 'react';
+import {
+  useClaimItemCountQuery,
+  useClaimItemListQuery,
+  useItemListQuery,
+} from '@services/item/queries';
 
 const MainPage = () => {
   const router = useRouter();
   const { authority, isLoggedIn } = useAuthStore();
-  const { data: disposalProductListData } = { data: [] };
-  const { data: recallProductListData } = { data: [] };
-  const { data: productsCount } = {
-    data: { disposalCount: 0, recallCount: 0 },
-  };
+  const { data: disposalProductListData } = useItemListQuery({
+    status: 'TO_BE_DISCARDED',
+    size: 5,
+  });
+  const { data: recallProductListData } = useClaimItemListQuery();
+  const { data: claimItemCountData } = useClaimItemCountQuery();
 
   const isManager = authority === 'ADMIN';
   const isTeacher = authority === 'TEACHER';
   useEffect(() => {
     if (isTeacher) {
-      router.replace('/teacher-main');
+      router.replace(ROUTES.TEACHER);
     }
   }, [isLoggedIn, authority, router]);
 
@@ -38,13 +44,13 @@ const MainPage = () => {
           <Flex direction="column" gap={20} width="30%">
             <HistoryLinkBox
               title="회수 신청 요청"
-              count={productsCount.disposalCount}
+              count={claimItemCountData?.count || 0}
               route={ROUTES.RECALL}
               height={176}
             />
             <HistoryLinkBox
               title="폐기 예정 물품"
-              count={productsCount.recallCount}
+              count={disposalProductListData?.totalElements || 0}
               route={ROUTES.DISPOSAL}
               height={176}
             />
@@ -71,13 +77,14 @@ const MainPage = () => {
       {isManager && (
         <SmallProductList
           title="회수 신청 요청이 있는 물품"
-          productList={recallProductListData}
+          productList={recallProductListData?.items || []}
           href={ROUTES.RECALL}
         />
       )}
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={disposalProductListData}
+        productList={disposalProductListData?.content || []}
+        href={ROUTES.DISPOSAL}
       />
     </StyledMainPage>
   );

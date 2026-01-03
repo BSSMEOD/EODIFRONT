@@ -3,7 +3,6 @@ import LayoutClient from '@components/common/Layout/LayoutClient';
 import { OverlayProvider } from '@toss/use-overlay';
 import EmotionProvider from '@/provider/EmotionProvider';
 import TanstackQueryProvider from '@/provider/QueryClientProvider';
-import ToastProvider from '@/provider/ToastProvider';
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,9 +11,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
         <TanstackQueryProvider>
           <EmotionProvider>
             <OverlayProvider>
-              <ToastProvider>
-                <LayoutClient>{children}</LayoutClient>
-              </ToastProvider>
+              <LayoutClient>{children}</LayoutClient>
             </OverlayProvider>
           </EmotionProvider>
         </TanstackQueryProvider>

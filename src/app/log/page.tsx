@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { format } from 'date-fns';
 import color from '@styles/color';
@@ -9,6 +9,7 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import LogTable from '@components/log/LogTable/LogTable';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
+import type { GetLogListParams } from '@/types/log/params';
 
 const LogPage = () => {
   const gradeOptions = ['1학년', '2학년', '3학년'];
@@ -21,6 +22,7 @@ const LogPage = () => {
     grade: '',
     class: '',
   });
+
   const handleFilterChange = (value: string, name: string) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
   };
@@ -38,6 +40,7 @@ const LogPage = () => {
       setFilters((prev) => ({ ...prev, date: '' }));
     }
   };
+
   const handleRemoveFilter = (name: string) => {
     setFilters((prev) => ({ ...prev, [name]: '' }));
     if (name === 'date') {
@@ -45,6 +48,25 @@ const LogPage = () => {
       setEndDate(null);
     }
   };
+
+  const apiFilters = useMemo<GetLogListParams>(() => {
+    const params: GetLogListParams = {};
+
+    if (startDate && endDate) {
+      params.foundAtFrom = format(startDate, 'yyyy-MM-dd');
+      params.foundAtTo = format(endDate, 'yyyy-MM-dd');
+    }
+
+    if (filters.grade) {
+      params.grade = parseInt(filters.grade.replace('학년', ''));
+    }
+
+    if (filters.class) {
+      params.class = parseInt(filters.class.replace('반', ''));
+    }
+
+    return params;
+  }, [startDate, endDate, filters.grade, filters.class]);
 
   return (
     <StyledLogPage>
@@ -73,7 +95,7 @@ const LogPage = () => {
         />
         <FilterActiveTags filters={filters} onRemove={handleRemoveFilter} />
       </FilterWrapper>
-      <LogTable />
+      <LogTable filters={apiFilters} />
     </StyledLogPage>
   );
 };

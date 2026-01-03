@@ -6,7 +6,7 @@ interface Form {
   reporter: string;
   date: Date | null;
   location: string;
-  category: (typeof CATEGORY)[number];
+  category: (typeof CATEGORY)[number] | '';
 }
 
 export const useForm = () => {
