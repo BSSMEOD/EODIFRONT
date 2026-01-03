@@ -112,6 +112,7 @@ export const useDisposalHistory = () => {
     setCurrentPage(page);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
   const disposalDateOptions = [
     { label: '최신순', value: 'fastest' },
     { label: '오래된순', value: 'slowest' },

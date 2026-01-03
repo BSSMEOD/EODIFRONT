@@ -10,6 +10,7 @@ import { useDisposalHistory } from '@/app/disposal-history/disposal-history.hook
 import { formatDateDot } from '@/utils/formatDate';
 import IconMinus from '@/icons/src/IconMinus';
 import Pagination from '@components/common/Pagination/Pagination';
+import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import color from '@styles/color';
 const DisposalHistoryPage = () => {
   const { filters, options, data } = useDisposalHistory();
@@ -98,32 +99,20 @@ const DisposalHistoryPage = () => {
       ) : (
         <DisposalHistoryList>
           {data.disposalHistoryItems.map((item) => (
-            <DisposalHistoryItem key={item.id}>
-              <Flex direction="row" gap={20} align="center" width="755px">
-                <ProductImage
-                  src={item.imageUrl}
-                  alt="분실물 사진"
-                  width={98}
-                  height={98}
-                />
-                <Flex direction="column" justify="space-between" height="100%">
-                  <Text variant="H2">{item.name}</Text>
-                  <Text variant="p2" color={color.gray200}>
-                    {formatDateDot(item.foundAt)}
-                  </Text>
+            <ProductListItem
+              key={item.id}
+              product={item}
+              size="big"
+              rightContent={
+                <DisposalDate>
                   <Text variant="p2">
-                    {item.foundPlace} / {item.foundPlaceDetail}
+                    {item.disposalDate
+                      ? `${formatDateDot(item.disposalDate)} 폐기`
+                      : '폐기일 미정'}
                   </Text>
-                </Flex>
-              </Flex>
-              <DisposalDate>
-                <Text variant="p2">
-                  {item.disposalDate
-                    ? `${formatDateDot(item.disposalDate)} 폐기`
-                    : '폐기일 미정'}
-                </Text>
-              </DisposalDate>
-            </DisposalHistoryItem>
+                </DisposalDate>
+              }
+            />
           ))}
           <PaginationSection>
             <Pagination
@@ -196,25 +185,6 @@ const DisposalHistoryList = styled.div`
   display: flex;
   flex-direction: column;
   gap: 20px;
-`;
-
-const DisposalHistoryItem = styled.div`
-  width: 100%;
-  padding: 12px 20px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: ${color.gray200} 1px solid;
-  border-radius: 8px;
-  background: white;
-`;
-
-const ProductImage = styled.img`
-  border-radius: 12px;
-  object-fit: contain;
-  width: 98px;
-  height: 98px;
-  background: ${color.gray100};
 `;
 
 const DisposalDate = styled.div`
