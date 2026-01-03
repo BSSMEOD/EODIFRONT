@@ -2,121 +2,130 @@
 
 import styled from '@emotion/styled';
 import Dropdown from '@components/common/Dropdown/Dropdown';
+import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
-import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import { useDisposalHistory } from '@/app/disposal-history/disposal-history.hooks';
+import { formatDateDot } from '@/utils/formatDate';
+import IconMinus from '@/icons/src/IconMinus';
 import color from '@styles/color';
-import { Item } from '@/types/item/client';
-
-interface DisposalHistoryItem extends Item {
-  disposalDate: string;
-}
-
 const DisposalHistoryPage = () => {
-  const { filters, options } = useDisposalHistory();
-
-  const mockDisposalHistoryItems: DisposalHistoryItem[] = [
-    {
-      id: 1,
-      name: '긱시크 안경',
-      imageUrl: '',
-      foundAt: '2025.06.19.',
-      foundPlace: '기타',
-      foundPlaceDetail: '운동장',
-      status: 'DISCARDED',
-      disposalDate: '2025.07.01 폐기',
-    },
-    {
-      id: 2,
-      name: '검정 우산',
-      imageUrl: '',
-      foundAt: '2025.06.19.',
-      foundPlace: 'SRC',
-      foundPlaceDetail: '4층 맨 끝 비상계단',
-      status: 'DISCARDED',
-      disposalDate: '2025.07.01 폐기',
-    },
-    {
-      id: 3,
-      name: '무선 이어폰 (버즈2)',
-      imageUrl: '',
-      foundAt: '2025.06.19.',
-      foundPlace: 'SRC',
-      foundPlaceDetail: '3층 남자기숙사 중앙홀',
-      status: 'DISCARDED',
-      disposalDate: '2025.07.01 폐기',
-    },
-  ];
+  const { filters, options, data } = useDisposalHistory();
 
   return (
     <StyledDisposalHistoryPage>
       <FilterSection>
-        <Flex gap={12} align="center">
+        <Flex gap={12} align="center" wrap="wrap">
           <Dropdown
             data={options.disposalDateOptions}
             onChange={filters.handleDropdownChange('disposalDate')}
             name="disposalDate"
-            placeholder="폐기 예정일"
+            placeholder="폐기일"
             value={filters.filters.disposalDate}
-            width="140px"
+            width="120px"
           />
-          <Dropdown
+          <MultiSelectDropdown
+            name="categories"
             data={options.categoryOptions}
-            onChange={filters.handleDropdownChange('category')}
-            name="category"
+            onChange={filters.handleMultiSelectChange}
             placeholder="물품"
-            value={filters.filters.category}
-            width="140px"
+            value={filters.filters.categories}
+            width="120px"
           />
           <FilterDateSelect
             startDate={filters.startDate}
             endDate={filters.endDate}
             onChange={filters.handleDateChange}
           />
-          <Dropdown
+          <MultiSelectDropdown
+            name="locations"
             data={options.locationOptions}
-            onChange={filters.handleDropdownChange('location')}
-            name="location"
+            onChange={filters.handleMultiSelectChange}
             placeholder="장소"
-            value={filters.filters.location}
-            width="100px"
+            value={filters.filters.locations}
+            width="120px"
           />
 
-          <FilterActiveTags
-            filters={filters.filters}
-            onRemove={filters.handleRemoveFilter}
-          />
+          {filters.filters.categories.length > 0 && (
+            <FilterTag>
+              <span>
+                {filters.filters.categories.length === 1
+                  ? filters.filters.categories[0]
+                  : `${filters.filters.categories[0]} 외 ${filters.filters.categories.length - 1}`}
+              </span>
+              <RemoveButton
+                onClick={() => filters.handleRemoveFilter('categories')}
+              >
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
+
+          {filters.filters.locations.length > 0 && (
+            <FilterTag>
+              <span>
+                {filters.filters.locations.length === 1
+                  ? filters.filters.locations[0]
+                  : `${filters.filters.locations[0]} 외 ${filters.filters.locations.length - 1}`}
+              </span>
+              <RemoveButton
+                onClick={() => filters.handleRemoveFilter('locations')}
+              >
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
+
+          {filters.filters.date && (
+            <FilterTag>
+              <span>{filters.filters.date}</span>
+              <RemoveButton onClick={() => filters.handleRemoveFilter('date')}>
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
         </Flex>
       </FilterSection>
 
-      <DisposalHistoryList>
-        {mockDisposalHistoryItems.map((item) => (
-          <DisposalHistoryItem key={item.id}>
-            <Flex direction="row" gap={20} align="center" width="755px">
-              <ProductImage
-                src={item.imageUrl}
-                alt="분실물 사진"
-                width={98}
-                height={98}
-              />
-              <Flex direction="column" justify="space-between" height="100%">
-                <Text variant="H2">{item.name}</Text>
-                <Text variant="p2" color={color.gray200}>
-                  {item.foundAt}
-                </Text>
-                <Text variant="p2">
-                  {item.foundPlace} / {item.foundPlaceDetail}
-                </Text>
+      {data.isLoading ? (
+        <div>폐기 이력을 불러오는 중...</div>
+      ) : data.error ? (
+        <div>폐기 이력을 불러오는 중 오류가 발생했습니다.</div>
+      ) : data.disposalHistoryItems.length === 0 ? (
+        <div>폐기 이력이 없습니다.</div>
+      ) : (
+        <DisposalHistoryList>
+          {data.disposalHistoryItems.map((item) => (
+            <DisposalHistoryItem key={item.id}>
+              <Flex direction="row" gap={20} align="center" width="755px">
+                <ProductImage
+                  src={item.imageUrl}
+                  alt="분실물 사진"
+                  width={98}
+                  height={98}
+                />
+                <Flex direction="column" justify="space-between" height="100%">
+                  <Text variant="H2">{item.name}</Text>
+                  <Text variant="p2" color={color.gray200}>
+                    {formatDateDot(item.foundAt)}
+                  </Text>
+                  <Text variant="p2">
+                    {item.foundPlace} / {item.foundPlaceDetail}
+                  </Text>
+                </Flex>
               </Flex>
-            </Flex>
-            <DisposalDate>
-              <Text variant="p2">{item.disposalDate}</Text>
-            </DisposalDate>
-          </DisposalHistoryItem>
-        ))}
-      </DisposalHistoryList>
+              <DisposalDate>
+                <Text variant="p2">
+                  {item.disposalDate
+                    ? `${formatDateDot(item.disposalDate)} 폐기`
+                    : '폐기일 미정'}
+                </Text>
+              </DisposalDate>
+            </DisposalHistoryItem>
+          ))}
+        </DisposalHistoryList>
+      )}
     </StyledDisposalHistoryPage>
   );
 };
@@ -133,6 +142,40 @@ const FilterSection = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
+`;
+
+const FilterTag = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  background-color: ${color.secondary};
+  color: ${color.white};
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+
+  span {
+    white-space: nowrap;
+  }
+`;
+
+const RemoveButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const DisposalHistoryList = styled.div`
