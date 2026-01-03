@@ -178,7 +178,6 @@ export const useAdminDisposal = () => {
                 ? {
                     ...item,
                     disposalDate: patchResponse.extendedDisposalDate,
-                    extendedDisposalDate: patchResponse.extendedDisposalDate,
                   }
                 : item
             ),
