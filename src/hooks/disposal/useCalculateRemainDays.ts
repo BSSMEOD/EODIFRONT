@@ -1,36 +1,43 @@
 import { useCallback } from 'react';
+import { isValid } from 'date-fns';
+
+const toDateOnly = (date: Date | string): Date | null => {
+  try {
+    const parsed = typeof date === 'string' ? new Date(date) : date;
+    if (!isValid(parsed)) return null;
+
+    return new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+  } catch {
+    return null;
+  }
+};
 
 export const useCalculateRemainDays = () => {
   const calculateRemainDays = useCallback(
     (foundAt: string, disposalDate?: string): number => {
-      // disposalDate가 있으면 해당 날짜까지의 남은 일수 계산 (연장된 경우)
+      const foundDateOnly = toDateOnly(foundAt);
+      if (!foundDateOnly) return 0; // 잘못된 foundAt이면 0 반환
+
       if (disposalDate) {
-        const disposal = new Date(disposalDate);
-        const disposalDateOnly = new Date(
-          disposal.getFullYear(),
-          disposal.getMonth(),
-          disposal.getDate()
-        );
-        const today = new Date();
-        const todayDateOnly = new Date(
-          today.getFullYear(),
-          today.getMonth(),
-          today.getDate()
-        );
+        const disposalDateOnly = toDateOnly(disposalDate);
+        if (!disposalDateOnly) {
+          // disposalDate가 잘못되면 기본 로직으로 폴백
+        } else {
+          const today = new Date();
+          const todayDateOnly = new Date(
+            today.getFullYear(),
+            today.getMonth(),
+            today.getDate()
+          );
 
-        const diffTime = disposalDateOnly.getTime() - todayDateOnly.getTime();
-        const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+          const diffTime = disposalDateOnly.getTime() - todayDateOnly.getTime();
+          const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-        return diffDays > 0 ? diffDays : 0;
+          return diffDays > 0 ? diffDays : 0;
+        }
       }
 
-      // disposalDate가 없으면 기존 로직 (foundAt + 180일)
-      const found = new Date(foundAt);
-      const foundDateOnly = new Date(
-        found.getFullYear(),
-        found.getMonth(),
-        found.getDate()
-      );
+      // disposalDate가 없거나 잘못되면 기존 로직 (foundAt + 180일)
       const today = new Date();
       const todayDateOnly = new Date(
         today.getFullYear(),
