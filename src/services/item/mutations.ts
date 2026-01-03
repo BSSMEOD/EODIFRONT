@@ -1,6 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deleteItem, patchItem, postItemClaim } from '@services/item/apis';
-import { PostItemClaimReq } from '@/types/item/params';
+import { PatchItemReq, PostItemClaimReq } from '@/types/item/params';
 
 export const useItemClaimMutation = (id: number) => {
   const { mutate, ...restMutation } = useMutation({
@@ -21,7 +21,7 @@ export const useItemDeleteMutation = (id: number) => {
 export const useItemUpdateMutation = (id: number) => {
   const queryClient = useQueryClient();
   const { mutate, ...restMutation } = useMutation({
-    mutationFn: (formData: FormData) => patchItem(id, formData),
+    mutationFn: (form: PatchItemReq) => patchItem(id, form),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['item'] }),
   });
   return { mutate, ...restMutation };

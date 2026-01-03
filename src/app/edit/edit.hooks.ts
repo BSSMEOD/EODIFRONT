@@ -3,10 +3,12 @@ import { useRouter } from 'next/navigation';
 import { CATEGORY } from '@/constants/item/constant';
 import { useFindDetailQuery } from '@services/item/queries';
 import { useImageUploadMutation } from '@services/image/mutations';
+import { useItemUpdateMutation } from '@services/item/mutations';
 
 interface Form {
   name: string;
   reporterName: string;
+  reporterStudentCode: number | undefined;
   date: Date | null;
   location: string;
   category: (typeof CATEGORY)[number] | undefined;
@@ -15,9 +17,11 @@ interface Form {
 export const useForm = (id: number) => {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
-  const { mutate: imageUploadMutate } = useImageUploadMutation();
+  const { mutateAsync: imageUploadMutateAsync } = useImageUploadMutation();
+  const { mutate: updateItemMutate } = useItemUpdateMutation(id);
 
   const [form, setForm] = useState<Form>({
+    reporterStudentCode: undefined,
     name: '',
     reporterName: '',
     date: null,
@@ -26,7 +30,7 @@ export const useForm = (id: number) => {
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imagePreview, setImagePreview] = useState<string>('');
+  const [imagePreview, setImagePreview] = useState<string>();
 
   const { data: itemData, error, isLoading } = useFindDetailQuery(id);
 
@@ -42,6 +46,7 @@ export const useForm = (id: number) => {
 
     setForm({
       name: itemData.name ?? '',
+      reporterStudentCode: itemData.reporterStudentCode,
       reporterName: itemData.reporterName,
       date: itemData.foundAt ? new Date(itemData.foundAt) : null,
       location: itemData.foundPlaceDetail || itemData.foundPlace || '',
@@ -73,15 +78,25 @@ export const useForm = (id: number) => {
     setSelectedFile(file);
   };
 
-  const handleSubmit = () => {
+  const uploadImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append('file', file);
+    const data = await imageUploadMutateAsync(formData);
+    return data.url;
+  };
+
+  const handleSubmit = async () => {
     const isConfirm = confirm('분실물 정보를 수정하시겠습니까?');
     if (!isConfirm) return;
-    let imageUrl = null;
+    let imageUrl;
+
     if (selectedFile) {
-      const formData = new FormData();
-      formData.append('file', selectedFile);
-      imageUrl = imageUploadMutate(formData);
+      imageUrl = await uploadImage(selectedFile);
+    } else {
+      imageUrl = imagePreview;
     }
+
+    updateItemMutate({ ...form, imageUrl });
   };
 
   return {

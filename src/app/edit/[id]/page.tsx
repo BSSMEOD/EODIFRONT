@@ -59,8 +59,15 @@ const EditPage = ({ params }: EditPageProps) => {
             onChange={handleFormChange}
           />
           <Input
-            label="습득 신고자"
-            placeholder="습득 신고자 입력"
+            label="습득 신고자 학번"
+            placeholder="습득 신고자 학번 입력"
+            name="reporterStudentCode"
+            value={form.reporterStudentCode}
+            onChange={handleFormChange}
+          />
+          <Input
+            label="습득 신고자 이름"
+            placeholder="습득 신고자 이름 입력"
             name="reporterName"
             value={form.reporterName}
             onChange={handleFormChange}

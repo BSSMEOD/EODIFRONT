@@ -15,3 +15,14 @@ export interface GetItemListParams {
 export interface PostItemClaimReq {
   claimReason: string;
 }
+
+export interface PatchItemReq {
+  name?: string;
+  reporterStudentCode?: number;
+  reporterName?: string;
+  foundAt?: string;
+  placeId?: number;
+  placeDetail?: string;
+  category?: string;
+  imageUrl?: string;
+}

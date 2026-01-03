@@ -6,7 +6,11 @@ import type {
   GetItemListRes,
   GetPlaceListRes,
 } from '@/types/item/response';
-import type { GetItemListParams, PostItemClaimReq } from '@/types/item/params';
+import {
+  GetItemListParams,
+  PatchItemReq,
+  PostItemClaimReq,
+} from '@/types/item/params';
 import authorization from '@/api/token/token';
 
 export const getItemDetail = async (id: number) => {
@@ -50,7 +54,7 @@ export const deleteItem = async (id: number) => {
   return data;
 };
 
-export const patchItem = async (id: number, formData: FormData) => {
-  const { data } = await eodi.patch(`/items/${id}`, formData, authorization());
+export const patchItem = async (id: number, form: PatchItemReq) => {
+  const { data } = await eodi.patch(`/items/${id}`, form, authorization());
   return data;
 };
