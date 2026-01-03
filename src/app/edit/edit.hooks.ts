@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { CATEGORY } from '@/constants/item/constant';
 import { useFindDetailQuery } from '@services/item/queries';
+import { useImageUploadMutation } from '@services/image/mutations';
 
 interface Form {
   name: string;
@@ -14,6 +15,7 @@ interface Form {
 export const useForm = (id: number) => {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
+  const { mutate: imageUploadMutate } = useImageUploadMutation();
 
   const [form, setForm] = useState<Form>({
     name: '',
@@ -74,6 +76,12 @@ export const useForm = (id: number) => {
   const handleSubmit = () => {
     const isConfirm = confirm('분실물 정보를 수정하시겠습니까?');
     if (!isConfirm) return;
+    let imageUrl = null;
+    if (selectedFile) {
+      const formData = new FormData();
+      formData.append('file', selectedFile);
+      imageUrl = imageUploadMutate(formData);
+    }
   };
 
   return {
