@@ -9,6 +9,7 @@ import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterD
 import { useDisposalHistory } from '@/app/disposal-history/disposal-history.hooks';
 import { formatDateDot } from '@/utils/formatDate';
 import IconMinus from '@/icons/src/IconMinus';
+import Pagination from '@components/common/Pagination/Pagination';
 import color from '@styles/color';
 const DisposalHistoryPage = () => {
   const { filters, options, data } = useDisposalHistory();
@@ -124,11 +125,24 @@ const DisposalHistoryPage = () => {
               </DisposalDate>
             </DisposalHistoryItem>
           ))}
+          <PaginationSection>
+            <Pagination
+              currentPage={data.currentPage}
+              totalPages={data.totalPages}
+              onPageChange={data.handlePageChange}
+            />
+          </PaginationSection>
         </DisposalHistoryList>
       )}
     </StyledDisposalHistoryPage>
   );
 };
+
+const PaginationSection = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+`;
 
 const StyledDisposalHistoryPage = styled.div`
   width: 100%;

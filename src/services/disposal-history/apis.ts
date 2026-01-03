@@ -6,7 +6,7 @@ export const getDisposalHistoryItems = async (params: GetItemListParams) => {
   const { data } = await eodi.get<GetItemListRes>('/items/search', {
     params: {
       ...params,
-      status: 'DISCARDED', // 폐기 완료 상태로 고정
+      status: 'DISCARDED',
     },
   });
   return data;

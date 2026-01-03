@@ -9,6 +9,7 @@ import { GetItemListParams } from '@/types/item/params';
 export const useDisposalHistory = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     disposalDate: '',
     categories: [] as string[],
@@ -21,8 +22,8 @@ export const useDisposalHistory = () => {
   const buildApiParams = useCallback((): GetItemListParams => {
     const params: GetItemListParams = {
       status: 'DISCARDED',
-      page: 1,
-      size: 100,
+      page: currentPage,
+      size: 10,
     };
 
     if (filters.disposalDate) {
@@ -52,7 +53,7 @@ export const useDisposalHistory = () => {
     }
 
     return params;
-  }, [filters, startDate, endDate, placeListData]);
+  }, [filters, startDate, endDate, placeListData, currentPage]);
 
   const {
     data: disposalHistoryData,
@@ -65,6 +66,7 @@ export const useDisposalHistory = () => {
       ...prevFilters,
       [name]: value,
     }));
+    setCurrentPage(1);
   };
 
   const handleMultiSelectChange = (values: string[], name: string) => {
@@ -72,6 +74,7 @@ export const useDisposalHistory = () => {
       ...prevFilters,
       [name]: values,
     }));
+    setCurrentPage(1);
   };
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
@@ -85,6 +88,7 @@ export const useDisposalHistory = () => {
     } else {
       setFilters((prev) => ({ ...prev, date: '' }));
     }
+    setCurrentPage(1);
   };
 
   const handleRemoveFilter = (name: string, valueToRemove?: string) => {
@@ -102,8 +106,12 @@ export const useDisposalHistory = () => {
       setStartDate(null);
       setEndDate(null);
     }
+    setCurrentPage(1);
   };
-
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
   const disposalDateOptions = [
     { label: '최신순', value: 'fastest' },
     { label: '오래된순', value: 'slowest' },
@@ -143,6 +151,9 @@ export const useDisposalHistory = () => {
       disposalHistoryItems: disposalHistoryData?.content || [],
       isLoading,
       error,
+      currentPage,
+      totalPages: disposalHistoryData?.totalPages || 1,
+      handlePageChange,
     },
   };
 };
