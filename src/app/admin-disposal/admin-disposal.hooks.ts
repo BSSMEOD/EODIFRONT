@@ -231,6 +231,17 @@ export const useAdminDisposal = () => {
       ]
     : [{ label: '전체', value: '' }];
 
+  // 값을 레이블로 변환하는 헬퍼 함수들
+  const getLocationLabel = (value: string) => {
+    const option = locationOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
+
+  const getCategoryLabel = (value: string) => {
+    const option = categoryOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
+
   return {
     filters: {
       startDate,
@@ -246,6 +257,10 @@ export const useAdminDisposal = () => {
       disposalDateOptions,
       categoryOptions,
       locationOptions,
+    },
+    utils: {
+      getCategoryLabel,
+      getLocationLabel,
     },
     modals: {
       isExtensionModalOpen,

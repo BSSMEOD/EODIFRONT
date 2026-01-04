@@ -14,7 +14,7 @@ import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
 
 const AdminDisposalPage = () => {
-  const { filters, options, modals, data } = useAdminDisposal();
+  const { filters, options, modals, data, utils } = useAdminDisposal();
 
   return (
     <Flex
@@ -59,8 +59,8 @@ const AdminDisposalPage = () => {
             <FilterTag>
               <span>
                 {filters.filters.categories.length === 1
-                  ? filters.filters.categories[0]
-                  : `${filters.filters.categories[0]} 외 ${filters.filters.categories.length - 1}`}
+                  ? utils.getCategoryLabel(filters.filters.categories[0])
+                  : `${utils.getCategoryLabel(filters.filters.categories[0])} 외 ${filters.filters.categories.length - 1}`}
               </span>
               <RemoveButton
                 onClick={() => filters.handleRemoveFilter('categories')}
@@ -74,8 +74,8 @@ const AdminDisposalPage = () => {
             <FilterTag>
               <span>
                 {filters.filters.locations.length === 1
-                  ? filters.filters.locations[0]
-                  : `${filters.filters.locations[0]} 외 ${filters.filters.locations.length - 1}`}
+                  ? utils.getLocationLabel(filters.filters.locations[0])
+                  : `${utils.getLocationLabel(filters.filters.locations[0])} 외 ${filters.filters.locations.length - 1}`}
               </span>
               <RemoveButton
                 onClick={() => filters.handleRemoveFilter('locations')}

@@ -154,6 +154,16 @@ export const useDisposalHistory = () => {
       }))
     : [];
 
+  const getLocationLabel = (value: string) => {
+    const option = locationOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
+
+  const getCategoryLabel = (value: string) => {
+    const option = categoryOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
+
   return {
     filters: {
       startDate,
@@ -168,6 +178,10 @@ export const useDisposalHistory = () => {
       disposalDateOptions,
       categoryOptions,
       locationOptions,
+    },
+    utils: {
+      getCategoryLabel,
+      getLocationLabel,
     },
     data: {
       disposalHistoryItems: filteredItems,

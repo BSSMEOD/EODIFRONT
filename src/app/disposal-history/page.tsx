@@ -13,7 +13,7 @@ import Pagination from '@components/common/Pagination/Pagination';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import color from '@styles/color';
 const DisposalHistoryPage = () => {
-  const { filters, options, data } = useDisposalHistory();
+  const { filters, options, data, utils } = useDisposalHistory();
 
   return (
     <Flex
@@ -58,8 +58,8 @@ const DisposalHistoryPage = () => {
             <FilterTag>
               <span>
                 {filters.filters.categories.length === 1
-                  ? filters.filters.categories[0]
-                  : `${filters.filters.categories[0]} 외 ${filters.filters.categories.length - 1}`}
+                  ? utils.getCategoryLabel(filters.filters.categories[0])
+                  : `${utils.getCategoryLabel(filters.filters.categories[0])} 외 ${filters.filters.categories.length - 1}`}
               </span>
               <RemoveButton
                 onClick={() => filters.handleRemoveFilter('categories')}
@@ -73,8 +73,8 @@ const DisposalHistoryPage = () => {
             <FilterTag>
               <span>
                 {filters.filters.locations.length === 1
-                  ? filters.filters.locations[0]
-                  : `${filters.filters.locations[0]} 외 ${filters.filters.locations.length - 1}`}
+                  ? utils.getLocationLabel(filters.filters.locations[0])
+                  : `${utils.getLocationLabel(filters.filters.locations[0])} 외 ${filters.filters.locations.length - 1}`}
               </span>
               <RemoveButton
                 onClick={() => filters.handleRemoveFilter('locations')}
