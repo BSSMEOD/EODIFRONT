@@ -10,11 +10,11 @@ export const useForm = () => {
   const [form, setForm] = useState<ItemForm>({
     name: '',
     reporterName: '',
-    reporterStudentCode: undefined,
-    foundAt: undefined,
+    reporterStudentCode: null,
+    foundAt: '',
     placeId: '',
     foundPlaceDetail: '',
-    category: undefined,
+    category: '',
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -39,7 +39,7 @@ export const useForm = () => {
   };
 
   const handleDateChange = (date: Date | null) => {
-    const parsedDate = date ? new Date(date) : undefined;
+    const parsedDate = date ? formatDateDash(date) : '';
     updateFormField('foundAt', parsedDate);
   };
 
@@ -68,8 +68,6 @@ export const useForm = () => {
       !form.placeId ||
       !form.foundPlaceDetail.trim() ||
       !form.category;
-    console.log('selectedFile', selectedFile);
-    console.log('form', form);
 
     if (isFormInvalid) {
       alert('모든 항목을 입력해주세요.');
@@ -77,8 +75,7 @@ export const useForm = () => {
     }
 
     const imageUrl = await imageUploadMutateAsync(selectedFile);
-    const foundAt = formatDateDash(form.foundAt as Date);
-    registerItemMutate({ ...form, foundAt, imageUrl });
+    registerItemMutate({ ...form, imageUrl });
   };
 
   return {

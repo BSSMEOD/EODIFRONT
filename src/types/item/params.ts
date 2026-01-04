@@ -1,4 +1,4 @@
-import { Item, Status } from './client';
+import { ItemForm, Status } from './client';
 
 export interface GetItemListParams {
   page?: number;
@@ -16,12 +16,8 @@ export interface PostItemClaimReq {
   claimReason: string;
 }
 
-interface ItemReq extends Omit<
-  Item,
-  'id' | 'status' | 'foundPlace' | 'foundAt'
-> {
-  placeId: string;
-  foundAt?: string;
+interface ItemReq extends ItemForm {
+  imageUrl: string;
 }
 
 export type PatchItemReq = ItemReq;

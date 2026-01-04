@@ -13,13 +13,13 @@ export const useForm = (id: number) => {
   const { mutate: updateItemMutate } = useItemUpdateMutation(id);
 
   const [form, setForm] = useState<ItemForm>({
-    reporterStudentCode: undefined,
+    reporterStudentCode: null,
     name: '',
     reporterName: '',
-    foundAt: undefined,
+    foundAt: '',
     placeId: '',
     foundPlaceDetail: '',
-    category: undefined,
+    category: '',
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -70,7 +70,7 @@ export const useForm = (id: number) => {
   };
 
   const handleDateChange = (date: Date | null) => {
-    const parsedDate = date ? new Date(date) : undefined;
+    const parsedDate = date ? formatDateDash(date) : '';
     updateFormField('foundAt', parsedDate);
   };
 
@@ -86,8 +86,7 @@ export const useForm = (id: number) => {
       ? await imageUploadMutateAsync(selectedFile)
       : imagePreview;
 
-    const foundAt = form.foundAt ? formatDateDash(form.foundAt) : undefined;
-    updateItemMutate({ ...form, foundAt, imageUrl });
+    updateItemMutate({ ...form, imageUrl });
   };
 
   return {
