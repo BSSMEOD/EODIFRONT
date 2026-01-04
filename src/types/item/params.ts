@@ -16,8 +16,12 @@ export interface PostItemClaimReq {
   claimReason: string;
 }
 
-interface ItemReq extends Omit<Item, 'id' | 'status' | 'foundPlace'> {
+interface ItemReq extends Omit<
+  Item,
+  'id' | 'status' | 'foundPlace' | 'foundAt'
+> {
   placeId: string;
+  foundAt?: string;
 }
 
 export type PatchItemReq = ItemReq;

@@ -2,6 +2,7 @@ import { ChangeEvent, useRef, useState } from 'react';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemRegisterMutation } from '@services/item/mutations';
 import { ItemForm } from '@/types/item/client';
+import { formatDateDash } from '@utils/formatDate';
 
 export const useForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -76,7 +77,8 @@ export const useForm = () => {
     }
 
     const imageUrl = await imageUploadMutateAsync(selectedFile);
-    registerItemMutate({ ...form, imageUrl });
+    const foundAt = formatDateDash(form.foundAt as Date);
+    registerItemMutate({ ...form, foundAt, imageUrl });
   };
 
   return {

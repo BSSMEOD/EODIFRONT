@@ -4,6 +4,7 @@ import { useFindDetailQuery, usePlaceListQuery } from '@services/item/queries';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemUpdateMutation } from '@services/item/mutations';
 import { ItemForm } from '@/types/item/client';
+import { formatDateDash } from '@utils/formatDate';
 
 export const useForm = (id: number) => {
   const router = useRouter();
@@ -85,7 +86,8 @@ export const useForm = (id: number) => {
       ? await imageUploadMutateAsync(selectedFile)
       : imagePreview;
 
-    updateItemMutate({ ...form, imageUrl });
+    const foundAt = form.foundAt ? formatDateDash(form.foundAt) : undefined;
+    updateItemMutate({ ...form, foundAt, imageUrl });
   };
 
   return {
