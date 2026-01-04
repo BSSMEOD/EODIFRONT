@@ -1,9 +1,8 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { format } from 'date-fns';
 import { CATEGORY } from '@/constants/item/constant';
 import { usePlaceListQuery } from '@/services/item/queries';
 import { useDisposalHistoryQuery } from '@/services/disposal-history/queries';
-import { formatDateDash } from '@/utils/formatDate';
 import { GetItemListParams } from '@/types/item/params';
 
 export const useDisposalHistory = () => {
@@ -34,14 +33,6 @@ export const useDisposalHistory = () => {
       params.categories = filters.categories;
     }
 
-    if (startDate) {
-      params.foundAtFrom = formatDateDash(startDate);
-    }
-
-    if (endDate) {
-      params.foundAtTo = formatDateDash(endDate);
-    }
-
     if (filters.locations.length > 0 && placeListData) {
       const selectedPlaceIds = placeListData
         .filter((place) => filters.locations.includes(place.name))
@@ -60,6 +51,39 @@ export const useDisposalHistory = () => {
     isLoading,
     error,
   } = useDisposalHistoryQuery(buildApiParams());
+
+  // disposalDate 기준 날짜 필터링
+  const filteredItems = useMemo(() => {
+    let items = disposalHistoryData?.content || [];
+
+    if (startDate && endDate) {
+      items = items.filter((item) => {
+        if (!item.disposalDate) return false;
+        const disposalDate = new Date(item.disposalDate);
+        const disposalDateOnly = new Date(
+          disposalDate.getFullYear(),
+          disposalDate.getMonth(),
+          disposalDate.getDate()
+        );
+        const startDateOnly = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate()
+        );
+        const endDateOnly = new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate()
+        );
+
+        return (
+          disposalDateOnly >= startDateOnly && disposalDateOnly <= endDateOnly
+        );
+      });
+    }
+
+    return items;
+  }, [disposalHistoryData, startDate, endDate]);
 
   const handleDropdownChange = (name: string) => (value: string) => {
     setFilters((prevFilters) => ({
@@ -146,7 +170,7 @@ export const useDisposalHistory = () => {
       locationOptions,
     },
     data: {
-      disposalHistoryItems: disposalHistoryData?.content || [],
+      disposalHistoryItems: filteredItems,
       isLoading,
       error,
       currentPage,

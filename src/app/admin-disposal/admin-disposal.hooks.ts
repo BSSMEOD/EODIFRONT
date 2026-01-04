@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { format } from 'date-fns';
 import { Item } from '@/types/item/client';
 import { CATEGORY } from '@/constants/item/constant';
@@ -10,7 +10,6 @@ import {
   usePatchItemDiscardedMutation,
 } from '@/services/admin-disposal/mutations';
 import { useQueryClient } from '@tanstack/react-query';
-import { formatDateDash } from '@/utils/formatDate';
 import { GetItemListParams } from '@/types/item/params';
 import { GetItemListRes } from '@/types/item/response';
 import { toast } from 'react-toastify';
@@ -53,14 +52,6 @@ export const useAdminDisposal = () => {
       params.categories = filters.categories;
     }
 
-    if (startDate) {
-      params.foundAtFrom = formatDateDash(startDate);
-    }
-
-    if (endDate) {
-      params.foundAtTo = formatDateDash(endDate);
-    }
-
     if (filters.locations.length > 0 && placeListData) {
       const selectedPlaceIds = placeListData
         .filter((place) => filters.locations.includes(place.name))
@@ -80,6 +71,39 @@ export const useAdminDisposal = () => {
     isLoading,
     error,
   } = useAdminDisposalItemsQuery(buildApiParams());
+
+  // disposalDate 기준 날짜 필터링
+  const filteredItems = useMemo(() => {
+    let items = disposalItemsData?.content || [];
+
+    if (startDate && endDate) {
+      items = items.filter((item) => {
+        if (!item.disposalDate) return false;
+        const disposalDate = new Date(item.disposalDate);
+        const disposalDateOnly = new Date(
+          disposalDate.getFullYear(),
+          disposalDate.getMonth(),
+          disposalDate.getDate()
+        );
+        const startDateOnly = new Date(
+          startDate.getFullYear(),
+          startDate.getMonth(),
+          startDate.getDate()
+        );
+        const endDateOnly = new Date(
+          endDate.getFullYear(),
+          endDate.getMonth(),
+          endDate.getDate()
+        );
+
+        return (
+          disposalDateOnly >= startDateOnly && disposalDateOnly <= endDateOnly
+        );
+      });
+    }
+
+    return items;
+  }, [disposalItemsData, startDate, endDate]);
 
   const handleDropdownChange = (name: string) => (value: string) => {
     setFilters((prevFilters) => ({
@@ -146,19 +170,15 @@ export const useAdminDisposal = () => {
     reason: string
   ) => {
     try {
-      // 1단계: 사유 등록 (응답에 reasonId 포함)
       const reasonResponse = await postDisposalReasonMutation.mutateAsync({
         itemId: id,
         req: { reason, days: extensionDays },
       });
 
-      // 2단계: 연장 처리 - POST 응답의 reasonId 사용
       const patchResponse = await patchItemDiscardedMutation.mutateAsync({
         itemId: id,
         req: { reasonId: reasonResponse.reasonId },
       });
-
-      // 3단계: PATCH 응답의 extendedDisposalDate를 즉시 캐시에 적용
       queryClient.setQueryData(
         ['admin-disposal', 'items', buildApiParams()],
         (oldData: GetItemListRes | undefined) => {
@@ -235,7 +255,7 @@ export const useAdminDisposal = () => {
       handleCloseModals,
     },
     data: {
-      disposalItems: (disposalItemsData?.content || []).map((item) => ({
+      disposalItems: filteredItems.map((item) => ({
         ...item,
         daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
       })),
