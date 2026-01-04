@@ -81,7 +81,21 @@ export const useForm = (id: number) => {
   const handleSubmit = async () => {
     const isConfirm = confirm('분실물 정보를 수정하시겠습니까?');
     if (!isConfirm) return;
-    if (!imagePreview) return;
+    const isFormInvalid =
+      !imagePreview ||
+      !form.name.trim() ||
+      !form.reporterName.trim() ||
+      !form.reporterStudentCode ||
+      !form.foundAt ||
+      !form.placeId ||
+      !form.foundPlaceDetail.trim() ||
+      !form.category;
+
+    if (isFormInvalid) {
+      alert('모든 항목을 입력해주세요.');
+      return;
+    }
+
     const imageUrl = selectedFile
       ? await imageUploadMutateAsync(selectedFile)
       : imagePreview;
