@@ -20,10 +20,10 @@ interface ProductListItem {
   disposalMode?: boolean;
   recallMode?: boolean;
   isRejectModalOpen?: boolean;
-  onDisposal?: (id: number) => void;
   onExtension?: (id: number) => void;
   onApprove?: (id: number) => void;
   onReject?: (id: number) => void;
+  rightContent?: React.ReactNode;
 }
 
 const ProductListItem = ({
@@ -34,10 +34,10 @@ const ProductListItem = ({
   disposalMode = false,
   recallMode = false,
   isRejectModalOpen = false,
-  onDisposal,
   onExtension,
   onApprove,
   onReject,
+  rightContent,
 }: ProductListItem) => {
   const {
     id,
@@ -45,6 +45,7 @@ const ProductListItem = ({
     name,
     foundAt,
     foundPlace,
+    foundPlaceDetail,
     status,
     daysToDisposal,
     requestMessage,
@@ -62,7 +63,16 @@ const ProductListItem = ({
   const itemContent = (
     <>
       <Flex direction="row" gap={20} align="center">
-        <ProductImage src={imageUrl} alt="분실물 사진" width={98} height={98} />
+        {imageUrl ? (
+          <ProductImage
+            src={imageUrl}
+            alt="분실물 사진"
+            width={98}
+            height={98}
+          />
+        ) : (
+          <ProductImagePlaceholder />
+        )}
         <InfoSection $recallMode={recallMode}>
           <Flex direction="row" gap={5} align="center">
             {showStatus && <Status status={status}>{STATUS[status]}</Status>}
@@ -75,7 +85,10 @@ const ProductListItem = ({
               <Text variant="p2" color={color.gray200}>
                 {foundAt && formatDateDot(foundAt)}
               </Text>
-              <Text variant="p2">{foundPlace}</Text>
+              <Text variant="p2">
+                {foundPlace}
+                {foundPlaceDetail ? ` / ${foundPlaceDetail}` : ''}
+              </Text>
             </>
           )}
         </InfoSection>
@@ -89,22 +102,13 @@ const ProductListItem = ({
           >
             폐기까지 D-{daysToDisposal}
           </Text>
-          <Flex gap={4}>
-            <Button
-              styleType="GHOST"
-              size="small"
-              onClick={() => onDisposal?.(id)}
-            >
-              폐기처리
-            </Button>
-            <Button
-              styleType="GHOST"
-              size="small"
-              onClick={() => onExtension?.(id)}
-            >
-              기간연장
-            </Button>
-          </Flex>
+          <Button
+            styleType="GHOST"
+            size="small"
+            onClick={() => onExtension?.(id)}
+          >
+            기간연장
+          </Button>
         </Flex>
       ) : recallMode ? (
         <Flex gap={10} align="center">
@@ -122,6 +126,10 @@ const ProductListItem = ({
           >
             승인
           </Button>
+        </Flex>
+      ) : rightContent ? (
+        <Flex direction="column" justify="center">
+          {rightContent}
         </Flex>
       ) : (
         auth && (
@@ -181,6 +189,15 @@ const ProductImage = styled(Image)`
   width: 98px;
   height: 98px;
   background: ${color.gray100};
+  flex-shrink: 0;
+`;
+
+const ProductImagePlaceholder = styled.div`
+  border-radius: 12px;
+  width: 98px;
+  height: 98px;
+  background: ${color.gray100};
+  flex-shrink: 0;
 `;
 
 const InfoSection = styled.div<{ $recallMode?: boolean }>`

@@ -11,7 +11,6 @@ type BigProductListProps =
     })
   | (ProductListProps & {
       disposalMode: true;
-      onDisposal: (id: number) => void;
       onExtension: (id: number) => void;
     });
 
@@ -19,7 +18,6 @@ const BigProductList = ({
   productList,
   auth = false,
   disposalMode = false,
-  onDisposal,
   onExtension,
 }: BigProductListProps) => {
   return (
@@ -32,7 +30,6 @@ const BigProductList = ({
           showStatus={!disposalMode}
           auth={auth}
           disposalMode={disposalMode}
-          onDisposal={onDisposal}
           onExtension={onExtension}
         />
       ))}

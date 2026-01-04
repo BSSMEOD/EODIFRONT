@@ -104,7 +104,10 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
           <Text>폐기 예정 물품이 없습니다.</Text>
         ) : (
           disposalData.map((item) => {
-            const remainDays = calculateRemainDays(item.foundAt);
+            const remainDays = calculateRemainDays(
+              item.foundAt,
+              item.disposalDate
+            );
             return (
               <Flex key={item.id}>
                 <Td width="25%" height={56}>

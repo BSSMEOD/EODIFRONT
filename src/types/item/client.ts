@@ -12,6 +12,7 @@ export interface Item {
   foundPlaceDetail: string;
   status: Status;
   category: (typeof CATEGORY)[number];
+  disposalDate?: string;
 }
 
 export interface Place {
