@@ -44,7 +44,6 @@ export const useForm = () => {
   };
 
   const handleFileChange = (file: File | null) => {
-    console.log(file);
     setSelectedFile(file);
   };
 
