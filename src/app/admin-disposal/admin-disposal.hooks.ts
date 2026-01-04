@@ -63,7 +63,7 @@ export const useAdminDisposal = () => {
     }
 
     return params;
-  }, [filters, startDate, endDate, placeListData]);
+  }, [filters, placeListData]);
 
   // 물품 목록 조회
   const {
@@ -170,6 +170,9 @@ export const useAdminDisposal = () => {
     reason: string
   ) => {
     try {
+      // 캐시 키를 미리 고정 (연장 시작 시점의 파라미터 사용)
+      const currentCacheKey = ['admin-disposal', 'items', buildApiParams()];
+
       const reasonResponse = await postDisposalReasonMutation.mutateAsync({
         itemId: id,
         req: { reason, days: extensionDays },
@@ -179,8 +182,9 @@ export const useAdminDisposal = () => {
         itemId: id,
         req: { reasonId: reasonResponse.reasonId },
       });
+
       queryClient.setQueryData(
-        ['admin-disposal', 'items', buildApiParams()],
+        currentCacheKey,
         (oldData: GetItemListRes | undefined) => {
           if (!oldData) return oldData;
 
