@@ -16,8 +16,13 @@ const DisposalHistoryPage = () => {
   const { filters, options, data } = useDisposalHistory();
 
   return (
-    <StyledDisposalHistoryPage>
-      <FilterSection>
+    <Flex
+      direction="column"
+      gap={20}
+      width="100%"
+      style={{ paddingTop: '59px' }}
+    >
+      <Flex justify="flex-start" align="center">
         <Flex gap={12} align="center" wrap="wrap">
           <Dropdown
             data={options.disposalDateOptions}
@@ -88,7 +93,7 @@ const DisposalHistoryPage = () => {
             </FilterTag>
           )}
         </Flex>
-      </FilterSection>
+      </Flex>
 
       {data.isLoading ? (
         <div>폐기 이력을 불러오는 중...</div>
@@ -97,55 +102,39 @@ const DisposalHistoryPage = () => {
       ) : data.disposalHistoryItems.length === 0 ? (
         <div>폐기 이력이 없습니다.</div>
       ) : (
-        <DisposalHistoryList>
+        <Flex direction="column" gap={20}>
           {data.disposalHistoryItems.map((item) => (
             <ProductListItem
               key={item.id}
               product={item}
               size="big"
               rightContent={
-                <DisposalDate>
+                <Flex
+                  align="center"
+                  justify="center"
+                  style={{ minWidth: '120px' }}
+                >
                   <Text variant="p2">
                     {item.disposalDate
                       ? `${formatDateDot(item.disposalDate)} 폐기`
                       : '폐기일 미정'}
                   </Text>
-                </DisposalDate>
+                </Flex>
               }
             />
           ))}
-          <PaginationSection>
+          <Flex justify="center" style={{ marginTop: '20px' }}>
             <Pagination
               currentPage={data.currentPage}
               totalPages={data.totalPages}
               onPageChange={data.handlePageChange}
             />
-          </PaginationSection>
-        </DisposalHistoryList>
+          </Flex>
+        </Flex>
       )}
-    </StyledDisposalHistoryPage>
+    </Flex>
   );
 };
-
-const PaginationSection = styled.div`
-  margin-top: 20px;
-  display: flex;
-  justify-content: center;
-`;
-
-const StyledDisposalHistoryPage = styled.div`
-  width: 100%;
-  padding-top: 59px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const FilterSection = styled.div`
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-`;
 
 const FilterTag = styled.div`
   display: flex;
@@ -179,19 +168,6 @@ const RemoveButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
-`;
-
-const DisposalHistoryList = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const DisposalDate = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 120px;
 `;
 
 export default DisposalHistoryPage;

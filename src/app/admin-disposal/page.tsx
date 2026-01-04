@@ -17,8 +17,13 @@ const AdminDisposalPage = () => {
   const { filters, options, modals, data } = useAdminDisposal();
 
   return (
-    <StyledAdminDisposalPage>
-      <FilterSection>
+    <Flex
+      direction="column"
+      gap={20}
+      width="100%"
+      style={{ paddingTop: '59px' }}
+    >
+      <Flex justify="space-between" align="center">
         <Flex gap={12} align="center" wrap="wrap">
           <Dropdown
             data={options.disposalDateOptions}
@@ -100,7 +105,7 @@ const AdminDisposalPage = () => {
             폐기 이력
           </Text>
         </Flex>
-      </FilterSection>
+      </Flex>
 
       {data.isLoading ? (
         <div>물품 목록을 불러오는 중...</div>
@@ -120,23 +125,9 @@ const AdminDisposalPage = () => {
         onClose={modals.handleCloseModals}
         onConfirm={modals.handleExtensionConfirm}
       />
-    </StyledAdminDisposalPage>
+    </Flex>
   );
 };
-
-const StyledAdminDisposalPage = styled.div`
-  width: 100%;
-  padding-top: 59px;
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-`;
-
-const FilterSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
 
 const FilterTag = styled.div`
   display: flex;
