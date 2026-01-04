@@ -16,12 +16,7 @@ const DisposalHistoryPage = () => {
   const { filters, options, data, utils } = useDisposalHistory();
 
   return (
-    <Flex
-      direction="column"
-      gap={20}
-      width="100%"
-      style={{ paddingTop: '59px' }}
-    >
+    <PageContainer direction="column" gap={20} width="100%">
       <Flex justify="flex-start" align="center">
         <Flex gap={12} align="center" wrap="wrap">
           <Dropdown
@@ -115,27 +110,25 @@ const DisposalHistoryPage = () => {
         </Flex>
       ) : (
         <Flex direction="column" gap={20}>
-          {data.disposalHistoryItems.map((item) => (
-            <ProductListItem
-              key={item.id}
-              product={item}
-              size="big"
-              rightContent={
-                <Flex
-                  align="center"
-                  justify="center"
-                  style={{ minWidth: '120px' }}
-                >
-                  <Text variant="p2">
-                    {item.disposalDate
-                      ? `${formatDateDot(item.disposalDate)} 폐기`
-                      : '폐기일 미정'}
-                  </Text>
-                </Flex>
-              }
-            />
-          ))}
-          <Flex justify="center" style={{ marginTop: '20px' }}>
+          <Flex direction="column" gap={20}>
+            {data.disposalHistoryItems.map((item) => (
+              <ProductListItem
+                key={item.id}
+                product={item}
+                size="big"
+                rightContent={
+                  <DateContainer>
+                    <Text variant="p2">
+                      {item.disposalDate
+                        ? `${formatDateDot(item.disposalDate)} 폐기`
+                        : '폐기일 미정'}
+                    </Text>
+                  </DateContainer>
+                }
+              />
+            ))}
+          </Flex>
+          <Flex justify="center">
             <Pagination
               currentPage={data.currentPage}
               totalPages={data.totalPages}
@@ -144,7 +137,7 @@ const DisposalHistoryPage = () => {
           </Flex>
         </Flex>
       )}
-    </Flex>
+    </PageContainer>
   );
 };
 
@@ -180,6 +173,17 @@ const RemoveButton = styled.button`
   &:hover {
     opacity: 0.7;
   }
+`;
+
+const DateContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+`;
+
+const PageContainer = styled(Flex)`
+  padding-top: 59px;
 `;
 
 export default DisposalHistoryPage;

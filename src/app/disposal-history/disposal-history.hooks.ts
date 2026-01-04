@@ -4,6 +4,7 @@ import { CATEGORY } from '@/constants/item/constant';
 import { usePlaceListQuery } from '@/services/item/queries';
 import { useDisposalHistoryQuery } from '@/services/disposal-history/queries';
 import { GetItemListParams } from '@/types/item/params';
+import { isDateInRange } from '@/utils/dateUtils';
 
 export const useDisposalHistory = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
@@ -57,29 +58,9 @@ export const useDisposalHistory = () => {
     let items = disposalHistoryData?.content || [];
 
     if (startDate && endDate) {
-      items = items.filter((item) => {
-        if (!item.disposalDate) return false;
-        const disposalDate = new Date(item.disposalDate);
-        const disposalDateOnly = new Date(
-          disposalDate.getFullYear(),
-          disposalDate.getMonth(),
-          disposalDate.getDate()
-        );
-        const startDateOnly = new Date(
-          startDate.getFullYear(),
-          startDate.getMonth(),
-          startDate.getDate()
-        );
-        const endDateOnly = new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
-          endDate.getDate()
-        );
-
-        return (
-          disposalDateOnly >= startDateOnly && disposalDateOnly <= endDateOnly
-        );
-      });
+      items = items.filter((item) =>
+        isDateInRange(item.disposalDate, startDate, endDate)
+      );
     }
 
     return items;

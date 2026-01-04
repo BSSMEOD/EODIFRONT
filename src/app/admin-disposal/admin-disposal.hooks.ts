@@ -13,6 +13,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { GetItemListParams } from '@/types/item/params';
 import { GetItemListRes } from '@/types/item/response';
 import { toast } from 'react-toastify';
+import { isDateInRange } from '@/utils/dateUtils';
 
 interface DisposalItem extends Item {
   daysToDisposal: number;
@@ -66,45 +67,32 @@ export const useAdminDisposal = () => {
     return params;
   }, [filters, placeListData, currentPage]);
 
-  // 물품 목록 조회
   const {
     data: disposalItemsData,
     isLoading,
     error,
   } = useAdminDisposalItemsQuery(buildApiParams());
 
-  // disposalDate 기준 날짜 필터링
   const filteredItems = useMemo(() => {
     let items = disposalItemsData?.content || [];
 
     if (startDate && endDate) {
-      items = items.filter((item) => {
-        if (!item.disposalDate) return false;
-        const disposalDate = new Date(item.disposalDate);
-        const disposalDateOnly = new Date(
-          disposalDate.getFullYear(),
-          disposalDate.getMonth(),
-          disposalDate.getDate()
-        );
-        const startDateOnly = new Date(
-          startDate.getFullYear(),
-          startDate.getMonth(),
-          startDate.getDate()
-        );
-        const endDateOnly = new Date(
-          endDate.getFullYear(),
-          endDate.getMonth(),
-          endDate.getDate()
-        );
-
-        return (
-          disposalDateOnly >= startDateOnly && disposalDateOnly <= endDateOnly
-        );
-      });
+      items = items.filter((item) =>
+        isDateInRange(item.disposalDate, startDate, endDate)
+      );
     }
 
     return items;
   }, [disposalItemsData, startDate, endDate]);
+
+  const disposalItemsWithDays = useMemo(
+    () =>
+      filteredItems.map((item) => ({
+        ...item,
+        daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
+      })),
+    [filteredItems, calculateRemainDays]
+  );
 
   const handleDropdownChange = (name: string) => (value: string) => {
     setFilters((prevFilters) => ({
@@ -178,37 +166,20 @@ export const useAdminDisposal = () => {
     reason: string
   ) => {
     try {
-      // 캐시 키를 미리 고정 (연장 시작 시점의 파라미터 사용)
-      const currentCacheKey = ['admin-disposal', 'items', buildApiParams()];
-
       const reasonResponse = await postDisposalReasonMutation.mutateAsync({
         itemId: id,
         req: { reason, days: extensionDays },
       });
 
-      const patchResponse = await patchItemDiscardedMutation.mutateAsync({
+      await patchItemDiscardedMutation.mutateAsync({
         itemId: id,
         req: { reasonId: reasonResponse.reasonId },
       });
 
-      queryClient.setQueryData(
-        currentCacheKey,
-        (oldData: GetItemListRes | undefined) => {
-          if (!oldData) return oldData;
-
-          return {
-            ...oldData,
-            content: oldData.content.map((item) =>
-              item.id === id
-                ? {
-                    ...item,
-                    disposalDate: patchResponse.extendedDisposalDate,
-                  }
-                : item
-            ),
-          };
-        }
-      );
+      // 모든 관련 쿼리를 무효화하여 최신 데이터로 다시 가져오기
+      await queryClient.invalidateQueries({
+        queryKey: ['admin-disposal', 'items'],
+      });
 
       toast.success('연장 처리가 완료되었습니다.');
       setIsExtensionModalOpen(false);
@@ -280,10 +251,7 @@ export const useAdminDisposal = () => {
       handleCloseModals,
     },
     data: {
-      disposalItems: filteredItems.map((item) => ({
-        ...item,
-        daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
-      })),
+      disposalItems: disposalItemsWithDays,
       isLoading,
       error,
       currentPage,
