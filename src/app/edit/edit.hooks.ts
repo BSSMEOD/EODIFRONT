@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useFindDetailQuery } from '@services/item/queries';
+import { useFindDetailQuery, usePlaceListQuery } from '@services/item/queries';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemUpdateMutation } from '@services/item/mutations';
 import { ItemForm } from '@/types/item/client';
@@ -16,7 +16,7 @@ export const useForm = (id: number) => {
     name: '',
     reporterName: '',
     foundAt: undefined,
-    foundPlace: '',
+    placeId: '',
     foundPlaceDetail: '',
     category: undefined,
   });
@@ -25,6 +25,7 @@ export const useForm = (id: number) => {
   const [imagePreview, setImagePreview] = useState<string>();
 
   const { data: itemData, error, isLoading } = useFindDetailQuery(id);
+  const { data: placeListData } = usePlaceListQuery();
 
   useEffect(() => {
     if (error) {
@@ -34,19 +35,22 @@ export const useForm = (id: number) => {
   }, [error, router]);
 
   useEffect(() => {
-    if (!itemData) return;
+    if (!itemData || !placeListData) return;
+    const foudPlace = placeListData.find(
+      (place) => place.name === itemData.foundPlace
+    );
 
     setForm({
       name: itemData.name ?? '',
       reporterStudentCode: itemData.reporterStudentCode,
       reporterName: itemData.reporterName,
       foundAt: itemData.foundAt,
-      foundPlace: itemData.foundPlace,
+      placeId: foudPlace ? foudPlace.id.toString() : '',
       foundPlaceDetail: itemData.foundPlaceDetail,
       category: itemData.category,
     });
     setImagePreview(itemData.imageUrl);
-  }, [itemData]);
+  }, [itemData, placeListData]);
 
   const updateFormField = <K extends keyof ItemForm>(
     name: K,

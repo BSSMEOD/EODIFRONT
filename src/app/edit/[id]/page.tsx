@@ -13,6 +13,7 @@ import { IconCalendar } from '@/icons/src/IconCalendar';
 import { CATEGORY } from '@/constants/item/constant';
 import { useForm } from '@app/edit/edit.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
+import { usePlaceListQuery } from '@services/item/queries';
 
 interface EditPageProps {
   params: Promise<{
@@ -31,10 +32,13 @@ const EditPage = ({ params }: EditPageProps) => {
     handleDateChange,
     handleFileChange,
     handleSubmit,
-    isLoading,
   } = useForm(id);
-
-  if (isLoading) return null;
+  const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: place.id.toString(),
+    })) ?? [];
 
   return (
     <StyledEditPage>
@@ -89,13 +93,23 @@ const EditPage = ({ params }: EditPageProps) => {
             dateFormat="yyyy. MM. dd."
             popperPlacement="bottom-end"
           />
-          <Input
-            label="습득 장소"
-            placeholder="습득 장소 입력"
-            name="foundPlace"
-            value={form.foundPlace}
-            onChange={handleFormChange}
-          />
+          <Flex direction="row" gap={24}>
+            <InputDropdown
+              data={placeOptions}
+              label="습득 장소"
+              placeholder="습득 장소 선택"
+              value={form.placeId}
+              name="placeId"
+              onChange={handleDropdownChange}
+            />
+            <Input
+              label="습득 장소 상세"
+              placeholder="습득 상세 입력"
+              value={form.foundPlaceDetail}
+              name="foundPlaceDetail"
+              onChange={handleFormChange}
+            />
+          </Flex>
           <InputDropdown
             label="물품 카테고리"
             placeholder="물품 카테고리 선택"
