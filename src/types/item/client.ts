@@ -6,16 +6,18 @@ export interface Item {
   id?: number;
   imageUrl?: string;
   reporterStudentCode?: number;
-  reporterName?: string;
-  name?: string;
+  reporterName: string;
+  name: string;
   foundAt?: Date;
   foundPlace?: string;
-  foundPlaceDetail?: string;
-  status?: Status;
+  foundPlaceDetail: string;
+  status: Status;
   category?: (typeof CATEGORY)[number];
 }
 
-export type ItemForm = Omit<Item, 'id' | 'imageUrl' | 'status'>;
+export interface ItemForm extends Omit<Item, 'id' | 'status' | 'foundPlace'> {
+  placeId: string;
+}
 
 export interface Place {
   id: number;

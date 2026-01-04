@@ -61,6 +61,6 @@ export const patchItem = async (id: number, form: PatchItemReq) => {
 };
 
 export const postItem = async (form: PostItemReq) => {
-  const { data } = await eodi.post('/items', form, authorization.formData());
+  const { data } = await eodi.post('/items', form, authorization());
   return data;
 };

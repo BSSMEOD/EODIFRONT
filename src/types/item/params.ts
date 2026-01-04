@@ -3,7 +3,7 @@ import { Item, Status } from './client';
 export interface GetItemListParams {
   page?: number;
   size?: number;
-  status: Status;
+  status?: Status;
   categories?: string[];
   placeIds?: number[];
   foundAtFrom?: string;
@@ -16,7 +16,9 @@ export interface PostItemClaimReq {
   claimReason: string;
 }
 
-type ItemReq = Omit<Item, 'id' | 'status'>;
+interface ItemReq extends Omit<Item, 'id' | 'status' | 'foundPlace'> {
+  placeId: string;
+}
 
 export type PatchItemReq = ItemReq;
 

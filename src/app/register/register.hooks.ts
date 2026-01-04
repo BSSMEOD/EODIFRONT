@@ -1,54 +1,50 @@
 import { ChangeEvent, useRef, useState } from 'react';
-import { CATEGORY } from '@/constants/item/constant';
 import { useImageUploadMutation } from '@services/image/mutations';
-
-interface Form {
-  name: string;
-  reporterName: string;
-  reporterStudentCode: number | undefined;
-  date: Date | null;
-  location: string;
-  category: (typeof CATEGORY)[number] | '';
-}
+import { useItemRegisterMutation } from '@services/item/mutations';
+import { ItemForm } from '@/types/item/client';
 
 export const useForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<ItemForm>({
     name: '',
     reporterName: '',
     reporterStudentCode: undefined,
-    date: null,
-    location: '',
-    category: '',
+    foundAt: undefined,
+    placeId: '',
+    foundPlaceDetail: '',
+    category: undefined,
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const { mutateAsync: imageUploadMutateAsync } = useImageUploadMutation();
+  const { mutate: registerItemMutate } = useItemRegisterMutation();
 
-  const updateFormField = <K extends keyof Form>(name: K, value: Form[K]) => {
+  const updateFormField = <K extends keyof ItemForm>(
+    name: K,
+    value: ItemForm[K]
+  ) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    updateFormField(name as keyof Form, value as Form[keyof Form]);
+    updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
   const handleDropdownChange = (value: string, name: string) => {
-    updateFormField(name as keyof Form, value as Form[keyof Form]);
+    updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
-  const handleDateChange = (date: Date | string | null) => {
-    const parsedDate =
-      typeof date === 'string' ? new Date(date) : (date as Date | null);
-    updateFormField('date', parsedDate);
+  const handleDateChange = (date: Date | null) => {
+    const parsedDate = date ? new Date(date) : undefined;
+    updateFormField('foundAt', parsedDate);
   };
 
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    setSelectedFile(file || null);
+  const handleFileChange = (file: File | null) => {
+    console.log(file);
+    setSelectedFile(file);
   };
 
   const clearFile = () => {
@@ -67,9 +63,12 @@ export const useForm = () => {
       !form.name.trim() ||
       !form.reporterName.trim() ||
       !form.reporterStudentCode ||
-      !form.date ||
-      !form.location.trim() ||
+      !form.foundAt ||
+      !form.placeId ||
+      !form.foundPlaceDetail.trim() ||
       !form.category;
+    console.log('selectedFile', selectedFile);
+    console.log('form', form);
 
     if (isFormInvalid) {
       alert('모든 항목을 입력해주세요.');
@@ -77,6 +76,7 @@ export const useForm = () => {
     }
 
     const imageUrl = await imageUploadMutateAsync(selectedFile);
+    registerItemMutate({ ...form, imageUrl });
   };
 
   return {

@@ -13,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import DateSelector from '@components/common/DateSelector/DateSelector';
 import { IconCalendar } from '@/icons/src/IconCalendar';
 import React from 'react';
+import { usePlaceListQuery } from '@services/item/queries';
 
 const RegisterPage = () => {
   const {
@@ -22,7 +23,14 @@ const RegisterPage = () => {
     handleDropdownChange,
     handleDateChange,
     handleSubmit,
+    handleFileChange,
   } = useForm();
+  const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: place.id.toString(),
+    })) ?? [];
 
   return (
     <StyledRegisterPage>
@@ -33,7 +41,7 @@ const RegisterPage = () => {
         </Button>
       </Flex>
       <Flex direction="row" gap={52}>
-        <ImageUploader ref={fileRef} />
+        <ImageUploader ref={fileRef} onFileChange={handleFileChange} />
         <Flex direction="column" gap={24} style={{ flex: 1 }}>
           <Input
             label="물품명"
@@ -61,7 +69,7 @@ const RegisterPage = () => {
           </Flex>
           <DateSelector
             placeholderText="습득 날짜 선택"
-            selected={form.date}
+            selected={form.foundAt}
             onChange={handleDateChange}
             customInput={
               <Input
@@ -73,13 +81,23 @@ const RegisterPage = () => {
             dateFormat="yyyy. MM. dd."
             popperPlacement="bottom-end"
           />
-          <Input
-            label="습득 장소"
-            placeholder="습득 장소 입력"
-            value={form.location}
-            name="location"
-            onChange={handleFormChange}
-          />
+          <Flex direction="row" gap={24}>
+            <InputDropdown
+              data={placeOptions}
+              label="습득 장소"
+              placeholder="습득 장소 선택"
+              value={form.placeId}
+              name="placeId"
+              onChange={handleDropdownChange}
+            />
+            <Input
+              label="습득 장소 상세"
+              placeholder="습득 상세 입력"
+              value={form.foundPlaceDetail}
+              name="foundPlaceDetail"
+              onChange={handleFormChange}
+            />
+          </Flex>
           <InputDropdown
             label="물품 카테고리"
             placeholder="물품 카테고리 선택"
