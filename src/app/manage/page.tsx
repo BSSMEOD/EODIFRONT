@@ -10,8 +10,12 @@ import { useForm } from '@app/manage/manage.hooks';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
+import Pagination from '@components/common/Pagination/Pagination';
+import { useState } from 'react';
 
 const ManagePage = () => {
+  const [page, setPage] = useState<number>(1);
+
   const {
     filters,
     handleInputChange,
@@ -21,8 +25,7 @@ const ManagePage = () => {
   } = useForm();
 
   const { data: productListData } = useItemListQuery({
-    page: 1,
-    size: 10,
+    page: page,
     ...buildItemListParams(filters),
   });
 
@@ -64,6 +67,11 @@ const ManagePage = () => {
         />
       </Flex>
       <BigProductList productList={productListData?.content || []} auth />
+      <Pagination
+        currentPage={page}
+        totalPages={productListData?.totalPages || 1}
+        onPageChange={(pageNumber) => setPage(pageNumber)}
+      />
     </StyledManagePage>
   );
 };
