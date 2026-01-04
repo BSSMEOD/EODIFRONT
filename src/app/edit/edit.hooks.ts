@@ -19,7 +19,6 @@ export const useForm = (id: number) => {
     placeId: '',
     foundPlaceDetail: '',
     category: undefined,
-    imageUrl: '',
   });
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -49,7 +48,6 @@ export const useForm = (id: number) => {
       placeId: foudPlace ? foudPlace.id.toString() : '',
       foundPlaceDetail: itemData.foundPlaceDetail,
       category: itemData.category,
-      imageUrl: itemData.imageUrl,
     });
     setImagePreview(itemData.imageUrl);
   }, [itemData, placeListData]);

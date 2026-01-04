@@ -15,7 +15,10 @@ export interface Item {
   category?: (typeof CATEGORY)[number];
 }
 
-export interface ItemForm extends Omit<Item, 'id' | 'status' | 'foundPlace'> {
+export interface ItemForm extends Omit<
+  Item,
+  'id' | 'status' | 'foundPlace' | 'imageUrl'
+> {
   placeId: string;
 }
 
