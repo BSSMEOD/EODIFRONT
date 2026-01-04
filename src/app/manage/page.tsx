@@ -11,7 +11,7 @@ import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterD
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Pagination from '@components/common/Pagination/Pagination';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const ManagePage = () => {
   const [page, setPage] = useState<number>(1);
@@ -23,6 +23,10 @@ const ManagePage = () => {
     handleDateChange,
     buildItemListParams,
   } = useForm();
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters.search]);
 
   const { data: productListData } = useItemListQuery({
     page: page,
