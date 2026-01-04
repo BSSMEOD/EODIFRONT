@@ -12,6 +12,7 @@ import { useForm } from '@app/register/register.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
 import DateSelector from '@components/common/DateSelector/DateSelector';
 import { IconCalendar } from '@/icons/src/IconCalendar';
+import React from 'react';
 
 const RegisterPage = () => {
   const {
@@ -41,12 +42,23 @@ const RegisterPage = () => {
             value={form.name}
             onChange={handleFormChange}
           />
-          <Input
-            label="습득 신고자"
-            placeholder="습득 신고자 입력"
-            name="reporter"
-            onChange={handleFormChange}
-          />
+          <Flex direction="row" gap={24}>
+            <Input
+              type="number"
+              label="습득 신고자 학번"
+              placeholder="습득 신고자 학번 입력"
+              name="reporterStudentCode"
+              value={form.reporterStudentCode}
+              onChange={handleFormChange}
+            />
+            <Input
+              label="습득 신고자 이름"
+              placeholder="습득 신고자 이름 입력"
+              name="reporterName"
+              value={form.reporterName}
+              onChange={handleFormChange}
+            />
+          </Flex>
           <DateSelector
             placeholderText="습득 날짜 선택"
             selected={form.date}
@@ -64,6 +76,7 @@ const RegisterPage = () => {
           <Input
             label="습득 장소"
             placeholder="습득 장소 입력"
+            value={form.location}
             name="location"
             onChange={handleFormChange}
           />

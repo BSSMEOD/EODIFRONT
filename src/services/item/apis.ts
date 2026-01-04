@@ -10,6 +10,7 @@ import {
   GetItemListParams,
   PatchItemReq,
   PostItemClaimReq,
+  PostItemReq,
 } from '@/types/item/params';
 import authorization from '@/api/token/token';
 
@@ -56,5 +57,10 @@ export const deleteItem = async (id: number) => {
 
 export const patchItem = async (id: number, form: PatchItemReq) => {
   const { data } = await eodi.patch(`/items/${id}`, form, authorization());
+  return data;
+};
+
+export const postItem = async (form: PostItemReq) => {
+  const { data } = await eodi.post('/items', form, authorization.formData());
   return data;
 };

@@ -1,4 +1,4 @@
-import { Status } from './client';
+import { Item, Status } from './client';
 
 export interface GetItemListParams {
   page?: number;
@@ -16,13 +16,8 @@ export interface PostItemClaimReq {
   claimReason: string;
 }
 
-export interface PatchItemReq {
-  name?: string;
-  reporterStudentCode?: number;
-  reporterName?: string;
-  foundAt?: string;
-  placeId?: number;
-  placeDetail?: string;
-  category?: string;
-  imageUrl?: string;
-}
+type ItemReq = Omit<Item, 'id' | 'status'>;
+
+export type PatchItemReq = ItemReq;
+
+export type PostItemReq = ItemReq;

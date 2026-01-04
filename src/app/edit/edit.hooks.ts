@@ -1,18 +1,9 @@
 import { ChangeEvent, useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { CATEGORY } from '@/constants/item/constant';
 import { useFindDetailQuery } from '@services/item/queries';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemUpdateMutation } from '@services/item/mutations';
-
-interface Form {
-  name: string;
-  reporterName: string;
-  reporterStudentCode: number | undefined;
-  date: Date | null;
-  location: string;
-  category: (typeof CATEGORY)[number] | undefined;
-}
+import { ItemForm } from '@/types/item/client';
 
 export const useForm = (id: number) => {
   const router = useRouter();
@@ -20,12 +11,13 @@ export const useForm = (id: number) => {
   const { mutateAsync: imageUploadMutateAsync } = useImageUploadMutation();
   const { mutate: updateItemMutate } = useItemUpdateMutation(id);
 
-  const [form, setForm] = useState<Form>({
+  const [form, setForm] = useState<ItemForm>({
     reporterStudentCode: undefined,
     name: '',
     reporterName: '',
-    date: null,
-    location: '',
+    foundAt: undefined,
+    foundPlace: '',
+    foundPlaceDetail: '',
     category: undefined,
   });
 
@@ -48,53 +40,46 @@ export const useForm = (id: number) => {
       name: itemData.name ?? '',
       reporterStudentCode: itemData.reporterStudentCode,
       reporterName: itemData.reporterName,
-      date: itemData.foundAt ? new Date(itemData.foundAt) : null,
-      location: itemData.foundPlaceDetail || itemData.foundPlace || '',
+      foundAt: itemData.foundAt,
+      foundPlace: itemData.foundPlace,
+      foundPlaceDetail: itemData.foundPlaceDetail,
       category: itemData.category,
     });
     setImagePreview(itemData.imageUrl);
   }, [itemData]);
 
-  const updateFormField = <K extends keyof Form>(name: K, value: Form[K]) => {
+  const updateFormField = <K extends keyof ItemForm>(
+    name: K,
+    value: ItemForm[K]
+  ) => {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    updateFormField(name as keyof Form, value as Form[keyof Form]);
+    updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
   const handleDropdownChange = (value: string, name: string) => {
-    updateFormField(name as keyof Form, value as Form[keyof Form]);
+    updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
-  const handleDateChange = (date: Date | string | null) => {
-    const parsedDate =
-      typeof date === 'string' ? new Date(date) : (date as Date | null);
-    updateFormField('date', parsedDate);
+  const handleDateChange = (date: Date | null) => {
+    const parsedDate = date ? new Date(date) : undefined;
+    updateFormField('foundAt', parsedDate);
   };
 
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
   };
 
-  const uploadImage = async (file: File) => {
-    const formData = new FormData();
-    formData.append('file', file);
-    const data = await imageUploadMutateAsync(formData);
-    return data.url;
-  };
-
   const handleSubmit = async () => {
     const isConfirm = confirm('분실물 정보를 수정하시겠습니까?');
     if (!isConfirm) return;
-    let imageUrl;
-
-    if (selectedFile) {
-      imageUrl = await uploadImage(selectedFile);
-    } else {
-      imageUrl = imagePreview;
-    }
+    if (!imagePreview) return;
+    const imageUrl = selectedFile
+      ? await imageUploadMutateAsync(selectedFile)
+      : imagePreview;
 
     updateItemMutate({ ...form, imageUrl });
   };

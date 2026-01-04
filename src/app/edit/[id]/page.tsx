@@ -58,23 +58,26 @@ const EditPage = ({ params }: EditPageProps) => {
             value={form.name}
             onChange={handleFormChange}
           />
-          <Input
-            label="습득 신고자 학번"
-            placeholder="습득 신고자 학번 입력"
-            name="reporterStudentCode"
-            value={form.reporterStudentCode}
-            onChange={handleFormChange}
-          />
-          <Input
-            label="습득 신고자 이름"
-            placeholder="습득 신고자 이름 입력"
-            name="reporterName"
-            value={form.reporterName}
-            onChange={handleFormChange}
-          />
+          <Flex direction="row" gap={24}>
+            <Input
+              type="number"
+              label="습득 신고자 학번"
+              placeholder="습득 신고자 학번 입력"
+              name="reporterStudentCode"
+              value={form.reporterStudentCode}
+              onChange={handleFormChange}
+            />
+            <Input
+              label="습득 신고자 이름"
+              placeholder="습득 신고자 이름 입력"
+              name="reporterName"
+              value={form.reporterName}
+              onChange={handleFormChange}
+            />
+          </Flex>
           <DateSelector
             placeholderText="습득 날짜 선택"
-            selected={form.date}
+            selected={form.foundAt}
             onChange={handleDateChange}
             customInput={
               <Input
@@ -89,8 +92,8 @@ const EditPage = ({ params }: EditPageProps) => {
           <Input
             label="습득 장소"
             placeholder="습득 장소 입력"
-            name="location"
-            value={form.location}
+            name="foundPlace"
+            value={form.foundPlace}
             onChange={handleFormChange}
           />
           <InputDropdown

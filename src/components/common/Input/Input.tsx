@@ -16,7 +16,7 @@ const Input = ({
   name,
   value = '',
   type = 'text',
-  width = 'auto',
+  width = '100%',
   height = 'auto',
   label,
   placeholder,
