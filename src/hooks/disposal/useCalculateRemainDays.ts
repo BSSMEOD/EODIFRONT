@@ -18,18 +18,17 @@ export const useCalculateRemainDays = () => {
       const foundDateOnly = toDateOnly(foundAt);
       if (!foundDateOnly) return 0; // 잘못된 foundAt이면 0 반환
 
+      // today 관련 변수를 함수 최상단에서 한 번만 정의
+      const today = new Date();
+      const todayDateOnly = new Date(
+        today.getFullYear(),
+        today.getMonth(),
+        today.getDate()
+      );
+
       if (disposalDate) {
         const disposalDateOnly = toDateOnly(disposalDate);
-        if (!disposalDateOnly) {
-          // disposalDate가 잘못되면 기본 로직으로 폴백
-        } else {
-          const today = new Date();
-          const todayDateOnly = new Date(
-            today.getFullYear(),
-            today.getMonth(),
-            today.getDate()
-          );
-
+        if (disposalDateOnly) {
           const diffTime = disposalDateOnly.getTime() - todayDateOnly.getTime();
           const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
@@ -38,13 +37,6 @@ export const useCalculateRemainDays = () => {
       }
 
       // disposalDate가 없거나 잘못되면 기존 로직 (foundAt + 180일)
-      const today = new Date();
-      const todayDateOnly = new Date(
-        today.getFullYear(),
-        today.getMonth(),
-        today.getDate()
-      );
-
       const diffTime = todayDateOnly.getTime() - foundDateOnly.getTime();
       const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
       const remainDays = 180 - diffDays;

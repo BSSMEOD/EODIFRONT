@@ -7,8 +7,8 @@ import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import BigProductList from '@components/common/ProductList/BigProductList';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
-import IconMinus from '@/icons/src/IconMinus';
 import ExtensionModal from '@/components/admin-disposal/ExtensionModal/ExtensionModal';
+import IconMinus from '@/icons/src/IconMinus';
 import { useAdminDisposal } from '@/app/admin-disposal/admin-disposal.hooks';
 import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
@@ -108,9 +108,17 @@ const AdminDisposalPage = () => {
       </Flex>
 
       {data.isLoading ? (
-        <div>물품 목록을 불러오는 중...</div>
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.gray500}>
+            물품 목록을 불러오는 중...
+          </Text>
+        </Flex>
       ) : data.error ? (
-        <div>물품 목록을 불러오는 중 오류가 발생했습니다.</div>
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.red}>
+            물품 목록을 불러오는 중 오류가 발생했습니다.
+          </Text>
+        </Flex>
       ) : (
         <BigProductList
           productList={data.disposalItems}

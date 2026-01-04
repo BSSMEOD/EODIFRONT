@@ -21,6 +21,7 @@ interface DisposalItem extends Item {
 export const useAdminDisposal = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     disposalDate: '',
     categories: [] as string[],
@@ -40,8 +41,8 @@ export const useAdminDisposal = () => {
   const buildApiParams = useCallback((): GetItemListParams => {
     const params: GetItemListParams = {
       status: 'TO_BE_DISCARDED',
-      page: 1,
-      size: 100,
+      page: currentPage,
+      size: 10,
     };
 
     if (filters.disposalDate) {
@@ -63,7 +64,7 @@ export const useAdminDisposal = () => {
     }
 
     return params;
-  }, [filters, placeListData]);
+  }, [filters, placeListData, currentPage]);
 
   // 물품 목록 조회
   const {
@@ -110,6 +111,7 @@ export const useAdminDisposal = () => {
       ...prevFilters,
       [name]: value,
     }));
+    setCurrentPage(1);
   };
 
   const handleMultiSelectChange = (values: string[], name: string) => {
@@ -117,6 +119,7 @@ export const useAdminDisposal = () => {
       ...prevFilters,
       [name]: values,
     }));
+    setCurrentPage(1);
   };
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
@@ -130,15 +133,14 @@ export const useAdminDisposal = () => {
     } else {
       setFilters((prev) => ({ ...prev, date: '' }));
     }
+    setCurrentPage(1);
   };
 
-  const handleRemoveFilter = (name: string, valueToRemove?: string) => {
+  const handleRemoveFilter = (name: string) => {
     if (name === 'categories' || name === 'locations') {
       setFilters((prev) => ({
         ...prev,
-        [name]: valueToRemove
-          ? (prev[name] as string[]).filter((v) => v !== valueToRemove)
-          : [],
+        [name]: [],
       }));
     } else {
       setFilters((prev) => ({ ...prev, [name]: '' }));
@@ -147,10 +149,16 @@ export const useAdminDisposal = () => {
       setStartDate(null);
       setEndDate(null);
     }
+    setCurrentPage(1);
   };
 
   const handleDisposalHistory = () => {
     window.location.href = '/disposal-history';
+  };
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleExtension = (id: number) => {
@@ -206,6 +214,7 @@ export const useAdminDisposal = () => {
       setIsExtensionModalOpen(false);
       setSelectedItem(null);
     } catch (error) {
+      console.error('연장 처리 중 오류가 발생했습니다:', error);
       toast.error('연장 처리 중 오류가 발생했습니다.');
     }
   };
@@ -226,14 +235,11 @@ export const useAdminDisposal = () => {
   }));
 
   const locationOptions = placeListData
-    ? [
-        { label: '전체', value: '' },
-        ...placeListData.map((place) => ({
-          label: place.name,
-          value: place.name,
-        })),
-      ]
-    : [{ label: '전체', value: '' }];
+    ? placeListData.map((place) => ({
+        label: place.name,
+        value: place.name,
+      }))
+    : [];
 
   // 값을 레이블로 변환하는 헬퍼 함수들
   const getLocationLabel = (value: string) => {
@@ -280,6 +286,9 @@ export const useAdminDisposal = () => {
       })),
       isLoading,
       error,
+      currentPage,
+      totalPages: disposalItemsData?.totalPages || 1,
+      handlePageChange,
     },
   };
 };

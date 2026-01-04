@@ -6,7 +6,8 @@ export const useAdminDisposalItemsQuery = (params: GetItemListParams) => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['admin-disposal', 'items', params],
     queryFn: () => getAdminDisposalItems(params),
-    retry: false,
+    retry: 3,
+    retryDelay: (attemptIndex) => Math.min(1000 * 2 ** attemptIndex, 30000),
   });
   return { data, ...restQuery };
 };

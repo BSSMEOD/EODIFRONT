@@ -8,9 +8,9 @@ import Text from '@components/common/Text/Text';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { useDisposalHistory } from '@/app/disposal-history/disposal-history.hooks';
 import { formatDateDot } from '@/utils/formatDate';
-import IconMinus from '@/icons/src/IconMinus';
 import Pagination from '@components/common/Pagination/Pagination';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
+import IconMinus from '@/icons/src/IconMinus';
 import color from '@styles/color';
 const DisposalHistoryPage = () => {
   const { filters, options, data, utils } = useDisposalHistory();
@@ -96,11 +96,23 @@ const DisposalHistoryPage = () => {
       </Flex>
 
       {data.isLoading ? (
-        <div>폐기 이력을 불러오는 중...</div>
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.gray500}>
+            폐기 이력을 불러오는 중...
+          </Text>
+        </Flex>
       ) : data.error ? (
-        <div>폐기 이력을 불러오는 중 오류가 발생했습니다.</div>
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.red}>
+            폐기 이력을 불러오는 중 오류가 발생했습니다.
+          </Text>
+        </Flex>
       ) : data.disposalHistoryItems.length === 0 ? (
-        <div>폐기 이력이 없습니다.</div>
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.gray500}>
+            폐기 이력이 없습니다.
+          </Text>
+        </Flex>
       ) : (
         <Flex direction="column" gap={20}>
           {data.disposalHistoryItems.map((item) => (

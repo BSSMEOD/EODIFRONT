@@ -44,7 +44,7 @@ export const useDisposalHistory = () => {
     }
 
     return params;
-  }, [filters, startDate, endDate, placeListData, currentPage]);
+  }, [filters, placeListData, currentPage]);
 
   const {
     data: disposalHistoryData,
@@ -115,13 +115,11 @@ export const useDisposalHistory = () => {
     setCurrentPage(1);
   };
 
-  const handleRemoveFilter = (name: string, valueToRemove?: string) => {
+  const handleRemoveFilter = (name: string) => {
     if (name === 'categories' || name === 'locations') {
       setFilters((prev) => ({
         ...prev,
-        [name]: valueToRemove
-          ? (prev[name] as string[]).filter((v) => v !== valueToRemove)
-          : [],
+        [name]: [],
       }));
     } else {
       setFilters((prev) => ({ ...prev, [name]: '' }));
