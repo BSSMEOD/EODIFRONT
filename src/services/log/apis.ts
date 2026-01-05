@@ -13,6 +13,7 @@ export const getLogList = async (params: GetLogListParams) => {
       found_at_to: params.foundAtTo,
       grade: params.grade,
       class: params.class,
+      approved_at: params.approvedAt,
     },
   });
   return data;

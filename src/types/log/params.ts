@@ -7,4 +7,5 @@ export interface GetLogListParams {
   foundAtTo?: string;
   grade?: number;
   class?: number;
+  approvedAt?: string;
 }
