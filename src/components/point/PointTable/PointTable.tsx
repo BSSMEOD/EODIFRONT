@@ -10,10 +10,10 @@ import { useRewardHistoryQuery } from '@/services/point/queries';
 import { useGiveRewardMutation } from '@/services/point/mutations';
 import type { PointItem } from '@/types/point/client';
 import { toast } from 'react-toastify';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-
+import Pagination from '@components/common/Pagination/Pagination';
 interface PointTableProps {
   userId?: number;
   date?: string;
@@ -27,9 +27,15 @@ const PointTable = ({
   grade,
   class: classNum,
 }: PointTableProps = {}) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [userId, date, grade, classNum]);
 
   const { data, isLoading, error } = useRewardHistoryQuery({
     userId,
@@ -53,6 +59,18 @@ const PointTable = ({
       givenAt: item.given_at,
     }));
   }, [data]);
+
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return pointData.slice(startIndex, endIndex);
+  }, [pointData, currentPage]);
+
+  const totalPages = Math.ceil(pointData.length / ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const handleConvert = async (itemId: number, studentId: number) => {
     const key = `${itemId}-${studentId}`;
@@ -105,7 +123,7 @@ const PointTable = ({
   if (pointData.length === 0) {
     return (
       <StyledPointTable>
-        <EmptyMessage>상점 지급 이력이 없습니다.</EmptyMessage>
+        <EmptyMessage>데이터가 없습니다.</EmptyMessage>
       </StyledPointTable>
     );
   }
@@ -120,10 +138,10 @@ const PointTable = ({
             borderTopLeftRadius={10}
             textColor={color.white}
           >
-            물품명
+            습득물명
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
-            수령 학생
+            학생명
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
             수령 날짜
@@ -140,7 +158,7 @@ const PointTable = ({
             수정
           </Th>
         </Flex>
-        {pointData.map((item, index) => (
+        {paginatedData.map((item, index) => (
           <Flex key={index}>
             <Td width="20%" height={56}>
               <ItemName>
@@ -181,12 +199,20 @@ const PointTable = ({
                   loadingItems.has(`${item.itemId}-${item.studentId}`)
                 }
               >
-                <IconConvert width={24} height={24} />
+                <IconConvert width={24} />
               </ConvertButton>
             </Td>
           </Flex>
         ))}
       </TableWrapper>
+      <PaginationWrapper>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          maxVisiblePages={5}
+        />
+      </PaginationWrapper>
     </StyledPointTable>
   );
 };
@@ -248,6 +274,12 @@ const ErrorMessage = styled.div`
   color: ${color.red};
   text-align: center;
   padding: 40px;
+`;
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;
 
 const EmptyMessage = styled.div`

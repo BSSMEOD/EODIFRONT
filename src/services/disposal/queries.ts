@@ -10,3 +10,36 @@ export const useDisposalItemsQuery = (params: GetItemListParams) => {
   });
   return { data, ...restQuery };
 };
+
+export const useDisposalItemsCountQuery = () => {
+  const { data, ...restQuery } = useQuery({
+    queryKey: ['disposal', 'items', 'count'],
+    queryFn: () =>
+      getDisposalItems({
+        status: 'TO_BE_DISCARDED',
+        page: 1,
+        size: 1,
+      }),
+    select: (data) => data?.totalElements || 0,
+    retry: false,
+  });
+  return { data: data || 0, ...restQuery };
+};
+
+export const useImminentDisposalQuery = () => {
+  const { data, ...restQuery } = useQuery({
+    queryKey: ['disposal', 'imminent'],
+    queryFn: () =>
+      getDisposalItems({
+        status: 'TO_BE_DISCARDED',
+        page: 1,
+        size: 3,
+      }),
+    select: (data) => {
+      if (!data?.content) return [];
+      return data.content;
+    },
+    retry: false,
+  });
+  return { data: data || [], ...restQuery };
+};

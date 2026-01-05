@@ -11,6 +11,7 @@ import { STATUS } from '@/constants/item/constant';
 import font from '@styles/font';
 import { IconClose, IconEdit } from '@/icons';
 import { formatDateDot } from '@utils/formatDate';
+import { useState } from 'react';
 import { useItemDeleteMutation } from '@services/item/mutations';
 
 interface ProductListItem {
@@ -52,6 +53,7 @@ const ProductListItem = ({
     requestMessage,
   } = product;
 
+  const [imageError, setImageError] = useState(false);
   const { mutate } = useItemDeleteMutation(id);
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
@@ -66,15 +68,20 @@ const ProductListItem = ({
     onReject?.(id);
   };
 
+  const handleImageError = () => {
+    setImageError(true);
+  };
+
   const itemContent = (
     <>
       <Flex direction="row" gap={20} align="center">
-        {imageUrl ? (
+        {imageUrl && !imageError ? (
           <ProductImage
             src={imageUrl}
             alt="분실물 사진"
             width={98}
             height={98}
+            onError={handleImageError}
           />
         ) : (
           <ProductImagePlaceholder />

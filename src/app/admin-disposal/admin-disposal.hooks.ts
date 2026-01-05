@@ -11,7 +11,6 @@ import {
 } from '@/services/admin-disposal/mutations';
 import { useQueryClient } from '@tanstack/react-query';
 import { GetItemListParams } from '@/types/item/params';
-import { GetItemListRes } from '@/types/item/response';
 import { toast } from 'react-toastify';
 import { isDateInRange } from '@/utils/dateUtils';
 
@@ -43,7 +42,7 @@ export const useAdminDisposal = () => {
     const params: GetItemListParams = {
       status: 'TO_BE_DISCARDED',
       page: currentPage,
-      size: 10,
+      size: 20,
     };
 
     if (filters.disposalDate) {

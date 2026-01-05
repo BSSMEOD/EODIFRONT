@@ -7,6 +7,7 @@ import {
 } from './apis';
 import type { GetItemListParams } from '@/types/item/params';
 import { getPlaceList } from './apis';
+import { useAuthStore } from '@/stores/useAuthStore';
 
 export const useFindDetailQuery = (id: number) => {
   const { data, ...restQuery } = useQuery({
@@ -30,14 +31,21 @@ export const useClaimItemListQuery = () => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'claim'],
     queryFn: () => getClaimItemList(),
+    retry: false,
+    enabled: false,
   });
   return { data, ...restQuery };
 };
 
 export const useClaimItemCountQuery = () => {
+  const { authority } = useAuthStore();
+  const isAdmin = authority === 'ADMIN';
+
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'claim', 'count'],
     queryFn: () => getClaimItemCount(),
+    retry: false,
+    enabled: isAdmin,
   });
   return { data, ...restQuery };
 };

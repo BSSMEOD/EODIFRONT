@@ -14,22 +14,42 @@ import { useDisposalItemsQuery } from '@/services/disposal/queries';
 import { useSubmitDisposalReasonMutation } from '@/services/disposal/mutations';
 import { useCalculateRemainDays } from '@/hooks/disposal/useCalculateRemainDays';
 import { toast } from 'react-toastify';
-import Text from '@components/common/Text/Text';
 import type { GetItemListParams } from '@/types/item/params';
+import Pagination from '@components/common/Pagination/Pagination';
+import { useState, useEffect } from 'react';
 
 interface DisposalTableProps {
   filters?: Omit<GetItemListParams, 'status'>;
 }
 
+const getStatusText = (status?: string) => {
+  switch (status) {
+    case 'PENDING':
+      return '보류';
+    case 'APPROVED':
+      return '예정';
+    case 'REJECTED':
+      return '거부';
+    default:
+      return '예정';
+  }
+};
+
 const DisposalTable = ({ filters }: DisposalTableProps) => {
   const overlay = useOverlay();
   const router = useRouter();
   const { calculateRemainDays } = useCalculateRemainDays();
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
 
-  const { data, isLoading, isError } = useDisposalItemsQuery({
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [filters]);
+
+  const { data } = useDisposalItemsQuery({
     status: 'TO_BE_DISCARDED',
-    page: 1,
-    size: 100,
+    page: currentPage,
+    size: ITEMS_PER_PAGE,
     ...filters,
   });
 
@@ -68,6 +88,19 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
   };
 
   const disposalData = data?.content || [];
+  const totalPages = data?.totalPages || 1;
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+  if (disposalData.length === 0) {
+    return (
+      <StyledDisposalTable>
+        <EmptyMessage>폐기 예정 물품이 없습니다.</EmptyMessage>
+      </StyledDisposalTable>
+    );
+  }
 
   return (
     <StyledDisposalTable>
@@ -96,56 +129,55 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
             폐기 처리 상태
           </Th>
         </Flex>
-        {isLoading ? (
-          <Text>로딩중 입니다.</Text>
-        ) : isError ? (
-          <Text>물품 불러오기에 실패했습니다.</Text>
-        ) : disposalData.length === 0 ? (
-          <Text>폐기 예정 물품이 없습니다.</Text>
-        ) : (
-          disposalData.map((item) => {
-            const remainDays = calculateRemainDays(
-              item.foundAt,
-              item.disposalDate
-            );
-            return (
-              <Flex key={item.id}>
-                <Td width="25%" height={56}>
-                  D-{remainDays}
-                </Td>
-                <Td width="25%" height={56}>
-                  <ItemName>
-                    {item.name}
-                    <IconLinkButton
-                      type="button"
-                      aria-label={`${item.name} 상세 정보 보기`}
-                      onClick={() => handleItemClick(item.id)}
-                    >
-                      <IconLink
-                        width={24}
-                        height={24}
-                        color={color.secondary}
-                      />
-                    </IconLinkButton>
-                  </ItemName>
-                </Td>
-                <Td width="25%" height={56}>
-                  <StatusText $status="expected">예정</StatusText>
-                </Td>
-                <Td width="25%" height={56}>
-                  <ConvertButton
+        {disposalData.map((item) => {
+          const remainDays = calculateRemainDays(
+            item.foundAt,
+            item.disposalDate
+          );
+
+          return (
+            <Flex key={item.id}>
+              <Td width="25%" height={56}>
+                D-{remainDays}
+              </Td>
+              <Td width="25%" height={56}>
+                <ItemName>
+                  {item.name}
+                  <IconLinkButton
                     type="button"
-                    aria-label={`${item.name} 보류 처리`}
-                    onClick={() => handleConvert(item)}
+                    aria-label={`${item.name} 상세 정보 보기`}
+                    onClick={() => handleItemClick(item.id)}
                   >
-                    <IconConvert width={24} height={24} color={color.black} />
-                  </ConvertButton>
-                </Td>
-              </Flex>
-            );
-          })
-        )}
+                    <IconLink width={24} height={24} color={color.secondary} />
+                  </IconLinkButton>
+                </ItemName>
+              </Td>
+              <Td width="25%" height={56}>
+                <StatusText $status={item.approvalStatus || 'APPROVED'}>
+                  {getStatusText(item.approvalStatus)}
+                </StatusText>
+              </Td>
+              <Td width="25%" height={56}>
+                <ConvertButton
+                  type="button"
+                  aria-label={`${item.name} 보류 처리`}
+                  onClick={() => handleConvert(item)}
+                >
+                  <IconConvert width={24} height={24} color={color.black} />
+                </ConvertButton>
+              </Td>
+            </Flex>
+          );
+        })}
       </TableWrapper>
+      <PaginationWrapper>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          maxVisiblePages={5}
+        />
+      </PaginationWrapper>
     </StyledDisposalTable>
   );
 };
@@ -184,7 +216,9 @@ const IconLinkButton = styled.button`
   }
 `;
 
-const StatusText = styled.span<{ $status: 'expected' | 'completed' }>`
+const StatusText = styled.span<{
+  $status: 'PENDING' | 'APPROVED' | 'REJECTED';
+}>`
   ${font.p2}
   color: ${color.black};
 `;
@@ -203,4 +237,16 @@ const ConvertButton = styled.button`
   &:hover {
     background-color: ${color.gray100};
   }
+`;
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+`;
+
+const EmptyMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
 `;

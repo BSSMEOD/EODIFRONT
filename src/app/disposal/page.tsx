@@ -12,17 +12,39 @@ import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterD
 import type { GetItemListParams } from '@/types/item/params';
 
 const DisposalPage = () => {
-  const holdOptions = ['보류', '예정'];
+  const approvalOptions = [
+    { label: '보류', value: 'PENDING' },
+    { label: '예정', value: 'APPROVED' },
+  ];
+
+  const approvalLabelMap: Record<string, string> = {
+    PENDING: '보류',
+    APPROVED: '예정',
+  };
+
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
 
   const [filters, setFilters] = useState({
     date: '',
-    hold: '',
+    approval: '',
+  });
+
+  const [displayFilters, setDisplayFilters] = useState({
+    date: '',
+    approval: '',
   });
 
   const handleFilterChange = (value: string, name: string) => {
     setFilters((prev) => ({ ...prev, [name]: value }));
+    if (name === 'approval') {
+      setDisplayFilters((prev) => ({
+        ...prev,
+        [name]: approvalLabelMap[value] || value,
+      }));
+    } else {
+      setDisplayFilters((prev) => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
@@ -33,13 +55,16 @@ const DisposalPage = () => {
     if (start && end) {
       const dateStr = `${format(start, 'yyyy.MM.dd')} ~ ${format(end, 'yyyy.MM.dd')}`;
       setFilters((prev) => ({ ...prev, date: dateStr }));
+      setDisplayFilters((prev) => ({ ...prev, date: dateStr }));
     } else {
       setFilters((prev) => ({ ...prev, date: '' }));
+      setDisplayFilters((prev) => ({ ...prev, date: '' }));
     }
   };
 
   const handleRemoveFilter = (name: string) => {
     setFilters((prev) => ({ ...prev, [name]: '' }));
+    setDisplayFilters((prev) => ({ ...prev, [name]: '' }));
     if (name === 'date') {
       setStartDate(null);
       setEndDate(null);
@@ -53,12 +78,12 @@ const DisposalPage = () => {
       params.foundAtTo = format(endDate, 'yyyy-MM-dd');
     }
 
-    if (filters.hold === '보류' || filters.hold === '예정') {
-      params.holdStatus = filters.hold;
+    if (filters.approval) {
+      params.approvalStatus = filters.approval as 'PENDING' | 'APPROVED';
     }
 
     return params;
-  }, [startDate, endDate, filters.hold]);
+  }, [startDate, endDate, filters.approval]);
 
   return (
     <StyledDisposalPage>
@@ -71,15 +96,18 @@ const DisposalPage = () => {
         />
 
         <Dropdown
-          name="hold"
-          data={holdOptions}
-          value={filters.hold}
+          name="approval"
+          data={approvalOptions}
+          value={filters.approval}
           onChange={handleFilterChange}
-          placeholder="보류 여부"
+          placeholder="승인 상태"
           width="140px"
         />
 
-        <FilterActiveTags filters={filters} onRemove={handleRemoveFilter} />
+        <FilterActiveTags
+          filters={displayFilters}
+          onRemove={handleRemoveFilter}
+        />
       </FilterWrapper>
 
       <DisposalTable filters={apiFilters} />

@@ -7,35 +7,48 @@ import SmallProductList from '@components/common/ProductList/SmallProductList';
 import DashboardRoute from '@components/teacher/DashboardRoute/DashboardRoute';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { useUnpaidRewardsQuery } from '@/services/point/queries';
+import {
+  useImminentDisposalQuery,
+  useDisposalItemsCountQuery,
+} from '@/services/disposal/queries';
+import { useLogListQuery } from '@/services/log/queries';
 
 const TeacherMainPage = () => {
   const router = useRouter();
-  const { data: unPointProductListData } = { data: [] };
-  const { data: disposalProductListData } = { data: [] };
-  const { data: logListData } = { data: [] };
   const { authority, isLoggedIn } = useAuthStore();
   const isTeacher = authority === 'TEACHER';
+  const { data: unPointProductListData = [] } = useUnpaidRewardsQuery();
+  const { data: disposalProductListData = [] } = useImminentDisposalQuery();
+  const { data: disposalCount = 0 } = useDisposalItemsCountQuery();
+
+  const { data: logListData } = useLogListQuery({
+    page: 1,
+    size: 100,
+    approvedAt: 'true',
+  });
+
   useEffect(() => {
-    if (!isTeacher) {
+    if (isLoggedIn && !isTeacher) {
       router.replace(ROUTES.MAIN);
     }
-  }, [isLoggedIn, authority, router]);
+  }, [isLoggedIn, isTeacher, router]);
 
   return (
     <StyledTeacherMainPage>
       <DashboardRoute
-        pendingCount={unPointProductListData.length}
-        logCount={logListData.length}
-        disposalCount={disposalProductListData.length}
+        pendingCount={unPointProductListData?.length || 0}
+        logCount={logListData?.content?.length || 0}
+        disposalCount={disposalCount}
       />
       <SmallProductList
         title="상점 미지급 상태 분실물"
-        productList={unPointProductListData}
+        productList={unPointProductListData || []}
         href={ROUTES.POINT}
       />
       <SmallProductList
         title="폐기 직전인 분실물"
-        productList={disposalProductListData}
+        productList={disposalProductListData || []}
         href={ROUTES.DISPOSAL}
       />
     </StyledTeacherMainPage>
