@@ -56,7 +56,7 @@ const RegisterPage = () => {
               label="습득 신고자 학번"
               placeholder="습득 신고자 학번 입력"
               name="reporterStudentCode"
-              value={form.reporterStudentCode}
+              value={form.reporterStudentCode || ''}
               onChange={handleFormChange}
             />
             <Input
@@ -69,7 +69,7 @@ const RegisterPage = () => {
           </Flex>
           <DateSelector
             placeholderText="습득 날짜 선택"
-            selected={form.foundAt}
+            selected={new Date(form.foundAt)}
             onChange={handleDateChange}
             customInput={
               <Input
