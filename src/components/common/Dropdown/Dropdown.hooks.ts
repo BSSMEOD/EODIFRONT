@@ -7,7 +7,7 @@ export const useDropdown = (
   onChange: (selectedValue: string, name: string) => void,
   name: string,
   value: string,
-  data: Data[] | string[]
+  data: readonly Data[] | readonly string[]
 ) => {
   const {
     value: isOpen,

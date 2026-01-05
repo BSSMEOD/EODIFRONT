@@ -1,30 +1,38 @@
 'use client';
 
+import React from 'react';
 import styled from '@emotion/styled';
-import ImageUploader from '@components/register/ImageUploader/ImageUploader';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import { Button } from '@components/common/Button/Button';
+import ImageUploader from '@components/register/ImageUploader/ImageUploader';
 import Input from '@components/common/Input/Input';
-import InputDropdown from '@components/common/Dropdown/InputDropdown';
-import { CATEGORY } from '@/constants/item/constant';
-import { useForm } from '@app/register/register.hooks';
-import 'react-datepicker/dist/react-datepicker.css';
 import DateSelector from '@components/common/DateSelector/DateSelector';
+import InputDropdown from '@components/common/Dropdown/InputDropdown';
 import { IconCalendar } from '@/icons/src/IconCalendar';
-import React from 'react';
+import { CATEGORY } from '@/constants/item/constant';
+import { useForm } from '@app/edit/edit.hooks';
+import 'react-datepicker/dist/react-datepicker.css';
 import { usePlaceListQuery } from '@services/item/queries';
 
-const RegisterPage = () => {
+interface EditPageProps {
+  params: Promise<{
+    id: number;
+  }>;
+}
+
+const EditPage = ({ params }: EditPageProps) => {
+  const { id } = React.use(params);
   const {
     fileRef,
     form,
+    imagePreview,
     handleFormChange,
     handleDropdownChange,
     handleDateChange,
-    handleSubmit,
     handleFileChange,
-  } = useForm();
+    handleSubmit,
+  } = useForm(id);
   const { data: placeListData } = usePlaceListQuery();
   const placeOptions =
     placeListData?.map((place) => ({
@@ -33,15 +41,19 @@ const RegisterPage = () => {
     })) ?? [];
 
   return (
-    <StyledRegisterPage>
+    <StyledEditPage>
       <Flex direction="row" justify="space-between" align="center">
-        <Text variant="H2">분실물 등록하기</Text>
+        <Text variant="H2">분실물 수정하기</Text>
         <Button styleType="SECONDARY" onClick={handleSubmit}>
-          등록
+          수정 완료
         </Button>
       </Flex>
       <Flex direction="row" gap={52}>
-        <ImageUploader ref={fileRef} onFileChange={handleFileChange} />
+        <ImageUploader
+          ref={fileRef}
+          defaultPreview={imagePreview}
+          onFileChange={handleFileChange}
+        />
         <Flex direction="column" gap={24} style={{ flex: 1 }}>
           <Input
             label="물품명"
@@ -52,11 +64,10 @@ const RegisterPage = () => {
           />
           <Flex direction="row" gap={24}>
             <Input
-              type="number"
               label="습득 신고자 학번"
               placeholder="습득 신고자 학번 입력"
               name="reporterStudentCode"
-              value={form.reporterStudentCode ?? ''}
+              value={form.reporterStudentCode || ''}
               onChange={handleFormChange}
             />
             <Input
@@ -108,11 +119,11 @@ const RegisterPage = () => {
           />
         </Flex>
       </Flex>
-    </StyledRegisterPage>
+    </StyledEditPage>
   );
 };
 
-const StyledRegisterPage = styled.div`
+const StyledEditPage = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -120,4 +131,4 @@ const StyledRegisterPage = styled.div`
   gap: 42px;
 `;
 
-export default RegisterPage;
+export default EditPage;

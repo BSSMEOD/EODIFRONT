@@ -18,6 +18,7 @@ const mockRecallRequests = [
     status: 'LOST' as const,
     category: '기타' as const,
     reporterName: '홍길동',
+    reporterStudentCode: 2100,
   },
   {
     id: 2,
@@ -30,6 +31,7 @@ const mockRecallRequests = [
     status: 'LOST' as const,
     category: '전자기기' as const,
     reporterName: '김철수',
+    reporterStudentCode: 2100,
   },
   {
     id: 3,
@@ -42,6 +44,7 @@ const mockRecallRequests = [
     status: 'LOST' as const,
     category: '안경' as const,
     reporterName: '이영희',
+    reporterStudentCode: 2100,
   },
   {
     id: 4,
@@ -54,6 +57,7 @@ const mockRecallRequests = [
     status: 'LOST' as const,
     category: '기타' as const,
     reporterName: '박민수',
+    reporterStudentCode: 2100,
   },
   {
     id: 5,
@@ -66,6 +70,7 @@ const mockRecallRequests = [
     status: 'LOST' as const,
     category: '전자기기' as const,
     reporterName: '최지원',
+    reporterStudentCode: 2100,
   },
 ];
 

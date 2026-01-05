@@ -1,9 +1,9 @@
-import { Status } from './client';
+import { ItemForm, Status } from './client';
 
 export interface GetItemListParams {
   page?: number;
   size?: number;
-  status: Status;
+  status?: Status;
   categories?: string[];
   placeIds?: number[];
   foundAtFrom?: string;
@@ -16,3 +16,11 @@ export interface GetItemListParams {
 export interface PostItemClaimReq {
   claimReason: string;
 }
+
+interface ItemReq extends ItemForm {
+  imageUrl: string;
+}
+
+export type PatchItemReq = ItemReq;
+
+export type PostItemReq = ItemReq;

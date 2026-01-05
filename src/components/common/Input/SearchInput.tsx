@@ -1,17 +1,16 @@
 import styled from '@emotion/styled';
 import font from '@styles/font';
 import { IconSearch } from '@/icons';
+import { BaseInputProps } from '@components/common/Input/Input.types';
+import color from '@styles/color';
 
-interface SearchInputProps {
-  placeholder?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-}
+type SearchInputProps = BaseInputProps;
 
 const SearchInput = ({
   placeholder = '분실물의 이름, 잃어버린 위치 등을 검색해 분실물을 찾아보세요.',
   value,
   onChange,
+  name,
 }: SearchInputProps) => {
   return (
     <StyledSearchInput>
@@ -20,14 +19,20 @@ const SearchInput = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
+        name={name}
       />
-      <IconSearch />
+      <IconSearch
+        color={color.gray400}
+        cursor="pointer"
+        width={20}
+        height={20}
+      />
     </StyledSearchInput>
   );
 };
 
 const StyledSearchInput = styled.div`
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border: 1px solid ${color.gray400};
   border-radius: 30px;
   display: flex;
   align-items: center;
@@ -39,7 +44,6 @@ const StyledSearchInput = styled.div`
 
 const StyledInput = styled.input`
   ${font.p2};
-  color: rgba(0, 0, 0, 0.8);
   border: none;
   outline: none;
   background: transparent;
@@ -47,7 +51,7 @@ const StyledInput = styled.input`
   letter-spacing: -0.352px;
 
   &::placeholder {
-    color: rgba(0, 0, 0, 0.3);
+    color: ${color.gray400};
   }
 `;
 

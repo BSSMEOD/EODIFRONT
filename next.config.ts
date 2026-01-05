@@ -7,7 +7,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'plchldr.co',
+        hostname: 'www.jojaemin.com',
       },
     ],
   },
