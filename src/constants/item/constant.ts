@@ -13,6 +13,5 @@ export const CATEGORY = [
   '안경',
   '무선이어폰',
   '전자기기',
-  '안경',
   '기타',
 ] as const;
