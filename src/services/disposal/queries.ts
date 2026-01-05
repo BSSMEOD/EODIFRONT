@@ -22,7 +22,6 @@ export const useImminentDisposalQuery = () => {
       }),
     select: (data) => {
       if (!data?.content) return [];
-
       const now = new Date();
       return data.content
         .filter((item) => {
