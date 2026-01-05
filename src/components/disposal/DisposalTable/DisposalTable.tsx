@@ -22,6 +22,19 @@ interface DisposalTableProps {
   filters?: Omit<GetItemListParams, 'status'>;
 }
 
+const getStatusText = (status?: string) => {
+  switch (status) {
+    case 'PENDING':
+      return '보류';
+    case 'APPROVED':
+      return '예정';
+    case 'REJECTED':
+      return '거부';
+    default:
+      return '예정';
+  }
+};
+
 const DisposalTable = ({ filters }: DisposalTableProps) => {
   const overlay = useOverlay();
   const router = useRouter();
@@ -121,18 +134,6 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
             item.foundAt,
             item.disposalDate
           );
-          const getStatusText = (status?: string) => {
-            switch (status) {
-              case 'PENDING':
-                return '보류';
-              case 'APPROVED':
-                return '예정';
-              case 'REJECTED':
-                return '거부';
-              default:
-                return '예정';
-            }
-          };
 
           return (
             <Flex key={item.id}>

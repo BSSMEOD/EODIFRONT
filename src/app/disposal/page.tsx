@@ -79,10 +79,7 @@ const DisposalPage = () => {
     }
 
     if (filters.approval) {
-      params.approvalStatus = filters.approval as
-        | 'PENDING'
-        | 'APPROVED'
-        | 'REJECTED';
+      params.approvalStatus = filters.approval as 'PENDING' | 'APPROVED';
     }
 
     return params;
