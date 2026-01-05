@@ -64,11 +64,10 @@ const EditPage = ({ params }: EditPageProps) => {
           />
           <Flex direction="row" gap={24}>
             <Input
-              type="number"
               label="습득 신고자 학번"
               placeholder="습득 신고자 학번 입력"
               name="reporterStudentCode"
-              value={form.reporterStudentCode}
+              value={form.reporterStudentCode || ''}
               onChange={handleFormChange}
             />
             <Input
@@ -81,7 +80,7 @@ const EditPage = ({ params }: EditPageProps) => {
           </Flex>
           <DateSelector
             placeholderText="습득 날짜 선택"
-            selected={form.foundAt}
+            selected={form.foundAt ? new Date(form.foundAt) : null}
             onChange={handleDateChange}
             customInput={
               <Input

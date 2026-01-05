@@ -69,7 +69,7 @@ const RegisterPage = () => {
           </Flex>
           <DateSelector
             placeholderText="습득 날짜 선택"
-            selected={new Date(form.foundAt)}
+            selected={form.foundAt ? new Date(form.foundAt) : null}
             onChange={handleDateChange}
             customInput={
               <Input
