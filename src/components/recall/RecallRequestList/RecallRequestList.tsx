@@ -44,7 +44,7 @@ interface RecallRequestListProps {
   };
   actions: {
     handleApproveConfirm: (itemId: number) => Promise<void>;
-    handleRejectConfirm: (itemId: number, reason: string) => Promise<void>;
+    handleRejectConfirm: (itemId: number) => Promise<void>;
   };
   filters: {
     sort: string;
@@ -77,8 +77,8 @@ const RecallRequestList = ({
     actions.handleApproveConfirm(id);
   };
 
-  const handleRejectConfirm = (id: number, reason: string) => {
-    actions.handleRejectConfirm(id, reason);
+  const handleRejectConfirm = (id: number) => {
+    actions.handleRejectConfirm(id);
   };
 
   const selectedItemForProductList = modals?.selectedItem

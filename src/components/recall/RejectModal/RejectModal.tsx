@@ -1,5 +1,3 @@
-import { useState, useRef, useEffect } from 'react';
-import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import BaseModal from '@components/common/Modal/BaseModal';
@@ -11,7 +9,7 @@ interface RejectModalProps {
   isOpen: boolean;
   item: Item | null;
   onClose: () => void;
-  onConfirm: (id: number, reason: string) => void;
+  onConfirm: (id: number) => void;
 }
 
 const RejectModal = ({
@@ -22,7 +20,7 @@ const RejectModal = ({
 }: RejectModalProps) => {
   const handleConfirm = () => {
     if (!item) return;
-    onConfirm(item.id, '');
+    onConfirm(item.id);
     onClose();
   };
 
