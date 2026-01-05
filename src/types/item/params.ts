@@ -8,7 +8,7 @@ export interface GetItemListParams {
   placeIds?: number[];
   foundAtFrom?: string;
   foundAtTo?: string;
-  holdStatus?: '보류' | '예정';
+  approvalStatus?: 'PENDING' | 'APPROVED' | 'REJECTED';
   query?: string;
   sort?: 'LATEST' | 'OLDEST';
 }

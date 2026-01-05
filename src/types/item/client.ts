@@ -1,6 +1,7 @@
 import { CATEGORY } from '@/constants/item/constant';
 
 export type Status = 'LOST' | 'FOUND' | 'TO_BE_DISCARDED' | 'DISCARDED';
+export type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 export interface Item {
   id: number;
@@ -13,6 +14,7 @@ export interface Item {
   status: Status;
   category: (typeof CATEGORY)[number];
   disposalDate?: string;
+  approvalStatus?: ApprovalStatus;
 }
 
 export interface Place {

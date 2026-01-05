@@ -10,7 +10,7 @@ import { useRewardHistoryQuery } from '@/services/point/queries';
 import { useGiveRewardMutation } from '@/services/point/mutations';
 import type { PointItem } from '@/types/point/client';
 import { toast } from 'react-toastify';
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import Pagination from '@components/common/Pagination/Pagination';
@@ -32,6 +32,10 @@ const PointTable = ({
   const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
   const [currentPage, setCurrentPage] = useState(1);
   const ITEMS_PER_PAGE = 20;
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [userId, date, grade, classNum]);
 
   const { data, isLoading, error } = useRewardHistoryQuery({
     userId,
@@ -56,7 +60,6 @@ const PointTable = ({
     }));
   }, [data]);
 
-  // 페이지네이션된 데이터
   const paginatedData = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
@@ -120,7 +123,7 @@ const PointTable = ({
   if (pointData.length === 0) {
     return (
       <StyledPointTable>
-        <LoadingMessage>데이터가 없습니다.</LoadingMessage>
+        <EmptyMessage>데이터가 없습니다.</EmptyMessage>
       </StyledPointTable>
     );
   }
@@ -202,16 +205,14 @@ const PointTable = ({
           </Flex>
         ))}
       </TableWrapper>
-      {totalPages > 1 && (
-        <PaginationWrapper>
-          <Pagination
-            currentPage={currentPage}
-            totalPages={totalPages}
-            onPageChange={handlePageChange}
-            maxVisiblePages={5}
-          />
-        </PaginationWrapper>
-      )}
+      <PaginationWrapper>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={handlePageChange}
+          maxVisiblePages={5}
+        />
+      </PaginationWrapper>
     </StyledPointTable>
   );
 };
@@ -279,4 +280,11 @@ const PaginationWrapper = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+`;
+
+const EmptyMessage = styled.div`
+  ${font.p1}
+  color: ${color.gray500};
+  text-align: center;
+  padding: 40px;
 `;

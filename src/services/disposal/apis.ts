@@ -15,7 +15,7 @@ export const getDisposalItems = async (params: GetItemListParams) => {
       place_ids: params.placeIds,
       found_at_from: params.foundAtFrom,
       found_at_to: params.foundAtTo,
-      hold_status: params.holdStatus,
+      approval_status: params.approvalStatus,
     },
   });
   return data;
