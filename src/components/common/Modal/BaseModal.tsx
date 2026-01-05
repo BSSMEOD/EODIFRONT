@@ -19,6 +19,7 @@ interface BaseModalProps {
   width?: string;
   children: ReactNode;
   confirmButtonType?: ButtonStyleType;
+  cancelButtonType?: ButtonStyleType;
   titleId?: string;
 }
 
@@ -31,6 +32,7 @@ const BaseModal = ({
   width = '412px',
   children,
   confirmButtonType = 'SECONDARY',
+  cancelButtonType = 'GHOST_SECONDARY',
   titleId,
 }: BaseModalProps) => {
   useScrollLock(isOpen);
@@ -51,9 +53,24 @@ const BaseModal = ({
           {children}
 
           <Flex justify="center" gap={8}>
-            <Button styleType="GHOST_SECONDARY" size="modal" onClick={onClose}>
-              <IconClose color={color.secondary} width={24} height={24} />
-              <Text variant="p2" color={color.secondary}>
+            <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
+              <IconClose
+                color={
+                  cancelButtonType === 'GHOST_DANGER'
+                    ? color.red
+                    : color.secondary
+                }
+                width={24}
+                height={24}
+              />
+              <Text
+                variant="p2"
+                color={
+                  cancelButtonType === 'GHOST_DANGER'
+                    ? color.red
+                    : color.secondary
+                }
+              >
                 {cancelText}
               </Text>
             </Button>
