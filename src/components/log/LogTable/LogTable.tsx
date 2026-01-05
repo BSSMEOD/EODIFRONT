@@ -7,6 +7,7 @@ import color from '@styles/color';
 import font from '@styles/font';
 import { useLogListQuery } from '@/services/log/queries';
 import type { GetLogListParams } from '@/types/log/params';
+import Text from '@components/common/Text/Text';
 import { useRouter } from 'next/navigation';
 
 interface LogTableProps {
@@ -88,7 +89,6 @@ const LogTable = ({ filters }: LogTableProps) => {
               <ItemName>
                 {item.name}
                 <IconLinkButton
-                  type="button"
                   aria-label={`${item.name} 상세 정보 보기`}
                   onClick={() => handleItemClick(item.id)}
                 >

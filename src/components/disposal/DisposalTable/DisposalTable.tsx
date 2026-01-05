@@ -96,11 +96,7 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
             폐기 처리 상태
           </Th>
         </Flex>
-        {isLoading ? (
-          <Text>로딩중 입니다.</Text>
-        ) : isError ? (
-          <Text>물품 불러오기에 실패했습니다.</Text>
-        ) : disposalData.length === 0 ? (
+        {disposalData.length === 0 ? (
           <Text>폐기 예정 물품이 없습니다.</Text>
         ) : (
           disposalData.map((item) => {

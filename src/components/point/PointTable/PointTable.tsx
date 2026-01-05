@@ -13,7 +13,6 @@ import { toast } from 'react-toastify';
 import { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
-
 interface PointTableProps {
   userId?: number;
   date?: string;
@@ -27,8 +26,8 @@ const PointTable = ({
   grade,
   class: classNum,
 }: PointTableProps = {}) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
+  const router = useRouter();
   const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
 
   const { data, isLoading, error } = useRewardHistoryQuery({
@@ -105,7 +104,7 @@ const PointTable = ({
   if (pointData.length === 0) {
     return (
       <StyledPointTable>
-        <EmptyMessage>상점 지급 이력이 없습니다.</EmptyMessage>
+        <LoadingMessage>데이터가 없습니다.</LoadingMessage>
       </StyledPointTable>
     );
   }
@@ -120,10 +119,10 @@ const PointTable = ({
             borderTopLeftRadius={10}
             textColor={color.white}
           >
-            물품명
+            습득물명
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
-            수령 학생
+            학생명
           </Th>
           <Th width="20%" height={56} textColor={color.white}>
             수령 날짜
@@ -181,7 +180,7 @@ const PointTable = ({
                   loadingItems.has(`${item.itemId}-${item.studentId}`)
                 }
               >
-                <IconConvert width={24} height={24} />
+                <IconConvert width={24} />
               </ConvertButton>
             </Td>
           </Flex>
