@@ -31,10 +31,16 @@ export const useItemDeleteMutation = (id: number) => {
 };
 
 export const useItemUpdateMutation = (id: number) => {
+  const router = useRouter();
   const queryClient = useQueryClient();
+  const { handleSuccess } = useApiHandler();
   const { mutate, ...restMutation } = useMutation({
     mutationFn: (form: PatchItemReq) => patchItem(id, form),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['item'] }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['item'] });
+      router.push(ROUTES.MANAGE);
+      handleSuccess(data.message);
+    },
   });
   return { mutate, ...restMutation };
 };
