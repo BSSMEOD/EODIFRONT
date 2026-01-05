@@ -26,13 +26,7 @@ const ManagePage = () => {
 
   useEffect(() => {
     setPage(1);
-  }, [
-    filters.search,
-    filters.category,
-    filters.startDate,
-    filters.endDate,
-    filters.placeIds,
-  ]);
+  }, [filters]);
 
   const { data: productListData } = useItemListQuery({
     page: page,
