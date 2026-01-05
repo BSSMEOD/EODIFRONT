@@ -18,7 +18,7 @@ export const useUnpaidRewardsQuery = () => {
     queryFn: async () => {
       const { data } = await eodi.get<GetItemListRes>('/items/search', {
         params: {
-          status: 'FOUND',
+          status: 'GIVEN',
           page: 1,
           size: 3,
         },
