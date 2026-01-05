@@ -1,154 +1,160 @@
-import { useState } from 'react';
 import Flex from '@components/common/Flex/Flex';
+import Text from '@components/common/Text/Text';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import RejectModal from '../RejectModal/RejectModal';
 import ApproveModal from '../ApproveModal/ApproveModal';
 import { Item } from '@/types/item/client';
-import { toast } from 'react-toastify';
+import { RecallRequest } from '@/types/recall/client';
 
-const mockRecallRequests = [
-  {
-    id: 1,
-    name: '제 우산입니다.',
-    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
-    imageUrl: '',
-    foundAt: '',
-    foundPlace: '',
-    foundPlaceDetail: '',
-    status: 'LOST' as const,
-    category: '기타' as const,
-    reporterName: '홍길동',
-    reporterStudentCode: 2100,
-  },
-  {
-    id: 2,
-    name: '제 버즈입니다.',
-    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
-    imageUrl: '',
-    foundAt: '',
-    foundPlace: '',
-    foundPlaceDetail: '',
-    status: 'LOST' as const,
-    category: '전자기기' as const,
-    reporterName: '김철수',
-    reporterStudentCode: 2100,
-  },
-  {
-    id: 3,
-    name: '제 안경입니다.',
-    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
-    imageUrl: '',
-    foundAt: '',
-    foundPlace: '',
-    foundPlaceDetail: '',
-    status: 'LOST' as const,
-    category: '안경' as const,
-    reporterName: '이영희',
-    reporterStudentCode: 2100,
-  },
-  {
-    id: 4,
-    name: '제 우산입니다.',
-    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
-    imageUrl: '',
-    foundAt: '',
-    foundPlace: '',
-    foundPlaceDetail: '',
-    status: 'LOST' as const,
-    category: '기타' as const,
-    reporterName: '박민수',
-    reporterStudentCode: 2100,
-  },
-  {
-    id: 5,
-    name: '제 버즈입니다.',
-    requestMessage: '안녕하세요 제 물건이에요 돌려주세요',
-    imageUrl: '',
-    foundAt: '',
-    foundPlace: '',
-    foundPlaceDetail: '',
-    status: 'LOST' as const,
-    category: '전자기기' as const,
-    reporterName: '최지원',
-    reporterStudentCode: 2100,
-  },
-];
+const transformToProductListItem = (
+  request: RecallRequest
+): Item & {
+  requestMessage: string;
+  requesterName: string;
+  requestedAt: string;
+  recallStatus: string;
+} => ({
+  id: request.itemId,
+  name: request.itemName,
+  requestMessage: request.requestMessage,
+  requesterName: request.requesterName,
+  requestedAt: request.requestedAt,
+  recallStatus: request.status,
+  imageUrl: request.imageUrl,
+  foundAt: '',
+  foundPlace: '',
+  foundPlaceDetail: '',
+  status: 'LOST' as const,
+  category: '기타' as const,
+  reporterName: request.requesterName,
+});
 
-const RecallRequestList = () => {
-  const [isRejectModalOpen, setIsRejectModalOpen] = useState(false);
-  const [isApproveModalOpen, setIsApproveModalOpen] = useState(false);
-  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+interface RecallRequestListProps {
+  requests: RecallRequest[];
+  isLoading: boolean;
+  error: Error | null;
+  modals: {
+    isApproveModalOpen: boolean;
+    isRejectModalOpen: boolean;
+    selectedItem: RecallRequest | null;
+    handleApprove: (request: RecallRequest) => void;
+    handleReject: (request: RecallRequest) => void;
+    handleCloseModals: () => void;
+  };
+  actions: {
+    handleApproveConfirm: (itemId: number) => Promise<void>;
+    handleRejectConfirm: (itemId: number, reason: string) => Promise<void>;
+  };
+  filters: {
+    sort: string;
+  };
+}
 
+const RecallRequestList = ({
+  requests,
+  isLoading,
+  error,
+  modals,
+  actions,
+  filters,
+}: RecallRequestListProps) => {
   const handleApprove = (id: number) => {
-    const item = mockRecallRequests.find((request) => request.id === id);
-    if (item) {
-      setSelectedItem(item);
-      setIsApproveModalOpen(true);
+    const request = requests.find((req) => req.itemId === id);
+    if (request) {
+      modals.handleApprove(request);
+    }
+  };
+
+  const handleReject = (id: number) => {
+    const request = requests.find((req) => req.itemId === id);
+    if (request) {
+      modals.handleReject(request);
     }
   };
 
   const handleApproveConfirm = (id: number) => {
-    // TODO: API 통합 후 실제 승인 로직 구현 필요
-    toast.success('회수 요청이 승인되었습니다.');
-    setIsApproveModalOpen(false);
-    setSelectedItem(null);
-  };
-
-  const handleReject = (id: number) => {
-    const item = mockRecallRequests.find((request) => request.id === id);
-    if (item) {
-      setSelectedItem(item);
-      setIsRejectModalOpen(true);
-    }
+    actions.handleApproveConfirm(id);
   };
 
   const handleRejectConfirm = (id: number, reason: string) => {
-    // TODO: API 통합 후 실제 반려 로직 구현 필요 (id, reason 활용)
-    toast.success('회수 요청이 반려되었습니다.');
-    setIsRejectModalOpen(false);
-    setSelectedItem(null);
+    actions.handleRejectConfirm(id, reason);
   };
 
-  const handleCloseRejectModal = () => {
-    setIsRejectModalOpen(false);
-    setSelectedItem(null);
-  };
+  const selectedItemForProductList = modals?.selectedItem
+    ? transformToProductListItem(modals.selectedItem)
+    : null;
 
-  const handleCloseApproveModal = () => {
-    setIsApproveModalOpen(false);
-    setSelectedItem(null);
-  };
+  if (isLoading) {
+    return (
+      <Flex
+        justify="center"
+        align="center"
+        width="100%"
+        style={{ padding: '40px 0' }}
+      >
+        <Text color="gray500">회수 요청 목록을 불러오는 중...</Text>
+      </Flex>
+    );
+  }
+
+  if (error) {
+    return (
+      <Flex
+        justify="center"
+        align="center"
+        width="100%"
+        style={{ padding: '40px 0' }}
+      >
+        <Text color="red">회수 요청 목록을 불러오는데 실패했습니다.</Text>
+      </Flex>
+    );
+  }
 
   return (
     <>
       <Flex direction="column" gap={20} width="100%">
-        {mockRecallRequests.map((request) => (
-          <ProductListItem
-            key={`recall-${request.id}`}
-            product={request}
-            size="big"
-            showStatus={false}
-            recallMode={true}
-            isRejectModalOpen={
-              isRejectModalOpen && selectedItem?.id === request.id
-            }
-            onApprove={handleApprove}
-            onReject={handleReject}
-          />
-        ))}
+        {requests.map((request, index) => {
+          const productItem = transformToProductListItem(request);
+          return (
+            <ProductListItem
+              key={`recall-${request.requestId}-${index}-${filters.sort}`}
+              product={productItem}
+              size="big"
+              showStatus={false}
+              recallMode={true}
+              isRejectModalOpen={
+                modals.isRejectModalOpen &&
+                modals.selectedItem?.itemId === request.itemId
+              }
+              onApprove={handleApprove}
+              onReject={handleReject}
+            />
+          );
+        })}
+
+        {requests.length === 0 && (
+          <Flex
+            justify="center"
+            align="center"
+            width="100%"
+            style={{ padding: '40px 0' }}
+          >
+            <Text color="gray500">회수 요청이 없습니다.</Text>
+          </Flex>
+        )}
       </Flex>
 
       <RejectModal
-        isOpen={isRejectModalOpen}
-        item={selectedItem}
-        onClose={handleCloseRejectModal}
+        isOpen={modals.isRejectModalOpen}
+        item={selectedItemForProductList}
+        onClose={modals.handleCloseModals}
         onConfirm={handleRejectConfirm}
       />
 
       <ApproveModal
-        isOpen={isApproveModalOpen}
-        item={selectedItem}
-        onClose={handleCloseApproveModal}
+        isOpen={modals.isApproveModalOpen}
+        item={selectedItemForProductList}
+        onClose={modals.handleCloseModals}
         onConfirm={handleApproveConfirm}
       />
     </>
