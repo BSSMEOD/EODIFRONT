@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { useMemo, useState } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
+import Pagination from '@components/common/Pagination/Pagination';
 interface PointTableProps {
   userId?: number;
   date?: string;
@@ -29,6 +30,8 @@ const PointTable = ({
   const queryClient = useQueryClient();
   const router = useRouter();
   const [loadingItems, setLoadingItems] = useState<Set<string>>(new Set());
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
 
   const { data, isLoading, error } = useRewardHistoryQuery({
     userId,
@@ -52,6 +55,19 @@ const PointTable = ({
       givenAt: item.given_at,
     }));
   }, [data]);
+
+  // 페이지네이션된 데이터
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return pointData.slice(startIndex, endIndex);
+  }, [pointData, currentPage]);
+
+  const totalPages = Math.ceil(pointData.length / ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   const handleConvert = async (itemId: number, studentId: number) => {
     const key = `${itemId}-${studentId}`;
@@ -139,7 +155,7 @@ const PointTable = ({
             수정
           </Th>
         </Flex>
-        {pointData.map((item, index) => (
+        {paginatedData.map((item, index) => (
           <Flex key={index}>
             <Td width="20%" height={56}>
               <ItemName>
@@ -186,6 +202,16 @@ const PointTable = ({
           </Flex>
         ))}
       </TableWrapper>
+      {totalPages > 1 && (
+        <PaginationWrapper>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            maxVisiblePages={5}
+          />
+        </PaginationWrapper>
+      )}
     </StyledPointTable>
   );
 };
@@ -249,9 +275,8 @@ const ErrorMessage = styled.div`
   padding: 40px;
 `;
 
-const EmptyMessage = styled.div`
-  ${font.p1}
-  color: ${color.gray500};
-  text-align: center;
-  padding: 40px;
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;

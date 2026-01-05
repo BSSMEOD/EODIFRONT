@@ -16,6 +16,8 @@ import { useCalculateRemainDays } from '@/hooks/disposal/useCalculateRemainDays'
 import { toast } from 'react-toastify';
 import Text from '@components/common/Text/Text';
 import type { GetItemListParams } from '@/types/item/params';
+import Pagination from '@components/common/Pagination/Pagination';
+import { useMemo, useState } from 'react';
 
 interface DisposalTableProps {
   filters?: Omit<GetItemListParams, 'status'>;
@@ -25,8 +27,10 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
   const overlay = useOverlay();
   const router = useRouter();
   const { calculateRemainDays } = useCalculateRemainDays();
+  const [currentPage, setCurrentPage] = useState(1);
+  const ITEMS_PER_PAGE = 20;
 
-  const { data, isLoading, isError } = useDisposalItemsQuery({
+  const { data } = useDisposalItemsQuery({
     status: 'TO_BE_DISCARDED',
     page: 1,
     size: 100,
@@ -67,7 +71,20 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
     ));
   };
 
-  const disposalData = data?.content || [];
+  const disposalData = useMemo(() => data?.content || [], [data?.content]);
+
+  // 페이지네이션된 데이터
+  const paginatedData = useMemo(() => {
+    const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+    const endIndex = startIndex + ITEMS_PER_PAGE;
+    return disposalData.slice(startIndex, endIndex);
+  }, [disposalData, currentPage]);
+
+  const totalPages = Math.ceil(disposalData.length / ITEMS_PER_PAGE);
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+  };
 
   return (
     <StyledDisposalTable>
@@ -96,10 +113,10 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
             폐기 처리 상태
           </Th>
         </Flex>
-        {disposalData.length === 0 ? (
+        {paginatedData.length === 0 ? (
           <Text>폐기 예정 물품이 없습니다.</Text>
         ) : (
-          disposalData.map((item) => {
+          paginatedData.map((item) => {
             const remainDays = calculateRemainDays(
               item.foundAt,
               item.disposalDate
@@ -142,6 +159,16 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
           })
         )}
       </TableWrapper>
+      {totalPages > 1 && (
+        <PaginationWrapper>
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={handlePageChange}
+            maxVisiblePages={5}
+          />
+        </PaginationWrapper>
+      )}
     </StyledDisposalTable>
   );
 };
@@ -199,4 +226,10 @@ const ConvertButton = styled.button`
   &:hover {
     background-color: ${color.gray100};
   }
+`;
+
+const PaginationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 `;

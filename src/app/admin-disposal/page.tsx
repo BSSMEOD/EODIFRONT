@@ -12,6 +12,7 @@ import IconMinus from '@/icons/src/IconMinus';
 import { useAdminDisposal } from '@/app/admin-disposal/admin-disposal.hooks';
 import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
+import Pagination from '@components/common/Pagination/Pagination';
 
 const AdminDisposalPage = () => {
   const { filters, options, modals, data, utils } = useAdminDisposal();
@@ -120,11 +121,23 @@ const AdminDisposalPage = () => {
           </Text>
         </Flex>
       ) : (
-        <BigProductList
-          productList={data.disposalItems}
-          disposalMode={true}
-          onExtension={modals.handleExtension}
-        />
+        <>
+          <BigProductList
+            productList={data.disposalItems}
+            disposalMode={true}
+            onExtension={modals.handleExtension}
+          />
+          {data.totalPages > 1 && (
+            <Flex justify="center" style={{ marginTop: '40px' }}>
+              <Pagination
+                currentPage={data.currentPage}
+                totalPages={data.totalPages}
+                onPageChange={data.handlePageChange}
+                maxVisiblePages={5}
+              />
+            </Flex>
+          )}
+        </>
       )}
 
       <ExtensionModal
