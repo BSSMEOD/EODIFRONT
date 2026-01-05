@@ -37,7 +37,7 @@ export const useForm = (id: number) => {
 
   useEffect(() => {
     if (!itemData || !placeListData) return;
-    const foudPlace = placeListData.find(
+    const foundPlace = placeListData.find(
       (place) => place.name === itemData.foundPlace
     );
 
@@ -46,7 +46,7 @@ export const useForm = (id: number) => {
       reporterStudentCode: itemData.reporterStudentCode,
       reporterName: itemData.reporterName,
       foundAt: itemData.foundAt,
-      placeId: foudPlace ? foudPlace.id.toString() : '',
+      placeId: foundPlace ? foundPlace.id.toString() : '',
       foundPlaceDetail: itemData.foundPlaceDetail,
       category: itemData.category,
     });
