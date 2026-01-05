@@ -27,6 +27,7 @@ const transformToProductListItem = (
   status: 'LOST' as const,
   category: '기타' as const,
   reporterName: request.requesterName,
+  reporterStudentCode: null,
 });
 
 interface RecallRequestListProps {
