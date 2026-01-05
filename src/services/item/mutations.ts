@@ -10,6 +10,9 @@ import {
   PostItemClaimReq,
   PostItemReq,
 } from '@/types/item/params';
+import { useRouter } from 'next/navigation';
+import { ROUTES } from '@/constants/common/constants';
+import { useApiHandler } from '@hooks/useApiHandler';
 
 export const useItemClaimMutation = (id: number) => {
   const { mutate, ...restMutation } = useMutation({
@@ -37,10 +40,16 @@ export const useItemUpdateMutation = (id: number) => {
 };
 
 export const useItemRegisterMutation = () => {
+  const { handleSuccess } = useApiHandler();
+  const router = useRouter();
   const queryClient = useQueryClient();
   const { mutate, ...restMutation } = useMutation({
     mutationFn: (form: PostItemReq) => postItem(form),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['item'] }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['item'] });
+      router.push(ROUTES.FIND);
+      handleSuccess(data.message);
+    },
   });
   return { mutate, ...restMutation };
 };
