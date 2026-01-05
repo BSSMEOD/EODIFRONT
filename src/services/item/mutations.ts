@@ -22,10 +22,14 @@ export const useItemClaimMutation = (id: number) => {
 };
 
 export const useItemDeleteMutation = (id: number) => {
+  const { handleSuccess } = useApiHandler();
   const queryClient = useQueryClient();
   const { mutate, ...restMutation } = useMutation({
     mutationFn: () => deleteItem(id),
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ['item'] }),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ['item'] });
+      handleSuccess(data.message);
+    },
   });
   return { mutate, ...restMutation };
 };
