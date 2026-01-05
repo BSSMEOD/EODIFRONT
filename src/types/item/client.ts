@@ -16,6 +16,7 @@ export interface Item {
   status: Status;
   category: Category;
   disposalDate?: string;
+}
 
 export interface ItemForm {
   reporterStudentCode: number | null;
