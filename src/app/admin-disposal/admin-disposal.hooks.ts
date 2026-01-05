@@ -1,31 +1,113 @@
-import { useState } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import { format } from 'date-fns';
 import { Item } from '@/types/item/client';
 import { CATEGORY } from '@/constants/item/constant';
+import { usePlaceListQuery } from '@/services/item/queries';
+import { useAdminDisposalItemsQuery } from '@/services/admin-disposal/queries';
+import { useCalculateRemainDays } from '@/hooks/disposal/useCalculateRemainDays';
+import {
+  usePostDisposalReasonMutation,
+  usePatchItemDiscardedMutation,
+} from '@/services/admin-disposal/mutations';
+import { useQueryClient } from '@tanstack/react-query';
+import { GetItemListParams } from '@/types/item/params';
+import { GetItemListRes } from '@/types/item/response';
+import { toast } from 'react-toastify';
+import { isDateInRange } from '@/utils/dateUtils';
 
 interface DisposalItem extends Item {
   daysToDisposal: number;
 }
 
-export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
+export const useAdminDisposal = () => {
   const [startDate, setStartDate] = useState<Date | null>(null);
   const [endDate, setEndDate] = useState<Date | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     disposalDate: '',
-    category: '',
-    location: '',
+    categories: [] as string[],
+    locations: [] as string[],
     date: '',
   });
 
-  const [isDisposalModalOpen, setIsDisposalModalOpen] = useState(false);
   const [isExtensionModalOpen, setIsExtensionModalOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<DisposalItem | null>(null);
+
+  const queryClient = useQueryClient();
+  const { data: placeListData } = usePlaceListQuery();
+  const postDisposalReasonMutation = usePostDisposalReasonMutation();
+  const patchItemDiscardedMutation = usePatchItemDiscardedMutation();
+  const { calculateRemainDays } = useCalculateRemainDays();
+
+  const buildApiParams = useCallback((): GetItemListParams => {
+    const params: GetItemListParams = {
+      status: 'TO_BE_DISCARDED',
+      page: currentPage,
+      size: 10,
+    };
+
+    if (filters.disposalDate) {
+      params.sort = filters.disposalDate === 'fastest' ? 'LATEST' : 'OLDEST';
+    }
+
+    if (filters.categories.length > 0) {
+      params.categories = filters.categories;
+    }
+
+    if (filters.locations.length > 0 && placeListData) {
+      const selectedPlaceIds = placeListData
+        .filter((place) => filters.locations.includes(place.name))
+        .map((place) => place.id);
+
+      if (selectedPlaceIds.length > 0) {
+        params.placeIds = selectedPlaceIds;
+      }
+    }
+
+    return params;
+  }, [filters, placeListData, currentPage]);
+
+  const {
+    data: disposalItemsData,
+    isLoading,
+    error,
+  } = useAdminDisposalItemsQuery(buildApiParams());
+
+  const filteredItems = useMemo(() => {
+    let items = disposalItemsData?.content || [];
+
+    if (startDate && endDate) {
+      items = items.filter((item) =>
+        isDateInRange(item.disposalDate, startDate, endDate)
+      );
+    }
+
+    return items;
+  }, [disposalItemsData, startDate, endDate]);
+
+  const disposalItemsWithDays = useMemo(
+    () =>
+      filteredItems.map((item) => ({
+        ...item,
+        daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
+      })),
+    [filteredItems, calculateRemainDays]
+  );
 
   const handleDropdownChange = (name: string) => (value: string) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
       [name]: value,
     }));
+    setCurrentPage(1);
+  };
+
+  const handleMultiSelectChange = (values: string[], name: string) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      [name]: values,
+    }));
+    setCurrentPage(1);
   };
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
@@ -39,52 +121,76 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
     } else {
       setFilters((prev) => ({ ...prev, date: '' }));
     }
+    setCurrentPage(1);
   };
 
   const handleRemoveFilter = (name: string) => {
-    setFilters((prev) => ({ ...prev, [name]: '' }));
+    if (name === 'categories' || name === 'locations') {
+      setFilters((prev) => ({
+        ...prev,
+        [name]: [],
+      }));
+    } else {
+      setFilters((prev) => ({ ...prev, [name]: '' }));
+    }
     if (name === 'date') {
       setStartDate(null);
       setEndDate(null);
     }
+    setCurrentPage(1);
   };
 
   const handleDisposalHistory = () => {
     window.location.href = '/disposal-history';
   };
 
-  const handleDisposal = (id: number) => {
-    const item = mockDisposalItems.find((item) => item.id === id);
-    if (item) {
-      setSelectedItem(item);
-      setIsDisposalModalOpen(true);
-    }
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleExtension = (id: number) => {
-    const item = mockDisposalItems.find((item) => item.id === id);
+    const item = disposalItemsData?.content.find((item) => item.id === id);
     if (item) {
-      setSelectedItem(item);
+      setSelectedItem({
+        ...item,
+        daysToDisposal: calculateRemainDays(item.foundAt, item.disposalDate),
+      });
       setIsExtensionModalOpen(true);
     }
   };
 
-  const handleDisposalConfirm = (id: number, reason: string) => {
-    setIsDisposalModalOpen(false);
-    setSelectedItem(null);
-  };
-
-  const handleExtensionConfirm = (
+  const handleExtensionConfirm = async (
     id: number,
     extensionDays: number,
     reason: string
   ) => {
-    setIsExtensionModalOpen(false);
-    setSelectedItem(null);
+    try {
+      const reasonResponse = await postDisposalReasonMutation.mutateAsync({
+        itemId: id,
+        req: { reason, days: extensionDays },
+      });
+
+      await patchItemDiscardedMutation.mutateAsync({
+        itemId: id,
+        req: { reasonId: reasonResponse.reasonId },
+      });
+
+      // 모든 관련 쿼리를 무효화하여 최신 데이터로 다시 가져오기
+      await queryClient.invalidateQueries({
+        queryKey: ['admin-disposal', 'items'],
+      });
+
+      toast.success('연장 처리가 완료되었습니다.');
+      setIsExtensionModalOpen(false);
+      setSelectedItem(null);
+    } catch (error) {
+      console.error('연장 처리 중 오류가 발생했습니다:', error);
+      toast.error('연장 처리 중 오류가 발생했습니다.');
+    }
   };
 
   const handleCloseModals = () => {
-    setIsDisposalModalOpen(false);
     setIsExtensionModalOpen(false);
     setSelectedItem(null);
   };
@@ -99,12 +205,23 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
     value: category,
   }));
 
-  const locationOptions = [
-    { label: '전체', value: '' },
-    { label: '운동장', value: 'playground' },
-    { label: '도서관', value: 'library' },
-    { label: 'SRC', value: 'src' },
-  ];
+  const locationOptions = placeListData
+    ? placeListData.map((place) => ({
+        label: place.name,
+        value: place.name,
+      }))
+    : [];
+
+  // 값을 레이블로 변환하는 헬퍼 함수들
+  const getLocationLabel = (value: string) => {
+    const option = locationOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
+
+  const getCategoryLabel = (value: string) => {
+    const option = categoryOptions.find((opt) => opt.value === value);
+    return option ? option.label : value;
+  };
 
   return {
     filters: {
@@ -112,6 +229,7 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
       endDate,
       filters,
       handleDropdownChange,
+      handleMultiSelectChange,
       handleDateChange,
       handleRemoveFilter,
       handleDisposalHistory,
@@ -121,15 +239,24 @@ export const useAdminDisposal = (mockDisposalItems: DisposalItem[]) => {
       categoryOptions,
       locationOptions,
     },
+    utils: {
+      getCategoryLabel,
+      getLocationLabel,
+    },
     modals: {
-      isDisposalModalOpen,
       isExtensionModalOpen,
       selectedItem,
-      handleDisposal,
       handleExtension,
-      handleDisposalConfirm,
       handleExtensionConfirm,
       handleCloseModals,
+    },
+    data: {
+      disposalItems: disposalItemsWithDays,
+      isLoading,
+      error,
+      currentPage,
+      totalPages: disposalItemsData?.totalPages || 1,
+      handlePageChange,
     },
   };
 };

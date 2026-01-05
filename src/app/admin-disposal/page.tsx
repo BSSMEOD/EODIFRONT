@@ -2,91 +2,97 @@
 
 import styled from '@emotion/styled';
 import Dropdown from '@components/common/Dropdown/Dropdown';
+import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import BigProductList from '@components/common/ProductList/BigProductList';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
-import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
-import DisposalConfirmModal from '@/components/admin-disposal/DisposalConfirmModal/DisposalConfirmModal';
 import ExtensionModal from '@/components/admin-disposal/ExtensionModal/ExtensionModal';
+import IconMinus from '@/icons/src/IconMinus';
 import { useAdminDisposal } from '@/app/admin-disposal/admin-disposal.hooks';
 import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
 
 const AdminDisposalPage = () => {
-  const mockDisposalItems = [
-    {
-      id: 1,
-      name: '긱시크 안경',
-      imageUrl: '',
-      foundAt: '2025.06.19.',
-      foundPlace: '기타',
-      foundPlaceDetail: '운동장',
-      status: 'TO_BE_DISCARDED' as const,
-      daysToDisposal: 5,
-    },
-    {
-      id: 2,
-      name: '검정 우산',
-      imageUrl: '',
-      foundAt: '2025.06.19.',
-      foundPlace: 'SRC',
-      foundPlaceDetail: '4층 맨 끝 비상계단',
-      status: 'TO_BE_DISCARDED' as const,
-      daysToDisposal: 3,
-    },
-    {
-      id: 3,
-      name: '무선 이어폰 (버즈2)',
-      imageUrl: '',
-      foundAt: '2025.06.19.',
-      foundPlace: 'SRC',
-      foundPlaceDetail: '3층 남자기숙사 중앙홀',
-      status: 'TO_BE_DISCARDED' as const,
-      daysToDisposal: 5,
-    },
-  ];
-
-  const { filters, options, modals } = useAdminDisposal(mockDisposalItems);
+  const { filters, options, modals, data, utils } = useAdminDisposal();
 
   return (
-    <StyledAdminDisposalPage>
-      <FilterSection>
-        <Flex gap={12} align="center">
+    <Flex
+      direction="column"
+      gap={20}
+      width="100%"
+      style={{ paddingTop: '59px' }}
+    >
+      <Flex justify="space-between" align="center">
+        <Flex gap={12} align="center" wrap="wrap">
           <Dropdown
             data={options.disposalDateOptions}
             onChange={filters.handleDropdownChange('disposalDate')}
             name="disposalDate"
             placeholder="폐기 예정일"
             value={filters.filters.disposalDate}
-            width="140px"
+            width="120px"
           />
-          <Dropdown
+          <MultiSelectDropdown
+            name="categories"
             data={options.categoryOptions}
-            onChange={filters.handleDropdownChange('category')}
-            name="category"
+            onChange={filters.handleMultiSelectChange}
             placeholder="물품"
-            value={filters.filters.category}
-            width="140px"
+            value={filters.filters.categories}
+            width="120px"
           />
           <FilterDateSelect
             startDate={filters.startDate}
             endDate={filters.endDate}
             onChange={filters.handleDateChange}
           />
-          <Dropdown
+          <MultiSelectDropdown
+            name="locations"
             data={options.locationOptions}
-            onChange={filters.handleDropdownChange('location')}
-            name="location"
+            onChange={filters.handleMultiSelectChange}
             placeholder="장소"
-            value={filters.filters.location}
-            width="140px"
+            value={filters.filters.locations}
+            width="120px"
           />
 
-          <FilterActiveTags
-            filters={filters.filters}
-            onRemove={filters.handleRemoveFilter}
-          />
+          {filters.filters.categories.length > 0 && (
+            <FilterTag>
+              <span>
+                {filters.filters.categories.length === 1
+                  ? utils.getCategoryLabel(filters.filters.categories[0])
+                  : `${utils.getCategoryLabel(filters.filters.categories[0])} 외 ${filters.filters.categories.length - 1}`}
+              </span>
+              <RemoveButton
+                onClick={() => filters.handleRemoveFilter('categories')}
+              >
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
+
+          {filters.filters.locations.length > 0 && (
+            <FilterTag>
+              <span>
+                {filters.filters.locations.length === 1
+                  ? utils.getLocationLabel(filters.filters.locations[0])
+                  : `${utils.getLocationLabel(filters.filters.locations[0])} 외 ${filters.filters.locations.length - 1}`}
+              </span>
+              <RemoveButton
+                onClick={() => filters.handleRemoveFilter('locations')}
+              >
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
+
+          {filters.filters.date && (
+            <FilterTag>
+              <span>{filters.filters.date}</span>
+              <RemoveButton onClick={() => filters.handleRemoveFilter('date')}>
+                <IconMinus width={10} color={color.white} />
+              </RemoveButton>
+            </FilterTag>
+          )}
         </Flex>
 
         <Flex
@@ -99,21 +105,27 @@ const AdminDisposalPage = () => {
             폐기 이력
           </Text>
         </Flex>
-      </FilterSection>
+      </Flex>
 
-      <BigProductList
-        productList={mockDisposalItems}
-        disposalMode={true}
-        onDisposal={modals.handleDisposal}
-        onExtension={modals.handleExtension}
-      />
-
-      <DisposalConfirmModal
-        isOpen={modals.isDisposalModalOpen}
-        item={modals.selectedItem}
-        onClose={modals.handleCloseModals}
-        onConfirm={modals.handleDisposalConfirm}
-      />
+      {data.isLoading ? (
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.gray500}>
+            물품 목록을 불러오는 중...
+          </Text>
+        </Flex>
+      ) : data.error ? (
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.red}>
+            물품 목록을 불러오는 중 오류가 발생했습니다.
+          </Text>
+        </Flex>
+      ) : (
+        <BigProductList
+          productList={data.disposalItems}
+          disposalMode={true}
+          onExtension={modals.handleExtension}
+        />
+      )}
 
       <ExtensionModal
         isOpen={modals.isExtensionModalOpen}
@@ -121,22 +133,42 @@ const AdminDisposalPage = () => {
         onClose={modals.handleCloseModals}
         onConfirm={modals.handleExtensionConfirm}
       />
-    </StyledAdminDisposalPage>
+    </Flex>
   );
 };
 
-const StyledAdminDisposalPage = styled.div`
-  width: 100%;
-  padding-top: 59px;
+const FilterTag = styled.div`
   display: flex;
-  flex-direction: column;
-  gap: 20px;
+  align-items: center;
+  gap: 8px;
+  height: 38px;
+  padding: 0 16px;
+  background-color: ${color.secondary};
+  color: ${color.white};
+  border-radius: 20px;
+  font-family: 'Pretendard', sans-serif;
+  font-size: 14px;
+
+  span {
+    white-space: nowrap;
+  }
 `;
 
-const FilterSection = styled.div`
+const RemoveButton = styled.button`
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  padding: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 export default AdminDisposalPage;

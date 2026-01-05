@@ -10,6 +10,7 @@ export interface GetItemListParams {
   foundAtTo?: string;
   holdStatus?: '보류' | '예정';
   query?: string;
+  sort?: 'LATEST' | 'OLDEST';
 }
 
 export interface PostItemClaimReq {
