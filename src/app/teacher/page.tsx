@@ -8,7 +8,10 @@ import DashboardRoute from '@components/teacher/DashboardRoute/DashboardRoute';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { useUnpaidRewardsQuery } from '@/services/point/queries';
-import { useImminentDisposalQuery } from '@/services/disposal/queries';
+import {
+  useImminentDisposalQuery,
+  useDisposalItemsCountQuery,
+} from '@/services/disposal/queries';
 import { useLogListQuery } from '@/services/log/queries';
 
 const TeacherMainPage = () => {
@@ -17,6 +20,7 @@ const TeacherMainPage = () => {
   const isTeacher = authority === 'TEACHER';
   const { data: unPointProductListData = [] } = useUnpaidRewardsQuery();
   const { data: disposalProductListData = [] } = useImminentDisposalQuery();
+  const { data: disposalCount = 0 } = useDisposalItemsCountQuery();
 
   const { data: logListData } = useLogListQuery({
     page: 1,
@@ -35,7 +39,7 @@ const TeacherMainPage = () => {
       <DashboardRoute
         pendingCount={unPointProductListData?.length || 0}
         logCount={logListData?.content?.length || 0}
-        disposalCount={disposalProductListData?.length || 0}
+        disposalCount={disposalCount}
       />
       <SmallProductList
         title="상점 미지급 상태 분실물"

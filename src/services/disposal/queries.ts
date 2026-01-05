@@ -11,6 +11,21 @@ export const useDisposalItemsQuery = (params: GetItemListParams) => {
   return { data, ...restQuery };
 };
 
+export const useDisposalItemsCountQuery = () => {
+  const { data, ...restQuery } = useQuery({
+    queryKey: ['disposal', 'items', 'count'],
+    queryFn: () =>
+      getDisposalItems({
+        status: 'TO_BE_DISCARDED',
+        page: 1,
+        size: 1,
+      }),
+    select: (data) => data?.totalElements || 0,
+    retry: false,
+  });
+  return { data: data || 0, ...restQuery };
+};
+
 export const useImminentDisposalQuery = () => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['disposal', 'imminent'],
@@ -18,20 +33,11 @@ export const useImminentDisposalQuery = () => {
       getDisposalItems({
         status: 'TO_BE_DISCARDED',
         page: 1,
-        size: 100,
+        size: 3,
       }),
     select: (data) => {
       if (!data?.content) return [];
-      const now = new Date();
-      return data.content
-        .filter((item) => {
-          if (!item.disposalDate) return false;
-          const disposalDate = new Date(item.disposalDate);
-          const diffTime = disposalDate.getTime() - now.getTime();
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-          return diffDays <= 3 && diffDays >= 0;
-        })
-        .slice(0, 3);
+      return data.content;
     },
     retry: false,
   });
