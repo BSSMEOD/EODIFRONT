@@ -1,113 +1,81 @@
 'use client';
 
-import { useState } from 'react';
 import styled from '@emotion/styled';
 import BigProductList from '@components/common/ProductList/BigProductList';
 import SearchInput from '@components/common/Input/SearchInput';
 import Dropdown from '@components/common/Dropdown/Dropdown';
 import { CATEGORY } from '@/constants/item/constant';
 import Flex from '@components/common/Flex/Flex';
-
-interface Filters {
-  search: string;
-  category: string;
-  time: string;
-  location: string;
-}
+import { useForm } from '@app/manage/manage.hooks';
+import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
+import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
+import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
+import Pagination from '@components/common/Pagination/Pagination';
+import { useEffect, useState } from 'react';
 
 const ManagePage = () => {
-  const [filters, setFilters] = useState<Filters>({
-    search: '',
-    category: '',
-    time: '',
-    location: '',
+  const [page, setPage] = useState<number>(1);
+
+  const {
+    filters,
+    handleInputChange,
+    handleDropdownChange,
+    handleDateChange,
+    buildItemListParams,
+  } = useForm();
+
+  useEffect(() => {
+    setPage(1);
+  }, [filters]);
+
+  const { data: productListData } = useItemListQuery({
+    page: page,
+    ...buildItemListParams(filters),
   });
 
-  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      search: e.target.value,
-    }));
-  };
-
-  const handleDropdownChange = (name: string) => (value: string) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      [name]: value,
-    }));
-  };
-
-  const categoryOptions = CATEGORY.map((category) => ({
-    label: category,
-    value: category,
-  }));
-  const timeOptions = [
-    { label: '최신순', value: 'latest' },
-    { label: '오래된순', value: 'oldest' },
-  ];
-  const locationOptions = [
-    { label: '운동장', value: 'playground' },
-    { label: '도서관', value: 'library' },
-    { label: '강의실', value: 'classroom' },
-  ];
-
-  const mockProducts = [
-    {
-      id: 1,
-      title: '긱시크 안경',
-      imageUrl: '',
-      date: '2025.06.19.',
-      location: '기타 / 운동장',
-      status: 'LOST' as const,
-    },
-    {
-      id: 2,
-      title: '검정 우산',
-      imageUrl: '',
-      date: '2025.06.19.',
-      location: '기타 / 운동장',
-      status: 'LOST' as const,
-    },
-    {
-      id: 3,
-      title: '무선 이어폰 (버즈2)',
-      imageUrl: '',
-      date: '2025.06.19.',
-      location: '기타 / 운동장',
-      status: 'FOUND' as const,
-    },
-  ];
+  const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: place.id.toString(),
+    })) ?? [];
 
   return (
     <StyledManagePage>
-      <SearchInput value={filters.search} onChange={handleSearchChange} />
+      <SearchInput
+        value={filters.search}
+        onChange={handleInputChange}
+        name="search"
+      />
       <Flex gap={12} align="center">
         <Dropdown
-          data={categoryOptions}
-          onChange={handleDropdownChange('category')}
+          data={CATEGORY}
+          onChange={handleDropdownChange}
           name="category"
-          placeholder="물품"
+          placeholder="카테고리"
           value={filters.category}
-          width="100px"
+          width={120}
         />
-        <Dropdown
-          data={timeOptions}
-          onChange={handleDropdownChange('time')}
-          name="time"
-          placeholder="시간"
-          value={filters.time}
-          width="100px"
+        <FilterDateSelect
+          startDate={filters.startDate}
+          endDate={filters.endDate}
+          onChange={handleDateChange}
         />
-        <Dropdown
-          data={locationOptions}
-          onChange={handleDropdownChange('location')}
-          name="location"
+        <MultiSelectDropdown
+          value={filters.placeIds}
+          data={placeOptions}
+          onChange={handleDropdownChange}
           placeholder="장소"
-          value={filters.location}
-          width="100px"
+          name="placeIds"
+          width={200}
         />
       </Flex>
-      <BigProductList productList={mockProducts} auth />
+      <BigProductList productList={productListData?.content || []} auth />
+      <Pagination
+        currentPage={page}
+        totalPages={productListData?.totalPages || 1}
+        onPageChange={(pageNumber) => setPage(pageNumber)}
+      />
     </StyledManagePage>
   );
 };

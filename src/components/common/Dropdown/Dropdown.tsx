@@ -1,5 +1,4 @@
-import type { CSSProperties } from 'react';
-import React, { useRef, useEffect, useState, useCallback } from 'react';
+import React from 'react';
 import styled from '@emotion/styled';
 import { css } from '@emotion/react';
 import font from '@styles/font';
@@ -7,6 +6,7 @@ import color from '@styles/color';
 import IconBottomArrow from '@/icons/src/IconBottomArrow';
 import { DropdownProps } from '@components/common/Dropdown/Dropdown.types';
 import { useDropdown } from '@components/common/Dropdown/Dropdown.hooks';
+import { addPX } from '@/utils';
 
 const Dropdown = ({
   label,
@@ -18,7 +18,6 @@ const Dropdown = ({
   placeholder = '선택해주세요',
   doubled,
   isError = false,
-  background = 'White',
   disabled = false,
 }: DropdownProps) => {
   const {
@@ -30,13 +29,12 @@ const Dropdown = ({
   } = useDropdown(disabled, onChange, name, value, data);
 
   return (
-    <Container ref={dropdownRef} style={{ width }}>
+    <Container ref={dropdownRef} width={addPX(width)}>
       {label && <Label>{label}</Label>}
       <StyledDropdown
         onClick={handleDropdownClick}
         $isOpen={isOpen}
         $isError={isError}
-        $background={background}
         $disabled={disabled}
       >
         <ValueText $hasValue={!!value}>
@@ -73,7 +71,8 @@ const Dropdown = ({
 
 export default Dropdown;
 
-const Container = styled.div`
+const Container = styled.div<{ width: string }>`
+  width: ${({ width }) => width};
   position: relative;
 `;
 
@@ -86,7 +85,6 @@ const Label = styled.p`
 const StyledDropdown = styled.div<{
   $isOpen: boolean;
   $isError: boolean;
-  $background: 'White' | 'Gray';
   $disabled: boolean;
 }>`
   display: flex;
@@ -97,8 +95,7 @@ const StyledDropdown = styled.div<{
   padding: 0 16px;
   border-radius: 8px;
   cursor: ${({ $disabled }) => ($disabled ? 'not-allowed' : 'pointer')};
-  background-color: ${({ $background }) =>
-    $background === 'White' ? color.white : color.gray100};
+  background-color: ${color.white};
   opacity: ${({ $disabled }) => ($disabled ? 0.5 : 1)};
 
   ${({ $isOpen, $disabled, $isError }) => {

@@ -6,7 +6,12 @@ import type {
   GetItemListRes,
   GetPlaceListRes,
 } from '@/types/item/response';
-import type { GetItemListParams, PostItemClaimReq } from '@/types/item/params';
+import {
+  GetItemListParams,
+  PatchItemReq,
+  PostItemClaimReq,
+  PostItemReq,
+} from '@/types/item/params';
 import authorization from '@/api/token/token';
 
 export const getItemDetail = async (id: number) => {
@@ -15,18 +20,7 @@ export const getItemDetail = async (id: number) => {
 };
 
 export const getItemList = async (params?: GetItemListParams) => {
-  const { data } = await eodi.get<GetItemListRes>('/items/search', {
-    params: {
-      page: params?.page,
-      size: params?.size,
-      query: params?.query,
-      status: params?.status,
-      categories: params?.categories,
-      place_ids: params?.placeIds,
-      found_at_from: params?.foundAtFrom,
-      found_at_to: params?.foundAtTo,
-    },
-  });
+  const { data } = await eodi.get<GetItemListRes>('/items/search', { params });
   return data;
 };
 
@@ -53,5 +47,20 @@ export const postItemClaim = async (id: number, req: PostItemClaimReq) => {
 
 export const getPlaceList = async () => {
   const { data } = await eodi.get<GetPlaceListRes>('/places');
+  return data;
+};
+
+export const deleteItem = async (id: number) => {
+  const { data } = await eodi.delete(`/items/${id}`, authorization());
+  return data;
+};
+
+export const patchItem = async (id: number, form: PatchItemReq) => {
+  const { data } = await eodi.patch(`/items/${id}`, form, authorization());
+  return data;
+};
+
+export const postItem = async (form: PostItemReq) => {
+  const { data } = await eodi.post('/items', form, authorization());
   return data;
 };

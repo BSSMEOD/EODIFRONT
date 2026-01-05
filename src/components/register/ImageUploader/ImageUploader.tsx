@@ -1,6 +1,6 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
-import React, { LegacyRef, useState } from 'react';
+import React, { LegacyRef, useEffect, useState } from 'react';
 import Image from 'next/image';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
@@ -8,14 +8,30 @@ import { IconUploadFile } from '@/icons';
 
 interface ImageUploaderProps {
   ref: LegacyRef<HTMLInputElement>;
+  defaultPreview?: string;
+  onFileChange?: (file: File | null) => void;
 }
 
-const ImageUploader = ({ ref }: ImageUploaderProps) => {
-  const [preview, setPreview] = useState<string>();
+const ImageUploader = ({
+  ref,
+  defaultPreview,
+  onFileChange,
+}: ImageUploaderProps) => {
+  const [preview, setPreview] = useState<string | undefined>(defaultPreview);
+
+  useEffect(() => {
+    setPreview(defaultPreview);
+  }, [defaultPreview]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-    if (!selectedFile) return;
+    if (!selectedFile) {
+      onFileChange?.(null);
+      setPreview(defaultPreview);
+      return;
+    }
+
+    onFileChange?.(selectedFile);
 
     const reader = new FileReader();
     reader.onloadend = () => setPreview(reader.result as string);

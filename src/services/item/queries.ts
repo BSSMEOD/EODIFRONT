@@ -18,7 +18,7 @@ export const useFindDetailQuery = (id: number) => {
   return { data, ...restQuery };
 };
 
-export const useItemListQuery = (params: GetItemListParams) => {
+export const useItemListQuery = (params?: GetItemListParams) => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'list', params],
     queryFn: () => getItemList(params),

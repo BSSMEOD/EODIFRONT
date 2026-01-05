@@ -13,4 +13,17 @@ const authorization = () => {
   };
 };
 
+authorization.formData = () => {
+  const token = Storage.getItem(TOKEN.ACCESS);
+  if (!token) {
+    return { headers: {} };
+  }
+  return {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+};
+
 export default authorization;
