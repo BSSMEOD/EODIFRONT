@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { useApiHandler } from '@hooks/useApiHandler';
 
-export const useItemClaimMutation = (id: number, onClose: () => void) => {
+export const useItemClaimMutation = (id: number) => {
   const queryClient = useQueryClient();
   const { handleSuccess } = useApiHandler();
   const { mutate, ...restMutation } = useMutation({
@@ -22,7 +22,6 @@ export const useItemClaimMutation = (id: number, onClose: () => void) => {
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['item', 'claim'] });
       handleSuccess(data.message);
-      onClose();
     },
   });
   return { mutate, ...restMutation };
