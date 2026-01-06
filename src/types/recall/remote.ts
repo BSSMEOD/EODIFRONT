@@ -16,7 +16,6 @@ export interface GetRecallRequestsRes {
 
 export interface ApproveRejectReq {
   result: 'APPROVED' | 'REJECTED';
-  reason?: string; // 반려 시에만 필요
 }
 
 export type ApproveRejectRes = ApprovalResponse;

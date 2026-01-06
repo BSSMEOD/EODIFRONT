@@ -14,10 +14,7 @@ export const getRecallRequests = async (params?: GetRecallRequestsParams) => {
   return data;
 };
 
-export const approveRecallRequest = async (
-  itemId: number,
-  req: ApproveRejectReq
-) => {
+const updateRecallStatus = async (itemId: number, req: ApproveRejectReq) => {
   const { data } = await eodi.patch<ApproveRejectRes>(
     `/items/${itemId}/approve`,
     req
@@ -25,13 +22,8 @@ export const approveRecallRequest = async (
   return data;
 };
 
-export const rejectRecallRequest = async (
-  itemId: number,
-  req: ApproveRejectReq
-) => {
-  const { data } = await eodi.patch<ApproveRejectRes>(
-    `/items/${itemId}/approve`,
-    req
-  );
-  return data;
-};
+export const approveRecallRequest = (itemId: number, req: ApproveRejectReq) =>
+  updateRecallStatus(itemId, req);
+
+export const rejectRecallRequest = (itemId: number, req: ApproveRejectReq) =>
+  updateRecallStatus(itemId, req);
