@@ -27,7 +27,12 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
       toast.warn('이유를 작성해주세요.');
       return;
     }
-    itemClaimMutate({ claimReason }, { onSuccess: onClose });
+
+    itemClaimMutate({ claimReason }, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (
