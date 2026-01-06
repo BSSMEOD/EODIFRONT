@@ -40,9 +40,17 @@ export const getButtonStyle = {
     border: ${outlined ? `1.5px solid ${color.primary}` : 'none'};
     ${getSizeStyle(size)};
 
+    svg {
+      fill: ${outlined ? color.primary : color.white};
+    }
+
     &:hover {
       background-color: ${color.primary};
       color: ${color.white};
+
+      svg {
+        fill: ${color.white};
+      }
     }
   `,
   SECONDARY: (outlined: boolean, size: ButtonSize) => css`
@@ -51,9 +59,17 @@ export const getButtonStyle = {
     border: ${outlined ? `1.5px solid ${color.secondary}` : 'none'};
     ${getSizeStyle(size)};
 
+    svg {
+      fill: ${outlined ? color.secondary : color.white};
+    }
+
     &:hover {
       background-color: ${color.secondary};
       color: ${color.white};
+
+      svg {
+        fill: ${color.white};
+      }
     }
   `,
   TERTIARY: (outlined: boolean, size: ButtonSize) => css`
@@ -80,6 +96,10 @@ export const getButtonStyle = {
     ${getSizeStyle(size)};
     border: 1px solid ${color.secondary};
 
+    svg {
+      fill: ${color.secondary};
+    }
+
     &:hover {
       background-color: ${color.gray100};
     }
@@ -90,10 +110,18 @@ export const getButtonStyle = {
     ${getSizeStyle(size)};
     border: 1px solid ${color.red};
 
+    svg {
+      fill: ${color.red};
+    }
+
     &:hover {
       background-color: ${color.red};
       color: ${color.white};
       border-color: ${color.red};
+
+      svg {
+        fill: ${color.white};
+      }
     }
   `,
   DANGER: (outlined: boolean, size: ButtonSize) => css`
@@ -101,5 +129,9 @@ export const getButtonStyle = {
     color: ${color.white};
     ${getSizeStyle(size)};
     border: 1px solid ${color.red};
+
+    svg {
+      fill: ${color.white};
+    }
   `,
 };

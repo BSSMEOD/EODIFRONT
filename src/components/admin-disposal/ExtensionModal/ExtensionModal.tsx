@@ -182,17 +182,13 @@ const ExtensionModal = ({
               size="modal"
               onClick={handleClose}
             >
-              <IconClose color={color.secondary} width={24} height={24} />
-              <Text variant="p2" color={color.secondary}>
-                취소
-              </Text>
+              <IconClose width={24} height={24} />
+              <Text variant="p2">취소</Text>
             </Button>
 
             <Button styleType="SECONDARY" size="modal" onClick={handleConfirm}>
               <IconCheck width={24} height={24} />
-              <Text variant="p2" color={color.white}>
-                연장
-              </Text>
+              <Text variant="p2">연장</Text>
             </Button>
           </Flex>
         </Flex>

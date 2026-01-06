@@ -4,7 +4,6 @@ import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
 import type { ButtonStyleType } from '@components/common/Button/Button.type';
 import Text from '@components/common/Text/Text';
-import color from '@styles/color';
 import { IconClose } from '@/icons/src/IconClose';
 import IconCheck from '@/icons/src/IconCheck';
 import { useScrollLock } from '@/hooks/useScrollLock';
@@ -54,25 +53,8 @@ const BaseModal = ({
 
           <Flex justify="center" gap={8}>
             <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
-              <IconClose
-                color={
-                  cancelButtonType === 'GHOST_DANGER'
-                    ? color.red
-                    : color.secondary
-                }
-                width={24}
-                height={24}
-              />
-              <Text
-                variant="p2"
-                color={
-                  cancelButtonType === 'GHOST_DANGER'
-                    ? color.red
-                    : color.secondary
-                }
-              >
-                {cancelText}
-              </Text>
+              <IconClose width={24} height={24} />
+              <Text variant="p2">{cancelText}</Text>
             </Button>
 
             {onConfirm && (
@@ -82,9 +64,7 @@ const BaseModal = ({
                 onClick={onConfirm}
               >
                 <IconCheck width={24} height={24} />
-                <Text variant="p2" color={color.white}>
-                  {confirmText}
-                </Text>
+                <Text variant="p2">{confirmText}</Text>
               </Button>
             )}
           </Flex>

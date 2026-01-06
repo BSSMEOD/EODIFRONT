@@ -5,10 +5,8 @@ import MainRule from '@components/main/MainRule/MainRule';
 import Text from '@components/common/Text/Text';
 import { Button } from '@components/common/Button/Button';
 import { useRouter } from 'next/navigation';
-import color from '@styles/color';
 import Flex from '@components/common/Flex/Flex';
 import { ROUTES } from '@/constants/common/constants';
-import React from 'react';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';
@@ -66,9 +64,7 @@ const MainPage = () => {
               styleType={'SECONDARY'}
               onClick={() => router.push(ROUTES.RULES)}
             >
-              <Text variant="H4" color={color.white}>
-                상벌점제 규정 확인하기
-              </Text>
+              <Text variant="H4">상벌점제 규정 확인하기</Text>
             </Button>
           </Flex>
         )}
