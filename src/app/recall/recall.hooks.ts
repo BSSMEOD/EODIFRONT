@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { RecallRequest, RecallStatus } from '@/types/recall/client';
 import { useRecallRequestsQuery } from '@/services/recall/queries';
 import {

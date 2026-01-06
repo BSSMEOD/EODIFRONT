@@ -59,7 +59,6 @@ const RecallPage = () => {
       <RecallRequestList
         requests={data.requests}
         isLoading={data.isLoading}
-        error={data.error instanceof Error ? data.error : null}
         modals={modals}
         actions={actions}
         filters={filters}
