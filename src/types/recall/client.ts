@@ -19,7 +19,7 @@ export interface RecallRequestItem {
   requestMessage: string;
   requesterName: string;
   requestedAt: string;
-  recallStatus: string;
+  recallStatus: RecallStatus;
 }
 
 export interface ApprovalResponse {
