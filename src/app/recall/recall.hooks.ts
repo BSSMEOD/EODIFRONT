@@ -21,9 +21,7 @@ export const useRecallManagement = () => {
   });
 
   const apiParams = useMemo(() => {
-    const params: import('@/types/recall/remote').GetRecallRequestsParams & {
-      sort?: string;
-    } = {
+    const params: import('@/types/recall/remote').GetRecallRequestsParams = {
       page: filters.page,
       size: filters.size,
     };
@@ -85,7 +83,6 @@ export const useRecallManagement = () => {
     });
   };
 
-  // 승인/반려 액션
   const handleApproveConfirm = async (itemId: number) => {
     await approveMutation.mutateAsync({
       itemId,

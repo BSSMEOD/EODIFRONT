@@ -61,7 +61,6 @@ const RecallPage = () => {
         isLoading={data.isLoading}
         modals={modals}
         actions={actions}
-        filters={filters}
       />
 
       {data.totalPages > 1 && (
