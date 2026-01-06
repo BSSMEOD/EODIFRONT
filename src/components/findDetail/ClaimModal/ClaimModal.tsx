@@ -20,7 +20,7 @@ interface ClaimModalProps {
 const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
   const [claimReason, setClaimReason] = useState('');
   const outsideClickRef = useOutsideClick(onClose);
-  const { mutate: itemClaimMutate } = useItemClaimMutation(id, onClose);
+  const { mutate: itemClaimMutate } = useItemClaimMutation(id);
 
   const handleSubmit = () => {
     if (!claimReason.trim()) {
@@ -28,7 +28,11 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
       return;
     }
 
-    itemClaimMutate({ claimReason });
+    itemClaimMutate({ claimReason }, {
+      onSuccess: () => {
+        onClose();
+      },
+    });
   };
 
   return (
