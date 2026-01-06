@@ -20,14 +20,15 @@ interface ClaimModalProps {
 const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
   const [claimReason, setClaimReason] = useState('');
   const outsideClickRef = useOutsideClick(onClose);
-  const { mutate: itemClaimMutate } = useItemClaimMutation(id);
+  const { mutate: itemClaimMutate } = useItemClaimMutation(id, onClose);
 
   const handleSubmit = () => {
     if (!claimReason.trim()) {
       toast.warn('이유를 작성해주세요.');
       return;
     }
-    itemClaimMutate({ claimReason }, { onSuccess: onClose });
+
+    itemClaimMutate({ claimReason });
   };
 
   return (
