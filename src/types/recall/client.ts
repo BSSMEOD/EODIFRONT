@@ -12,6 +12,16 @@ export interface RecallRequest {
 
 export type RecallStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
+export interface RecallRequestItem {
+  id: number;
+  name: string;
+  imageUrl: string;
+  requestMessage: string;
+  requesterName: string;
+  requestedAt: string;
+  recallStatus: string;
+}
+
 export interface ApprovalResponse {
   itemId: number;
   approvalStatus: 'APPROVED' | 'REJECTED';

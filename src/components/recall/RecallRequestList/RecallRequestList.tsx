@@ -1,19 +1,13 @@
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
-import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
+import RecallListItem from '../RecallListItem/RecallListItem';
 import RejectModal from '../RejectModal/RejectModal';
 import ApproveModal from '../ApproveModal/ApproveModal';
-import { Item } from '@/types/item/client';
-import { RecallRequest } from '@/types/recall/client';
+import { RecallRequest, RecallRequestItem } from '@/types/recall/client';
 
-const transformToProductListItem = (
+const transformToRecallRequestItem = (
   request: RecallRequest
-): Item & {
-  requestMessage: string;
-  requesterName: string;
-  requestedAt: string;
-  recallStatus: string;
-} => ({
+): RecallRequestItem => ({
   id: request.itemId,
   name: request.itemName,
   requestMessage: request.requestMessage,
@@ -21,19 +15,11 @@ const transformToProductListItem = (
   requestedAt: request.requestedAt,
   recallStatus: request.status,
   imageUrl: request.imageUrl,
-  foundAt: '',
-  foundPlace: '',
-  foundPlaceDetail: '',
-  status: 'LOST' as const,
-  category: '기타' as const,
-  reporterName: request.requesterName,
-  reporterStudentCode: null,
 });
 
 interface RecallRequestListProps {
   requests: RecallRequest[];
   isLoading: boolean;
-  error: Error | null;
   modals: {
     isApproveModalOpen: boolean;
     isRejectModalOpen: boolean;
@@ -46,18 +32,13 @@ interface RecallRequestListProps {
     handleApproveConfirm: (itemId: number) => Promise<void>;
     handleRejectConfirm: (itemId: number) => Promise<void>;
   };
-  filters: {
-    sort: string;
-  };
 }
 
 const RecallRequestList = ({
   requests,
   isLoading,
-  error,
   modals,
   actions,
-  filters,
 }: RecallRequestListProps) => {
   const handleApprove = (id: number) => {
     const request = requests.find((req) => req.itemId === id);
@@ -73,16 +54,8 @@ const RecallRequestList = ({
     }
   };
 
-  const handleApproveConfirm = (id: number) => {
-    actions.handleApproveConfirm(id);
-  };
-
-  const handleRejectConfirm = (id: number) => {
-    actions.handleRejectConfirm(id);
-  };
-
   const selectedItemForProductList = modals?.selectedItem
-    ? transformToProductListItem(modals.selectedItem)
+    ? transformToRecallRequestItem(modals.selectedItem)
     : null;
 
   if (isLoading) {
@@ -98,31 +71,15 @@ const RecallRequestList = ({
     );
   }
 
-  if (error) {
-    return (
-      <Flex
-        justify="center"
-        align="center"
-        width="100%"
-        style={{ padding: '40px 0' }}
-      >
-        <Text color="red">회수 요청 목록을 불러오는데 실패했습니다.</Text>
-      </Flex>
-    );
-  }
-
   return (
     <>
       <Flex direction="column" gap={20} width="100%">
-        {requests.map((request, index) => {
-          const productItem = transformToProductListItem(request);
+        {requests.map((request) => {
+          const productItem = transformToRecallRequestItem(request);
           return (
-            <ProductListItem
-              key={`recall-${request.requestId}-${index}-${filters.sort}`}
-              product={productItem}
-              size="big"
-              showStatus={false}
-              recallMode={true}
+            <RecallListItem
+              key={`recall-${request.requestId}`}
+              item={productItem}
               isRejectModalOpen={
                 modals.isRejectModalOpen &&
                 modals.selectedItem?.itemId === request.itemId
@@ -149,14 +106,14 @@ const RecallRequestList = ({
         isOpen={modals.isRejectModalOpen}
         item={selectedItemForProductList}
         onClose={modals.handleCloseModals}
-        onConfirm={handleRejectConfirm}
+        onConfirm={actions.handleRejectConfirm}
       />
 
       <ApproveModal
         isOpen={modals.isApproveModalOpen}
         item={selectedItemForProductList}
         onClose={modals.handleCloseModals}
-        onConfirm={handleApproveConfirm}
+        onConfirm={actions.handleApproveConfirm}
       />
     </>
   );

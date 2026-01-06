@@ -2,12 +2,12 @@ import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import BaseModal from '@components/common/Modal/BaseModal';
 import color from '@styles/color';
-import { Item } from '@/types/item/client';
+import { RecallRequestItem } from '@/types/recall/client';
 import IconStacks from '@/icons/src/IconStacks';
 
 interface RejectModalProps {
   isOpen: boolean;
-  item: Item | null;
+  item: RecallRequestItem | null;
   onClose: () => void;
   onConfirm: (id: number) => Promise<void>;
 }
