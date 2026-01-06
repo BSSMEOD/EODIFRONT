@@ -16,10 +16,6 @@ export const useApproveRecallMutation = () => {
         exact: false,
       });
     },
-    onError: (error) => {
-      toast.error('승인 처리에 실패했습니다.');
-      console.error('Approve recall request error:', error);
-    },
   });
 };
 
@@ -35,10 +31,6 @@ export const useRejectRecallMutation = () => {
         queryKey: ['recall', 'requests'],
         exact: false,
       });
-    },
-    onError: (error) => {
-      toast.error('반려 처리에 실패했습니다.');
-      console.error('Reject recall request error:', error);
     },
   });
 };
