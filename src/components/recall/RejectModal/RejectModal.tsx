@@ -9,7 +9,7 @@ interface RejectModalProps {
   isOpen: boolean;
   item: Item | null;
   onClose: () => void;
-  onConfirm: (id: number) => void;
+  onConfirm: (id: number) => Promise<void>;
 }
 
 const RejectModal = ({
@@ -18,9 +18,9 @@ const RejectModal = ({
   onClose,
   onConfirm,
 }: RejectModalProps) => {
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!item) return;
-    onConfirm(item.id);
+    await onConfirm(item.id);
     onClose();
   };
 
