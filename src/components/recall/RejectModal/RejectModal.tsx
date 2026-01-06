@@ -31,9 +31,8 @@ const RejectModal = ({
       isOpen={isOpen}
       onClose={onClose}
       onConfirm={handleConfirm}
-      confirmText="반려"
-      cancelText="취소"
       confirmButtonType="DANGER"
+      cancelButtonType="GHOST_DANGER"
     >
       <Flex direction="column" gap={40} style={{ paddingBottom: '40px' }}>
         <Flex gap={4} align="center">
