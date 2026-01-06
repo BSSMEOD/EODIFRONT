@@ -61,7 +61,9 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
           />
           <Button styleType="SECONDARY" onClick={handleSubmit}>
             <IconCheck width={24} height={24} />
-            <Text variant="p2">등록</Text>
+            <Text variant="p2" color={color.white}>
+              등록
+            </Text>
           </Button>
         </Flex>
       </StyledClaimModal>

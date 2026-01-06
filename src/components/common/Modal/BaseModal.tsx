@@ -54,7 +54,9 @@ const BaseModal = ({
           <Flex justify="center" gap={8}>
             <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
               <IconClose width={24} height={24} />
-              <Text variant="p2">{cancelText}</Text>
+              <Text variant="p2" color={color.white}>
+                {cancelText}
+              </Text>
             </Button>
 
             {onConfirm && (
@@ -64,7 +66,9 @@ const BaseModal = ({
                 onClick={onConfirm}
               >
                 <IconCheck width={24} height={24} />
-                <Text variant="p2">{confirmText}</Text>
+                <Text variant="p2" color={color.white}>
+                  {confirmText}
+                </Text>
               </Button>
             )}
           </Flex>

@@ -3,6 +3,7 @@
 import styled from '@emotion/styled';
 import MainRule from '@components/main/MainRule/MainRule';
 import Text from '@components/common/Text/Text';
+import color from '@styles/color';
 import { Button } from '@components/common/Button/Button';
 import { useRouter } from 'next/navigation';
 import Flex from '@components/common/Flex/Flex';
@@ -64,7 +65,9 @@ const MainPage = () => {
               styleType={'SECONDARY'}
               onClick={() => router.push(ROUTES.RULES)}
             >
-              <Text variant="H4">상벌점제 규정 확인하기</Text>
+              <Text variant="H4" color={color.white}>
+                상벌점제 규정 확인하기
+              </Text>
             </Button>
           </Flex>
         )}
