@@ -6,16 +6,10 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import Pagination from '@components/common/Pagination/Pagination';
 import RecallRequestList from '@components/recall/RecallRequestList/RecallRequestList';
 import { useRecallManagement } from './recall.hooks';
+import { RECALL_STATUS_OPTIONS } from '@/constants/recall/constant';
 
 const RecallPage = () => {
   const { filters, options, data, modals, actions } = useRecallManagement();
-
-  const statusOptions = [
-    { label: '전체', value: '' },
-    { label: '대기중', value: 'PENDING' },
-    { label: '승인됨', value: 'APPROVED' },
-    { label: '반려됨', value: 'REJECTED' },
-  ];
 
   const handleStatusChange = (value: string) => {
     filters.handleStatusChange(
@@ -24,8 +18,8 @@ const RecallPage = () => {
   };
 
   const currentStatusLabel =
-    statusOptions.find((option) => option.value === filters.status)?.label ||
-    '전체';
+    RECALL_STATUS_OPTIONS.find((option) => option.value === filters.status)
+      ?.label || '전체';
   const currentSortLabel = filters.sort
     ? options.sortOptions.find((option) => option.value === filters.sort)
         ?.label || '정렬'
@@ -36,10 +30,12 @@ const RecallPage = () => {
       <Flex align="center" gap={12} wrap="wrap">
         <Dropdown
           name="status"
-          data={statusOptions.map((option) => option.label)}
+          data={RECALL_STATUS_OPTIONS.map((option) => option.label)}
           value={currentStatusLabel}
           onChange={(label) => {
-            const option = statusOptions.find((opt) => opt.label === label);
+            const option = RECALL_STATUS_OPTIONS.find(
+              (opt) => opt.label === label
+            );
             if (option) handleStatusChange(option.value);
           }}
           placeholder="상태 선택"
@@ -63,7 +59,7 @@ const RecallPage = () => {
       <RecallRequestList
         requests={data.requests}
         isLoading={data.isLoading}
-        error={data.error}
+        error={data.error instanceof Error ? data.error : null}
         modals={modals}
         actions={actions}
         filters={filters}
