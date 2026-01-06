@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import color from '@styles/color';
 import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
 import type { ButtonStyleType } from '@components/common/Button/Button.type';
