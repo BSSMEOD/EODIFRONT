@@ -28,7 +28,16 @@ export const formatRangeDateDot = (
   return `${formatDateDot(startDate)} ~ ${formatDateDot(endDate)}`;
 };
 
-export const formatDateDash = (date: Date | string) => {
+export const formatDateDash = (
+  date: Date | string,
+  inputType: 'year' | 'month' | 'date' = 'date'
+) => {
   const parsed = toDate(date);
-  return format(parsed, 'yyyy-MM-dd');
+  const formatStr =
+    inputType === 'year'
+      ? 'yyyy'
+      : inputType === 'month'
+        ? 'yyyy-MM'
+        : 'yyyy-MM-dd';
+  return format(parsed, formatStr);
 };

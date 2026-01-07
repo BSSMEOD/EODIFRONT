@@ -16,7 +16,7 @@ import React, { useState } from 'react';
 import { usePlaceListQuery } from '@services/item/queries';
 import { useBooleanState } from '@hooks/useBooleanState';
 
-const step = ['year', 'month', 'day'];
+const step = ['year', 'month', 'date'] as const;
 
 const RegisterPage = () => {
   const {
@@ -42,19 +42,19 @@ const RegisterPage = () => {
   } = useBooleanState(false);
 
   const handleChange = (date: Date | null) => {
-    if (currentStep >= step.length - 1) {
-      setCurrentStep(0);
-      setDateClose();
-
-      return;
-    }
-    setCurrentStep((prev) => prev + 1);
-    handleDateChange(date);
+    handleDateChange(date, step[currentStep]);
+    setCurrentStep((prev) => {
+      if (currentStep >= step.length - 1) {
+        setDateClose();
+      }
+      return (prev + 1) % step.length;
+    });
   };
 
   const handleDateInputClick = () => {
     setDateOpen();
     setCurrentStep(0);
+    handleDateChange(null);
   };
 
   return (
@@ -102,7 +102,7 @@ const RegisterPage = () => {
             dateFormat={
               step[currentStep] === 'month'
                 ? 'yyyy년'
-                : step[currentStep] === 'day'
+                : step[currentStep] === 'date'
                   ? 'yyyy년 MM월'
                   : 'yyyy년 MM월 dd일'
             }

@@ -38,8 +38,11 @@ export const useForm = () => {
     updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
-  const handleDateChange = (date: Date | null) => {
-    const parsedDate = date ? formatDateDash(date) : '';
+  const handleDateChange = (
+    date: Date | null,
+    inputType?: 'year' | 'month' | 'date'
+  ) => {
+    const parsedDate = date ? formatDateDash(date, inputType) : '';
     updateFormField('foundAt', parsedDate);
   };
 

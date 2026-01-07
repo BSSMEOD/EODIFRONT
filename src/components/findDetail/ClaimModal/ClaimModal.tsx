@@ -28,11 +28,14 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
       return;
     }
 
-    itemClaimMutate({ claimReason }, {
-      onSuccess: () => {
-        onClose();
-      },
-    });
+    itemClaimMutate(
+      { claimReason },
+      {
+        onSuccess: () => {
+          onClose();
+        },
+      }
+    );
   };
 
   return (
