@@ -3,10 +3,10 @@ import { useRouter } from 'next/navigation';
 import { useFindDetailQuery, usePlaceListQuery } from '@services/item/queries';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemUpdateMutation } from '@services/item/mutations';
-import { ItemForm } from '@/types/item/client';
+import type { ItemForm } from '@/types/item/client';
 import { formatDateDash } from '@utils/formatDate';
 
-export const useForm = (id: number) => {
+export const useEditForm = (id: number) => {
   const router = useRouter();
   const fileRef = useRef<HTMLInputElement>(null);
   const { mutateAsync: imageUploadMutateAsync } = useImageUploadMutation();
@@ -25,8 +25,13 @@ export const useForm = (id: number) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>();
 
-  const { data: itemData, error, isLoading } = useFindDetailQuery(id);
+  const { data: itemData, error } = useFindDetailQuery(id);
   const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: place.id.toString(),
+    })) ?? [];
 
   useEffect(() => {
     if (error) {
@@ -69,8 +74,11 @@ export const useForm = (id: number) => {
     updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
-  const handleDateChange = (date: Date | null) => {
-    const parsedDate = date ? formatDateDash(date) : '';
+  const handleDateChange = (
+    date: Date | null,
+    inputType?: 'year' | 'month' | 'date'
+  ) => {
+    const parsedDate = date ? formatDateDash(date, inputType) : '';
     updateFormField('foundAt', parsedDate);
   };
 
@@ -81,11 +89,11 @@ export const useForm = (id: number) => {
   const handleSubmit = async () => {
     const isConfirm = confirm('분실물 정보를 수정하시겠습니까?');
     if (!isConfirm) return;
+
+    const hasImage = !!(selectedFile || imagePreview);
     const isFormInvalid =
-      !imagePreview ||
+      !hasImage ||
       !form.name.trim() ||
-      !form.reporterName.trim() ||
-      !form.reporterStudentCode ||
       !form.foundAt ||
       !form.placeId ||
       !form.foundPlaceDetail.trim() ||
@@ -100,6 +108,8 @@ export const useForm = (id: number) => {
       ? await imageUploadMutateAsync(selectedFile)
       : imagePreview;
 
+    if (!imageUrl) return;
+
     updateItemMutate({ ...form, imageUrl });
   };
 
@@ -107,12 +117,11 @@ export const useForm = (id: number) => {
     fileRef,
     form,
     imagePreview,
-    selectedFile,
+    placeOptions,
     handleFormChange,
     handleDropdownChange,
     handleDateChange,
     handleFileChange,
     handleSubmit,
-    isLoading,
   };
 };

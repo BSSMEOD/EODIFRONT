@@ -1,10 +1,11 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemRegisterMutation } from '@services/item/mutations';
-import { ItemForm } from '@/types/item/client';
+import { usePlaceListQuery } from '@services/item/queries';
+import type { ItemForm } from '@/types/item/client';
 import { formatDateDash } from '@utils/formatDate';
 
-export const useForm = () => {
+export const useRegisterForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState<ItemForm>({
@@ -21,6 +22,12 @@ export const useForm = () => {
 
   const { mutateAsync: imageUploadMutateAsync } = useImageUploadMutation();
   const { mutate: registerItemMutate } = useItemRegisterMutation();
+  const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: place.id.toString(),
+    })) ?? [];
 
   const updateFormField = <K extends keyof ItemForm>(
     name: K,
@@ -50,13 +57,6 @@ export const useForm = () => {
     setSelectedFile(file);
   };
 
-  const clearFile = () => {
-    setSelectedFile(null);
-    if (fileRef.current) {
-      fileRef.current.value = '';
-    }
-  };
-
   const handleSubmit = async () => {
     const isConfirm = confirm('분실물을 등록하시겠습니까?');
     if (!isConfirm) return;
@@ -81,12 +81,11 @@ export const useForm = () => {
   return {
     fileRef,
     form,
-    selectedFile,
+    placeOptions,
     handleFormChange,
     handleDropdownChange,
     handleDateChange,
     handleFileChange,
-    clearFile,
     handleSubmit,
   };
 };
