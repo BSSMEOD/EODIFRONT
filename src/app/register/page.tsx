@@ -12,8 +12,11 @@ import { useForm } from '@app/register/register.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
 import DateSelector from '@components/common/DateSelector/DateSelector';
 import { IconCalendar } from '@/icons/src/IconCalendar';
-import React from 'react';
+import React, { useState } from 'react';
 import { usePlaceListQuery } from '@services/item/queries';
+import { useBooleanState } from '@hooks/useBooleanState';
+
+const step = ['year', 'month', 'day'];
 
 const RegisterPage = () => {
   const {
@@ -31,6 +34,28 @@ const RegisterPage = () => {
       label: place.name,
       value: place.id.toString(),
     })) ?? [];
+  const [currentStep, setCurrentStep] = useState<number>(0);
+  const {
+    value: isDateOpen,
+    setTrue: setDateOpen,
+    setFalse: setDateClose,
+  } = useBooleanState(false);
+
+  const handleChange = (date: Date | null) => {
+    if (currentStep >= step.length - 1) {
+      setCurrentStep(0);
+      setDateClose();
+
+      return;
+    }
+    setCurrentStep((prev) => prev + 1);
+    handleDateChange(date);
+  };
+
+  const handleDateInputClick = () => {
+    setDateOpen();
+    setCurrentStep(0);
+  };
 
   return (
     <StyledRegisterPage>
@@ -53,14 +78,14 @@ const RegisterPage = () => {
           <Flex direction="row" gap={24}>
             <Input
               type="number"
-              label="습득 신고자 학번"
+              label="습득 신고자 학번(선택)"
               placeholder="습득 신고자 학번 입력"
               name="reporterStudentCode"
               value={form.reporterStudentCode ?? ''}
               onChange={handleFormChange}
             />
             <Input
-              label="습득 신고자 이름"
+              label="습득 신고자 이름(선택)"
               placeholder="습득 신고자 이름 입력"
               name="reporterName"
               value={form.reporterName}
@@ -70,7 +95,19 @@ const RegisterPage = () => {
           <DateSelector
             placeholderText="습득 날짜 선택"
             selected={form.foundAt ? new Date(form.foundAt) : null}
-            onChange={handleDateChange}
+            onChange={handleChange}
+            showYearPicker={step[currentStep] === 'year'}
+            showMonthYearPicker={step[currentStep] === 'month'}
+            showPopperArrow={false}
+            dateFormat={
+              step[currentStep] === 'month'
+                ? 'yyyy년'
+                : step[currentStep] === 'day'
+                  ? 'yyyy년 MM월'
+                  : 'yyyy년 MM월 dd일'
+            }
+            open={isDateOpen}
+            shouldCloseOnSelect={false}
             customInput={
               <Input
                 label="습득 날짜"
@@ -78,8 +115,9 @@ const RegisterPage = () => {
                 rightIcon={<IconCalendar width={24} height={24} />}
               />
             }
-            dateFormat="yyyy. MM. dd."
+            onInputClick={handleDateInputClick}
             popperPlacement="bottom-end"
+            onCalendarClose={setDateClose}
           />
           <Flex direction="row" gap={24}>
             <InputDropdown
