@@ -75,7 +75,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
   return (
     <StyledItemForm>
       <Flex direction="row" justify="space-between" align="center">
-        <Text variant="H2"> 분실물 {mode}하기</Text>
+        <Text variant="H2">분실물 {mode}하기</Text>
         <Button styleType="SECONDARY" onClick={handleSubmit}>
           {mode}
         </Button>
