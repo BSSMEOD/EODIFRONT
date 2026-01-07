@@ -3,8 +3,10 @@ import color from '@styles/color';
 import Image from 'next/image';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
+import StatusBadge from '@components/common/StatusBadge/StatusBadge';
 import { Button } from '@components/common/Button/Button';
 import { RecallRequestItem } from '@/types/recall/client';
+import { RECALL_STATUS } from '@/constants/recall/constant';
 import font from '@styles/font';
 import { formatDateDot } from '@utils/formatDate';
 import { useState } from 'react';
@@ -54,13 +56,15 @@ const RecallListItem = ({
         )}
         <InfoSection>
           <Flex direction="row" gap={8} align="end">
-            <RecallStatusBadge recallStatus={recallStatus}>
-              {recallStatus === 'PENDING'
-                ? '대기중'
-                : recallStatus === 'APPROVED'
-                  ? '승인됨'
-                  : '반려됨'}
-            </RecallStatusBadge>
+            <StatusBadge
+              bgColor={
+                recallStatusColor[
+                  recallStatus as keyof typeof recallStatusColor
+                ]
+              }
+            >
+              {RECALL_STATUS[recallStatus as keyof typeof RECALL_STATUS]}
+            </StatusBadge>
             <Text variant="H2">{name}</Text>
             {requesterName && (
               <Text variant="p2" color={color.gray400}>
@@ -145,22 +149,10 @@ const InfoSection = styled.div`
 `;
 
 const recallStatusColor = {
-  PENDING: '#FFCC00', // 노란색 - 대기중
-  APPROVED: '#14C600', // 초록색 - 승인됨
-  REJECTED: '#FF2727', // 빨간색 - 반려됨
+  PENDING: '#FFCC00',
+  APPROVED: '#14C600',
+  REJECTED: '#FF2727',
 };
-
-const RecallStatusBadge = styled.div<{ recallStatus: string }>`
-  ${font.p3};
-  background: ${({ recallStatus }) =>
-    recallStatusColor[recallStatus as keyof typeof recallStatusColor] ||
-    '#CCCCCC'};
-  color: white;
-  padding: 2px 8px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 600;
-`;
 
 const StatusText = styled.div<{ recallStatus?: string }>`
   ${font.p2};
