@@ -83,19 +83,13 @@ export const useRecallManagement = () => {
     });
   };
 
-  const handleApproveConfirm = async (itemId: number) => {
-    await approveMutation.mutateAsync({
-      itemId,
-      req: { result: 'APPROVED' },
-    });
+  const handleApproveConfirm = async (requestId: number) => {
+    await approveMutation.mutateAsync(requestId);
     handleCloseModals();
   };
 
-  const handleRejectConfirm = async (itemId: number) => {
-    await rejectMutation.mutateAsync({
-      itemId,
-      req: { result: 'REJECTED' },
-    });
+  const handleRejectConfirm = async (requestId: number) => {
+    await rejectMutation.mutateAsync(requestId);
     handleCloseModals();
   };
 

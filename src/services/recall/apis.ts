@@ -2,8 +2,6 @@ import { eodi } from '@/api/instance/instance';
 import {
   GetRecallRequestsParams,
   GetRecallRequestsRes,
-  ApproveRejectReq,
-  ApproveRejectRes,
 } from '@/types/recall/remote';
 
 export const getRecallRequests = async (params?: GetRecallRequestsParams) => {
@@ -14,16 +12,12 @@ export const getRecallRequests = async (params?: GetRecallRequestsParams) => {
   return data;
 };
 
-const updateRecallStatus = async (itemId: number, req: ApproveRejectReq) => {
-  const { data } = await eodi.patch<ApproveRejectRes>(
-    `/items/${itemId}/approve`,
-    req
-  );
+export const approveRecallRequest = async (claimId: number) => {
+  const { data } = await eodi.post(`/items/claims/${claimId}/approve`);
   return data;
 };
 
-export const approveRecallRequest = (itemId: number, req: ApproveRejectReq) =>
-  updateRecallStatus(itemId, req);
-
-export const rejectRecallRequest = (itemId: number, req: ApproveRejectReq) =>
-  updateRecallStatus(itemId, req);
+export const rejectRecallRequest = async (claimId: number) => {
+  const { data } = await eodi.post(`/items/claims/${claimId}/reject`);
+  return data;
+};

@@ -8,7 +8,7 @@ import { RecallRequest, RecallRequestItem } from '@/types/recall/client';
 const transformToRecallRequestItem = (
   request: RecallRequest
 ): RecallRequestItem => ({
-  id: request.itemId,
+  id: request.requestId,
   name: request.itemName,
   requestMessage: request.requestMessage,
   requesterName: request.requesterName,
@@ -41,14 +41,14 @@ const RecallRequestList = ({
   actions,
 }: RecallRequestListProps) => {
   const handleApprove = (id: number) => {
-    const request = requests.find((req) => req.itemId === id);
+    const request = requests.find((req) => req.requestId === id);
     if (request) {
       modals.handleApprove(request);
     }
   };
 
   const handleReject = (id: number) => {
-    const request = requests.find((req) => req.itemId === id);
+    const request = requests.find((req) => req.requestId === id);
     if (request) {
       modals.handleReject(request);
     }
@@ -82,7 +82,7 @@ const RecallRequestList = ({
               item={productItem}
               isRejectModalOpen={
                 modals.isRejectModalOpen &&
-                modals.selectedItem?.itemId === request.itemId
+                modals.selectedItem?.requestId === request.requestId
               }
               onApprove={handleApprove}
               onReject={handleReject}
