@@ -2,14 +2,14 @@ import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import BaseModal from '@components/common/Modal/BaseModal';
 import color from '@styles/color';
-import { Item } from '@/types/item/client';
+import { RecallRequestItem } from '@/types/recall/client';
 import IconStacks from '@/icons/src/IconStacks';
 
 interface ApproveModalProps {
   isOpen: boolean;
-  item: Item | null;
+  item: RecallRequestItem | null;
   onClose: () => void;
-  onConfirm: (id: number) => void;
+  onConfirm: (id: number) => Promise<void>;
 }
 
 const ApproveModal = ({
@@ -18,10 +18,9 @@ const ApproveModal = ({
   onClose,
   onConfirm,
 }: ApproveModalProps) => {
-  const handleConfirm = () => {
-    if (item) {
-      onConfirm(item.id);
-    }
+  const handleConfirm = async () => {
+    if (!item) return;
+    await onConfirm(item.id);
   };
 
   if (!item) return null;

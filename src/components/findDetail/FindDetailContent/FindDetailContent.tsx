@@ -64,9 +64,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
           </Text>
         </Flex>
         <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
-          <Text variant="H3" color={color.white}>
-            내 물건이에요!
-          </Text>
+          <Text variant="H3">내 물건이에요!</Text>
         </Button>
       </Flex>
     </StyledFindDetailContent>

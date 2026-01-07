@@ -3,12 +3,11 @@
 import styled from '@emotion/styled';
 import MainRule from '@components/main/MainRule/MainRule';
 import Text from '@components/common/Text/Text';
+import color from '@styles/color';
 import { Button } from '@components/common/Button/Button';
 import { useRouter } from 'next/navigation';
-import color from '@styles/color';
 import Flex from '@components/common/Flex/Flex';
 import { ROUTES } from '@/constants/common/constants';
-import React from 'react';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import HistoryLinkBox from '@components/common/HistoryLinkBox/HistoryLinkBox';
 import { useAuthStore } from '@/stores/useAuthStore';

@@ -4,7 +4,6 @@ import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
 import type { ButtonStyleType } from '@components/common/Button/Button.type';
 import Text from '@components/common/Text/Text';
-import color from '@styles/color';
 import { IconClose } from '@/icons/src/IconClose';
 import IconCheck from '@/icons/src/IconCheck';
 import { useScrollLock } from '@/hooks/useScrollLock';
@@ -19,6 +18,7 @@ interface BaseModalProps {
   width?: string;
   children: ReactNode;
   confirmButtonType?: ButtonStyleType;
+  cancelButtonType?: ButtonStyleType;
   titleId?: string;
 }
 
@@ -31,6 +31,7 @@ const BaseModal = ({
   width = '412px',
   children,
   confirmButtonType = 'SECONDARY',
+  cancelButtonType = 'GHOST_SECONDARY',
   titleId,
 }: BaseModalProps) => {
   useScrollLock(isOpen);
@@ -51,9 +52,9 @@ const BaseModal = ({
           {children}
 
           <Flex justify="center" gap={8}>
-            <Button styleType="GHOST_SECONDARY" size="modal" onClick={onClose}>
-              <IconClose color={color.secondary} width={24} height={24} />
-              <Text variant="p2" color={color.secondary}>
+            <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
+              <IconClose width={24} height={24} />
+              <Text variant="p2" color="inherit">
                 {cancelText}
               </Text>
             </Button>
@@ -65,7 +66,7 @@ const BaseModal = ({
                 onClick={onConfirm}
               >
                 <IconCheck width={24} height={24} />
-                <Text variant="p2" color={color.white}>
+                <Text variant="p2" color="inherit">
                   {confirmText}
                 </Text>
               </Button>

@@ -1,7 +1,7 @@
 import { SVGProps } from 'react';
 
 export const IconClose = ({
-  color = '#999999',
+  color = 'currentColor',
   ...props
 }: SVGProps<SVGSVGElement>) => {
   return (

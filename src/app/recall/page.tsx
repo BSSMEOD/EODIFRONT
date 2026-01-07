@@ -3,31 +3,74 @@
 import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import Dropdown from '@components/common/Dropdown/Dropdown';
-import { useState } from 'react';
+import Pagination from '@components/common/Pagination/Pagination';
 import RecallRequestList from '@components/recall/RecallRequestList/RecallRequestList';
+import { useRecallManagement } from './recall.hooks';
+import { RECALL_STATUS_OPTIONS } from '@/constants/recall/constant';
 
 const RecallPage = () => {
-  const sortOptions = ['최신순', '오래된순'];
-  const [filter, setFilter] = useState('최신순');
+  const { filters, options, data, modals, actions } = useRecallManagement();
 
-  const handleFilterChange = (value: string) => {
-    setFilter(value);
+  const handleStatusChange = (value: string) => {
+    filters.handleStatusChange(
+      value as 'PENDING' | 'APPROVED' | 'REJECTED' | ''
+    );
   };
+
+  const currentStatusLabel =
+    RECALL_STATUS_OPTIONS.find((option) => option.value === filters.status)
+      ?.label || '전체';
+  const currentSortLabel = filters.sort
+    ? options.sortOptions.find((option) => option.value === filters.sort)
+        ?.label || '정렬'
+    : '정렬';
 
   return (
     <StyledRecallPage>
       <Flex align="center" gap={12} wrap="wrap">
         <Dropdown
+          name="status"
+          data={RECALL_STATUS_OPTIONS.map((option) => option.label)}
+          value={currentStatusLabel}
+          onChange={(label) => {
+            const option = RECALL_STATUS_OPTIONS.find(
+              (opt) => opt.label === label
+            );
+            if (option) handleStatusChange(option.value);
+          }}
+          placeholder="상태 선택"
+          width="120px"
+        />
+        <Dropdown
           name="sort"
-          data={sortOptions}
-          value={filter}
-          onChange={handleFilterChange}
-          placeholder="최신순"
+          data={options.sortOptions.map((option) => option.label)}
+          value={currentSortLabel}
+          onChange={(label) => {
+            const option = options.sortOptions.find(
+              (opt) => opt.label === label
+            );
+            if (option) filters.handleDropdownChange('sort')(option.value);
+          }}
+          placeholder="정렬"
           width="120px"
         />
       </Flex>
 
-      <RecallRequestList />
+      <RecallRequestList
+        requests={data.requests}
+        isLoading={data.isLoading}
+        modals={modals}
+        actions={actions}
+      />
+
+      {data.totalPages > 1 && (
+        <Pagination
+          currentPage={data.currentPage}
+          totalPages={data.totalPages}
+          onPageChange={filters.handlePageChange}
+          maxVisiblePages={5}
+        />
+      )}
     </StyledRecallPage>
   );
 };
