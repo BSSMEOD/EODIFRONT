@@ -61,8 +61,6 @@ export const useForm = () => {
     const isFormInvalid =
       !selectedFile ||
       !form.name.trim() ||
-      !form.reporterName.trim() ||
-      !form.reporterStudentCode ||
       !form.foundAt ||
       !form.placeId ||
       !form.foundPlaceDetail.trim() ||
