@@ -55,7 +55,7 @@ export const formatRangeDateDot = (
 
 export const formatDateDash = (
   date: Date | string,
-  inputType: 'year' | 'month' | 'date' = 'date'
+  inputType?: 'year' | 'month' | 'date'
 ) => {
   const parsed = toDate(date);
   const stringFormat = inputType || getStringFormat(date);
