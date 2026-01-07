@@ -157,11 +157,9 @@ const recallStatusColor = {
 const StatusText = styled.div<{ recallStatus?: string }>`
   ${font.p2};
   color: ${({ recallStatus }) =>
-    recallStatus === 'APPROVED'
-      ? '#14C600'
-      : recallStatus === 'REJECTED'
-        ? '#FF2727'
-        : color.gray400};
+    (recallStatus &&
+      recallStatusColor[recallStatus as keyof typeof recallStatusColor]) ||
+    color.gray400};
   font-weight: 600;
 `;
 
