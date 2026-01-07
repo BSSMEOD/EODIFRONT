@@ -10,14 +10,30 @@ const toDate = (date: Date | string): Date => {
   return parsed;
 };
 
+const getStringFormat = (date: string | Date) => {
+  if (date instanceof Date || date.length >= 10) return 'date';
+  if (date.length >= 7) return 'month';
+  if (date.length >= 4) return 'year';
+  throw new Error(`유효하지 않은 날짜 문자열입니다: ${date}`);
+};
+
 export const formatDateKor = (date: Date | string) => {
   const parsed = toDate(date);
   return format(parsed, 'yyyy년 MM월 dd일');
 };
 
-export const formatDateDot = (date: Date | string) => {
+export const formatDateDot = (
+  date: Date | string,
+  inputType?: 'year' | 'month' | 'date'
+) => {
   const parsed = toDate(date);
-  return format(parsed, 'yyyy.MM.dd');
+  const stringFormat = inputType || getStringFormat(date);
+  const formatStr = {
+    year: 'yyyy',
+    month: 'yyyy.MM',
+    date: 'yyyy.MM.dd',
+  };
+  return format(parsed, formatStr[stringFormat]);
 };
 
 export const formatRangeDateDot = (
@@ -33,11 +49,11 @@ export const formatDateDash = (
   inputType: 'year' | 'month' | 'date' = 'date'
 ) => {
   const parsed = toDate(date);
-  const formatStr =
-    inputType === 'year'
-      ? 'yyyy'
-      : inputType === 'month'
-        ? 'yyyy-MM'
-        : 'yyyy-MM-dd';
-  return format(parsed, formatStr);
+  const stringFormat = inputType || getStringFormat(date);
+  const formatStr = {
+    year: 'yyyy',
+    month: 'yyyy-MM',
+    date: 'yyyy-MM-dd',
+  };
+  return format(parsed, formatStr[stringFormat]);
 };
