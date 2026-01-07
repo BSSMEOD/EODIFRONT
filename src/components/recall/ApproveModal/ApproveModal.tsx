@@ -21,7 +21,6 @@ const ApproveModal = ({
   const handleConfirm = async () => {
     if (!item) return;
     await onConfirm(item.id);
-    onClose();
   };
 
   if (!item) return null;
