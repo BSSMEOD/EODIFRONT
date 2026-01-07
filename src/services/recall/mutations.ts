@@ -2,6 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { approveRecallRequest, rejectRecallRequest } from './apis';
 import { toast } from 'react-toastify';
 import type { RecallRequest } from '@/types/recall/client';
+import type { GetRecallRequestsRes } from '@/types/recall/remote';
 
 const updateRecallStatusOptimistic = (
   queryClient: ReturnType<typeof useQueryClient>,
@@ -10,7 +11,7 @@ const updateRecallStatusOptimistic = (
 ) => {
   queryClient.setQueriesData(
     { queryKey: ['recall', 'requests'] },
-    (old: { requests: RecallRequest[] } | undefined) => {
+    (old: GetRecallRequestsRes | undefined) => {
       if (!old) return old;
       return {
         ...old,
