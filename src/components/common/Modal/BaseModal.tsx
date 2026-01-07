@@ -1,6 +1,5 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
-import color from '@styles/color';
 import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
 import type { ButtonStyleType } from '@components/common/Button/Button.type';
@@ -55,7 +54,7 @@ const BaseModal = ({
           <Flex justify="center" gap={8}>
             <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
               <IconClose width={24} height={24} />
-              <Text variant="p2" color={color.white}>
+              <Text variant="p2" color="inherit">
                 {cancelText}
               </Text>
             </Button>
@@ -67,7 +66,7 @@ const BaseModal = ({
                 onClick={onConfirm}
               >
                 <IconCheck width={24} height={24} />
-                <Text variant="p2" color={color.white}>
+                <Text variant="p2" color="inherit">
                   {confirmText}
                 </Text>
               </Button>
