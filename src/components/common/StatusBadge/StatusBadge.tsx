@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import font from '@styles/font';
+import color from '@styles/color';
 
 interface StatusBadgeProps {
   bgColor: string;
@@ -13,7 +14,7 @@ const StatusBadge = ({ bgColor, children }: StatusBadgeProps) => {
 const StyledBadge = styled.div<{ bgColor: string }>`
   ${font.p3};
   background: ${({ bgColor }) => bgColor};
-  color: white;
+  color: ${color.white};
   padding: 2px 8px;
   border-radius: 8px;
 `;
