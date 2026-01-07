@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { approveRecallRequest, rejectRecallRequest } from './apis';
 import { toast } from 'react-toastify';
-import type { RecallRequest } from '@/types/recall/recallDto';
+import type { RecallRequest } from '@/types/recall/client';
 
 const updateRecallStatusOptimistic = (
   queryClient: ReturnType<typeof useQueryClient>,
