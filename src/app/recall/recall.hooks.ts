@@ -84,13 +84,19 @@ export const useRecallManagement = () => {
   };
 
   const handleApproveConfirm = async (requestId: number) => {
-    await approveMutation.mutateAsync(requestId);
-    handleCloseModals();
+    try {
+      await approveMutation.mutateAsync(requestId);
+    } finally {
+      handleCloseModals();
+    }
   };
 
   const handleRejectConfirm = async (requestId: number) => {
-    await rejectMutation.mutateAsync(requestId);
-    handleCloseModals();
+    try {
+      await rejectMutation.mutateAsync(requestId);
+    } finally {
+      handleCloseModals();
+    }
   };
 
   const sortOptions = [
