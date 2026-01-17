@@ -1,10 +1,11 @@
 import { ChangeEvent, useRef, useState } from 'react';
 import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemRegisterMutation } from '@services/item/mutations';
-import { ItemForm } from '@/types/item/client';
+import { usePlaceListQuery } from '@services/item/queries';
+import type { ItemForm } from '@/types/item/client';
 import { formatDateDash } from '@utils/formatDate';
 
-export const useForm = () => {
+export const useRegisterForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
 
   const [form, setForm] = useState<ItemForm>({
@@ -21,6 +22,12 @@ export const useForm = () => {
 
   const { mutateAsync: imageUploadMutateAsync } = useImageUploadMutation();
   const { mutate: registerItemMutate } = useItemRegisterMutation();
+  const { data: placeListData } = usePlaceListQuery();
+  const placeOptions =
+    placeListData?.map((place) => ({
+      label: place.name,
+      value: place.id.toString(),
+    })) ?? [];
 
   const updateFormField = <K extends keyof ItemForm>(
     name: K,
@@ -38,20 +45,16 @@ export const useForm = () => {
     updateFormField(name as keyof ItemForm, value as ItemForm[keyof ItemForm]);
   };
 
-  const handleDateChange = (date: Date | null) => {
-    const parsedDate = date ? formatDateDash(date) : '';
+  const handleDateChange = (
+    date: Date | null,
+    inputType?: 'year' | 'month' | 'date'
+  ) => {
+    const parsedDate = date ? formatDateDash(date, inputType) : '';
     updateFormField('foundAt', parsedDate);
   };
 
   const handleFileChange = (file: File | null) => {
     setSelectedFile(file);
-  };
-
-  const clearFile = () => {
-    setSelectedFile(null);
-    if (fileRef.current) {
-      fileRef.current.value = '';
-    }
   };
 
   const handleSubmit = async () => {
@@ -61,8 +64,6 @@ export const useForm = () => {
     const isFormInvalid =
       !selectedFile ||
       !form.name.trim() ||
-      !form.reporterName.trim() ||
-      !form.reporterStudentCode ||
       !form.foundAt ||
       !form.placeId ||
       !form.foundPlaceDetail.trim() ||
@@ -80,12 +81,11 @@ export const useForm = () => {
   return {
     fileRef,
     form,
-    selectedFile,
+    placeOptions,
     handleFormChange,
     handleDropdownChange,
     handleDateChange,
     handleFileChange,
-    clearFile,
     handleSubmit,
   };
 };
