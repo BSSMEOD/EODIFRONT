@@ -6,12 +6,8 @@ export const STATUS = {
 };
 
 export const CATEGORY = [
-  '교복',
-  '사복',
-  '체육복',
-  '단체복',
-  '안경',
-  '무선이어폰',
-  '전자기기',
+  '전자기기', 
+  '의류', 
+  '액세서리', 
   '기타',
 ] as const;
