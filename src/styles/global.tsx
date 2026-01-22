@@ -12,7 +12,6 @@ const GlobalStyle = () => (
         box-sizing: border-box;
         margin: 0;
         padding: 0;
-        ${font.p2}
       }
 
       html {
