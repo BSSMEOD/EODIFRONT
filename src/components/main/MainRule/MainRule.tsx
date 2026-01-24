@@ -1,15 +1,22 @@
+'use client';
+
 import color from '@styles/color';
 import styled from '@emotion/styled';
 import { EditSquare } from '@/icons';
 import { ROUTES } from '@/constants/common/constants';
 import Link from 'next/link';
 import { useIntroduceQuery } from '@services/introduce/queries';
-import { Viewer } from '@toast-ui/react-editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
+import dynamic from 'next/dynamic';
 
 interface MainRuleProps {
   canEdit: boolean;
 }
+
+const Viewer = dynamic(
+  () => import('@toast-ui/react-editor').then((m) => m.Viewer),
+  { ssr: false }
+);
 
 const MainRule = ({ canEdit }: MainRuleProps) => {
   const { data } = useIntroduceQuery();

@@ -5,43 +5,29 @@ import styled from '@emotion/styled';
 import { Button } from '@components/common/Button/Button';
 import { useIntroduceQuery } from '@services/introduce/queries';
 import { useIntroduceMutation } from '@services/introduce/mutations';
-import '@toast-ui/editor/dist/toastui-editor.css';
 
+import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
+import dynamic from 'next/dynamic';
+
+const MarkdownEditor = dynamic(() => import('./MarkdownEditor'), {
+  ssr: false,
+});
 
 const MarkdownPage = () => {
   const { data } = useIntroduceQuery();
   const { mutate } = useIntroduceMutation();
-  const mdRef = React.useRef<Editor>(null);
+  const mdRef = React.useRef<Editor | null>(null);
 
   const handleMarkdownSubmit = () => {
-    const content = mdRef.current?.getInstance().getMarkdown() || '';
+    const content = mdRef.current?.getInstance().getMarkdown() ?? '';
     mutate(content);
   };
-
-  const toolbarItems = [
-    ['heading', 'bold', 'italic', 'strike'],
-    ['hr'],
-    ['ul', 'ol', 'task'],
-    ['table', 'link'],
-  ];
 
   return (
     <StyledMarkdownPage>
       <EditorContainer>
-        {data && (
-          <Editor
-            ref={mdRef}
-            initialValue={data.content}
-            previewStyle="vertical"
-            height="600px"
-            initialEditType="markdown"
-            toolbarItems={toolbarItems}
-            useCommandShortcut={false}
-            hideModeSwitch
-            previewHighlight={false}
-          />
-        )}
+        {data && <MarkdownEditor ref={mdRef} initialValue={data.content} />}
       </EditorContainer>
       <Button styleType="GHOST" onClick={handleMarkdownSubmit}>
         저장하기
