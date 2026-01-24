@@ -1,5 +1,4 @@
 import { Global, css } from '@emotion/react';
-import font from '@styles/font';
 
 const GlobalStyle = () => (
   <Global
