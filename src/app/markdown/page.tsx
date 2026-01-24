@@ -20,7 +20,9 @@ const MarkdownPage = () => {
   const mdRef = React.useRef<Editor | null>(null);
 
   const handleMarkdownSubmit = () => {
-    const content = mdRef.current?.getInstance().getMarkdown() ?? '';
+    const instance = mdRef.current?.getInstance();
+    if (!instance) return;
+    const content = instance.getMarkdown();
     mutate(content);
   };
 
