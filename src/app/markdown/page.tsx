@@ -29,7 +29,11 @@ const MarkdownPage = () => {
   return (
     <StyledMarkdownPage>
       <EditorContainer>
-        <MarkdownEditor ref={mdRef} initialValue={data?.content || ''} />
+        {data ? (
+          <MarkdownEditor ref={mdRef} initialValue={data.content} />
+        ) : (
+          <div>불러오는중...</div>
+        )}
       </EditorContainer>
       <Button styleType="GHOST" onClick={handleMarkdownSubmit}>
         저장하기
