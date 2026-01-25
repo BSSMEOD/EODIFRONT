@@ -1,26 +1,29 @@
+'use client';
+
 import color from '@styles/color';
 import styled from '@emotion/styled';
-import font from '@styles/font';
 import { EditSquare } from '@/icons';
 import { ROUTES } from '@/constants/common/constants';
 import Link from 'next/link';
-import ReactMarkdown from 'react-markdown';
 import { useIntroduceQuery } from '@services/introduce/queries';
+import '@toast-ui/editor/dist/toastui-editor.css';
+import dynamic from 'next/dynamic';
 
 interface MainRuleProps {
   canEdit: boolean;
 }
+
+const Viewer = dynamic(
+  () => import('@toast-ui/react-editor').then((m) => m.Viewer),
+  { ssr: false }
+);
 
 const MainRule = ({ canEdit }: MainRuleProps) => {
   const { data } = useIntroduceQuery();
 
   return (
     <StyledMainRule>
-      <div>
-        <ReactMarkdown>
-          {data?.content?.replace(/\n/g, '\n\n') || ''}
-        </ReactMarkdown>
-      </div>
+      {data ? <Viewer initialValue={data.content} /> : <div>불러오는중...</div>}
       {canEdit && (
         <Link href={ROUTES.MARKDOWN}>
           <EditSquare />
@@ -42,23 +45,4 @@ const StyledMainRule = styled.div`
   gap: 20px;
   width: 100%;
   background-color: ${color.lightblue};
-`;
-
-const Title = styled.p`
-  ${font.H1}
-`;
-
-const SubTitle = styled.p`
-  ${font.H2}
-  line-height: 1.5;
-`;
-
-const Description = styled.p`
-  ${font.p2}
-  line-height: 1.5;
-`;
-
-const DescriptionWrapper = styled.div`
-  display: flex;
-  flex-direction: column;
 `;
