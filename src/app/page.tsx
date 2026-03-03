@@ -22,7 +22,7 @@ const MainPage = () => {
   const router = useRouter();
   const { authority, isLoggedIn } = useAuthStore();
   const { data: disposalProductListData } = useItemListQuery({
-    status: 'TO_BE_DISCARDED',
+    status: ['TO_BE_DISCARDED'],
     size: 5,
   });
   const { data: recallProductListData } = useClaimItemListQuery();

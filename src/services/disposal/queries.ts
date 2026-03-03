@@ -16,7 +16,7 @@ export const useDisposalItemsCountQuery = () => {
     queryKey: ['disposal', 'items', 'count'],
     queryFn: () =>
       getDisposalItems({
-        status: 'TO_BE_DISCARDED',
+        status: ['TO_BE_DISCARDED'],
         page: 1,
         size: 1,
       }),
@@ -31,7 +31,7 @@ export const useImminentDisposalQuery = () => {
     queryKey: ['disposal', 'imminent'],
     queryFn: () =>
       getDisposalItems({
-        status: 'TO_BE_DISCARDED',
+        status: ['TO_BE_DISCARDED'],
         page: 1,
         size: 3,
       }),

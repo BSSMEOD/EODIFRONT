@@ -40,7 +40,7 @@ export const useAdminDisposal = () => {
 
   const buildApiParams = useCallback((): GetItemListParams => {
     const params: GetItemListParams = {
-      status: 'TO_BE_DISCARDED',
+      status: ['TO_BE_DISCARDED'],
       page: currentPage,
       size: 20,
     };
