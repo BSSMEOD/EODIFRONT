@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   deleteItem,
-  patchItem,
+  putItem,
   postItem,
   postItemClaim,
 } from '@services/item/apis';
@@ -45,7 +45,7 @@ export const useItemUpdateMutation = (id: number) => {
   const queryClient = useQueryClient();
   const { handleSuccess } = useApiHandler();
   const { mutate, ...restMutation } = useMutation({
-    mutationFn: (form: PatchItemReq) => patchItem(id, form),
+    mutationFn: (form: PatchItemReq) => putItem(id, form),
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['item'] });
       router.push(ROUTES.MANAGE);

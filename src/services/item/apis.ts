@@ -55,8 +55,8 @@ export const deleteItem = async (id: number) => {
   return data;
 };
 
-export const patchItem = async (id: number, form: PatchItemReq) => {
-  const { data } = await eodi.patch(`/items/${id}`, form, authorization());
+export const putItem = async (id: number, form: PatchItemReq) => {
+  const { data } = await eodi.put(`/items/${id}`, form, authorization());
   return data;
 };
 
