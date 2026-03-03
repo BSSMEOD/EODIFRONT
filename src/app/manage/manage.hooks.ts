@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { formatDateDash } from '@utils/formatDate';
+import { Status } from '@/types/item/client';
 
 export interface Filters {
   search: string;
@@ -7,6 +8,7 @@ export interface Filters {
   startDate: Date | null;
   endDate: Date | null;
   placeIds: string[];
+  status: Status[];
 }
 
 export const useForm = () => {
@@ -16,6 +18,7 @@ export const useForm = () => {
     startDate: null,
     endDate: null,
     placeIds: [],
+    status: ['LOST', 'DISCARDED', 'TO_BE_DISCARDED'],
   });
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +53,7 @@ export const useForm = () => {
       ? formatDateDash(filters.startDate)
       : undefined,
     foundAtTo: filters.endDate ? formatDateDash(filters.endDate) : undefined,
+    status: filters.status,
   });
 
   return {
