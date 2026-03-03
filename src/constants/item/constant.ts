@@ -1,6 +1,6 @@
 export const STATUS = {
   LOST: '보관중',
-  FOUND: '지급 완료',
+  GIVEN: '지급 완료',
   TO_BE_DISCARDED: '폐기 예정',
   DISCARDED: '폐기 완료',
 };

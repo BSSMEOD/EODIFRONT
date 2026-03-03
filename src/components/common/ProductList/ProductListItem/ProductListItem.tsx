@@ -195,7 +195,7 @@ const InfoSection = styled.div`
 
 const statusColor = {
   LOST: '#14C600',
-  FOUND: '#FFCC00',
+  GIVEN: '#FFCC00',
   TO_BE_DISCARDED: '#FF883E',
   DISCARDED: '#FF2727',
 };
