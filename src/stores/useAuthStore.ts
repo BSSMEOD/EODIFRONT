@@ -34,6 +34,8 @@ export const useAuthStore = create<AuthState>()(
         const { accessToken } = useAuthStore.getState();
         try {
           await logoutApi(accessToken);
+        } catch (error) {
+          console.error('로그아웃 API 호출 실패:', error);
         } finally {
           Storage.removeItem(TOKEN.ACCESS);
           set({
