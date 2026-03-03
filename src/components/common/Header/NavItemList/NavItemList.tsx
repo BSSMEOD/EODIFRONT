@@ -19,8 +19,11 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
   };
 
   const handleLogout = async () => {
-    await logout();
-    router.push(ROUTES.MAIN);
+    try {
+      await logout();
+    } finally {
+      router.push(ROUTES.MAIN);
+    }
   };
 
   const ManagerNav = () => (

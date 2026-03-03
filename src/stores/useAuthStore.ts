@@ -32,19 +32,16 @@ export const useAuthStore = create<AuthState>()(
 
       logout: async () => {
         const { accessToken } = useAuthStore.getState();
+        Storage.removeItem(TOKEN.ACCESS);
+        set({
+          name: '',
+          authority: 'USER',
+          isLoggedIn: false,
+          accessToken: null,
+        });
         try {
           await logoutApi(accessToken);
-        } catch (error) {
-          console.error('로그아웃 API 호출 실패:', error);
-        } finally {
-          Storage.removeItem(TOKEN.ACCESS);
-          set({
-            name: '',
-            authority: 'USER',
-            isLoggedIn: false,
-            accessToken: null,
-          });
-        }
+        } catch (error) {}
       },
 
       updateAccessToken: (token) => {
