@@ -3,7 +3,7 @@ import { ItemForm, Status } from './client';
 export interface GetItemListParams {
   page?: number;
   size?: number;
-  status?: Status;
+  status?: Status[];
   categories?: string[];
   placeIds?: number[];
   foundAtFrom?: string;

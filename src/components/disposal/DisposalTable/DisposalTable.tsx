@@ -47,7 +47,7 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
   }, [filters]);
 
   const { data } = useDisposalItemsQuery({
-    status: 'TO_BE_DISCARDED',
+    status: ['TO_BE_DISCARDED'],
     page: currentPage,
     size: ITEMS_PER_PAGE,
     ...filters,

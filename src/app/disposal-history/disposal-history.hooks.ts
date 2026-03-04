@@ -21,7 +21,7 @@ export const useDisposalHistory = () => {
 
   const buildApiParams = useCallback((): GetItemListParams => {
     const params: GetItemListParams = {
-      status: 'DISCARDED',
+      status: ['DISCARDED'],
       page: currentPage,
       size: 10,
     };

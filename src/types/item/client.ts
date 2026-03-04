@@ -1,6 +1,6 @@
 import { CATEGORY } from '@/constants/item/constant';
 
-export type Status = 'LOST' | 'FOUND' | 'TO_BE_DISCARDED' | 'DISCARDED';
+export type Status = 'LOST' | 'GIVEN' | 'TO_BE_DISCARDED' | 'DISCARDED';
 export type ApprovalStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
 
 export type Category = (typeof CATEGORY)[number] | '';
