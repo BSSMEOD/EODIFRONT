@@ -8,7 +8,6 @@ const Footer = () => {
       <p css={font.H3}>추가 문의 </p>
       <p css={font.p2}>
         2학년 2반 이하은 ( @han22._x )<br />
-        학생자치부 진예빈 / 유근찬 선생님( 전문교무실 )
       </p>
     </StyledFooter>
   );
