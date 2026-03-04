@@ -7,7 +7,9 @@ const Footer = () => {
     <StyledFooter>
       <p css={font.H3}>추가 문의 </p>
       <p css={font.p2}>
-        2학년 2반 이하은 ( @han22._x )<br />
+        <a href="https://www.instagram.com/han22._x">
+          2학년 2반 이하은 ( @han22._x )
+        </a>
       </p>
     </StyledFooter>
   );
