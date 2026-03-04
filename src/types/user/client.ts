@@ -1,6 +1,6 @@
 export type UserAuthority = 'ADMIN' | 'TEACHER' | 'USER';
 
 export interface User {
-  name: string;
+  email: string;
   authority: UserAuthority;
 }

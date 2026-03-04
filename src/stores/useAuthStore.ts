@@ -16,7 +16,7 @@ interface AuthState extends User {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      name: '',
+      email: '',
       authority: 'USER',
       isLoggedIn: false,
       accessToken: null,
@@ -37,7 +37,7 @@ export const useAuthStore = create<AuthState>()(
         } finally {
           Storage.removeItem(TOKEN.ACCESS);
           set({
-            name: '',
+            email: '',
             authority: 'USER',
             isLoggedIn: false,
             accessToken: null,

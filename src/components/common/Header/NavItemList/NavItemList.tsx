@@ -1,16 +1,12 @@
-import type { UserAuthority } from '@/types/user/client';
 import styled from '@emotion/styled';
 import { Button } from '@components/common/Button/Button';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { hasPermission } from '@/utils';
 
-interface NavItemListProps {
-  authority: UserAuthority;
-}
-
-export const NavItemList = ({ authority }: NavItemListProps) => {
+export const NavItemList = () => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
 
@@ -88,9 +84,11 @@ export const NavItemList = ({ authority }: NavItemListProps) => {
 
   return (
     <StyledNavList>
-      {authority === 'ADMIN' && ManagerNav()}
-      {authority === 'TEACHER' && TeacherNav()}
-      {authority === 'USER' && UserNav()}
+      {hasPermission('ADMIN')
+        ? ManagerNav()
+        : hasPermission('TEACHER')
+          ? TeacherNav()
+          : UserNav()}
     </StyledNavList>
   );
 };

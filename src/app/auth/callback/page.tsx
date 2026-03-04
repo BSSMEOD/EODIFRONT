@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { decodeJwt, mapRoleToAuthority } from '@/utils/jwt';
+import { decodeJwt } from '@/utils/jwt';
 import styled from '@emotion/styled';
 
 const AuthCallbackPage = () => {
@@ -39,11 +39,11 @@ const AuthCallbackPage = () => {
           return;
         }
 
-        const authority = mapRoleToAuthority(payload.role);
+        const authority = payload.role;
         const userEmail = payload.email || '';
         login(
           {
-            name: userEmail.split('@')[0] || '사용자',
+            email: userEmail,
             authority,
           },
           token
