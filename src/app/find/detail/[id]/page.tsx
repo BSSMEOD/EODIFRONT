@@ -15,7 +15,7 @@ interface ProductDetailPageProps {
 const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   const { id } = React.use(params);
   const { data: disposalProductListData } = useItemListQuery({
-    status: 'TO_BE_DISCARDED',
+    status: ['TO_BE_DISCARDED'],
     size: 5,
   });
 
