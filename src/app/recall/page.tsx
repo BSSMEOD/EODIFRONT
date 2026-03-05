@@ -11,18 +11,19 @@ import { useRouter } from 'next/navigation';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import { useFindDetailQuery } from '@services/item/queries';
 import { useRequireRole } from '@hooks/useRequireRole';
+import React from 'react';
 
 interface PageProps {
-  searchParams: {
+  searchParams: Promise<{
     itemId?: string;
-  };
+  }>;
 }
 
 const RecallPage = ({ searchParams }: PageProps) => {
   useRequireRole('ADMIN');
   const router = useRouter();
 
-  const itemIdParam = searchParams?.itemId;
+  const { itemId: itemIdParam } = React.use(searchParams);
   const itemId =
     itemIdParam && !isNaN(Number(itemIdParam))
       ? Number(itemIdParam)
