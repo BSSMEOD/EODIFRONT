@@ -4,6 +4,7 @@ import React from 'react';
 import { useEditForm } from '@app/edit/edit.hooks';
 import 'react-datepicker/dist/react-datepicker.css';
 import ItemFormView from '@components/ItemFormView/ItemFormView';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 interface EditPageProps {
   params: Promise<{
@@ -12,6 +13,8 @@ interface EditPageProps {
 }
 
 const EditPage = ({ params }: EditPageProps) => {
+  useRequireRole('ADMIN');
+
   const { id } = React.use(params);
   const formState = useEditForm(id);
 

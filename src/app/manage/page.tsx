@@ -12,8 +12,11 @@ import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Pagination from '@components/common/Pagination/Pagination';
 import { useEffect, useState } from 'react';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const ManagePage = () => {
+  useRequireRole('ADMIN');
+
   const [page, setPage] = useState<number>(1);
 
   const {
