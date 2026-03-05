@@ -5,12 +5,14 @@ import Image from 'next/image';
 import { Divider } from '@components/common/Divider/Divider';
 import Text from '@components/common/Text/Text';
 import color from '@styles/color';
-import { Button } from '@components/common/Button/Button';
 import { useOverlay } from '@toss/use-overlay';
 import ClaimModal from '@components/findDetail/ClaimModal/ClaimModal';
 import { useFindDetailQuery } from '@services/item/queries';
 import { useRouter } from 'next/navigation';
 import { formatDateKor } from '@/utils';
+import { useAuthStore } from '@/stores/useAuthStore';
+import { Button } from '@components/common/Button/Button';
+import { toast } from 'react-toastify';
 
 interface FindDetailContentProps {
   id: number;
@@ -20,6 +22,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   const router = useRouter();
   const { data: itemData, error } = useFindDetailQuery(id);
   const overlay = useOverlay();
+  const { authority } = useAuthStore.getState();
 
   React.useEffect(() => {
     if (error) {
@@ -31,6 +34,10 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   if (!itemData) return null;
 
   const handleClaimClick = () => {
+    if (authority != 'USER') {
+      toast.error('회수요청은 유저만 할 수 있습니다.');
+      return;
+    }
     overlay.open(({ isOpen, close }) => (
       <ClaimModal id={id} isOpen={isOpen} onClose={close} />
     ));
@@ -63,9 +70,20 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
             {itemData.foundPlace}/{itemData.foundPlaceDetail}
           </Text>
         </Flex>
-        <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
-          <Text variant="H3">내 물건이에요!</Text>
-        </Button>
+        {authority === 'ADMIN' ? (
+          <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
+            <Text variant="H3">회수 요청 확인하기</Text>
+          </Button>
+        ) : (
+          <Button
+            styleType="PRIMARY"
+            height={50}
+            onClick={handleClaimClick}
+            disabled={authority === 'TEACHER'}
+          >
+            <Text variant="H3">내 물건이에요!</Text>
+          </Button>
+        )}
       </Flex>
     </StyledFindDetailContent>
   );
