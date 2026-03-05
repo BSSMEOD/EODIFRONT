@@ -10,6 +10,7 @@ import { RECALL_STATUS_OPTIONS } from '@/constants/recall/constant';
 import { useRouter } from 'next/navigation';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import { useFindDetailQuery } from '@services/item/queries';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 interface PageProps {
   searchParams: {
@@ -18,6 +19,7 @@ interface PageProps {
 }
 
 const RecallPage = ({ searchParams }: PageProps) => {
+  useRequireRole('ADMIN');
   const router = useRouter();
 
   const itemIdParam = searchParams?.itemId;
