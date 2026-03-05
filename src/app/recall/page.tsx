@@ -39,44 +39,25 @@ const RecallPage = ({ searchParams }: PageProps) => {
   const handleRemoveItemFilter = () => {
     router.push('/recall');
   };
-
-  const handleStatusChange = (value: string) => {
-    filters.handleStatusChange(
-      value as 'PENDING' | 'APPROVED' | 'REJECTED' | ''
-    );
-  };
-
-  const currentStatusLabel =
-    RECALL_STATUS_OPTIONS.find((option) => option.value === filters.status)
-      ?.label || '전체';
-
-  const currentSortLabel = filters.sort
-    ? options.sortOptions.find((option) => option.value === filters.sort)
-        ?.label || '정렬'
-    : '정렬';
+  console.log(filters.sort);
 
   return (
     <StyledRecallPage>
       <Flex align="center" gap={12} wrap="wrap">
         <Dropdown
+          placeholder="상태"
           name="status"
           data={RECALL_STATUS_OPTIONS}
-          value={currentStatusLabel}
-          onChange={handleStatusChange}
-          placeholder="상태 선택"
+          value={filters.status}
+          onChange={filters.handleDropdownChange}
           width="120px"
         />
 
         <Dropdown
           name="sort"
-          data={options.sortOptions.map((option) => option.label)}
-          value={currentSortLabel}
-          onChange={(label) => {
-            const option = options.sortOptions.find(
-              (opt) => opt.label === label
-            );
-            if (option) filters.handleDropdownChange('sort')(option.value);
-          }}
+          data={options.sortOptions}
+          value={filters.sort}
+          onChange={filters.handleDropdownChange}
           placeholder="정렬"
           width="120px"
         />

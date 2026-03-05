@@ -46,15 +46,11 @@ export const useRecallManagement = (itemId: number | undefined) => {
 
   const sortedRequests = recallData?.requests || [];
 
-  const handleStatusChange = (status: RecallStatus | '') => {
-    setFilters((prev) => ({ ...prev, status, page: 1 }));
-  };
-
   const handlePageChange = (page: number) => {
     setFilters((prev) => ({ ...prev, page }));
   };
 
-  const handleDropdownChange = (name: string) => (value: string) => {
+  const handleDropdownChange = (value: string, name: string) => {
     setFilters((prev) => ({ ...prev, [name]: value, page: 1 }));
   };
 
@@ -109,7 +105,6 @@ export const useRecallManagement = (itemId: number | undefined) => {
       page: filters.page,
       sort: filters.sort,
       itemId: filters.itemId,
-      handleStatusChange,
       handlePageChange,
       handleDropdownChange,
     },
