@@ -87,10 +87,6 @@ export const NavItemList = () => {
   return <UserNav />;
 };
 
-const StyledNavList = styled.nav`
-  width: 100%;
-`;
-
 const StyledNavItemsList = styled.div`
   display: flex;
   align-items: center;
