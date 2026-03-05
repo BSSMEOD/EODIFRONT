@@ -23,7 +23,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   const router = useRouter();
   const { data: itemData, error } = useFindDetailQuery(id);
   const overlay = useOverlay();
-  const { authority } = useAuthStore.getState();
+  const { authority } = useAuthStore();
 
   React.useEffect(() => {
     if (error) {
