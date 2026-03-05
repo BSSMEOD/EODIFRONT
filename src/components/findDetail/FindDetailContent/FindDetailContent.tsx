@@ -13,6 +13,7 @@ import { formatDateKor } from '@/utils';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { Button } from '@components/common/Button/Button';
 import { toast } from 'react-toastify';
+import { ROUTES } from '@/constants/common/constants';
 
 interface FindDetailContentProps {
   id: number;
@@ -71,7 +72,11 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
           </Text>
         </Flex>
         {authority === 'ADMIN' ? (
-          <Button styleType="PRIMARY" height={50} onClick={handleClaimClick}>
+          <Button
+            styleType="PRIMARY"
+            height={50}
+            onClick={() => router.push(`${ROUTES.RECALL}?itemId=${id}`)}
+          >
             <Text variant="H3">회수 요청 확인하기</Text>
           </Button>
         ) : (

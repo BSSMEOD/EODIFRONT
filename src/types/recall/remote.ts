@@ -3,8 +3,9 @@ import { RecallRequest, RecallStatus, ApprovalResponse } from './client';
 export interface GetRecallRequestsParams {
   page?: number;
   size?: number;
-  status?: RecallStatus;
+  status: RecallStatus | '';
   sort?: 'LATEST' | 'OLDEST';
+  itemId?: number;
 }
 
 export interface GetRecallRequestsRes {

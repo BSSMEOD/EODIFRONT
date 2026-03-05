@@ -7,9 +7,31 @@ import Pagination from '@components/common/Pagination/Pagination';
 import RecallRequestList from '@components/recall/RecallRequestList/RecallRequestList';
 import { useRecallManagement } from './recall.hooks';
 import { RECALL_STATUS_OPTIONS } from '@/constants/recall/constant';
+import { useRouter, useSearchParams } from 'next/navigation';
+import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
+import { useFindDetailQuery } from '@services/item/queries';
 
 const RecallPage = () => {
-  const { filters, options, data, modals, actions } = useRecallManagement();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const itemIdParam = searchParams.get('itemId');
+  const itemId =
+    itemIdParam && !isNaN(Number(itemIdParam))
+      ? Number(itemIdParam)
+      : undefined;
+
+  const { filters, options, data, modals, actions } =
+    useRecallManagement(itemId);
+
+  const { data: itemData } = useFindDetailQuery(itemId!);
+  const item = { itemId: itemData?.name || '' };
+
+  const handleRemoveItemFilter = () => {
+    const params = new URLSearchParams(searchParams.toString());
+    params.delete('itemId');
+
+    router.push(`?${params.toString()}`);
+  };
 
   const handleStatusChange = (value: string) => {
     filters.handleStatusChange(
@@ -30,14 +52,9 @@ const RecallPage = () => {
       <Flex align="center" gap={12} wrap="wrap">
         <Dropdown
           name="status"
-          data={RECALL_STATUS_OPTIONS.map((option) => option.label)}
+          data={RECALL_STATUS_OPTIONS}
           value={currentStatusLabel}
-          onChange={(label) => {
-            const option = RECALL_STATUS_OPTIONS.find(
-              (opt) => opt.label === label
-            );
-            if (option) handleStatusChange(option.value);
-          }}
+          onChange={handleStatusChange}
           placeholder="상태 선택"
           width="120px"
         />
@@ -54,6 +71,9 @@ const RecallPage = () => {
           placeholder="정렬"
           width="120px"
         />
+        {itemId && (
+          <FilterActiveTags filters={item} onRemove={handleRemoveItemFilter} />
+        )}
       </Flex>
 
       <RecallRequestList

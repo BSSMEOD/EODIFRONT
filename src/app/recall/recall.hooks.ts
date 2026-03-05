@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { RecallRequest, RecallStatus } from '@/types/recall/client';
 import { useRecallRequestsQuery } from '@/services/recall/queries';
 import {
@@ -6,13 +6,29 @@ import {
   useRejectRecallMutation,
 } from '@/services/recall/mutations';
 
-export const useRecallManagement = () => {
-  const [filters, setFilters] = useState({
-    status: '' as RecallStatus | '',
+interface RecallFilters {
+  status: RecallStatus | '';
+  page: number;
+  size: number;
+  sort: 'LATEST' | 'OLDEST';
+  itemId?: number;
+}
+
+export const useRecallManagement = (itemId: number | undefined) => {
+  const [filters, setFilters] = useState<RecallFilters>({
+    status: '',
     page: 1,
     size: 10,
-    sort: 'fastest',
+    sort: 'LATEST',
+    itemId: itemId,
   });
+
+  useEffect(() => {
+    setFilters((prev) => ({
+      ...prev,
+      itemId,
+    }));
+  }, [itemId]);
 
   const [modals, setModals] = useState({
     isApproveModalOpen: false,
@@ -20,28 +36,11 @@ export const useRecallManagement = () => {
     selectedItem: null as RecallRequest | null,
   });
 
-  const apiParams = useMemo(() => {
-    const params: import('@/types/recall/remote').GetRecallRequestsParams = {
-      page: filters.page,
-      size: filters.size,
-    };
-
-    if (filters.status) {
-      params.status = filters.status;
-    }
-
-    if (filters.sort) {
-      params.sort = filters.sort === 'fastest' ? 'LATEST' : 'OLDEST';
-    }
-
-    return params;
-  }, [filters.status, filters.page, filters.size, filters.sort]);
-
   const {
     data: recallData,
     isLoading,
     error,
-  } = useRecallRequestsQuery(apiParams);
+  } = useRecallRequestsQuery(filters);
   const approveMutation = useApproveRecallMutation();
   const rejectMutation = useRejectRecallMutation();
 
@@ -109,6 +108,7 @@ export const useRecallManagement = () => {
       status: filters.status,
       page: filters.page,
       sort: filters.sort,
+      itemId: filters.itemId,
       handleStatusChange,
       handlePageChange,
       handleDropdownChange,
