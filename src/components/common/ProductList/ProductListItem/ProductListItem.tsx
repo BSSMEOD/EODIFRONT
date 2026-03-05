@@ -127,9 +127,7 @@ const ProductListItem = ({
     </>
   );
 
-  return disposalMode || auth ? (
-    <StyledProductListDiv size={size}>{itemContent}</StyledProductListDiv>
-  ) : (
+  return (
     <StyledProductListItem size={size} href={`${ROUTES.FIND}/detail/${id}`}>
       {itemContent}
     </StyledProductListItem>
@@ -147,16 +145,6 @@ interface StyledProductListItemProps {
 }
 
 const StyledProductListItem = styled(Link)<StyledProductListItemProps>`
-  width: ${({ size }) => productSize[size]};
-  flex-shrink: 0;
-  padding: 12px;
-  display: flex;
-  justify-content: space-between;
-  border: ${color.gray200} 1px solid;
-  border-radius: 8px;
-`;
-
-const StyledProductListDiv = styled.div<StyledProductListItemProps>`
   width: ${({ size }) => productSize[size]};
   flex-shrink: 0;
   padding: 12px;
