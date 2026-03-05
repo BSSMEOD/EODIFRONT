@@ -6,6 +6,7 @@ import { ROUTES } from '@/constants/common/constants';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { decodeJwt } from '@/utils/jwt';
 import styled from '@emotion/styled';
+import { UserAuthority } from '@/types/user/client';
 
 const AuthCallbackPage = () => {
   const router = useRouter();
@@ -39,7 +40,7 @@ const AuthCallbackPage = () => {
           return;
         }
 
-        const authority = payload.role;
+        const authority = payload.role as UserAuthority;
         const userEmail = payload.email || '';
         login(
           {

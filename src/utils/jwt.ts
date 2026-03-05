@@ -1,9 +1,7 @@
-import { UserAuthority } from '@/types/user/client';
-
 interface JwtPayload {
   sub: string;
   email: string;
-  role: UserAuthority;
+  role: string;
   type: string;
   iat: number;
   exp: number;
