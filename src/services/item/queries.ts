@@ -9,10 +9,10 @@ import type { GetItemListParams } from '@/types/item/params';
 import { getPlaceList } from './apis';
 import { useAuthStore } from '@/stores/useAuthStore';
 
-export const useFindDetailQuery = (id: number) => {
+export const useFindDetailQuery = (id: number | undefined) => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'detail', id],
-    queryFn: () => getItemDetail(id),
+    queryFn: () => getItemDetail(id!),
     enabled: !!id,
     retry: false,
   });

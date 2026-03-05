@@ -29,7 +29,7 @@ const RecallPage = ({ searchParams }: PageProps) => {
   const { filters, options, data, modals, actions } =
     useRecallManagement(itemId);
 
-  const { data: itemData } = useFindDetailQuery(itemId!);
+  const { data: itemData } = useFindDetailQuery(itemId);
 
   const item = itemId && itemData?.name ? { itemId: itemData.name } : undefined;
 
