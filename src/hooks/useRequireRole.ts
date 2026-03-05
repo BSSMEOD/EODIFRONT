@@ -2,6 +2,7 @@ import { UserAuthority } from '@/types/user/client';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { ROUTES } from '@/constants/common/constants';
 
 export const useRequireRole = (role: UserAuthority) => {
   const router = useRouter();
@@ -12,13 +13,13 @@ export const useRequireRole = (role: UserAuthority) => {
 
     if (!isLoggedIn) {
       alert('로그인이 필요합니다.');
-      router.replace('/login');
+      router.replace(ROUTES.LOGIN);
       return;
     }
 
-    if (authority != role) {
+    if (authority !== role) {
       alert('접근할 수 없는 페이지입니다.');
-      router.replace('/');
+      router.replace(ROUTES.MAIN);
     }
   }, [role, router, authority, isLoggedIn, isInitialized]);
 };

@@ -35,7 +35,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   if (!itemData) return null;
 
   const handleClaimClick = () => {
-    if (authority != 'USER') {
+    if (authority !== 'USER') {
       toast.error('회수요청은 유저만 할 수 있습니다.');
       return;
     }
