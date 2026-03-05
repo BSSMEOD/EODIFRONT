@@ -4,11 +4,11 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';
 import { useAuthStore } from '@/stores/useAuthStore';
-import { hasPermission } from '@/utils';
 
 export const NavItemList = () => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
+  const { authority } = useAuthStore();
 
   const handleLogin = () => {
     router.push(ROUTES.LOGIN);
@@ -82,15 +82,9 @@ export const NavItemList = () => {
     </StyledNavItemsList>
   );
 
-  return (
-    <StyledNavList>
-      {hasPermission('ADMIN')
-        ? ManagerNav()
-        : hasPermission('TEACHER')
-          ? TeacherNav()
-          : UserNav()}
-    </StyledNavList>
-  );
+  if (authority === 'ADMIN') return <ManagerNav />;
+  else if (authority === 'TEACHER') return <TeacherNav />;
+  return <UserNav />;
 };
 
 const StyledNavList = styled.nav`
