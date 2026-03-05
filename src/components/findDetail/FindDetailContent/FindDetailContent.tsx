@@ -23,7 +23,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   const router = useRouter();
   const { data: itemData, error } = useFindDetailQuery(id);
   const overlay = useOverlay();
-  const { authority } = useAuthStore();
+  const { authority, isInitialized } = useAuthStore();
 
   React.useEffect(() => {
     if (error) {
@@ -32,7 +32,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
     }
   }, [error, router]);
 
-  if (!itemData) return null;
+  if (!itemData || !isInitialized) return null;
 
   const handleClaimClick = () => {
     if (authority !== 'USER') {
