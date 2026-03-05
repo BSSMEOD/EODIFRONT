@@ -99,8 +99,8 @@ export const useRecallManagement = (itemId: number | undefined) => {
   };
 
   const sortOptions = [
-    { label: '최신순', value: 'fastest' },
-    { label: '오래된순', value: 'slowest' },
+    { label: '최신순', value: 'LATEST' },
+    { label: '오래된순', value: 'OLDEST' },
   ];
 
   return {
