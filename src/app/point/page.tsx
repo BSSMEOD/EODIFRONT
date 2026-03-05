@@ -4,8 +4,11 @@ import styled from '@emotion/styled';
 import PointTable from '@components/point/PointTable/PointTable';
 import font from '@styles/font';
 import color from '@styles/color';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const PointPage = () => {
+  useRequireRole('TEACHER');
+
   return (
     <StyledPointPage>
       <Title>상점 처리하기</Title>

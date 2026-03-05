@@ -7,8 +7,14 @@ const Footer = () => {
     <StyledFooter>
       <p css={font.H3}>추가 문의 </p>
       <p css={font.p2}>
-        2학년 2반 이하은 ( @han22._x )<br />
-        학생자치부 진예빈 / 유근찬 선생님( 전문교무실 )
+        <a
+          href="https://www.instagram.com/han22._x"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="인스타그램 프로필(새 탭에서 열림)"
+        >
+          2학년 2반 이하은 ( @han22._x )
+        </a>
       </p>
     </StyledFooter>
   );

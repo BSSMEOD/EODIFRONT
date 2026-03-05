@@ -4,11 +4,9 @@ import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
 import { useRouter } from 'next/navigation';
 import { NavItemList } from '@components/common/Header/NavItemList/NavItemList';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { EODILogo } from '@/icons';
 
 const Header = () => {
-  const { authority } = useAuthStore();
   const router = useRouter();
 
   return (
@@ -16,7 +14,7 @@ const Header = () => {
       <div onClick={() => router.push(ROUTES.MAIN)}>
         <EODILogo />
       </div>
-      <NavItemList authority={authority} />
+      <NavItemList />
     </StyledHeader>
   );
 };

@@ -7,53 +7,63 @@ import Pagination from '@components/common/Pagination/Pagination';
 import RecallRequestList from '@components/recall/RecallRequestList/RecallRequestList';
 import { useRecallManagement } from './recall.hooks';
 import { RECALL_STATUS_OPTIONS } from '@/constants/recall/constant';
+import { useRouter } from 'next/navigation';
+import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
+import { useFindDetailQuery } from '@services/item/queries';
+import { useRequireRole } from '@hooks/useRequireRole';
+import React from 'react';
 
-const RecallPage = () => {
-  const { filters, options, data, modals, actions } = useRecallManagement();
+interface PageProps {
+  searchParams: Promise<{
+    itemId?: string;
+  }>;
+}
 
-  const handleStatusChange = (value: string) => {
-    filters.handleStatusChange(
-      value as 'PENDING' | 'APPROVED' | 'REJECTED' | ''
-    );
+const RecallPage = ({ searchParams }: PageProps) => {
+  useRequireRole('ADMIN');
+  const router = useRouter();
+
+  const { itemId: itemIdParam } = React.use(searchParams);
+  const itemId =
+    itemIdParam && !isNaN(Number(itemIdParam))
+      ? Number(itemIdParam)
+      : undefined;
+
+  const { filters, options, data, modals, actions } =
+    useRecallManagement(itemId);
+
+  const { data: itemData } = useFindDetailQuery(itemId);
+
+  const item = itemId && itemData?.name ? { itemId: itemData.name } : undefined;
+
+  const handleRemoveItemFilter = () => {
+    router.push('/recall');
   };
-
-  const currentStatusLabel =
-    RECALL_STATUS_OPTIONS.find((option) => option.value === filters.status)
-      ?.label || '전체';
-  const currentSortLabel = filters.sort
-    ? options.sortOptions.find((option) => option.value === filters.sort)
-        ?.label || '정렬'
-    : '정렬';
 
   return (
     <StyledRecallPage>
       <Flex align="center" gap={12} wrap="wrap">
         <Dropdown
+          placeholder="상태"
           name="status"
-          data={RECALL_STATUS_OPTIONS.map((option) => option.label)}
-          value={currentStatusLabel}
-          onChange={(label) => {
-            const option = RECALL_STATUS_OPTIONS.find(
-              (opt) => opt.label === label
-            );
-            if (option) handleStatusChange(option.value);
-          }}
-          placeholder="상태 선택"
+          data={RECALL_STATUS_OPTIONS}
+          value={filters.status}
+          onChange={filters.handleDropdownChange}
           width="120px"
         />
+
         <Dropdown
           name="sort"
-          data={options.sortOptions.map((option) => option.label)}
-          value={currentSortLabel}
-          onChange={(label) => {
-            const option = options.sortOptions.find(
-              (opt) => opt.label === label
-            );
-            if (option) filters.handleDropdownChange('sort')(option.value);
-          }}
+          data={options.sortOptions}
+          value={filters.sort}
+          onChange={filters.handleDropdownChange}
           placeholder="정렬"
           width="120px"
         />
+
+        {item && (
+          <FilterActiveTags filters={item} onRemove={handleRemoveItemFilter} />
+        )}
       </Flex>
 
       <RecallRequestList

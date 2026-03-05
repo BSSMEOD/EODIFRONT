@@ -9,12 +9,15 @@ import { useIntroduceMutation } from '@services/introduce/mutations';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import { Editor } from '@toast-ui/react-editor';
 import dynamic from 'next/dynamic';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const MarkdownEditor = dynamic(() => import('./MarkdownEditor'), {
   ssr: false,
 });
 
 const MarkdownPage = () => {
+  useRequireRole('ADMIN');
+
   const { data } = useIntroduceQuery();
   const { mutate } = useIntroduceMutation();
   const mdRef = React.useRef<Editor | null>(null);

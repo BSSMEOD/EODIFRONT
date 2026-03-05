@@ -10,8 +10,11 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import type { GetItemListParams } from '@/types/item/params';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const DisposalPage = () => {
+  useRequireRole('TEACHER');
+
   const approvalOptions = [
     { label: '보류', value: 'PENDING' },
     { label: '예정', value: 'APPROVED' },
