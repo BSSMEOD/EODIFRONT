@@ -1,5 +1,6 @@
 import { ReactNode } from 'react';
 import styled from '@emotion/styled';
+import color from '@styles/color';
 import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
 import type { ButtonStyleType } from '@components/common/Button/Button.type';
@@ -37,6 +38,19 @@ const BaseModal = ({
   useScrollLock(isOpen);
   useModalKeyboard(isOpen, onClose);
 
+  const getButtonTextColor = (styleType: ButtonStyleType) => {
+    const colorMap: Record<ButtonStyleType, string> = {
+      PRIMARY: color.white,
+      SECONDARY: color.white,
+      TERTIARY: color.black,
+      GHOST: color.black,
+      GHOST_SECONDARY: color.secondary,
+      GHOST_DANGER: color.red,
+      DANGER: color.white,
+    };
+    return colorMap[styleType];
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -54,7 +68,7 @@ const BaseModal = ({
           <Flex justify="center" gap={8}>
             <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
               <IconClose width={24} height={24} />
-              <Text variant="p2" color="inherit">
+              <Text variant="p2" color={getButtonTextColor(cancelButtonType)}>
                 {cancelText}
               </Text>
             </Button>
@@ -66,7 +80,10 @@ const BaseModal = ({
                 onClick={onConfirm}
               >
                 <IconCheck width={24} height={24} />
-                <Text variant="p2" color="inherit">
+                <Text
+                  variant="p2"
+                  color={getButtonTextColor(confirmButtonType)}
+                >
                   {confirmText}
                 </Text>
               </Button>
