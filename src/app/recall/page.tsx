@@ -7,14 +7,20 @@ import Pagination from '@components/common/Pagination/Pagination';
 import RecallRequestList from '@components/recall/RecallRequestList/RecallRequestList';
 import { useRecallManagement } from './recall.hooks';
 import { RECALL_STATUS_OPTIONS } from '@/constants/recall/constant';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import { useFindDetailQuery } from '@services/item/queries';
 
-const RecallPage = () => {
+interface PageProps {
+  searchParams: {
+    itemId?: string;
+  };
+}
+
+const RecallPage = ({ searchParams }: PageProps) => {
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const itemIdParam = searchParams.get('itemId');
+
+  const itemIdParam = searchParams?.itemId;
   const itemId =
     itemIdParam && !isNaN(Number(itemIdParam))
       ? Number(itemIdParam)
@@ -24,13 +30,11 @@ const RecallPage = () => {
     useRecallManagement(itemId);
 
   const { data: itemData } = useFindDetailQuery(itemId!);
-  const item = { itemId: itemData?.name || '' };
+
+  const item = itemId && itemData?.name ? { itemId: itemData.name } : undefined;
 
   const handleRemoveItemFilter = () => {
-    const params = new URLSearchParams(searchParams.toString());
-    params.delete('itemId');
-
-    router.push(`?${params.toString()}`);
+    router.push('/recall');
   };
 
   const handleStatusChange = (value: string) => {
@@ -42,6 +46,7 @@ const RecallPage = () => {
   const currentStatusLabel =
     RECALL_STATUS_OPTIONS.find((option) => option.value === filters.status)
       ?.label || '전체';
+
   const currentSortLabel = filters.sort
     ? options.sortOptions.find((option) => option.value === filters.sort)
         ?.label || '정렬'
@@ -58,6 +63,7 @@ const RecallPage = () => {
           placeholder="상태 선택"
           width="120px"
         />
+
         <Dropdown
           name="sort"
           data={options.sortOptions.map((option) => option.label)}
@@ -71,7 +77,8 @@ const RecallPage = () => {
           placeholder="정렬"
           width="120px"
         />
-        {itemId && (
+
+        {item && (
           <FilterActiveTags filters={item} onRemove={handleRemoveItemFilter} />
         )}
       </Flex>
