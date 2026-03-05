@@ -39,7 +39,6 @@ const RecallPage = ({ searchParams }: PageProps) => {
   const handleRemoveItemFilter = () => {
     router.push('/recall');
   };
-  console.log(filters.sort);
 
   return (
     <StyledRecallPage>
