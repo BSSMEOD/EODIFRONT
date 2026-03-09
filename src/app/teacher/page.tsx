@@ -1,23 +1,20 @@
 'use client';
 
 import styled from '@emotion/styled';
-import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import DashboardRoute from '@components/teacher/DashboardRoute/DashboardRoute';
-import { useEffect } from 'react';
-import { useAuthStore } from '@/stores/useAuthStore';
 import { useUnpaidRewardsQuery } from '@/services/point/queries';
 import {
   useImminentDisposalQuery,
   useDisposalItemsCountQuery,
 } from '@/services/disposal/queries';
 import { useLogListQuery } from '@/services/log/queries';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const TeacherMainPage = () => {
-  const router = useRouter();
-  const { authority, isLoggedIn } = useAuthStore();
-  const isTeacher = authority === 'TEACHER';
+  useRequireRole('TEACHER');
+
   const { data: unPointProductListData = [] } = useUnpaidRewardsQuery();
   const { data: disposalProductListData = [] } = useImminentDisposalQuery();
   const { data: disposalCount = 0 } = useDisposalItemsCountQuery();
@@ -27,12 +24,6 @@ const TeacherMainPage = () => {
     size: 100,
     approvedAt: 'true',
   });
-
-  useEffect(() => {
-    if (isLoggedIn && !isTeacher) {
-      router.replace(ROUTES.MAIN);
-    }
-  }, [isLoggedIn, isTeacher, router]);
 
   return (
     <StyledTeacherMainPage>

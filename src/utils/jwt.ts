@@ -1,5 +1,3 @@
-import { UserAuthority } from '@/types/user/client';
-
 interface JwtPayload {
   sub: string;
   email: string;
@@ -22,14 +20,4 @@ export const decodeJwt = (token: string): JwtPayload | null => {
   );
 
   return JSON.parse(jsonPayload);
-};
-
-export const mapRoleToAuthority = (role: string): UserAuthority => {
-  if (role === 'ADMIN' || role === 'MANAGER') {
-    return 'ADMIN';
-  }
-  if (role === 'TEACHER') {
-    return 'TEACHER';
-  }
-  return 'USER';
 };

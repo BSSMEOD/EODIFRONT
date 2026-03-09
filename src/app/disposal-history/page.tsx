@@ -12,7 +12,10 @@ import Pagination from '@components/common/Pagination/Pagination';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import IconMinus from '@/icons/src/IconMinus';
 import color from '@styles/color';
+import { useRequireRole } from '@hooks/useRequireRole';
 const DisposalHistoryPage = () => {
+  useRequireRole('ADMIN');
+
   const { filters, options, data, utils } = useDisposalHistory();
 
   return (

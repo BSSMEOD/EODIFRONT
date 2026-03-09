@@ -7,6 +7,7 @@ import { TOKEN } from '@/constants/common/constants';
 
 interface AuthState extends User {
   isLoggedIn: boolean;
+  isInitialized: boolean;
   accessToken: string | null;
   login: (user: User, token: string) => void;
   logout: () => Promise<void>;
@@ -16,9 +17,10 @@ interface AuthState extends User {
 export const useAuthStore = create<AuthState>()(
   persist(
     (set) => ({
-      name: '',
+      email: '',
       authority: 'USER',
       isLoggedIn: false,
+      isInitialized: false,
       accessToken: null,
 
       login: (user, token) => {
@@ -37,7 +39,7 @@ export const useAuthStore = create<AuthState>()(
         } finally {
           Storage.removeItem(TOKEN.ACCESS);
           set({
-            name: '',
+            email: '',
             authority: 'USER',
             isLoggedIn: false,
             accessToken: null,
@@ -47,14 +49,21 @@ export const useAuthStore = create<AuthState>()(
 
       updateAccessToken: (token) => {
         Storage.setItem(TOKEN.ACCESS, token);
-        set({
-          accessToken: token,
-        });
+        set({ accessToken: token });
       },
     }),
     {
       name: 'auth-storage',
       storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({
+        email: state.email,
+        authority: state.authority,
+        isLoggedIn: state.isLoggedIn,
+        accessToken: state.accessToken,
+      }),
+      onRehydrateStorage: () => (state) => {
+        if (state) state.isInitialized = true;
+      },
     }
   )
 );

@@ -13,8 +13,11 @@ import { useAdminDisposal } from '@/app/admin-disposal/admin-disposal.hooks';
 import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
 import Pagination from '@components/common/Pagination/Pagination';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const AdminDisposalPage = () => {
+  useRequireRole('ADMIN');
+
   const { filters, options, modals, data, utils } = useAdminDisposal();
 
   return (

@@ -10,8 +10,11 @@ import LogTable from '@components/log/LogTable/LogTable';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import type { GetLogListParams } from '@/types/log/params';
+import { useRequireRole } from '@hooks/useRequireRole';
 
 const LogPage = () => {
+  useRequireRole('TEACHER');
+
   const gradeOptions = ['1학년', '2학년', '3학년'];
   const classOptions = ['1반', '2반', '3반', '4반'];
   const [startDate, setStartDate] = useState<Date | null>(null);
