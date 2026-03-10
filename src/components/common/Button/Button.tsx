@@ -4,26 +4,40 @@ import { getButtonStyle } from './Button.style';
 import type { ButtonSize, ButtonStyleType } from './Button.type';
 import { addPX } from '@/utils';
 
-interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   styleType?: ButtonStyleType;
   size?: ButtonSize;
   outlined?: boolean;
+  disabled?: boolean;
   width?: number | string;
   height?: number | string;
 }
+
+type ButtonProps = ButtonBaseProps &
+  (
+    | {
+        icon: React.ReactNode;
+        children?: React.ReactNode;
+      }
+    | {
+        icon?: undefined;
+        children: React.ReactNode;
+      }
+  );
 
 export const Button = ({
   styleType = 'PRIMARY',
   size = 'medium',
   outlined = false,
   width = 'auto',
-  height = 'auto',
   disabled = false,
+  icon,
   children,
   ...restProps
 }: ButtonProps) => {
   const widthValue = addPX(width);
-  const heightValue = addPX(height);
+  const hasIcon = !!icon;
+  const hasText = !!children;
 
   const baseStyle = css`
     box-sizing: border-box;
@@ -36,9 +50,8 @@ export const Button = ({
     transition: all 0.2s ease-in-out;
     white-space: nowrap;
     width: ${widthValue};
-    height: ${heightValue};
 
-    ${getButtonStyle[styleType](outlined, size)}
+    ${getButtonStyle(styleType, outlined, size, hasIcon, hasText)}
   `;
 
   return (
