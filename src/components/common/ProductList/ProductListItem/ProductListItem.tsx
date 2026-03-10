@@ -103,9 +103,10 @@ const ProductListItem = ({
             폐기까지 D-{daysToDisposal}
           </Text>
           <Button
-            styleType="GHOST"
+            styleType="PRIMARY"
             size="small"
             onClick={() => onExtension?.(id)}
+            outlined
           >
             기간연장
           </Button>

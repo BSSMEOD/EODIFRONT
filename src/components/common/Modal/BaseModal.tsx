@@ -30,8 +30,6 @@ const BaseModal = ({
   cancelText = '취소',
   width = '412px',
   children,
-  confirmButtonType = 'SECONDARY',
-  cancelButtonType = 'GHOST_SECONDARY',
   titleId,
 }: BaseModalProps) => {
   useScrollLock(isOpen);
@@ -52,7 +50,7 @@ const BaseModal = ({
           {children}
 
           <Flex justify="center" gap={8}>
-            <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
+            <Button styleType="SECONDARY" size="small" onClick={onClose}>
               <IconClose width={24} height={24} />
               <Text variant="p2" color="inherit">
                 {cancelText}
@@ -61,9 +59,10 @@ const BaseModal = ({
 
             {onConfirm && (
               <Button
-                styleType={confirmButtonType}
-                size="modal"
+                styleType="SECONDARY"
+                size="small"
                 onClick={onConfirm}
+                outlined
               >
                 <IconCheck width={24} height={24} />
                 <Text variant="p2" color="inherit">

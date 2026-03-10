@@ -178,17 +178,18 @@ const ExtensionModal = ({
 
           <Flex gap={8} justify="center">
             <Button
-              styleType="GHOST_SECONDARY"
-              size="modal"
+              styleType="SECONDARY"
+              size="small"
               onClick={handleClose}
+              outlined
             >
               <IconClose width={24} height={24} color={color.secondary} />
               <Text variant="p2" color={color.secondary}>
-                {'취소'}
+                취소
               </Text>
             </Button>
 
-            <Button styleType="SECONDARY" size="modal" onClick={handleConfirm}>
+            <Button styleType="SECONDARY" size="small" onClick={handleConfirm}>
               <IconCheck width={24} height={24} color={color.white} />
               <Text variant="p2" color={color.white}>
                 연장

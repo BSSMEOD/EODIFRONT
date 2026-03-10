@@ -62,12 +62,11 @@ const MainPage = () => {
               어디
             </Text>
             <Button
-              styleType={'SECONDARY'}
+              styleType="SECONDARY"
               onClick={() => router.push(ROUTES.RULES)}
+              size="big"
             >
-              <Text variant="H4" color={color.white}>
-                상벌점제 규정 확인하기
-              </Text>
+              상벌점제 규정 확인하기
             </Button>
           </Flex>
         )}

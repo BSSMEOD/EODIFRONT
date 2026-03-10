@@ -35,12 +35,12 @@ export const NavItemList = () => {
         분실물 등록 하기
       </Button>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
+        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
-          로그인
+        <Button styleType="PRIMARY" onClick={() => handleLogin()}>
+          bsm 로그인
         </Button>
       )}
     </StyledNavItemsList>
@@ -56,12 +56,12 @@ export const NavItemList = () => {
         폐기 항목 보기
       </NavItem>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
+        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
-          로그인
+        <Button styleType="PRIMARY" onClick={() => handleLogin()}>
+          bsm 로그인
         </Button>
       )}
     </StyledNavItemsList>
@@ -71,12 +71,12 @@ export const NavItemList = () => {
     <StyledNavItemsList>
       <NavItem onClick={() => router.push(ROUTES.FIND)}>분실물 찾기</NavItem>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
+        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
-          로그인
+        <Button styleType="PRIMARY" onClick={() => handleLogin()}>
+          bsm 로그인
         </Button>
       )}
     </StyledNavItemsList>

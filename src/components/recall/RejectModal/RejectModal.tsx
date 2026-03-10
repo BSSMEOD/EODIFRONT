@@ -26,13 +26,7 @@ const RejectModal = ({
   if (!item) return null;
 
   return (
-    <BaseModal
-      isOpen={isOpen}
-      onClose={onClose}
-      onConfirm={handleConfirm}
-      confirmButtonType="DANGER"
-      cancelButtonType="GHOST_DANGER"
-    >
+    <BaseModal isOpen={isOpen} onClose={onClose} onConfirm={handleConfirm}>
       <Flex direction="column" gap={40} style={{ paddingBottom: '40px' }}>
         <Flex gap={4} align="center">
           <IconStacks width={16} height={16} />
