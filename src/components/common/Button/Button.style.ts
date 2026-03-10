@@ -7,18 +7,26 @@ const COLOR_MAP = {
   PRIMARY: {
     default: color.primary300,
     disabled: color.primary200,
-    hover: color.primary400,
-    clicked: color.primary500,
-    hoverBg: color.primary100,
-    clickedBg: color.primary200,
+    filled: {
+      hover: color.primary400,
+      clicked: color.primary500,
+    },
+    outlined: {
+      hover: color.primary100,
+      clicked: color.primary200,
+    },
   },
   SECONDARY: {
     default: color.secondary300,
     disabled: color.secondary200,
-    hover: color.secondary400,
-    clicked: color.secondary500,
-    hoverBg: color.secondary100,
-    clickedBg: color.secondary200,
+    filled: {
+      hover: color.secondary400,
+      clicked: color.secondary500,
+    },
+    outlined: {
+      hover: color.secondary100,
+      clicked: color.secondary200,
+    },
   },
 };
 
@@ -65,10 +73,10 @@ const resolveColorStyle = (
       color: ${colors.default};
 
       &:hover {
-        background-color: ${colors.hoverBg};
+        background-color: ${colors.outlined.hover};
       }
       &:active {
-        background-color: ${colors.clickedBg};
+        background-color: ${colors.outlined.clicked};
       }
       &:disabled {
         border-color: ${colors.disabled};
@@ -83,10 +91,10 @@ const resolveColorStyle = (
     color: ${color.white};
 
     &:hover {
-      background-color: ${colors.hover};
+      background-color: ${colors.filled.hover};
     }
     &:active {
-      background-color: ${colors.clicked};
+      background-color: ${colors.filled.clicked};
     }
     &:disabled {
       background-color: ${colors.disabled};
