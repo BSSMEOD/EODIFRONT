@@ -11,7 +11,7 @@ const StandardApplyingPoint = ({ id }: StandardApplyingPointProps) => {
     <StyledStandardApplyingPoint id={id}>
       <Title>상벌점제 적용 기준</Title>
       <Description>
-        <Bold>상점 1점</Bold>은 <Bold>벌점 1점</Bold>을 상쇄 가능하다.{' '}
+        <Bold>상점 1점</Bold>은 <Bold>벌점 1점</Bold>을 상쇄 가능하다.
       </Description>
       <TextBox>
         <Description>

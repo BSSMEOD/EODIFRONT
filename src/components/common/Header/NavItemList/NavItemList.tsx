@@ -29,7 +29,7 @@ export const NavItemList = () => {
         폐기 물품 관리
       </NavItem>
       <Button
-        styleType={'SECONDARY'}
+        styleType="SECONDARY"
         onClick={() => router.push(ROUTES.REGISTER)}
       >
         분실물 등록 하기

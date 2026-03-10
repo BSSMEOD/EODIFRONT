@@ -67,7 +67,7 @@ const RewardRule = ({ id }: RewardRuleProps) => {
           >
             구분
           </Th>
-          <Th width={'100%'} height={36} backgroundColor={color.secondary300}>
+          <Th width="100%" height={36} backgroundColor={color.secondary300}>
             내용
           </Th>
           <Th
@@ -84,7 +84,7 @@ const RewardRule = ({ id }: RewardRuleProps) => {
             <Td width={240} height={44}>
               {item.category}
             </Td>
-            <Td width={'100%'} height={44}>
+            <Td width="100%" height={44}>
               {item.content}
             </Td>
             <Td width={80} height={44}>
