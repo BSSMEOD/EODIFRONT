@@ -3,7 +3,7 @@ import type { GetLogListRes } from '@/types/log/response';
 import type { GetLogListParams } from '@/types/log/params';
 
 export const getLogList = async (params: GetLogListParams) => {
-  const { data } = await eodi.get<GetLogListRes>('/items/search', {
+  const { data } = await eodi.get<GetLogListRes>('/rewards/history', {
     params: {
       page: params.page,
       size: params.size,
