@@ -10,22 +10,22 @@ const COLOR_MAP = {
 
 const SIZE_MAP = {
   small: {
-    defaultPad: '0 8px',
-    iconPad: '0 2px',
-    typography: font.p3,
-    height: '24px',
-  },
-  medium: {
     defaultPad: '0 12px',
     iconPad: '0 4px',
     typography: font.p2,
     height: '32px',
   },
-  big: {
+  medium: {
     defaultPad: '0 16px',
     iconPad: '0 6px',
     typography: font.H3,
     height: '40px',
+  },
+  big: {
+    defaultPad: '0 20px',
+    iconPad: '0 8px',
+    typography: font.H2,
+    height: '44px',
   },
 };
 
