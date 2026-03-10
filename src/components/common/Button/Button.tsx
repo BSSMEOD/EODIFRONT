@@ -46,16 +46,20 @@ export const Button = ({
     justify-content: center;
     border-radius: 8px;
     border: none;
-    cursor: pointer;
     transition: all 0.2s ease-in-out;
     white-space: nowrap;
     width: ${widthValue};
+
+    &:disabled {
+      cursor: not-allowed;
+    }
 
     ${getButtonStyle(styleType, outlined, size, hasIcon, hasText)}
   `;
 
   return (
-    <button css={baseStyle} {...restProps}>
+    <button css={baseStyle} {...restProps} disabled={disabled}>
+      {icon}
       {children}
     </button>
   );

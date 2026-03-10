@@ -4,8 +4,22 @@ import font from '@styles/font';
 import { ButtonSize, ButtonStyleType } from './Button.type';
 
 const COLOR_MAP = {
-  PRIMARY: color.primary300,
-  SECONDARY: color.secondary300,
+  PRIMARY: {
+    default: color.primary300,
+    disabled: color.primary200,
+    hover: color.primary400,
+    clicked: color.primary500,
+    hoverBg: color.primary100,
+    clickedBg: color.primary200,
+  },
+  SECONDARY: {
+    default: color.secondary300,
+    disabled: color.secondary200,
+    hover: color.secondary400,
+    clicked: color.secondary500,
+    hoverBg: color.secondary100,
+    clickedBg: color.secondary200,
+  },
 };
 
 const SIZE_MAP = {
@@ -40,18 +54,45 @@ const resolvePadding = (
   return defaultPad;
 };
 
-const resolveColorStyle = (mainColor: string, outlined: boolean) =>
-  outlined
-    ? css`
-        border: 1.5px solid ${mainColor};
-        background-color: ${color.white};
-        color: ${mainColor};
-      `
-    : css`
-        background-color: ${mainColor};
-        color: ${color.white};
-      `;
+const resolveColorStyle = (
+  colors: (typeof COLOR_MAP)[keyof typeof COLOR_MAP],
+  outlined: boolean
+) => {
+  if (outlined) {
+    return css`
+      border: 1.5px solid ${colors.default};
+      background-color: ${color.white};
+      color: ${colors.default};
 
+      &:hover {
+        background-color: ${colors.hoverBg};
+      }
+      &:active {
+        background-color: ${colors.clickedBg};
+      }
+      &:disabled {
+        border-color: ${colors.disabled};
+        color: ${colors.disabled};
+        background-color: ${color.white};
+      }
+    `;
+  }
+
+  return css`
+    background-color: ${colors.default};
+    color: ${color.white};
+
+    &:hover {
+      background-color: ${colors.hover};
+    }
+    &:active {
+      background-color: ${colors.clicked};
+    }
+    &:disabled {
+      background-color: ${colors.disabled};
+    }
+  `;
+};
 export const getButtonStyle = (
   styleType: ButtonStyleType,
   outlined: boolean,
@@ -59,10 +100,10 @@ export const getButtonStyle = (
   hasIcon: boolean,
   hasText: boolean
 ) => {
-  const mainColor = COLOR_MAP[styleType];
+  const colors = COLOR_MAP[styleType];
   const { defaultPad, iconPad, typography, height } = SIZE_MAP[size];
   const padding = resolvePadding(defaultPad, iconPad, hasIcon, hasText);
-  const colorStyle = resolveColorStyle(mainColor, outlined);
+  const colorStyle = resolveColorStyle(colors, outlined);
 
   return css`
     height: ${height};
