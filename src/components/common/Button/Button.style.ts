@@ -11,20 +11,20 @@ const COLOR_MAP = {
 const SIZE_MAP = {
   small: {
     defaultPad: '0 12px',
-    iconPad: '0 4px',
-    typography: font.p2,
+    iconPad: '0 8px',
+    typography: font.p3,
     height: '32px',
   },
   medium: {
     defaultPad: '0 16px',
-    iconPad: '0 6px',
-    typography: font.H3,
+    iconPad: '0 8px',
+    typography: font.p2,
     height: '40px',
   },
   big: {
     defaultPad: '0 20px',
-    iconPad: '0 8px',
-    typography: font.H2,
+    iconPad: '0 10px',
+    typography: font.H4,
     height: '44px',
   },
 };
@@ -43,7 +43,7 @@ const resolvePadding = (
 const resolveColorStyle = (mainColor: string, outlined: boolean) =>
   outlined
     ? css`
-        border: 1px solid ${mainColor};
+        border: 1.5px solid ${mainColor};
         background-color: ${color.white};
         color: ${mainColor};
       `
