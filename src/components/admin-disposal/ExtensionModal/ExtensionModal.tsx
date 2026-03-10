@@ -183,8 +183,8 @@ const ExtensionModal = ({
               onClick={handleClose}
               outlined
             >
-              <IconClose width={24} height={24} color={color.secondary} />
-              <Text variant="p2" color={color.secondary}>
+              <IconClose width={24} height={24} color={color.secondary300} />
+              <Text variant="p2" color={color.secondary300}>
                 취소
               </Text>
             </Button>
@@ -271,7 +271,7 @@ const ModalTextarea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: ${color.secondary};
+    border-color: ${color.secondary300};
   }
 `;
 

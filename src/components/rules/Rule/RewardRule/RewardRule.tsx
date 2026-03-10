@@ -62,18 +62,18 @@ const RewardRule = ({ id }: RewardRuleProps) => {
           <Th
             width={240}
             height={36}
-            backgroundColor={color.secondary}
+            backgroundColor={color.secondary300}
             borderTopLeftRadius={10}
           >
             구분
           </Th>
-          <Th width={'100%'} height={36} backgroundColor={color.secondary}>
+          <Th width={'100%'} height={36} backgroundColor={color.secondary300}>
             내용
           </Th>
           <Th
             width={80}
             height={36}
-            backgroundColor={color.secondary}
+            backgroundColor={color.secondary300}
             borderTopRightRadius={10}
           >
             점수
@@ -106,7 +106,7 @@ const StyledRewardRule = styled.div`
   padding: 20px 30px;
   border-radius: 20px;
   gap: 20px;
-  background-color: ${color.lightgreen};
+  background-color: ${color.primary100};
 `;
 
 const Title = styled.p`

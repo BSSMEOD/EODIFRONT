@@ -54,7 +54,7 @@ const StyledTextArea = styled.textarea<StyledTextAreaProps>`
   }
 
   &:focus {
-    border-color: ${color.primary};
+    border-color: ${color.primary300};
   }
 `;
 

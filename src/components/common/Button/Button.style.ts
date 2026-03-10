@@ -4,8 +4,8 @@ import font from '@styles/font';
 import { ButtonSize, ButtonStyleType } from './Button.type';
 
 const COLOR_MAP = {
-  PRIMARY: color.primary,
-  SECONDARY: color.secondary,
+  PRIMARY: color.primary300,
+  SECONDARY: color.secondary300,
 };
 
 const SIZE_MAP = {

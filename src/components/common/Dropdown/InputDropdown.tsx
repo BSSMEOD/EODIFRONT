@@ -108,7 +108,7 @@ const StyledDropdown = styled.div<{
     }
     if ($isOpen && !$disabled) {
       return css`
-        border: 1px solid ${color.primary};
+        border: 1px solid ${color.primary300};
         outline: 2px solid rgba(135, 206, 235, 0.25);
       `;
     }
@@ -167,7 +167,7 @@ const DropdownItem = styled.button<{ $isSelected: boolean }>`
   width: 100%;
   text-align: center;
   background-color: ${({ $isSelected }) =>
-    $isSelected ? color.lightblue : 'transparent'};
+    $isSelected ? color.primary100 : 'transparent'};
   color: ${color.black};
   font-weight: 300;
   border: none;
@@ -176,6 +176,6 @@ const DropdownItem = styled.button<{ $isSelected: boolean }>`
   min-height: 34px;
 
   &:hover {
-    background-color: ${color.lightblue};
+    background-color: ${color.primary100};
   }
 `;

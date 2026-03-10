@@ -116,18 +116,18 @@ const PenaltyRule = ({ id }: PenaltyRuleProps) => {
           <Th
             width={240}
             height={36}
-            backgroundColor={color.primary}
+            backgroundColor={color.primary300}
             borderTopLeftRadius={10}
           >
             구분
           </Th>
-          <Th width={'100%'} height={36} backgroundColor={color.primary}>
+          <Th width={'100%'} height={36} backgroundColor={color.primary300}>
             내용
           </Th>
           <Th
             width={80}
             height={36}
-            backgroundColor={color.primary}
+            backgroundColor={color.primary300}
             borderTopRightRadius={10}
           >
             점수
@@ -165,7 +165,7 @@ const StyledPenaltyRule = styled.div`
   gap: 20px;
   padding: 20px 30px;
   border-radius: 20px;
-  background-color: ${color.lightblue};
+  background-color: ${color.primary100};
 `;
 
 const Title = styled.p`

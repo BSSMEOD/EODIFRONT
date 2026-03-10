@@ -143,7 +143,7 @@ const StyledDropdown = styled.div<{
   ${({ $isOpen, $disabled }) => {
     if ($isOpen && !$disabled) {
       return css`
-        border: 1px solid ${color.primary};
+        border: 1px solid ${color.primary300};
         outline: 2px solid rgba(135, 206, 235, 0.25);
       `;
     }
@@ -224,7 +224,7 @@ const CheckboxLabel = styled.span`
 const ApplyButton = styled.button`
   align-self: flex-end;
   padding: 4px 36px;
-  background-color: ${color.secondary};
+  background-color: ${color.secondary300};
   color: ${color.white};
   border: none;
   border-radius: 8px;

@@ -51,7 +51,7 @@ const StyledStandardApplyingPoint = styled.div`
   padding: 20px 30px;
   border-radius: 20px;
   gap: 20px;
-  background-color: ${color.lightblue};
+  background-color: ${color.primary100};
 `;
 
 const Title = styled.p`
