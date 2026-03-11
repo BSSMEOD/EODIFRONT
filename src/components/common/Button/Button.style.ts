@@ -75,7 +75,7 @@ const resolveColorStyle = (
       ${active && `background-color: ${colors.outlined.clicked};`}
 
       &:hover {
-        background-color: ${colors.outlined.hover};
+        ${!active && `background-color: ${colors.outlined.hover}`};
       }
       &:active {
         background-color: ${colors.outlined.clicked};
@@ -84,6 +84,10 @@ const resolveColorStyle = (
         border-color: ${colors.disabled};
         color: ${colors.disabled};
         background-color: ${color.white};
+      }
+
+      svg {
+        fill: ${colors.default};
       }
     `;
   }
@@ -94,13 +98,17 @@ const resolveColorStyle = (
     ${active && `background-color: ${colors.filled.clicked};`}
 
     &:hover {
-      background-color: ${colors.filled.hover};
+      ${!active && `background-color: ${colors.filled.hover}`}
     }
     &:active {
       background-color: ${colors.filled.clicked};
     }
     &:disabled {
       background-color: ${colors.disabled};
+    }
+
+    svg {
+      fill: ${color.white};
     }
   `;
 };
