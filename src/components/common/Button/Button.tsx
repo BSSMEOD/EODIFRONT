@@ -10,7 +10,6 @@ interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   outlined?: boolean;
   disabled?: boolean;
   width?: number | string;
-  height?: number | string;
   active?: boolean;
 }
 
