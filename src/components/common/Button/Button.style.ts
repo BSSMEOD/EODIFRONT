@@ -84,6 +84,10 @@ const resolveColorStyle = (
         border-color: ${colors.disabled};
         color: ${colors.disabled};
         background-color: ${color.white};
+
+        svg {
+          fill: ${colors.disabled};
+        }
       }
 
       svg {
