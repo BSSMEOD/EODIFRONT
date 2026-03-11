@@ -11,6 +11,7 @@ interface ButtonBaseProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
   width?: number | string;
   height?: number | string;
+  active?: boolean;
 }
 
 type ButtonProps = ButtonBaseProps &
@@ -32,6 +33,7 @@ export const Button = ({
   width = 'auto',
   disabled = false,
   icon,
+  active = false,
   children,
   ...restProps
 }: ButtonProps) => {
@@ -54,7 +56,7 @@ export const Button = ({
       cursor: not-allowed;
     }
 
-    ${getButtonStyle(styleType, outlined, size, hasIcon, hasText)}
+    ${getButtonStyle(styleType, outlined, size, hasIcon, hasText, active)}
   `;
 
   return (

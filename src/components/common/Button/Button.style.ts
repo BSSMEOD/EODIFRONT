@@ -64,13 +64,15 @@ const resolvePadding = (
 
 const resolveColorStyle = (
   colors: (typeof COLOR_MAP)[keyof typeof COLOR_MAP],
-  outlined: boolean
+  outlined: boolean,
+  active: boolean
 ) => {
   if (outlined) {
     return css`
       border: 1.5px solid ${colors.default};
       background-color: ${color.white};
       color: ${colors.default};
+      ${active && `background-color: ${colors.outlined.clicked};`}
 
       &:hover {
         background-color: ${colors.outlined.hover};
@@ -89,6 +91,7 @@ const resolveColorStyle = (
   return css`
     background-color: ${colors.default};
     color: ${color.white};
+    ${active && `background-color: ${colors.filled.clicked};`}
 
     &:hover {
       background-color: ${colors.filled.hover};
@@ -106,12 +109,13 @@ export const getButtonStyle = (
   outlined: boolean,
   size: ButtonSize,
   hasIcon: boolean,
-  hasText: boolean
+  hasText: boolean,
+  active: boolean
 ) => {
   const colors = COLOR_MAP[styleType];
   const { defaultPad, iconPad, typography, height } = SIZE_MAP[size];
   const padding = resolvePadding(defaultPad, iconPad, hasIcon, hasText);
-  const colorStyle = resolveColorStyle(colors, outlined);
+  const colorStyle = resolveColorStyle(colors, outlined, active);
 
   return css`
     height: ${height};

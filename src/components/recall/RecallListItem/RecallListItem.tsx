@@ -91,6 +91,8 @@ const RecallListItem = ({
               size="small"
               onClick={() => onReject(id)}
               outlined
+              active={isRejectModalOpen}
+              width={60}
             >
               반려
             </Button>
@@ -98,6 +100,7 @@ const RecallListItem = ({
               styleType="SECONDARY"
               size="small"
               onClick={() => onApprove(id)}
+              width={60}
             >
               승인
             </Button>
