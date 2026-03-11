@@ -73,20 +73,20 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         </Flex>
         {authority === 'ADMIN' ? (
           <Button
+            size="big"
             styleType="PRIMARY"
-            height={50}
             onClick={() => router.push(`${ROUTES.RECALL}?itemId=${id}`)}
           >
-            <Text variant="H3">회수 요청 확인하기</Text>
+            회수 요청 확인하기
           </Button>
         ) : (
           <Button
+            size="big"
             styleType="PRIMARY"
-            height={50}
             onClick={handleClaimClick}
             disabled={authority === 'TEACHER'}
           >
-            <Text variant="H3">내 물건이에요!</Text>
+            내 물건이에요!
           </Button>
         )}
       </Flex>
