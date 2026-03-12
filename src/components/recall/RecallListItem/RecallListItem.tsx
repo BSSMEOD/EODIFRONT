@@ -87,16 +87,20 @@ const RecallListItem = ({
         {recallStatus === 'PENDING' ? (
           <>
             <Button
-              styleType={isRejectModalOpen ? 'DANGER' : 'GHOST_DANGER'}
-              size="compact"
+              styleType="SECONDARY"
+              size="small"
               onClick={() => onReject(id)}
+              outlined
+              active={isRejectModalOpen}
+              width={60}
             >
               반려
             </Button>
             <Button
               styleType="SECONDARY"
-              size="compact"
+              size="small"
               onClick={() => onApprove(id)}
+              width={60}
             >
               승인
             </Button>

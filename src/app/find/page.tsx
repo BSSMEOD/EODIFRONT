@@ -142,7 +142,7 @@ const FilterTag = styled.div`
   gap: 8px;
   height: 38px;
   padding: 0 16px;
-  background-color: ${color.primary};
+  background-color: ${color.primary300};
   color: ${color.white};
   border-radius: 20px;
   font-family: 'Pretendard', sans-serif;

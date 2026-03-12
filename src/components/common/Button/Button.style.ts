@@ -1,137 +1,138 @@
 import { css } from '@emotion/react';
 import color from '@styles/color';
 import font from '@styles/font';
-import { ButtonSize } from './Button.type';
+import { ButtonSize, ButtonStyleType } from './Button.type';
 
-const getSizeStyle = (size: ButtonSize) => {
-  switch (size) {
-    case 'medium':
-      return css`
-        padding: 10px 20px;
-        ${font.p2};
-      `;
-    case 'small':
-      return css`
-        padding: 2px 8px;
-        ${font.p3};
-      `;
-    case 'modal':
-      return css`
-        padding: 2px 8px;
-        ${font.p2};
-      `;
-    case 'compact':
-      return css`
-        padding: 5px 20px;
-        ${font.p2};
-      `;
-    default:
-      return css`
-        padding: 10px 20px;
-        ${font.p2};
-      `;
-  }
+const COLOR_MAP = {
+  PRIMARY: {
+    default: color.primary300,
+    disabled: color.primary200,
+    filled: {
+      hover: color.primary400,
+      clicked: color.primary500,
+    },
+    outlined: {
+      hover: color.primary100,
+      clicked: color.primary200,
+    },
+  },
+  SECONDARY: {
+    default: color.secondary300,
+    disabled: color.secondary200,
+    filled: {
+      hover: color.secondary400,
+      clicked: color.secondary500,
+    },
+    outlined: {
+      hover: color.secondary100,
+      clicked: color.secondary200,
+    },
+  },
 };
 
-export const getButtonStyle = {
-  PRIMARY: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${outlined ? color.white : color.primary};
-    color: ${outlined ? color.primary : color.white};
-    border: ${outlined ? `1.5px solid ${color.primary}` : 'none'};
-    ${getSizeStyle(size)};
+const SIZE_MAP = {
+  small: {
+    defaultPad: '0 12px',
+    iconPad: '0 8px',
+    typography: font.p3,
+    height: '32px',
+  },
+  medium: {
+    defaultPad: '0 16px',
+    iconPad: '0 8px',
+    typography: font.p2,
+    height: '40px',
+  },
+  big: {
+    defaultPad: '0 20px',
+    iconPad: '0 10px',
+    typography: font.H4,
+    height: '44px',
+  },
+};
 
-    svg {
-      fill: ${outlined ? color.primary : color.white};
-    }
+const resolvePadding = (
+  defaultPad: string,
+  iconPad: string,
+  hasIcon: boolean,
+  hasText: boolean
+): string => {
+  if (hasIcon && hasText) return `${defaultPad} ${iconPad}`;
+  if (hasIcon) return iconPad;
+  return defaultPad;
+};
 
-    &:hover {
-      background-color: ${color.primary};
-      color: ${color.white};
+const resolveColorStyle = (
+  colors: (typeof COLOR_MAP)[keyof typeof COLOR_MAP],
+  outlined: boolean,
+  active: boolean
+) => {
+  if (outlined) {
+    return css`
+      border: 1.5px solid ${colors.default};
+      background-color: ${color.white};
+      color: ${colors.default};
+      ${active && `background-color: ${colors.outlined.clicked};`}
+
+      &:hover {
+        ${!active && `background-color: ${colors.outlined.hover}`};
+      }
+      &:active {
+        background-color: ${colors.outlined.clicked};
+      }
+      &:disabled {
+        border-color: ${colors.disabled};
+        color: ${colors.disabled};
+        background-color: ${color.white};
+
+        svg {
+          fill: ${colors.disabled};
+        }
+      }
 
       svg {
-        fill: ${color.white};
+        fill: ${colors.default};
       }
-    }
-  `,
-  SECONDARY: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${outlined ? color.white : color.secondary};
-    color: ${outlined ? color.secondary : color.white};
-    border: ${outlined ? `1.5px solid ${color.secondary}` : 'none'};
-    ${getSizeStyle(size)};
+    `;
+  }
 
-    svg {
-      fill: ${outlined ? color.secondary : color.white};
-    }
-
-    &:hover {
-      background-color: ${color.secondary};
-      color: ${color.white};
-
-      svg {
-        fill: ${color.white};
-      }
-    }
-  `,
-  TERTIARY: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${color.white};
-    color: ${color.black};
-    ${getSizeStyle(size)};
-    &:hover {
-      background-color: ${color.gray100};
-    }
-  `,
-  GHOST: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${color.white};
-    color: ${color.black};
-    ${getSizeStyle(size)};
-    border: 0.5px solid ${color.gray200};
-
-    &:hover {
-      background-color: ${color.gray100};
-    }
-  `,
-  GHOST_SECONDARY: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${color.white};
-    color: ${color.secondary};
-    ${getSizeStyle(size)};
-    border: 1px solid ${color.secondary};
-
-    svg {
-      fill: ${color.secondary};
-    }
-
-    &:hover {
-      background-color: ${color.gray100};
-    }
-  `,
-  GHOST_DANGER: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${color.white};
-    color: ${color.red};
-    ${getSizeStyle(size)};
-    border: 1px solid ${color.red};
-
-    svg {
-      fill: ${color.red};
-    }
-
-    &:hover {
-      background-color: ${color.red};
-      color: ${color.white};
-      border-color: ${color.red};
-
-      svg {
-        fill: ${color.white};
-      }
-    }
-  `,
-  DANGER: (outlined: boolean, size: ButtonSize) => css`
-    background-color: ${color.red};
+  return css`
+    background-color: ${colors.default};
     color: ${color.white};
-    ${getSizeStyle(size)};
-    border: 1px solid ${color.red};
+    ${active && `background-color: ${colors.filled.clicked};`}
+
+    &:hover {
+      ${!active && `background-color: ${colors.filled.hover}`}
+    }
+    &:active {
+      background-color: ${colors.filled.clicked};
+    }
+    &:disabled {
+      background-color: ${colors.disabled};
+    }
 
     svg {
       fill: ${color.white};
     }
-  `,
+  `;
+};
+export const getButtonStyle = (
+  styleType: ButtonStyleType,
+  outlined: boolean,
+  size: ButtonSize,
+  hasIcon: boolean,
+  hasText: boolean,
+  active: boolean
+) => {
+  const colors = COLOR_MAP[styleType];
+  const { defaultPad, iconPad, typography, height } = SIZE_MAP[size];
+  const padding = resolvePadding(defaultPad, iconPad, hasIcon, hasText);
+  const colorStyle = resolveColorStyle(colors, outlined, active);
+
+  return css`
+    height: ${height};
+    padding: ${padding};
+    ${typography};
+    ${colorStyle};
+  `;
 };
