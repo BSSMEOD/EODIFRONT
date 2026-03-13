@@ -3,7 +3,6 @@
 import styled from '@emotion/styled';
 import MainRule from '@components/main/MainRule/MainRule';
 import Text from '@components/common/Text/Text';
-import color from '@styles/color';
 import { Button } from '@components/common/Button/Button';
 import { useRouter } from 'next/navigation';
 import Flex from '@components/common/Flex/Flex';
@@ -50,7 +49,7 @@ const MainPage = () => {
             <HistoryLinkBox
               title="폐기 예정 물품"
               count={disposalProductListData?.totalElements || 0}
-              route={ROUTES.DISPOSAL}
+              route={ROUTES.ADMIN_DISPOSAL}
               height={176}
             />
           </Flex>
@@ -82,7 +81,7 @@ const MainPage = () => {
       <SmallProductList
         title="폐기 직전인 분실물"
         productList={disposalProductListData?.content || []}
-        href={ROUTES.DISPOSAL}
+        href={ROUTES.ADMIN_DISPOSAL}
       />
     </StyledMainPage>
   );
