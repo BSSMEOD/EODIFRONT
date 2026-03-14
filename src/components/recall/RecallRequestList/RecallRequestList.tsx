@@ -10,11 +10,11 @@ const transformToRecallRequestItem = (
 ): RecallRequestItem => ({
   id: request.requestId,
   name: request.itemName,
-  requestMessage: request.requestMessage,
   requesterName: request.requesterName,
   requestedAt: request.requestedAt,
   recallStatus: request.status,
   imageUrl: request.imageUrl,
+  visitDate: request.visitDate,
 });
 
 interface RecallRequestListProps {
