@@ -113,7 +113,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               label="습득 신고자 이름(선택)"
               placeholder="습득 신고자 이름 입력"
               name="reporterName"
-              value={form.reporterName}
+              value={form.reporterName ?? ''}
               onChange={handleFormChange}
             />
           </Flex>

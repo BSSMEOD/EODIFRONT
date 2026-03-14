@@ -22,7 +22,7 @@ export interface Item {
 
 export interface ItemForm {
   reporterStudentCode: number | null;
-  reporterName: string;
+  reporterName: string | null;
   placeId: string;
   name: string;
   foundAt: string;
