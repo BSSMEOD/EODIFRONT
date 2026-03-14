@@ -13,6 +13,7 @@ import { IconClose, IconEdit } from '@/icons';
 import { formatDateDot } from '@utils/formatDate';
 import { useState } from 'react';
 import { useItemDeleteMutation } from '@services/item/mutations';
+import { useRouter } from 'next/navigation';
 
 interface ProductListItem {
   product: Item & {
@@ -48,6 +49,7 @@ const ProductListItem = ({
 
   const [imageError, setImageError] = useState(false);
   const { mutate } = useItemDeleteMutation(id);
+  const router = useRouter();
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
@@ -55,6 +57,11 @@ const ProductListItem = ({
     if (isConfirm) {
       mutate();
     }
+  };
+
+  const handleEditClick = (e: React.MouseEvent<SVGSVGElement>) => {
+    e.preventDefault();
+    router.push(`${ROUTES.EDIT}/${id}`);
   };
 
   const handleImageError = () => {
@@ -118,9 +125,7 @@ const ProductListItem = ({
       ) : (
         auth && (
           <Flex>
-            <Link href={`/edit/${id}`}>
-              <IconEdit />
-            </Link>
+            <IconEdit onClick={handleEditClick} />
             <IconClose onClick={handleDelete} />
           </Flex>
         )
