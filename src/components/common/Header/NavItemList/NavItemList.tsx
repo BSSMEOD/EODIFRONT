@@ -7,7 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 
 export const NavItemList = () => {
   const router = useRouter();
-  const { isLoggedIn, logout, setLogoutRedirecting } = useAuthStore();
+  const { isLoggedIn, logout } = useAuthStore();
   const { authority } = useAuthStore();
 
   const handleLogin = () => {
@@ -15,7 +15,6 @@ export const NavItemList = () => {
   };
 
   const handleLogout = async () => {
-    setLogoutRedirecting(true);
     try {
       await logout();
     } finally {
