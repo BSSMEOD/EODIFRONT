@@ -125,6 +125,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
                   ? 'yyyy년 MM월'
                   : 'yyyy년 MM월 dd일'
             }
+            maxDate={new Date()}
             open={isDateOpen}
             shouldCloseOnSelect={false}
             onInputClick={handleDateInputClick}
