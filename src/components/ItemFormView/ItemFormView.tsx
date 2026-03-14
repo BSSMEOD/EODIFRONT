@@ -72,15 +72,19 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
       setNextStepIndex(0);
       return;
     }
-    const format = getStringFormat(form.foundAt);
-    const currentStepIndex = steps.indexOf(format);
+    try {
+      const format = getStringFormat(form.foundAt);
+      const currentStepIndex = steps.indexOf(format);
 
-    setNextStepIndex((currentStepIndex + 1) % steps.length);
+      setNextStepIndex((currentStepIndex + 1) % steps.length);
 
-    if (format === 'date') {
-      setDateClose();
+      if (format === 'date') {
+        setDateClose();
+      }
+    } catch {
+      setNextStepIndex(0);
     }
-  }, [form.foundAt, steps, getStringFormat, setDateClose]);
+  }, [form.foundAt, setDateClose]);
 
   return (
     <StyledItemForm>
