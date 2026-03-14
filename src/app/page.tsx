@@ -19,7 +19,7 @@ import {
 
 const MainPage = () => {
   const router = useRouter();
-  const { authority, isLoggedIn, isLogoutRedirecting } = useAuthStore();
+  const { authority, isLoggedIn } = useAuthStore();
   const { data: disposalProductListData } = useItemListQuery({
     status: ['TO_BE_DISCARDED'],
     size: 5,
