@@ -19,6 +19,7 @@ const GlobalStyle = () => (
       }
 
       body {
+        min-width: 1140px;
         width: 100%;
         min-height: 100vh;
         height: 100%;
