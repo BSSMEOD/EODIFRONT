@@ -54,6 +54,7 @@ const FilterDateSelect = ({
       onCalendarClose={() => setIsOpen(false)}
       shouldCloseOnSelect={false}
       dateFormat="yyyy.MM.dd"
+      maxDate={new Date()}
       popperPlacement="bottom-start"
       renderDayContents={renderDayContents}
     />
