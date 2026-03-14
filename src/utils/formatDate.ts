@@ -10,7 +10,7 @@ const toDate = (date: Date | string): Date => {
   return parsed;
 };
 
-const getStringFormat = (date: string | Date) => {
+export const getStringFormat = (date: string | Date) => {
   if (date instanceof Date || date.length >= 10) return 'date';
   if (date.length >= 7) return 'month';
   if (date.length >= 4) return 'year';

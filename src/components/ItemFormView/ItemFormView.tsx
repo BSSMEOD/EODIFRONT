@@ -1,4 +1,4 @@
-import type { ChangeEvent, RefObject } from 'react';
+import { ChangeEvent, RefObject, useEffect } from 'react';
 import { useState } from 'react';
 
 import styled from '@emotion/styled';
@@ -14,6 +14,7 @@ import { CATEGORY } from '@/constants/item/constant';
 import type { ItemForm } from '@/types/item/client';
 import { useBooleanState } from '@hooks/useBooleanState';
 import type { Data } from '@components/common/Dropdown/Dropdown.types';
+import { getStringFormat } from '@/utils';
 
 type ItemFormState = {
   fileRef: RefObject<HTMLInputElement>;
@@ -58,12 +59,6 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
 
   const handleStepDateChange = (date: Date | null) => {
     handleDateChange(date, step[currentStep]);
-    setCurrentStep((prev) => {
-      if (currentStep >= step.length - 1) {
-        setDateClose();
-      }
-      return (prev + 1) % step.length;
-    });
   };
 
   const handleDateInputClick = () => {
@@ -71,6 +66,17 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     setCurrentStep(0);
     handleDateChange(null);
   };
+
+  useEffect(() => {
+    if (currentStep >= step.length - 1) {
+      setDateClose();
+    }
+    if (form.foundAt) {
+      setCurrentStep(
+        (step.indexOf(getStringFormat(form.foundAt)) + 1) % step.length
+      );
+    }
+  }, [form.foundAt]);
 
   return (
     <StyledItemForm>
