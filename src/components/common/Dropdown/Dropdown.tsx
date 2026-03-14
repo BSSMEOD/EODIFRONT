@@ -106,7 +106,7 @@ const StyledDropdown = styled.div<{
     }
     if ($isOpen && !$disabled) {
       return css`
-        border: 1px solid ${color.primary};
+        border: 1px solid ${color.primary300};
         outline: 2px solid rgba(135, 206, 235, 0.25);
       `;
     }
@@ -163,7 +163,7 @@ const DropdownItem = styled.button<{ $isSelected: boolean }>`
   width: 100%;
   text-align: left;
   background-color: ${({ $isSelected }) =>
-    $isSelected ? color.lightblue : 'transparent'};
+    $isSelected ? color.primary100 : 'transparent'};
   color: ${color.black};
   font-weight: ${({ $isSelected }) => ($isSelected ? 600 : 400)};
   border: none;
@@ -171,6 +171,6 @@ const DropdownItem = styled.button<{ $isSelected: boolean }>`
   transition: background-color 0.15s ease;
 
   &:hover {
-    background-color: ${color.lightblue};
+    background-color: ${color.primary100};
   }
 `;

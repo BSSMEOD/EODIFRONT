@@ -89,17 +89,6 @@ const RecallRequestList = ({
             />
           );
         })}
-
-        {requests.length === 0 && (
-          <Flex
-            justify="center"
-            align="center"
-            width="100%"
-            style={{ padding: '40px 0' }}
-          >
-            <Text color="gray500">회수 요청이 없습니다.</Text>
-          </Flex>
-        )}
       </Flex>
 
       <RejectModal

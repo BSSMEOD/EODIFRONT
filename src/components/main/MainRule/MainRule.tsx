@@ -44,5 +44,5 @@ const StyledMainRule = styled.div`
   border-radius: 20px;
   gap: 20px;
   width: 100%;
-  background-color: ${color.lightblue};
+  background-color: ${color.primary100};
 `;

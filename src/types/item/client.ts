@@ -9,7 +9,7 @@ export interface Item {
   id: number;
   imageUrl: string;
   reporterStudentCode: number | null;
-  reporterName: string;
+  reporterName: string | null;
   name: string;
   foundAt: string;
   foundPlace: string;
@@ -22,7 +22,7 @@ export interface Item {
 
 export interface ItemForm {
   reporterStudentCode: number | null;
-  reporterName: string;
+  reporterName: string | null;
   placeId: string;
   name: string;
   foundAt: string;

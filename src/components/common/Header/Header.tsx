@@ -11,9 +11,9 @@ const Header = () => {
 
   return (
     <StyledHeader>
-      <div onClick={() => router.push(ROUTES.MAIN)}>
+      <LogoWrapper onClick={() => router.push(ROUTES.MAIN)}>
         <EODILogo />
-      </div>
+      </LogoWrapper>
       <NavItemList />
     </StyledHeader>
   );
@@ -30,4 +30,7 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+`;
+const LogoWrapper = styled.div`
+  cursor: pointer;
 `;

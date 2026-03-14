@@ -63,6 +63,7 @@ const ManagePage = () => {
           startDate={filters.startDate}
           endDate={filters.endDate}
           onChange={handleDateChange}
+          maxDate={new Date()}
         />
         <MultiSelectDropdown
           value={filters.placeIds}

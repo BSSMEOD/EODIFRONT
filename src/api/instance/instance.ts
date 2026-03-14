@@ -5,7 +5,7 @@ import { refreshAccessToken } from '@/api/auth/auth';
 import { useAuthStore } from '@/stores/useAuthStore';
 
 export const eodi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: '/api',
   timeout: 15000,
   withCredentials: true,
   headers: {
@@ -18,8 +18,11 @@ let refreshPromise: Promise<string | null> | null = null;
 
 const handleLogoutAndRedirect = async (message: string): Promise<null> => {
   alert(message);
-  await useAuthStore.getState().logout();
-  window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
+  try {
+    await useAuthStore.getState().logout();
+  } finally {
+    window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
+  }
   return null;
 };
 

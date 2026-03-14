@@ -41,7 +41,7 @@ export const StyledDateSelector = styled.div<{
   }
 
   .react-datepicker__navigation-icon::before {
-    border-color: ${color.primary};
+    border-color: ${color.primary300};
     border-width: 2.5px 2.5px 0 0;
     border-radius: 2px;
   }
@@ -99,7 +99,7 @@ export const StyledDateSelector = styled.div<{
 
   .react-datepicker__day--in-range {
     font-weight: 700;
-    background-color: ${color.lightblue} !important;
+    background-color: ${color.primary100} !important;
     color: ${color.black} !important;
     border-radius: 0 !important;
   }
@@ -121,7 +121,7 @@ export const StyledDateSelector = styled.div<{
     right: 0;
     width: 50%;
     height: 100%;
-    background-color: ${color.lightblue};
+    background-color: ${color.primary100};
     z-index: 0;
   }
 
@@ -134,7 +134,7 @@ export const StyledDateSelector = styled.div<{
     left: 0;
     width: 50%;
     height: 100%;
-    background-color: ${color.lightblue};
+    background-color: ${color.primary100};
     z-index: 0;
   }
 
@@ -145,7 +145,7 @@ export const StyledDateSelector = styled.div<{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${color.primary};
+    background-color: ${color.primary300};
     border-radius: 50%;
     z-index: 1;
   }
@@ -157,7 +157,7 @@ export const StyledDateSelector = styled.div<{
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${color.primary};
+    background-color: ${color.primary300};
     border-radius: 50%;
     z-index: 1;
   }
@@ -169,7 +169,7 @@ export const StyledDateSelector = styled.div<{
 
   .react-datepicker__day--range-start.react-datepicker__day--range-end {
     &::after {
-      background-color: ${color.primary};
+      background-color: ${color.primary300};
       border-radius: 50%;
       width: 100%;
       left: 0;
@@ -182,7 +182,7 @@ export const StyledDateSelector = styled.div<{
   }
 
   .react-datepicker__day--in-selecting-range {
-    background-color: ${color.lightblue} !important;
+    background-color: ${color.primary100} !important;
     color: ${color.black} !important;
     border-radius: 0 !important;
   }
@@ -203,7 +203,7 @@ export const StyledDateSelector = styled.div<{
   }
 
   .react-datepicker__day--selected {
-    background-color: ${color.primary} !important;
+    background-color: ${color.primary300} !important;
     color: ${color.white} !important;
     border-radius: 20px !important;
     font-weight: 700;
@@ -218,7 +218,8 @@ export const StyledDateSelector = styled.div<{
   }
 
   .react-datepicker__day--today {
-    color: ${color.black};
+    font-weight: 700;
+    color: ${color.primary300};
     position: relative;
 
     &::after {
@@ -229,7 +230,7 @@ export const StyledDateSelector = styled.div<{
       transform: translateX(-50%);
       width: 4px;
       height: 4px;
-      background-color: ${color.primary};
+      background-color: ${color.primary300};
       border-radius: 50%;
     }
 

@@ -50,7 +50,7 @@ const StyledDashboardRouteCard = styled.div<{ isPrimary: boolean }>`
     isPrimary &&
     `
      height: 100%;
-     background-color: ${color.primary};
+     background-color: ${color.primary300};
      width: 30%; 
      color: ${color.white};
      border:none;

@@ -4,19 +4,27 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { toast } from 'react-toastify';
+import error = toast.error;
 
 export const NavItemList = () => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
-  const { authority } = useAuthStore();
+  const { authority, isInitialized } = useAuthStore();
+
+  if (!isInitialized) return null;
 
   const handleLogin = () => {
     router.push(ROUTES.LOGIN);
   };
 
   const handleLogout = async () => {
-    await logout();
-    router.push(ROUTES.MAIN);
+    try {
+      await logout();
+    } finally {
+      router.push(ROUTES.MAIN);
+      toast('로그아웃 되었습니다.');
+    }
   };
 
   const ManagerNav = () => (
@@ -29,18 +37,18 @@ export const NavItemList = () => {
         폐기 물품 관리
       </NavItem>
       <Button
-        styleType={'SECONDARY'}
+        styleType="SECONDARY"
         onClick={() => router.push(ROUTES.REGISTER)}
       >
         분실물 등록 하기
       </Button>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
+        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
-          로그인
+        <Button styleType="PRIMARY" onClick={() => handleLogin()}>
+          bsm 로그인
         </Button>
       )}
     </StyledNavItemsList>
@@ -56,12 +64,12 @@ export const NavItemList = () => {
         폐기 항목 보기
       </NavItem>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
+        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
-          로그인
+        <Button styleType="PRIMARY" onClick={() => handleLogin()}>
+          bsm 로그인
         </Button>
       )}
     </StyledNavItemsList>
@@ -71,12 +79,12 @@ export const NavItemList = () => {
     <StyledNavItemsList>
       <NavItem onClick={() => router.push(ROUTES.FIND)}>분실물 찾기</NavItem>
       {isLoggedIn ? (
-        <Button styleType={'GHOST'} onClick={() => handleLogout()}>
+        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
           로그아웃
         </Button>
       ) : (
-        <Button styleType={'PRIMARY'} onClick={() => handleLogin()}>
-          로그인
+        <Button styleType="PRIMARY" onClick={() => handleLogin()}>
+          bsm 로그인
         </Button>
       )}
     </StyledNavItemsList>

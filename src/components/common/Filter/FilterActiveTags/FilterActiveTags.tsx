@@ -38,7 +38,7 @@ const FilterTag = styled.div`
   gap: 8px;
   height: 38px;
   padding: 0 16px;
-  background-color: ${color.secondary};
+  background-color: ${color.secondary300};
   color: ${color.white};
   border-radius: 20px;
 
