@@ -18,8 +18,11 @@ let refreshPromise: Promise<string | null> | null = null;
 
 const handleLogoutAndRedirect = async (message: string): Promise<null> => {
   alert(message);
-  await useAuthStore.getState().logout();
-  window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
+  try {
+    await useAuthStore.getState().logout();
+  } finally {
+    window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
+  }
   return null;
 };
 

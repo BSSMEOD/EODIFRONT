@@ -8,15 +8,20 @@ import { useAuthStore } from '@/stores/useAuthStore';
 export const NavItemList = () => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
-  const { authority } = useAuthStore();
+  const { authority, isInitialized } = useAuthStore();
+
+  if (!isInitialized) return null;
 
   const handleLogin = () => {
     router.push(ROUTES.LOGIN);
   };
 
   const handleLogout = async () => {
-    await logout();
-    router.push(ROUTES.MAIN);
+    try {
+      await logout();
+    } finally {
+      router.push(ROUTES.MAIN);
+    }
   };
 
   const ManagerNav = () => (
