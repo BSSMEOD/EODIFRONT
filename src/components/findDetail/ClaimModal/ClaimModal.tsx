@@ -98,7 +98,11 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
               </Flex>
             )}
           </Flex>
-          <Button styleType="SECONDARY" onClick={handleSubmit}>
+          <Button
+            styleType="SECONDARY"
+            onClick={handleSubmit}
+            disabled={!visitDate}
+          >
             <IconCheck width={24} height={24} />
             <Text variant="p2" color={color.white}>
               등록
