@@ -8,7 +8,9 @@ import { useAuthStore } from '@/stores/useAuthStore';
 export const NavItemList = () => {
   const router = useRouter();
   const { isLoggedIn, logout } = useAuthStore();
-  const { authority } = useAuthStore();
+  const { authority, isInitialized } = useAuthStore();
+
+  if (!isInitialized) return null;
 
   const handleLogin = () => {
     router.push(ROUTES.LOGIN);
