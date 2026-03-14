@@ -36,7 +36,7 @@ type ItemFormViewProps = {
   formState: ItemFormState;
 };
 
-const step = ['year', 'month', 'date'] as const;
+const steps = ['year', 'month', 'date'] as const;
 
 const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
   const {
@@ -50,7 +50,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     handleFileChange,
     handleSubmit,
   } = formState;
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [nextStepIndex, setNextStepIndex] = useState<number>(0);
   const {
     value: isDateOpen,
     setTrue: setDateOpen,
@@ -58,25 +58,29 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
   } = useBooleanState(false);
 
   const handleStepDateChange = (date: Date | null) => {
-    handleDateChange(date, step[currentStep]);
+    handleDateChange(date, steps[nextStepIndex]);
   };
 
   const handleDateInputClick = () => {
     setDateOpen();
-    setCurrentStep(0);
+    setNextStepIndex(0);
     handleDateChange(null);
   };
 
   useEffect(() => {
-    if (currentStep >= step.length - 1) {
+    if (!form.foundAt) {
+      setNextStepIndex(0);
+      return;
+    }
+    const format = getStringFormat(form.foundAt);
+    const currentStepIndex = steps.indexOf(format);
+
+    setNextStepIndex((currentStepIndex + 1) % steps.length);
+
+    if (format === 'date') {
       setDateClose();
     }
-    if (form.foundAt) {
-      setCurrentStep(
-        (step.indexOf(getStringFormat(form.foundAt)) + 1) % step.length
-      );
-    }
-  }, [form.foundAt]);
+  }, [form.foundAt, steps, getStringFormat, setDateClose]);
 
   return (
     <StyledItemForm>
@@ -121,13 +125,13 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
             placeholderText="습득 날짜 선택"
             selected={form.foundAt ? new Date(form.foundAt) : null}
             onChange={handleStepDateChange}
-            showYearPicker={step[currentStep] === 'year'}
-            showMonthYearPicker={step[currentStep] === 'month'}
+            showYearPicker={steps[nextStepIndex] === 'year'}
+            showMonthYearPicker={steps[nextStepIndex] === 'month'}
             showPopperArrow={false}
             dateFormat={
-              step[currentStep] === 'month'
+              steps[nextStepIndex] === 'month'
                 ? 'yyyy년'
-                : step[currentStep] === 'date'
+                : steps[nextStepIndex] === 'date'
                   ? 'yyyy년 MM월'
                   : 'yyyy년 MM월 dd일'
             }
