@@ -11,11 +11,16 @@ registerLocale('ko', ko);
 
 type DateSelectorProps = DatePickerProps & {
   width?: string | number;
+  noShadow?: boolean;
 };
 
-const DateSelector = ({ width = '100%', ...restProps }: DateSelectorProps) => {
+const DateSelector = ({
+  width = '100%',
+  noShadow = false,
+  ...restProps
+}: DateSelectorProps) => {
   return (
-    <StyledDateSelector width={addPX(width)}>
+    <StyledDateSelector width={addPX(width)} noShadow={noShadow}>
       <DatePicker {...restProps} locale="ko" />
     </StyledDateSelector>
   );
