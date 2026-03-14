@@ -8,10 +8,12 @@ import { TOKEN } from '@/constants/common/constants';
 interface AuthState extends User {
   isLoggedIn: boolean;
   isInitialized: boolean;
+  isLogoutRedirecting: boolean;
   accessToken: string | null;
   login: (user: User, token: string) => void;
   logout: () => Promise<void>;
   updateAccessToken: (token: string) => void;
+  setLogoutRedirecting: (value: boolean) => void;
 }
 
 export const useAuthStore = create<AuthState>()(
@@ -21,6 +23,7 @@ export const useAuthStore = create<AuthState>()(
       authority: 'USER',
       isLoggedIn: false,
       isInitialized: false,
+      isLogoutRedirecting: false,
       accessToken: null,
 
       login: (user, token) => {
@@ -50,6 +53,10 @@ export const useAuthStore = create<AuthState>()(
       updateAccessToken: (token) => {
         Storage.setItem(TOKEN.ACCESS, token);
         set({ accessToken: token });
+      },
+
+      setLogoutRedirecting: (value) => {
+        set({ isLogoutRedirecting: value });
       },
     }),
     {

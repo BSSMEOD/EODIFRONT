@@ -19,7 +19,8 @@ import {
 
 const MainPage = () => {
   const router = useRouter();
-  const { authority, isLoggedIn } = useAuthStore();
+  const { authority, isLoggedIn, isLogoutRedirecting, setLogoutRedirecting } =
+    useAuthStore();
   const { data: disposalProductListData } = useItemListQuery({
     status: ['TO_BE_DISCARDED'],
     size: 5,
@@ -34,6 +35,12 @@ const MainPage = () => {
       router.replace(ROUTES.TEACHER);
     }
   }, [isLoggedIn, authority, router]);
+
+  useEffect(() => {
+    if (isLogoutRedirecting) {
+      setLogoutRedirecting(false);
+    }
+  }, [isLogoutRedirecting, setLogoutRedirecting]);
 
   return (
     <StyledMainPage>
