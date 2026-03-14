@@ -17,7 +17,10 @@ export const useRequireRole = (role: UserAuthority) => {
         router.replace(ROUTES.MAIN);
         return;
       }
-      if (confirm('로그인이 필요합니다.')) router.replace(ROUTES.LOGIN);
+      if (confirm('로그인이 필요합니다.')) {
+        router.replace(ROUTES.LOGIN);
+        return;
+      }
       router.replace(ROUTES.MAIN);
       return;
     }
