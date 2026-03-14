@@ -14,9 +14,11 @@ import { useRouter } from 'next/navigation';
 import { ROUTES } from '@/constants/common/constants';
 import { useApiHandler } from '@hooks/useApiHandler';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 export const useItemClaimMutation = (id: number) => {
   const queryClient = useQueryClient();
+  const { handleError } = useApiHandler();
   const { mutate, ...restMutation } = useMutation({
     mutationFn: (req: PostItemClaimReq) => postItemClaim(id, req),
     onSuccess: (data) => {
@@ -24,18 +26,17 @@ export const useItemClaimMutation = (id: number) => {
       toast.success(data.message || '회수 요청이 완료되었습니다.');
     },
     onError: (error: unknown) => {
-      let errorMessage = '회수 요청 중 오류가 발생했습니다.';
+      if (axios.isAxiosError(error) && error.response?.data) {
+        const errorData = error.response
+          .data as { visitDate?: string; message?: string };
 
-      if (error && typeof error === 'object' && 'response' in error) {
-        const axiosError = error as {
-          response: { data: { visitDate?: string; message?: string } };
-        };
-        const errorData = axiosError.response.data;
-        errorMessage =
-          errorData?.visitDate || errorData?.message || errorMessage;
+        if (errorData?.visitDate) {
+          toast.error(errorData.visitDate);
+          return;
+        }
       }
 
-      toast.error(errorMessage);
+      handleError(error);
     },
   });
   return { mutate, ...restMutation };
