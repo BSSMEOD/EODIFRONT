@@ -3,7 +3,9 @@ import color from '@styles/color';
 import font from '@styles/font';
 import { addPX } from '@/utils';
 
-export const StyledDateSelector = styled.div<{
+export const StyledDateSelector = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'width' && prop !== 'noShadow',
+})<{
   width: string | number;
   noShadow?: boolean;
 }>`
