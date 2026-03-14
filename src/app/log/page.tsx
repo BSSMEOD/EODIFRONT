@@ -79,6 +79,7 @@ const LogPage = () => {
           startDate={startDate}
           endDate={endDate}
           onChange={handleDateChange}
+          maxDate={new Date()}
         />
         <Dropdown
           name="grade"

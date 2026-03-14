@@ -49,6 +49,7 @@ const AdminDisposalPage = () => {
             startDate={filters.startDate}
             endDate={filters.endDate}
             onChange={filters.handleDateChange}
+            maxDate={new Date()}
           />
           <MultiSelectDropdown
             name="locations"
