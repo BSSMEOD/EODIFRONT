@@ -22,7 +22,6 @@ const FilterDateSelect = ({
   maxDate,
 }: FilterDateSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [setHoveredDate] = useState<Date | null>(null);
   const displayText = useMemo(() => {
     if (!startDate) return placeholder;
     if (!endDate) return format(startDate, 'yyyy.MM.dd');
