@@ -2,6 +2,7 @@ export const ROUTES = {
   MAIN: '/',
   TEACHER: '/teacher',
   FIND: '/find',
+  EDIT: '/edit',
   LOGIN: process.env.NEXT_PUBLIC_GOOGLE_AUTH_URL || '/login',
   LOG: '/log',
   POINT: '/point',
