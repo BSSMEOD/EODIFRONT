@@ -23,7 +23,7 @@ export const NavItemList = () => {
       await logout();
     } finally {
       router.push(ROUTES.MAIN);
-      toast('로그아웃 되었습니다.');
+      toast.success('로그아웃 되었습니다.');
     }
   };
 
