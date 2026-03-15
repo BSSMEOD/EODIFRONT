@@ -5,7 +5,6 @@ import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { toast } from 'react-toastify';
-import error = toast.error;
 
 export const NavItemList = () => {
   const router = useRouter();
