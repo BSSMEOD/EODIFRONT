@@ -105,7 +105,7 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
           <Button
             styleType="SECONDARY"
             onClick={handleSubmit}
-            disabled={!visitDate}
+            disabled={!visitDate || !maxDate}
           >
             <IconCheck width={24} height={24} />
             <Text variant="p2" color={color.white}>

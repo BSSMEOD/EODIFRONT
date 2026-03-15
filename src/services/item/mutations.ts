@@ -27,8 +27,10 @@ export const useItemClaimMutation = (id: number) => {
     },
     onError: (error: unknown) => {
       if (axios.isAxiosError(error) && error.response?.data) {
-        const errorData = error.response
-          .data as { visitDate?: string; message?: string };
+        const errorData = error.response.data as {
+          visitDate?: string;
+          message?: string;
+        };
 
         if (errorData?.visitDate) {
           toast.error(errorData.visitDate);
