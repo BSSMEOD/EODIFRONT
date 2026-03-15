@@ -1,10 +1,10 @@
-import { ItemForm, Status } from './client';
+import { Category, ItemForm, Status } from './client';
 
 export interface GetItemListParams {
   page?: number;
   size?: number;
   status?: Status[] | Status;
-  categories?: string[];
+  categories?: Category;
   placeIds?: number[];
   foundAtFrom?: string;
   foundAtTo?: string;
