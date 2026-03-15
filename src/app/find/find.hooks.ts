@@ -82,14 +82,15 @@ export const useFindPage = () => {
   };
 
   const handleRemoveFilter = (name: string) => {
-    if (name === 'category' || name === 'location') {
-      setFilters((prev) => ({ ...prev, [name]: '' }));
+    if (name === 'category') {
+      setFilters((prev) => ({ ...prev, category: '' }));
+      setDisplayFilters((prev) => ({ ...prev, category: '' }));
+    } else if (name === 'location') {
+      setFilters((prev) => ({ ...prev, location: [] }));
+      setDisplayFilters((prev) => ({ ...prev, location: '' }));
     } else if (name === 'date') {
-      setFilters((prev) => ({
-        ...prev,
-        startDate: null,
-        endDate: null,
-      }));
+      setFilters((prev) => ({ ...prev, startDate: null, endDate: null }));
+      setDisplayFilters((prev) => ({ ...prev, date: '' }));
     }
   };
 

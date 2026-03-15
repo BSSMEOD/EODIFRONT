@@ -16,7 +16,7 @@ const Footer = () => {
               <Flex gap={20}>
                 <Flex align="center" gap={10}>
                   <Text variant="H3" color={color.white}>
-                    생활부 부장
+                    관리자
                   </Text>
                   <Text variant="p2" color={color.white}>
                     이하은
