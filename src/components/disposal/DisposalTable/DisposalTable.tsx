@@ -148,7 +148,11 @@ const DisposalTable = ({ filters }: DisposalTableProps) => {
                     aria-label={`${item.name} 상세 정보 보기`}
                     onClick={() => handleItemClick(item.id)}
                   >
-                    <IconLink width={24} height={24} color={color.secondary} />
+                    <IconLink
+                      width={24}
+                      height={24}
+                      color={color.secondary300}
+                    />
                   </IconLinkButton>
                 </ItemName>
               </Td>

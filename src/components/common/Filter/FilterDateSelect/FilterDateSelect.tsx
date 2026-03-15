@@ -11,6 +11,7 @@ interface FilterDateSelectProps {
   endDate: Date | null;
   onChange: (dates: [Date | null, Date | null]) => void;
   placeholder?: string;
+  maxDate?: Date;
 }
 
 const FilterDateSelect = ({
@@ -18,9 +19,9 @@ const FilterDateSelect = ({
   endDate,
   onChange,
   placeholder = '날짜',
+  maxDate,
 }: FilterDateSelectProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [setHoveredDate] = useState<Date | null>(null);
   const displayText = useMemo(() => {
     if (!startDate) return placeholder;
     if (!endDate) return format(startDate, 'yyyy.MM.dd');
@@ -54,6 +55,7 @@ const FilterDateSelect = ({
       onCalendarClose={() => setIsOpen(false)}
       shouldCloseOnSelect={false}
       dateFormat="yyyy.MM.dd"
+      maxDate={maxDate}
       popperPlacement="bottom-start"
       renderDayContents={renderDayContents}
     />

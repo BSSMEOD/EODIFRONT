@@ -2,7 +2,6 @@ import { ReactNode } from 'react';
 import styled from '@emotion/styled';
 import Flex from '@components/common/Flex/Flex';
 import { Button } from '@components/common/Button/Button';
-import type { ButtonStyleType } from '@components/common/Button/Button.type';
 import Text from '@components/common/Text/Text';
 import { IconClose } from '@/icons/src/IconClose';
 import IconCheck from '@/icons/src/IconCheck';
@@ -17,8 +16,6 @@ interface BaseModalProps {
   cancelText?: string;
   width?: string;
   children: ReactNode;
-  confirmButtonType?: ButtonStyleType;
-  cancelButtonType?: ButtonStyleType;
   titleId?: string;
 }
 
@@ -30,8 +27,6 @@ const BaseModal = ({
   cancelText = '취소',
   width = '412px',
   children,
-  confirmButtonType = 'SECONDARY',
-  cancelButtonType = 'GHOST_SECONDARY',
   titleId,
 }: BaseModalProps) => {
   useScrollLock(isOpen);
@@ -52,7 +47,7 @@ const BaseModal = ({
           {children}
 
           <Flex justify="center" gap={8}>
-            <Button styleType={cancelButtonType} size="modal" onClick={onClose}>
+            <Button styleType="SECONDARY" size="small" onClick={onClose}>
               <IconClose width={24} height={24} />
               <Text variant="p2" color="inherit">
                 {cancelText}
@@ -61,9 +56,10 @@ const BaseModal = ({
 
             {onConfirm && (
               <Button
-                styleType={confirmButtonType}
-                size="modal"
+                styleType="SECONDARY"
+                size="small"
                 onClick={onConfirm}
+                outlined
               >
                 <IconCheck width={24} height={24} />
                 <Text variant="p2" color="inherit">

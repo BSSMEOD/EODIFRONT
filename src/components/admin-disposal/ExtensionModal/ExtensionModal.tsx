@@ -10,6 +10,7 @@ import { IconClose } from '@/icons/src/IconClose';
 import IconCheck from '@/icons/src/IconCheck';
 import IconStacks from '@/icons/src/IconStacks';
 import { IconCalendar } from '@/icons/src/IconCalendar';
+import { toast } from 'react-toastify';
 
 interface ExtensionModalProps {
   isOpen: boolean;
@@ -104,7 +105,7 @@ const ExtensionModal = ({
       setExtensionReason('');
       onClose();
     } else {
-      alert('연장 사유를 입력해주세요.');
+      toast.error('연장 사유를 입력해주세요.');
     }
   };
 
@@ -178,17 +179,18 @@ const ExtensionModal = ({
 
           <Flex gap={8} justify="center">
             <Button
-              styleType="GHOST_SECONDARY"
-              size="modal"
+              styleType="SECONDARY"
+              size="small"
               onClick={handleClose}
+              outlined
             >
-              <IconClose width={24} height={24} color={color.secondary} />
-              <Text variant="p2" color={color.secondary}>
-                {'취소'}
+              <IconClose width={24} height={24} color={color.secondary300} />
+              <Text variant="p2" color={color.secondary300}>
+                취소
               </Text>
             </Button>
 
-            <Button styleType="SECONDARY" size="modal" onClick={handleConfirm}>
+            <Button styleType="SECONDARY" size="small" onClick={handleConfirm}>
               <IconCheck width={24} height={24} color={color.white} />
               <Text variant="p2" color={color.white}>
                 연장
@@ -270,7 +272,7 @@ const ModalTextarea = styled.textarea`
 
   &:focus {
     outline: none;
-    border-color: ${color.secondary};
+    border-color: ${color.secondary300};
   }
 `;
 

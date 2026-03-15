@@ -23,20 +23,24 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
   const router = useRouter();
   const { data: itemData, error } = useFindDetailQuery(id);
   const overlay = useOverlay();
-  const { authority, isInitialized } = useAuthStore();
+  const { authority, isLoggedIn } = useAuthStore();
 
   React.useEffect(() => {
     if (error) {
-      alert('분실물을 찾을 수 없습니다.');
+      toast.error('분실물을 찾을 수 없습니다.');
       router.back();
     }
   }, [error, router]);
 
-  if (!itemData || !isInitialized) return null;
+  if (!itemData) return null;
 
   const handleClaimClick = () => {
     if (authority !== 'USER') {
       toast.error('회수요청은 유저만 할 수 있습니다.');
+      return;
+    }
+    if (!isLoggedIn) {
+      toast.error('로그인이 필요합니다.');
       return;
     }
     overlay.open(({ isOpen, close }) => (
@@ -73,20 +77,20 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         </Flex>
         {authority === 'ADMIN' ? (
           <Button
+            size="big"
             styleType="PRIMARY"
-            height={50}
             onClick={() => router.push(`${ROUTES.RECALL}?itemId=${id}`)}
           >
-            <Text variant="H3">회수 요청 확인하기</Text>
+            회수 요청 확인하기
           </Button>
         ) : (
           <Button
+            size="big"
             styleType="PRIMARY"
-            height={50}
             onClick={handleClaimClick}
             disabled={authority === 'TEACHER'}
           >
-            <Text variant="H3">내 물건이에요!</Text>
+            내 물건이에요!
           </Button>
         )}
       </Flex>

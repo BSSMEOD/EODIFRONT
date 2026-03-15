@@ -1,11 +1,12 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
-import { formatDateDash } from '@utils/formatDate';
+import { formatDateDash, formatRangeDateDot } from '@utils/formatDate';
 import { GetItemListParams } from '@/types/item/params';
+import { Category } from '@/types/item/client';
 
 interface Filters {
   query: string;
-  category: string[];
+  category: Category | '';
   startDate: Date | null;
   endDate: Date | null;
   location: string[];
@@ -17,10 +18,16 @@ export const useFindPage = () => {
 
   const [filters, setFilters] = useState<Filters>({
     query: '',
-    category: [],
+    category: '',
     startDate: null,
     endDate: null,
     location: [],
+  });
+
+  const [displayFilters, setDisplayFilters] = useState<Record<string, string>>({
+    category: '',
+    date: '',
+    location: '',
   });
 
   const { data: placeListData } = usePlaceListQuery();
@@ -43,6 +50,20 @@ export const useFindPage = () => {
 
   const handleMultiSelectFilterChange = (values: string[], name: string) => {
     setFilters((prev) => ({ ...prev, [name]: values }));
+
+    if (values.length > 1) {
+      setDisplayFilters((prev) => ({
+        ...prev,
+        [name]: `${values[0]} 외 ${values.length - 1}개`,
+      }));
+    } else {
+      setDisplayFilters((prev) => ({ ...prev, [name]: values[0] || '' }));
+    }
+  };
+
+  const handleDropdownChange = (value: string, name: string) => {
+    setFilters((prev) => ({ ...prev, [name]: value }));
+    setDisplayFilters((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleDateChange = (dates: [Date | null, Date | null]) => {
@@ -52,31 +73,17 @@ export const useFindPage = () => {
       startDate: start,
       endDate: end,
     }));
+    if (start) {
+      setDisplayFilters((prev) => ({
+        ...prev,
+        date: formatRangeDateDot(start, end),
+      }));
+    }
   };
 
-  const handleRemoveFilter = (name: string, valueToRemove?: string) => {
+  const handleRemoveFilter = (name: string) => {
     if (name === 'category' || name === 'location') {
-      setFilters((prev) => ({
-        ...prev,
-        [name]: valueToRemove
-          ? (prev[name] as string[]).filter((v) => v !== valueToRemove)
-          : [],
-      }));
-    } else if (name === 'query') {
-      setFilters((prev) => ({
-        ...prev,
-        query: '',
-      }));
-    } else if (name === 'startDate') {
-      setFilters((prev) => ({
-        ...prev,
-        startDate: null,
-      }));
-    } else if (name === 'endDate') {
-      setFilters((prev) => ({
-        ...prev,
-        endDate: null,
-      }));
+      setFilters((prev) => ({ ...prev, [name]: '' }));
     } else if (name === 'date') {
       setFilters((prev) => ({
         ...prev,
@@ -135,7 +142,9 @@ export const useFindPage = () => {
     currentPage,
     setCurrentPage,
     filters,
+    displayFilters,
     handleSearchChange,
+    handleDropdownChange,
     handleMultiSelectFilterChange,
     handleDateChange,
     handleRemoveFilter,

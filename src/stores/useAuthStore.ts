@@ -8,6 +8,7 @@ import { TOKEN } from '@/constants/common/constants';
 interface AuthState extends User {
   isLoggedIn: boolean;
   isInitialized: boolean;
+  isLogoutRedirecting: boolean;
   accessToken: string | null;
   login: (user: User, token: string) => void;
   logout: () => Promise<void>;
@@ -21,6 +22,7 @@ export const useAuthStore = create<AuthState>()(
       authority: 'USER',
       isLoggedIn: false,
       isInitialized: false,
+      isLogoutRedirecting: false,
       accessToken: null,
 
       login: (user, token) => {
@@ -33,6 +35,7 @@ export const useAuthStore = create<AuthState>()(
       },
 
       logout: async () => {
+        set({ isLogoutRedirecting: true });
         const { accessToken } = useAuthStore.getState();
         try {
           await logoutApi(accessToken);

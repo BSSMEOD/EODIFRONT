@@ -8,7 +8,7 @@ import ToastProvider from '@/provider/ToastProvider';
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="ko">
-      <body style={{ margin: 0, padding: 0, width: '100vw', height: '100vh' }}>
+      <body>
         <title>어디</title>
         <TanstackQueryProvider>
           <EmotionProvider>

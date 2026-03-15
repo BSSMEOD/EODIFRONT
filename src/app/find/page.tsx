@@ -5,19 +5,23 @@ import color from '@styles/color';
 import SearchInput from '@components/common/Input/SearchInput';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
-import IconMinus from '@/icons/src/IconMinus';
 import Pagination from '@components/common/Pagination/Pagination';
 import Flex from '@components/common/Flex/Flex';
 import { useFindPage } from './find.hooks';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { CATEGORY } from '@/constants/item/constant';
+import Text from '@components/common/Text/Text';
+import Dropdown from '@components/common/Dropdown/Dropdown';
+import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 
 const FindPage = () => {
   const {
     currentPage,
     setCurrentPage,
     filters,
+    displayFilters,
     handleSearchChange,
+    handleDropdownChange,
     handleMultiSelectFilterChange,
     handleDateChange,
     handleRemoveFilter,
@@ -32,14 +36,6 @@ const FindPage = () => {
 
   const categoryOptions = [...CATEGORY];
 
-  if (isLoading) {
-    return (
-      <Flex justify="center" align="center" height={200} color={color.gray500}>
-        분실물 목록을 불러오고 있습니다...
-      </Flex>
-    );
-  }
-
   if (error) {
     return (
       <Flex justify="center" align="center" height={200} color={color.red}>
@@ -53,11 +49,11 @@ const FindPage = () => {
       <Flex direction="column" gap={20} width="100%">
         <SearchInput value={filters.query} onChange={handleSearchChange} />
         <Flex align="center" gap={12} wrap="wrap">
-          <MultiSelectDropdown
+          <Dropdown
             name="category"
             data={categoryOptions}
             value={filters.category}
-            onChange={handleMultiSelectFilterChange}
+            onChange={handleDropdownChange}
             placeholder="물품"
             width="120px"
           />
@@ -74,49 +70,26 @@ const FindPage = () => {
             placeholder="장소"
             width="120px"
           />
-          {filters.category.length > 0 && (
-            <FilterTag>
-              <span>
-                {filters.category.length === 1
-                  ? filters.category[0]
-                  : `${filters.category[0]} 외 ${filters.category.length - 1}`}
-              </span>
-              <RemoveButton onClick={() => handleRemoveFilter('category')}>
-                <IconMinus width={10} color={color.white} />
-              </RemoveButton>
-            </FilterTag>
-          )}
-          {filters.location.length > 0 && (
-            <FilterTag>
-              <span>
-                {filters.location.length === 1
-                  ? filters.location[0]
-                  : `${filters.location[0]} 외 ${filters.location.length - 1}`}
-              </span>
-              <RemoveButton onClick={() => handleRemoveFilter('location')}>
-                <IconMinus width={10} color={color.white} />
-              </RemoveButton>
-            </FilterTag>
-          )}
+          <FilterActiveTags
+            filters={displayFilters}
+            onRemove={handleRemoveFilter}
+          />
         </Flex>
-
         <Flex direction="row" wrap="wrap" gap={20} width="100%">
-          {allItems.length > 0 ? (
+          {isLoading ? (
+            <Text width="100%" textAlign="center" color={color.gray500}>
+              분실물 목록을 불러오고 있습니다...
+            </Text>
+          ) : allItems.length > 0 ? (
             allItems.map((item) => (
               <ItemWrapper key={item.id}>
                 <ProductListItem product={item} size="big" />
               </ItemWrapper>
             ))
           ) : (
-            <Flex
-              justify="center"
-              align="center"
-              height={100}
-              width="100%"
-              color={color.gray500}
-            >
+            <Text width="100%" textAlign="center" color={color.gray500}>
               검색 결과가 없습니다.
-            </Flex>
+            </Text>
           )}
         </Flex>
 
@@ -134,40 +107,6 @@ export default FindPage;
 
 const PageContainer = styled.div`
   padding-top: 40px;
-`;
-
-const FilterTag = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 38px;
-  padding: 0 16px;
-  background-color: ${color.primary};
-  color: ${color.white};
-  border-radius: 20px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-
-  span {
-    white-space: nowrap;
-  }
-`;
-
-const RemoveButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.7;
-  }
 `;
 
 const ItemWrapper = styled.div`

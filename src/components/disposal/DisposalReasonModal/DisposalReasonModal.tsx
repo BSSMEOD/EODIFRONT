@@ -145,7 +145,7 @@ const DaysInput = styled.input`
   outline: none;
 
   &:focus {
-    outline: 2px solid ${color.primary};
+    outline: 2px solid ${color.primary300};
   }
 `;
 
@@ -176,7 +176,7 @@ const StyledTextArea = styled.textarea`
 
   &:focus {
     box-shadow: 0 4px 20px rgba(135, 206, 235, 0.1);
-    outline: 2px solid ${color.primary};
+    outline: 2px solid ${color.primary300};
   }
 `;
 
@@ -188,7 +188,7 @@ const SubmitButton = styled.button`
   gap: 8px;
   width: 100%;
   height: 56px;
-  background-color: ${color.secondary};
+  background-color: ${color.secondary300};
   color: ${color.white};
   border: none;
   border-radius: 12px;

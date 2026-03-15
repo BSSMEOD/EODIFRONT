@@ -46,7 +46,7 @@ const DateButton = styled.button<{ $hasValue: boolean; $isOpen: boolean }>`
   padding: 0 16px;
   background-color: ${color.white};
   border: 1px solid
-    ${({ $isOpen }) => ($isOpen ? color.primary : color.gray300)};
+    ${({ $isOpen }) => ($isOpen ? color.primary300 : color.gray300)};
   border-radius: 8px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -57,7 +57,7 @@ const DateButton = styled.button<{ $hasValue: boolean; $isOpen: boolean }>`
   }
 
   &:hover {
-    border-color: ${color.primary};
+    border-color: ${color.primary300};
   }
 `;
 

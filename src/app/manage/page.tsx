@@ -11,8 +11,10 @@ import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterD
 import { useItemListQuery, usePlaceListQuery } from '@services/item/queries';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Pagination from '@components/common/Pagination/Pagination';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useRequireRole } from '@hooks/useRequireRole';
+import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
+import { formatRangeDateDot } from '@utils/formatDate';
 
 const ManagePage = () => {
   useRequireRole('ADMIN');
@@ -37,11 +39,64 @@ const ManagePage = () => {
   });
 
   const { data: placeListData } = usePlaceListQuery();
-  const placeOptions =
-    placeListData?.map((place) => ({
-      label: place.name,
-      value: place.id.toString(),
-    })) ?? [];
+  const placeOptions = useMemo(
+    () =>
+      placeListData?.map((place) => ({
+        label: place.name,
+        value: place.id.toString(),
+      })) ?? [],
+    [placeListData]
+  );
+
+  const displayFilters = useMemo<Record<string, string>>(() => {
+    const category = filters.category;
+    const date =
+      filters.startDate && filters.endDate
+        ? formatRangeDateDot(filters.startDate, filters.endDate)
+        : '';
+
+    const selectedPlaceLabels = filters.placeIds
+      .map(
+        (placeId) =>
+          placeOptions.find((option) => option.value === placeId)?.label ?? ''
+      )
+      .filter((label) => label !== '');
+
+    const place =
+      selectedPlaceLabels.length === 0
+        ? ''
+        : selectedPlaceLabels.length === 1
+          ? selectedPlaceLabels[0]
+          : `${selectedPlaceLabels[0]} 외 ${selectedPlaceLabels.length - 1}개`;
+
+    return {
+      category,
+      date,
+      place,
+    };
+  }, [
+    filters.category,
+    filters.startDate,
+    filters.endDate,
+    filters.placeIds,
+    placeOptions,
+  ]);
+
+  const handleRemoveFilter = (key: string) => {
+    if (key === 'category') {
+      handleDropdownChange('', 'category');
+      return;
+    }
+
+    if (key === 'date') {
+      handleDateChange([null, null]);
+      return;
+    }
+
+    if (key === 'place') {
+      handleDropdownChange([], 'placeIds');
+    }
+  };
 
   return (
     <StyledManagePage>
@@ -63,6 +118,7 @@ const ManagePage = () => {
           startDate={filters.startDate}
           endDate={filters.endDate}
           onChange={handleDateChange}
+          maxDate={new Date()}
         />
         <MultiSelectDropdown
           value={filters.placeIds}
@@ -71,6 +127,10 @@ const ManagePage = () => {
           placeholder="장소"
           name="placeIds"
           width={200}
+        />
+        <FilterActiveTags
+          filters={displayFilters}
+          onRemove={handleRemoveFilter}
         />
       </Flex>
       <BigProductList productList={productListData?.content || []} auth />
