@@ -1,14 +1,10 @@
 'use client';
 
-import styled from '@emotion/styled';
 import Dropdown from '@components/common/Dropdown/Dropdown';
-import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import BigProductList from '@components/common/ProductList/BigProductList';
-import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import ExtensionModal from '@/components/admin-disposal/ExtensionModal/ExtensionModal';
-import IconMinus from '@/icons/src/IconMinus';
 import { useAdminDisposal } from '@/app/admin-disposal/admin-disposal.hooks';
 import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
@@ -18,7 +14,7 @@ import { useRequireRole } from '@hooks/useRequireRole';
 const AdminDisposalPage = () => {
   useRequireRole('ADMIN');
 
-  const { filters, options, modals, data, utils } = useAdminDisposal();
+  const { filters, options, modals, data } = useAdminDisposal();
 
   return (
     <Flex
@@ -37,67 +33,6 @@ const AdminDisposalPage = () => {
             value={filters.filters.disposalDate}
             width="120px"
           />
-          <MultiSelectDropdown
-            name="categories"
-            data={options.categoryOptions}
-            onChange={filters.handleMultiSelectChange}
-            placeholder="물품"
-            value={filters.filters.categories}
-            width="120px"
-          />
-          <FilterDateSelect
-            startDate={filters.startDate}
-            endDate={filters.endDate}
-            onChange={filters.handleDateChange}
-            maxDate={new Date()}
-          />
-          <MultiSelectDropdown
-            name="locations"
-            data={options.locationOptions}
-            onChange={filters.handleMultiSelectChange}
-            placeholder="장소"
-            value={filters.filters.locations}
-            width="120px"
-          />
-
-          {filters.filters.categories.length > 0 && (
-            <FilterTag>
-              <span>
-                {filters.filters.categories.length === 1
-                  ? utils.getCategoryLabel(filters.filters.categories[0])
-                  : `${utils.getCategoryLabel(filters.filters.categories[0])} 외 ${filters.filters.categories.length - 1}`}
-              </span>
-              <RemoveButton
-                onClick={() => filters.handleRemoveFilter('categories')}
-              >
-                <IconMinus width={10} color={color.white} />
-              </RemoveButton>
-            </FilterTag>
-          )}
-
-          {filters.filters.locations.length > 0 && (
-            <FilterTag>
-              <span>
-                {filters.filters.locations.length === 1
-                  ? utils.getLocationLabel(filters.filters.locations[0])
-                  : `${utils.getLocationLabel(filters.filters.locations[0])} 외 ${filters.filters.locations.length - 1}`}
-              </span>
-              <RemoveButton
-                onClick={() => filters.handleRemoveFilter('locations')}
-              >
-                <IconMinus width={10} color={color.white} />
-              </RemoveButton>
-            </FilterTag>
-          )}
-
-          {filters.filters.date && (
-            <FilterTag>
-              <span>{filters.filters.date}</span>
-              <RemoveButton onClick={() => filters.handleRemoveFilter('date')}>
-                <IconMinus width={10} color={color.white} />
-              </RemoveButton>
-            </FilterTag>
-          )}
         </Flex>
 
         <Flex
@@ -153,39 +88,5 @@ const AdminDisposalPage = () => {
     </Flex>
   );
 };
-
-const FilterTag = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  height: 38px;
-  padding: 0 16px;
-  background-color: ${color.secondary300};
-  color: ${color.white};
-  border-radius: 20px;
-  font-family: 'Pretendard', sans-serif;
-  font-size: 14px;
-
-  span {
-    white-space: nowrap;
-  }
-`;
-
-const RemoveButton = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  padding: 0;
-  background: none;
-  border: none;
-  cursor: pointer;
-  transition: opacity 0.2s ease;
-
-  &:hover {
-    opacity: 0.7;
-  }
-`;
 
 export default AdminDisposalPage;
