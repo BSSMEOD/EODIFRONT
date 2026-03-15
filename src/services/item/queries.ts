@@ -28,11 +28,13 @@ export const useItemListQuery = (params?: GetItemListParams) => {
 };
 
 export const useClaimItemListQuery = () => {
+  const { authority } = useAuthStore();
+  const isAdmin = authority === 'ADMIN';
   const { data, ...restQuery } = useQuery({
     queryKey: ['item', 'claim'],
     queryFn: () => getClaimItemList(),
     retry: false,
-    enabled: false,
+    enabled: isAdmin,
   });
   return { data, ...restQuery };
 };
