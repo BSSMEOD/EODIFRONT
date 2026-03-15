@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { formatDateDash } from '@utils/formatDate';
-import { Status } from '@/types/item/client';
+import { Category, Status } from '@/types/item/client';
 
 export interface Filters {
   search: string;
-  category: string;
+  category: Category;
   startDate: Date | null;
   endDate: Date | null;
   placeIds: string[];
@@ -47,7 +47,7 @@ export const useForm = () => {
 
   const buildItemListParams = (filters: Filters) => ({
     query: filters.search,
-    category: filters.category,
+    categories: filters.category,
     placeIds: filters.placeIds.map((id) => parseInt(id)),
     foundAtFrom: filters.startDate
       ? formatDateDash(filters.startDate)

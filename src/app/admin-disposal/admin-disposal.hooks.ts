@@ -19,14 +19,9 @@ interface DisposalItem extends Item {
 }
 
 export const useAdminDisposal = () => {
-  const [startDate, setStartDate] = useState<Date | null>(null);
-  const [endDate, setEndDate] = useState<Date | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [filters, setFilters] = useState({
     disposalDate: '',
-    categories: [] as string[],
-    locations: [] as string[],
-    date: '',
   });
 
   const [isExtensionModalOpen, setIsExtensionModalOpen] = useState(false);
@@ -49,20 +44,6 @@ export const useAdminDisposal = () => {
       params.sort = filters.disposalDate === 'fastest' ? 'LATEST' : 'OLDEST';
     }
 
-    if (filters.categories.length > 0) {
-      params.categories = filters.categories;
-    }
-
-    if (filters.locations.length > 0 && placeListData) {
-      const selectedPlaceIds = placeListData
-        .filter((place) => filters.locations.includes(place.name))
-        .map((place) => place.id);
-
-      if (selectedPlaceIds.length > 0) {
-        params.placeIds = selectedPlaceIds;
-      }
-    }
-
     return params;
   }, [filters, placeListData, currentPage]);
 
@@ -73,16 +54,10 @@ export const useAdminDisposal = () => {
   } = useAdminDisposalItemsQuery(buildApiParams());
 
   const filteredItems = useMemo(() => {
-    let items = disposalItemsData?.content || [];
-
-    if (startDate && endDate) {
-      items = items.filter((item) =>
-        isDateInRange(item.disposalDate, startDate, endDate)
-      );
-    }
+    const items = disposalItemsData?.content || [];
 
     return items;
-  }, [disposalItemsData, startDate, endDate]);
+  }, [disposalItemsData]);
 
   const disposalItemsWithDays = useMemo(
     () =>
@@ -109,20 +84,6 @@ export const useAdminDisposal = () => {
     setCurrentPage(1);
   };
 
-  const handleDateChange = (dates: [Date | null, Date | null]) => {
-    const [start, end] = dates;
-    setStartDate(start);
-    setEndDate(end);
-
-    if (start && end) {
-      const dateStr = `${format(start, 'yyyy.MM.dd')} ~ ${format(end, 'yyyy.MM.dd')}`;
-      setFilters((prev) => ({ ...prev, date: dateStr }));
-    } else {
-      setFilters((prev) => ({ ...prev, date: '' }));
-    }
-    setCurrentPage(1);
-  };
-
   const handleRemoveFilter = (name: string) => {
     if (name === 'categories' || name === 'locations') {
       setFilters((prev) => ({
@@ -131,10 +92,6 @@ export const useAdminDisposal = () => {
       }));
     } else {
       setFilters((prev) => ({ ...prev, [name]: '' }));
-    }
-    if (name === 'date') {
-      setStartDate(null);
-      setEndDate(null);
     }
     setCurrentPage(1);
   };
@@ -224,12 +181,9 @@ export const useAdminDisposal = () => {
 
   return {
     filters: {
-      startDate,
-      endDate,
       filters,
       handleDropdownChange,
       handleMultiSelectChange,
-      handleDateChange,
       handleRemoveFilter,
       handleDisposalHistory,
     },

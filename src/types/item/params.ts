@@ -4,7 +4,7 @@ export interface GetItemListParams {
   page?: number;
   size?: number;
   status?: Status[] | Status;
-  categories?: string[];
+  categories?: string[] | string;
   placeIds?: number[];
   foundAtFrom?: string;
   foundAtTo?: string;
