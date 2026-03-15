@@ -3,11 +3,11 @@ export interface RecallRequest {
   itemId: number;
   itemName: string;
   imageUrl: string;
-  requestMessage: string;
   requesterName: string;
   requesterType: string;
-  requestedAt: string; // ISO 8601 형식
+  requestedAt: string;
   status: RecallStatus;
+  visitDate: string;
 }
 
 export type RecallStatus = 'PENDING' | 'APPROVED' | 'REJECTED';
@@ -16,10 +16,10 @@ export interface RecallRequestItem {
   id: number;
   name: string;
   imageUrl: string;
-  requestMessage: string;
   requesterName: string;
   requestedAt: string;
   recallStatus: RecallStatus;
+  visitDate: string;
 }
 
 export interface ApprovalResponse {

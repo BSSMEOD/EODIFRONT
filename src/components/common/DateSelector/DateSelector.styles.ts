@@ -3,7 +3,12 @@ import color from '@styles/color';
 import font from '@styles/font';
 import { addPX } from '@/utils';
 
-export const StyledDateSelector = styled.div<{ width: string | number }>`
+export const StyledDateSelector = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'width' && prop !== 'noShadow',
+})<{
+  width: string | number;
+  noShadow?: boolean;
+}>`
   .react-datepicker-wrapper,
   .react-datepicker__input-container {
     width: ${({ width }) => addPX(width)};
@@ -13,9 +18,10 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
     border: none;
     border-radius: 12px;
     padding: 16px 20px;
-    box-shadow:
-      -4px -4px 4px 0 rgba(0, 0, 0, 0.05),
-      4px 4px 4px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: ${({ noShadow }) =>
+      noShadow
+        ? 'none'
+        : '-4px -4px 4px 0 rgba(0, 0, 0, 0.05), 4px 4px 4px 0 rgba(0, 0, 0, 0.04)'};
   }
 
   .react-datepicker__header {
@@ -90,7 +96,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
   }
 
   .react-datepicker__day--outside-month {
-    color: ${color.gray300};
+    visibility: hidden;
   }
 
   .react-datepicker__day--in-range {
@@ -216,5 +222,41 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
   .react-datepicker__day--today {
     font-weight: 700;
     color: ${color.primary300};
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background-color: ${color.primary300};
+      border-radius: 50%;
+    }
+
+    &.react-datepicker__day--disabled {
+      color: ${color.gray300};
+      cursor: not-allowed;
+
+      &::after {
+        background-color: ${color.gray300};
+      }
+    }
+  }
+
+  .react-datepicker__day {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .react-datepicker {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 `;

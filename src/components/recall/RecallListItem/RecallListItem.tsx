@@ -28,10 +28,10 @@ const RecallListItem = ({
     id,
     imageUrl,
     name,
-    requestMessage,
     requesterName,
     requestedAt,
     recallStatus,
+    visitDate,
   } = item;
 
   const [imageError, setImageError] = useState(false);
@@ -78,7 +78,9 @@ const RecallListItem = ({
                 {formatDateDot(requestedAt)}
               </Text>
             )}
-            {requestMessage && <Text variant="p1">{requestMessage}</Text>}
+            {visitDate && (
+              <Text variant="p1">방문 날짜: {formatDateDot(visitDate)}</Text>
+            )}
           </Flex>
         </InfoSection>
       </Flex>
