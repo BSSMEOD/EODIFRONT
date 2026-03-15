@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { ROUTES } from '@/constants/common/constants';
+import { toast } from 'react-toastify';
 
 export const useRequireRole = (role: UserAuthority) => {
   const router = useRouter();
@@ -13,20 +14,13 @@ export const useRequireRole = (role: UserAuthority) => {
     if (!isInitialized) return;
 
     if (!isLoggedIn) {
-      if (isLogoutRedirecting) {
-        router.replace(ROUTES.MAIN);
-        return;
-      }
-      if (confirm('로그인이 필요합니다.')) {
-        router.replace(ROUTES.LOGIN);
-        return;
-      }
-      router.replace(ROUTES.MAIN);
+      toast.error('로그인이 필요합니다.');
+      router.replace(ROUTES.LOGIN);
       return;
     }
 
     if (authority !== role) {
-      alert('접근할 수 없는 페이지입니다.');
+      toast.error('접근할 수 없는 페이지입니다.');
       router.replace(ROUTES.MAIN);
     }
   }, [role, router, authority, isLoggedIn, isInitialized, isLogoutRedirecting]);

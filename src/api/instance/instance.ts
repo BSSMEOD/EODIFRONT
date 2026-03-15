@@ -3,6 +3,7 @@ import axios from 'axios';
 import { ROUTES } from '@/constants/common/constants';
 import { refreshAccessToken } from '@/api/auth/auth';
 import { useAuthStore } from '@/stores/useAuthStore';
+import { toast } from 'react-toastify';
 
 export const eodi = axios.create({
   baseURL: '/api',
@@ -17,12 +18,9 @@ let isRefreshing = false;
 let refreshPromise: Promise<string | null> | null = null;
 
 const handleLogoutAndRedirect = async (message: string): Promise<null> => {
-  alert(message);
-  try {
-    await useAuthStore.getState().logout();
-  } finally {
-    window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
-  }
+  toast.error(message);
+  await useAuthStore.getState().logout();
+  window.location.href = ROUTES.LOGIN || ROUTES.MAIN;
   return null;
 };
 

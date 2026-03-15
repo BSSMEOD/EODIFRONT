@@ -7,6 +7,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { decodeJwt } from '@/utils/jwt';
 import styled from '@emotion/styled';
 import { UserAuthority } from '@/types/user/client';
+import { toast } from 'react-toastify';
 
 const AuthCallbackPage = () => {
   const router = useRouter();
@@ -21,21 +22,21 @@ const AuthCallbackPage = () => {
           const errorType = params.get('error');
           const errorMessage =
             params.get('message') || 'OAuth 인증에 실패했습니다.';
-          alert(decodeURIComponent(errorMessage));
+          toast.error(decodeURIComponent(errorMessage));
           router.push(ROUTES.LOGIN);
           return;
         }
         const token = params.get('token');
 
         if (!token) {
-          alert('토큰을 찾을 수 없습니다. 다시 로그인해주세요.');
+          toast.error('토큰을 찾을 수 없습니다. 다시 로그인해주세요.');
           router.push(ROUTES.LOGIN);
           return;
         }
 
         const payload = decodeJwt(token);
         if (!payload) {
-          alert('유효하지 않은 토큰입니다. 다시 로그인해주세요.');
+          toast.error('유효하지 않은 토큰입니다. 다시 로그인해주세요.');
           router.push(ROUTES.LOGIN);
           return;
         }

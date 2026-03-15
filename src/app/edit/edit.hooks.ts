@@ -5,6 +5,7 @@ import { useImageUploadMutation } from '@services/image/mutations';
 import { useItemUpdateMutation } from '@services/item/mutations';
 import type { ItemForm } from '@/types/item/client';
 import { formatDateDash } from '@utils/formatDate';
+import { toast } from 'react-toastify';
 
 export const useEditForm = (id: number) => {
   const router = useRouter();
@@ -35,7 +36,7 @@ export const useEditForm = (id: number) => {
 
   useEffect(() => {
     if (error) {
-      alert('분실물을 불러올 수 없습니다.');
+      toast.error('분실물을 불러올 수 없습니다.');
       router.back();
     }
   }, [error, router]);
@@ -100,7 +101,7 @@ export const useEditForm = (id: number) => {
       !form.category;
 
     if (isFormInvalid) {
-      alert('모든 항목을 입력해주세요.');
+      toast.error('모든 항목을 입력해주세요.');
       return;
     }
 
