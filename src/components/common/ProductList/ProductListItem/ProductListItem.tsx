@@ -112,7 +112,11 @@ const ProductListItem = ({
           <Button
             styleType="PRIMARY"
             size="small"
-            onClick={() => onExtension?.(id)}
+            onClick={(e) => {
+              e.preventDefault();
+              e.stopPropagation();
+              onExtension?.(id);
+            }}
             outlined
           >
             기간연장
