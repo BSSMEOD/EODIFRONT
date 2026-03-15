@@ -25,7 +25,7 @@ const StyledLeadingCommitteeRule = styled.div`
   flex-direction: column;
   gap: 20px;
   border-radius: 20px;
-  background-color: ${color.lightgreen};
+  background-color: ${color.secondary100};
 `;
 const Title = styled.p`
   ${font.H2}

@@ -11,6 +11,7 @@ import Flex from '@components/common/Flex/Flex';
 import { useFindPage } from './find.hooks';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { CATEGORY } from '@/constants/item/constant';
+import Text from '@components/common/Text/Text';
 
 const FindPage = () => {
   const {
@@ -31,14 +32,6 @@ const FindPage = () => {
   const totalPages = itemListData?.totalPages || 0;
 
   const categoryOptions = [...CATEGORY];
-
-  if (isLoading) {
-    return (
-      <Flex justify="center" align="center" height={200} color={color.gray500}>
-        분실물 목록을 불러오고 있습니다...
-      </Flex>
-    );
-  }
 
   if (error) {
     return (
@@ -99,24 +92,21 @@ const FindPage = () => {
             </FilterTag>
           )}
         </Flex>
-
         <Flex direction="row" wrap="wrap" gap={20} width="100%">
-          {allItems.length > 0 ? (
+          {isLoading ? (
+            <Text width="100%" textAlign="center" color={color.gray500}>
+              분실물 목록을 불러오고 있습니다...
+            </Text>
+          ) : allItems.length > 0 ? (
             allItems.map((item) => (
               <ItemWrapper key={item.id}>
                 <ProductListItem product={item} size="big" />
               </ItemWrapper>
             ))
           ) : (
-            <Flex
-              justify="center"
-              align="center"
-              height={100}
-              width="100%"
-              color={color.gray500}
-            >
+            <Text width="100%" textAlign="center" color={color.gray500}>
               검색 결과가 없습니다.
-            </Flex>
+            </Text>
           )}
         </Flex>
 
@@ -142,7 +132,7 @@ const FilterTag = styled.div`
   gap: 8px;
   height: 38px;
   padding: 0 16px;
-  background-color: ${color.primary};
+  background-color: ${color.primary300};
   color: ${color.white};
   border-radius: 20px;
   font-family: 'Pretendard', sans-serif;

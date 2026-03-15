@@ -134,8 +134,10 @@ const PageNumber = styled.button<{ active?: boolean }>`
   justify-content: center;
   width: 32px;
   height: 32px;
-  border: ${({ active }) => (active ? `1px solid ${color.primary}` : 'none')};
-  background-color: ${({ active }) => (active ? color.primary : 'transparent')};
+  border: ${({ active }) =>
+    active ? `1px solid ${color.primary300}` : 'none'};
+  background-color: ${({ active }) =>
+    active ? color.primary300 : 'transparent'};
   color: ${({ active }) => (active ? color.white : color.gray400)};
   border-radius: ${({ active }) => (active ? '50%' : '0')};
   cursor: pointer;

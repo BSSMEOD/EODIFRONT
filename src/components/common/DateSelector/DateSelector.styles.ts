@@ -3,7 +3,12 @@ import color from '@styles/color';
 import font from '@styles/font';
 import { addPX } from '@/utils';
 
-export const StyledDateSelector = styled.div<{ width: string | number }>`
+export const StyledDateSelector = styled('div', {
+  shouldForwardProp: (prop) => prop !== 'width' && prop !== 'noShadow',
+})<{
+  width: string | number;
+  noShadow?: boolean;
+}>`
   .react-datepicker-wrapper,
   .react-datepicker__input-container {
     width: ${({ width }) => addPX(width)};
@@ -13,9 +18,10 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
     border: none;
     border-radius: 12px;
     padding: 16px 20px;
-    box-shadow:
-      -4px -4px 4px 0 rgba(0, 0, 0, 0.05),
-      4px 4px 4px 0 rgba(0, 0, 0, 0.04);
+    box-shadow: ${({ noShadow }) =>
+      noShadow
+        ? 'none'
+        : '-4px -4px 4px 0 rgba(0, 0, 0, 0.05), 4px 4px 4px 0 rgba(0, 0, 0, 0.04)'};
   }
 
   .react-datepicker__header {
@@ -37,7 +43,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
   }
 
   .react-datepicker__navigation-icon::before {
-    border-color: ${color.primary};
+    border-color: ${color.primary300};
     border-width: 2.5px 2.5px 0 0;
     border-radius: 2px;
   }
@@ -90,12 +96,12 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
   }
 
   .react-datepicker__day--outside-month {
-    color: ${color.gray300};
+    visibility: hidden;
   }
 
   .react-datepicker__day--in-range {
     font-weight: 700;
-    background-color: ${color.lightblue} !important;
+    background-color: ${color.primary100} !important;
     color: ${color.black} !important;
     border-radius: 0 !important;
   }
@@ -117,7 +123,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
     right: 0;
     width: 50%;
     height: 100%;
-    background-color: ${color.lightblue};
+    background-color: ${color.primary100};
     z-index: 0;
   }
 
@@ -130,7 +136,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
     left: 0;
     width: 50%;
     height: 100%;
-    background-color: ${color.lightblue};
+    background-color: ${color.primary100};
     z-index: 0;
   }
 
@@ -141,7 +147,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${color.primary};
+    background-color: ${color.primary300};
     border-radius: 50%;
     z-index: 1;
   }
@@ -153,7 +159,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: ${color.primary};
+    background-color: ${color.primary300};
     border-radius: 50%;
     z-index: 1;
   }
@@ -165,7 +171,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
 
   .react-datepicker__day--range-start.react-datepicker__day--range-end {
     &::after {
-      background-color: ${color.primary};
+      background-color: ${color.primary300};
       border-radius: 50%;
       width: 100%;
       left: 0;
@@ -178,7 +184,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
   }
 
   .react-datepicker__day--in-selecting-range {
-    background-color: ${color.lightblue} !important;
+    background-color: ${color.primary100} !important;
     color: ${color.black} !important;
     border-radius: 0 !important;
   }
@@ -199,7 +205,7 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
   }
 
   .react-datepicker__day--selected {
-    background-color: ${color.primary} !important;
+    background-color: ${color.primary300} !important;
     color: ${color.white} !important;
     border-radius: 20px !important;
     font-weight: 700;
@@ -215,6 +221,42 @@ export const StyledDateSelector = styled.div<{ width: string | number }>`
 
   .react-datepicker__day--today {
     font-weight: 700;
-    color: ${color.primary};
+    color: ${color.primary300};
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 2px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 4px;
+      height: 4px;
+      background-color: ${color.primary300};
+      border-radius: 50%;
+    }
+
+    &.react-datepicker__day--disabled {
+      color: ${color.gray300};
+      cursor: not-allowed;
+
+      &::after {
+        background-color: ${color.gray300};
+      }
+    }
+  }
+
+  .react-datepicker__day {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+  }
+
+  .react-datepicker {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
   }
 `;

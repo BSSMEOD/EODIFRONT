@@ -14,7 +14,7 @@ export interface GetItemListParams {
 }
 
 export interface PostItemClaimReq {
-  claimReason: string;
+  visitDate: string;
 }
 
 interface ItemReq extends ItemForm {

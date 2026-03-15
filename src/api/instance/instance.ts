@@ -6,7 +6,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { toast } from 'react-toastify';
 
 export const eodi = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_BASE_URL,
+  baseURL: '/api',
   timeout: 15000,
   withCredentials: true,
   headers: {

@@ -13,7 +13,7 @@ const Footer = () => {
           rel="noopener noreferrer"
           aria-label="인스타그램 프로필(새 탭에서 열림)"
         >
-          2학년 2반 이하은 ( @han22._x )
+          3학년 1반 이하은 ( @han22._x )
         </a>
       </p>
     </StyledFooter>

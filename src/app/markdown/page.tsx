@@ -38,7 +38,7 @@ const MarkdownPage = () => {
           <div>불러오는중...</div>
         )}
       </EditorContainer>
-      <Button styleType="GHOST" onClick={handleMarkdownSubmit}>
+      <Button styleType="SECONDARY" onClick={handleMarkdownSubmit}>
         저장하기
       </Button>
     </StyledMarkdownPage>

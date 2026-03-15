@@ -96,6 +96,7 @@ const DisposalPage = () => {
           startDate={startDate}
           endDate={endDate}
           onChange={handleDateChange}
+          maxDate={new Date()}
         />
 
         <Dropdown

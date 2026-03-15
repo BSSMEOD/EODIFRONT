@@ -1,4 +1,4 @@
-import type { ChangeEvent, RefObject } from 'react';
+import { ChangeEvent, RefObject, useEffect } from 'react';
 import { useState } from 'react';
 
 import styled from '@emotion/styled';
@@ -14,6 +14,7 @@ import { CATEGORY } from '@/constants/item/constant';
 import type { ItemForm } from '@/types/item/client';
 import { useBooleanState } from '@hooks/useBooleanState';
 import type { Data } from '@components/common/Dropdown/Dropdown.types';
+import { getStringFormat } from '@/utils';
 
 type ItemFormState = {
   fileRef: RefObject<HTMLInputElement>;
@@ -35,7 +36,7 @@ type ItemFormViewProps = {
   formState: ItemFormState;
 };
 
-const step = ['year', 'month', 'date'] as const;
+const steps = ['year', 'month', 'date'] as const;
 
 const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
   const {
@@ -49,7 +50,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     handleFileChange,
     handleSubmit,
   } = formState;
-  const [currentStep, setCurrentStep] = useState<number>(0);
+  const [nextStepIndex, setNextStepIndex] = useState<number>(0);
   const {
     value: isDateOpen,
     setTrue: setDateOpen,
@@ -57,20 +58,33 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
   } = useBooleanState(false);
 
   const handleStepDateChange = (date: Date | null) => {
-    handleDateChange(date, step[currentStep]);
-    setCurrentStep((prev) => {
-      if (currentStep >= step.length - 1) {
-        setDateClose();
-      }
-      return (prev + 1) % step.length;
-    });
+    handleDateChange(date, steps[nextStepIndex]);
   };
 
   const handleDateInputClick = () => {
     setDateOpen();
-    setCurrentStep(0);
+    setNextStepIndex(0);
     handleDateChange(null);
   };
+
+  useEffect(() => {
+    if (!form.foundAt) {
+      setNextStepIndex(0);
+      return;
+    }
+    try {
+      const format = getStringFormat(form.foundAt);
+      const currentStepIndex = steps.indexOf(format);
+
+      setNextStepIndex((currentStepIndex + 1) % steps.length);
+
+      if (format === 'date') {
+        setDateClose();
+      }
+    } catch {
+      setNextStepIndex(0);
+    }
+  }, [form.foundAt, setDateClose]);
 
   return (
     <StyledItemForm>
@@ -107,7 +121,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               label="습득 신고자 이름(선택)"
               placeholder="습득 신고자 이름 입력"
               name="reporterName"
-              value={form.reporterName}
+              value={form.reporterName ?? ''}
               onChange={handleFormChange}
             />
           </Flex>
@@ -115,16 +129,17 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
             placeholderText="습득 날짜 선택"
             selected={form.foundAt ? new Date(form.foundAt) : null}
             onChange={handleStepDateChange}
-            showYearPicker={step[currentStep] === 'year'}
-            showMonthYearPicker={step[currentStep] === 'month'}
+            showYearPicker={steps[nextStepIndex] === 'year'}
+            showMonthYearPicker={steps[nextStepIndex] === 'month'}
             showPopperArrow={false}
             dateFormat={
-              step[currentStep] === 'month'
+              steps[nextStepIndex] === 'month'
                 ? 'yyyy년'
-                : step[currentStep] === 'date'
+                : steps[nextStepIndex] === 'date'
                   ? 'yyyy년 MM월'
                   : 'yyyy년 MM월 dd일'
             }
+            maxDate={new Date()}
             open={isDateOpen}
             shouldCloseOnSelect={false}
             onInputClick={handleDateInputClick}
