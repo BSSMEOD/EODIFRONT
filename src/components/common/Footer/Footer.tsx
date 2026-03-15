@@ -1,21 +1,63 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
-import font from '@styles/font';
+import { EODILogo } from '@/icons/src/EODILogo';
+import { IconOpenInNew } from '@/icons/src/IconOpenInNew';
+import Flex from '@components/common/Flex/Flex';
+import Text from '@components/common/Text/Text';
 
 const Footer = () => {
   return (
     <StyledFooter>
-      <p css={font.H3}>추가 문의 </p>
-      <p css={font.p2}>
-        <a
-          href="https://www.instagram.com/han22._x"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="인스타그램 프로필(새 탭에서 열림)"
-        >
-          3학년 1반 이하은 ( @han22._x )
-        </a>
-      </p>
+      <FooterContainer>
+        <Flex direction="column" gap={20}>
+          <ResponsiveRow>
+            <EODILogo textColor={color.white} width={150} height={54} />
+            <RightSection>
+              <Flex gap={20}>
+                <Flex align="center" gap={10}>
+                  <Text variant="H3" color={color.white}>
+                    생활부 부장
+                  </Text>
+                  <Text variant="p2" color={color.white}>
+                    이하은
+                  </Text>
+                </Flex>
+                <Flex align="center" gap={10}>
+                  <Text variant="H3" color={color.white}>
+                    학생기숙사부
+                  </Text>
+                  <Text variant="p2" color={color.white}>
+                    진예빈, 송지훈 선생님
+                  </Text>
+                </Flex>
+              </Flex>
+              <Divider />
+              <Flex align="center" gap={10}>
+                <Text variant="H3" color={color.white}>
+                  문의 및 건의
+                </Text>
+                <ContactLink
+                  href="https://open.kakao.com/o/sDjKMAli"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <Flex align="center" gap={4}>
+                    <Text variant="p2" color={color.white}>
+                      1:1 오픈채팅
+                    </Text>
+                    <IconOpenInNew width={20} height={20} />
+                  </Flex>
+                </ContactLink>
+              </Flex>
+            </RightSection>
+          </ResponsiveRow>
+          <Flex justify="center" align="center" width="100%">
+            <Text variant="p3" color={color.gray400}>
+              Copyright © 2026 EODI. All rights reserved.
+            </Text>
+          </Flex>
+        </Flex>
+      </FooterContainer>
     </StyledFooter>
   );
 };
@@ -25,10 +67,74 @@ export default Footer;
 const StyledFooter = styled.footer`
   display: flex;
   width: 100%;
-  flex-direction: column;
   color: ${color.white};
   background-color: ${color.black};
-  padding: 36px 183px 87px 183px;
-  align-items: flex-start;
+  align-items: center;
+  justify-content: center;
   margin-top: 100px;
+  box-sizing: border-box;
+  padding: 25px 0;
+`;
+
+const FooterContainer = styled.div`
+  width: 100%;
+  padding: 0 180px;
+
+  @media (max-width: 1200px) {
+    padding: 0 80px;
+  }
+
+  @media (max-width: 768px) {
+    padding: 0 20px;
+  }
+`;
+
+const ResponsiveRow = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+`;
+
+const RightSection = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 35px;
+
+  @media (max-width: 1024px) {
+    gap: 20px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+  }
+`;
+
+const ContactLink = styled.a`
+  color: ${color.white};
+  text-decoration: none;
+  cursor: pointer;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
+const Divider = styled.span`
+  width: 3px;
+  height: 20px;
+  background-color: ${color.white};
+  border-radius: 10px;
+
+  @media (max-width: 768px) {
+    display: none;
+  }
 `;
