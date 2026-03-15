@@ -27,7 +27,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
 
   React.useEffect(() => {
     if (error) {
-      alert('분실물을 찾을 수 없습니다.');
+      toast.error('분실물을 찾을 수 없습니다.');
       router.back();
     }
   }, [error, router]);

@@ -4,6 +4,7 @@ import { useItemRegisterMutation } from '@services/item/mutations';
 import { usePlaceListQuery } from '@services/item/queries';
 import type { ItemForm } from '@/types/item/client';
 import { formatDateDash } from '@utils/formatDate';
+import { toast } from 'react-toastify';
 
 export const useRegisterForm = () => {
   const fileRef = useRef<HTMLInputElement>(null);
@@ -70,7 +71,7 @@ export const useRegisterForm = () => {
       !form.category;
 
     if (isFormInvalid) {
-      alert('모든 항목을 입력해주세요.');
+      toast.error('모든 항목을 입력해주세요.');
       return;
     }
 

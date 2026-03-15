@@ -10,6 +10,7 @@ import { IconClose } from '@/icons/src/IconClose';
 import IconCheck from '@/icons/src/IconCheck';
 import IconStacks from '@/icons/src/IconStacks';
 import { IconCalendar } from '@/icons/src/IconCalendar';
+import { toast } from 'react-toastify';
 
 interface ExtensionModalProps {
   isOpen: boolean;
@@ -104,7 +105,7 @@ const ExtensionModal = ({
       setExtensionReason('');
       onClose();
     } else {
-      alert('연장 사유를 입력해주세요.');
+      toast.error('연장 사유를 입력해주세요.');
     }
   };
 
