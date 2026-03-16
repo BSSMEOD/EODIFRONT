@@ -11,9 +11,11 @@ import { useScrollLock } from '@hooks/useScrollLock';
 import { Button } from '@components/common/Button/Button';
 import DateSelector from '@components/common/DateSelector/DateSelector';
 import { useItemClaimMutation } from '@services/item/mutations';
-import { useItemListQuery } from '@services/item/queries';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
+import { useQueryClient } from '@tanstack/react-query';
+import { GetItemListRes } from '@/types/item/response';
+import { Item } from '@/types/item/client';
 
 interface ClaimModalProps {
   id: number;
@@ -23,12 +25,28 @@ interface ClaimModalProps {
 
 const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
   const [visitDate, setVisitDate] = useState<Date | null>(null);
+  const queryClient = useQueryClient();
 
-  const { data: itemListData } = useItemListQuery({});
+  const findItemInCache = (): Item | null => {
+    const cacheData = queryClient.getQueriesData({
+      queryKey: ['item', 'list'],
+    });
 
-  const itemData = itemListData?.content?.find(
-    (item) => item.id === Number(id)
-  );
+    for (const [, data] of cacheData) {
+      if (data && typeof data === 'object' && 'content' in data) {
+        const itemListData = data as GetItemListRes;
+        if (Array.isArray(itemListData.content)) {
+          const item = itemListData.content.find(
+            (item: Item) => item.id === Number(id)
+          );
+          if (item) return item;
+        }
+      }
+    }
+    return null;
+  };
+
+  const itemData = findItemInCache();
 
   const isWeekday = (date: Date) => {
     const day = date.getDay();
