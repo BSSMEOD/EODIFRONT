@@ -81,7 +81,7 @@ const MainPage = () => {
       <SmallProductList
         title="폐기 직전인 분실물"
         productList={disposalProductListData?.content || []}
-        href={ROUTES.ADMIN_DISPOSAL}
+        href={isManager ? ROUTES.ADMIN_DISPOSAL : undefined}
       />
     </StyledMainPage>
   );
