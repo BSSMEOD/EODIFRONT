@@ -13,40 +13,16 @@ import DateSelector from '@components/common/DateSelector/DateSelector';
 import { useItemClaimMutation } from '@services/item/mutations';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
-import { useQueryClient } from '@tanstack/react-query';
-import { GetItemListRes } from '@/types/item/response';
-import { Item } from '@/types/item/client';
 
 interface ClaimModalProps {
   id: number;
   isOpen: boolean;
   onClose: () => void;
+  disposalDate?: string;
 }
 
-const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
+const ClaimModal = ({ id, isOpen, onClose, disposalDate }: ClaimModalProps) => {
   const [visitDate, setVisitDate] = useState<Date | null>(null);
-  const queryClient = useQueryClient();
-
-  const findItemInCache = (): Item | null => {
-    const cacheData = queryClient.getQueriesData({
-      queryKey: ['item', 'list'],
-    });
-
-    for (const [, data] of cacheData) {
-      if (data && typeof data === 'object' && 'content' in data) {
-        const itemListData = data as GetItemListRes;
-        if (Array.isArray(itemListData.content)) {
-          const item = itemListData.content.find(
-            (item: Item) => item.id === Number(id)
-          );
-          if (item) return item;
-        }
-      }
-    }
-    return null;
-  };
-
-  const itemData = findItemInCache();
 
   const isWeekday = (date: Date) => {
     const day = date.getDay();
@@ -57,9 +33,7 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
 
   useScrollLock(isOpen);
 
-  const maxDate = itemData?.disposalDate
-    ? new Date(itemData.disposalDate)
-    : undefined;
+  const maxDate = disposalDate ? new Date(disposalDate) : undefined;
 
   const handleSubmit = () => {
     if (!visitDate || !maxDate || visitDate > maxDate) {
