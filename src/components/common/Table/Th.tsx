@@ -1,7 +1,12 @@
+import type { CSSProperties } from 'react';
 import type { TableProps } from './Table.type';
 import font from '@styles/font';
 import styled from '@emotion/styled';
 import color from '@styles/color';
+
+interface ThProps extends TableProps {
+  style?: CSSProperties;
+}
 
 const Th = ({
   children,
@@ -14,7 +19,8 @@ const Th = ({
   borderTopRightRadius,
   borderBottomLeftRadius,
   borderBottomRightRadius,
-}: TableProps) => {
+  style,
+}: ThProps) => {
   return (
     <StyledTh
       style={{
@@ -27,6 +33,7 @@ const Th = ({
         borderTopRightRadius,
         borderBottomLeftRadius,
         borderBottomRightRadius,
+        ...style,
       }}
     >
       {children}
