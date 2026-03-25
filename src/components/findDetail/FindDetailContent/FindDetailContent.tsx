@@ -44,7 +44,12 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
       return;
     }
     overlay.open(({ isOpen, close }) => (
-      <ClaimModal id={id} isOpen={isOpen} onClose={close} />
+      <ClaimModal
+        id={id}
+        isOpen={isOpen}
+        onClose={close}
+        disposalDate={itemData.disposalDate}
+      />
     ));
   };
 

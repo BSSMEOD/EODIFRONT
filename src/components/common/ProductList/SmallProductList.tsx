@@ -20,13 +20,19 @@ const SmallProductList = ({ title, productList, href }: ProductListProps) => {
         )}
       </Flex>
       <Flex width="100%" gap={20} style={{ overflowX: 'auto' }}>
-        {productList?.map((product) => (
-          <ProductListItem
-            key={`product-${product.id}`}
-            product={product}
-            size="small"
-          />
-        ))}
+        {productList.length > 0 ? (
+          productList.map((product) => (
+            <ProductListItem
+              key={`product-${product.id}`}
+              product={product}
+              size="small"
+            />
+          ))
+        ) : (
+          <Text width="100%" textAlign="center" color={color.gray500}>
+            분실물 목록이 없습니다.
+          </Text>
+        )}
       </Flex>
     </Flex>
   );

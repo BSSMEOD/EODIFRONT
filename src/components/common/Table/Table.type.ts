@@ -2,7 +2,7 @@ import type { CSSProperties, ReactNode } from 'react';
 
 export interface TableProps {
   children: ReactNode;
-  width: CSSProperties['width'];
+  width?: CSSProperties['width'];
   height: CSSProperties['height'];
   textColor?: CSSProperties['color'];
   textFont?: CSSProperties['font'];

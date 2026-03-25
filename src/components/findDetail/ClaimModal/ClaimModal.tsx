@@ -11,7 +11,6 @@ import { useScrollLock } from '@hooks/useScrollLock';
 import { Button } from '@components/common/Button/Button';
 import DateSelector from '@components/common/DateSelector/DateSelector';
 import { useItemClaimMutation } from '@services/item/mutations';
-import { useItemListQuery } from '@services/item/queries';
 import { format } from 'date-fns';
 import { ko } from 'date-fns/locale';
 
@@ -19,16 +18,11 @@ interface ClaimModalProps {
   id: number;
   isOpen: boolean;
   onClose: () => void;
+  disposalDate?: string;
 }
 
-const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
+const ClaimModal = ({ id, isOpen, onClose, disposalDate }: ClaimModalProps) => {
   const [visitDate, setVisitDate] = useState<Date | null>(null);
-
-  const { data: itemListData } = useItemListQuery({});
-
-  const itemData = itemListData?.content?.find(
-    (item) => item.id === Number(id)
-  );
 
   const isWeekday = (date: Date) => {
     const day = date.getDay();
@@ -39,9 +33,7 @@ const ClaimModal = ({ id, isOpen, onClose }: ClaimModalProps) => {
 
   useScrollLock(isOpen);
 
-  const maxDate = itemData?.disposalDate
-    ? new Date(itemData.disposalDate)
-    : undefined;
+  const maxDate = disposalDate ? new Date(disposalDate) : undefined;
 
   const handleSubmit = () => {
     if (!visitDate || !maxDate || visitDate > maxDate) {
