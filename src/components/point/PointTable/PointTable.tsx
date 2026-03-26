@@ -6,7 +6,7 @@ import color from '@styles/color';
 import IconConvert from '@/icons/src/IconConvert';
 import font from '@styles/font';
 import IconLink from '@/icons/src/IconLink';
-import { useRewardHistoryQuery } from '@/services/point/queries';
+import { useRewardRequestQuery } from '@/services/point/queries';
 import { useGiveRewardMutation } from '@/services/point/mutations';
 import type { PointItem } from '@/types/point/client';
 import { toast } from 'react-toastify';
@@ -37,26 +37,21 @@ const PointTable = ({
     setCurrentPage(1);
   }, [userId, date, grade, classNum]);
 
-  const { data, isLoading, error } = useRewardHistoryQuery({
-    userId,
-    date,
-    grade,
-    class: classNum,
-  });
+  const { data, isLoading, error } = useRewardRequestQuery();
   const { mutateAsync } = useGiveRewardMutation();
 
   const pointData = useMemo<PointItem[]>(() => {
-    if (!data?.histories) return [];
+    if (!data?.rewards) return [];
 
-    return data.histories.map((item) => ({
-      itemId: item.item_id,
-      studentId: item.student_id,
-      itemName: item.item_name,
-      studentName: item.student_name,
+    return data.rewards.map((item) => ({
+      itemId: item.itemId,
+      studentId: 0,
+      itemName: item.itemName,
+      studentName: item.reporterName,
       reporter: '',
-      status: item.given_at ? 'paid' : 'unpaid',
-      receivedAt: item.received_at,
-      givenAt: item.given_at,
+      status: item.isRewarded ? 'paid' : 'unpaid',
+      receivedAt: item.claimedAt ? item.claimedAt.split('T')[0] : '-',
+      givenAt: item.isRewarded ? item.claimedAt : null,
     }));
   }, [data]);
 
@@ -82,7 +77,7 @@ const PointTable = ({
     try {
       await mutateAsync({ itemId, studentId });
       toast.success('상점이 성공적으로 지급되었습니다.');
-      queryClient.invalidateQueries({ queryKey: ['reward', 'history'] });
+      queryClient.invalidateQueries({ queryKey: ['reward', 'request'] });
     } catch (error) {
       const errorMessage =
         (
