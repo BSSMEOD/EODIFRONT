@@ -14,6 +14,7 @@ import { useMemo, useState, useEffect } from 'react';
 import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import Pagination from '@components/common/Pagination/Pagination';
+import { RewardRequestItem } from '@/types/point/response';
 interface PointTableProps {
   userId?: number;
   date?: string;
@@ -43,12 +44,10 @@ const PointTable = ({
   const pointData = useMemo<PointItem[]>(() => {
     if (!data?.rewards) return [];
 
-    return data.rewards.map((item) => ({
+    return data.rewards.map((item: RewardRequestItem) => ({
       itemId: item.itemId,
-      studentId: 0,
       itemName: item.itemName,
       studentName: item.reporterName,
-      reporter: '',
       status: item.isRewarded ? 'paid' : 'unpaid',
       receivedAt: item.claimedAt ? item.claimedAt.split('T')[0] : '-',
       givenAt: item.isRewarded ? item.claimedAt : null,
@@ -67,15 +66,15 @@ const PointTable = ({
     setCurrentPage(page);
   };
 
-  const handleConvert = async (itemId: number, studentId: number) => {
-    const key = `${itemId}-${studentId}`;
+  const handleConvert = async (itemId: number) => {
+    const key = `${itemId}`;
 
     if (loadingItems.has(key)) return;
 
     setLoadingItems((prev) => new Set(prev).add(key));
 
     try {
-      await mutateAsync({ itemId, studentId });
+      await mutateAsync({ itemId });
       toast.success('상점이 성공적으로 지급되었습니다.');
       queryClient.invalidateQueries({ queryKey: ['reward', 'request'] });
     } catch (error) {
@@ -89,7 +88,7 @@ const PointTable = ({
     } finally {
       setLoadingItems((prev) => {
         const newSet = new Set(prev);
-        newSet.delete(key);
+        newSet.delete(`${itemId}`);
         return newSet;
       });
     }
@@ -188,10 +187,9 @@ const PointTable = ({
             <Td width="20%" height={56}>
               <ConvertButton
                 type="button"
-                onClick={() => handleConvert(item.itemId, item.studentId)}
+                onClick={() => handleConvert(item.itemId)}
                 disabled={
-                  item.status === 'paid' ||
-                  loadingItems.has(`${item.itemId}-${item.studentId}`)
+                  item.status === 'paid' || loadingItems.has(`${item.itemId}`)
                 }
               >
                 <IconConvert width={24} />
