@@ -45,7 +45,7 @@ const PointTable = ({
 
     return data.rewards.map((item) => ({
       itemId: item.itemId,
-      studentId: 0,
+      studentId: item.reporterStudentCode ?? 0,
       itemName: item.itemName,
       studentName: item.reporterName,
       reporter: '',
