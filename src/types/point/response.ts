@@ -15,3 +15,17 @@ export interface RewardHistoryItem {
 export interface RewardHistoryResponse {
   histories: RewardHistoryItem[];
 }
+
+export interface RewardRequestItem {
+  itemId: number;
+  itemName: string;
+  imageUrl: string;
+  reporterName: string;
+  reporterStudentCode: number | null;
+  claimedAt: string | null;
+  isRewarded: boolean;
+}
+
+export interface RewardRequestListResponse {
+  rewards: RewardRequestItem[];
+}
