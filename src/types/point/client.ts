@@ -4,5 +4,4 @@ export interface PointItem {
   studentName: string;
   status: 'paid' | 'unpaid';
   receivedAt: string;
-  givenAt: string | null;
 }

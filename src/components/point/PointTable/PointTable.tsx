@@ -50,7 +50,6 @@ const PointTable = ({
       studentName: item.reporterName,
       status: item.isRewarded ? 'paid' : 'unpaid',
       receivedAt: item.claimedAt ? item.claimedAt.split('T')[0] : '-',
-      givenAt: item.isRewarded ? item.claimedAt : null,
     }));
   }, [data]);
 
