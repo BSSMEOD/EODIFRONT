@@ -18,8 +18,7 @@ export const postGiveReward = async (
 
 export const fetchRewardRequestList =
   async (): Promise<RewardRequestListResponse> => {
-    const response =
-      await eodi.get<RewardRequestListResponse>('/rewards/request');
+    const response = await eodi.get<RewardRequestListResponse>('/rewards');
     return response.data;
   };
 
