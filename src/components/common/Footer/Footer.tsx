@@ -16,10 +16,18 @@ const Footer = () => {
               <Flex gap={20}>
                 <Flex align="center" gap={10}>
                   <Text variant="H3" color={color.white}>
+                    생활부
+                  </Text>
+                  <Text variant="p2" color={color.white}>
+                    3-1 박가은, 2-1 김가은
+                  </Text>
+                </Flex>
+                <Flex align="center" gap={10}>
+                  <Text variant="H3" color={color.white}>
                     관리자
                   </Text>
                   <Text variant="p2" color={color.white}>
-                    이하은
+                    3-1 이하은
                   </Text>
                 </Flex>
                 <Flex align="center" gap={10}>
@@ -34,7 +42,7 @@ const Footer = () => {
               <Divider />
               <Flex align="center" gap={10}>
                 <Text variant="H3" color={color.white}>
-                  문의 및 건의
+                  오류 제보
                 </Text>
                 <ContactLink
                   href="https://open.kakao.com/o/sDjKMAli"
