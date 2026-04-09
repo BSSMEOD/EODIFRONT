@@ -23,6 +23,7 @@
     "@toast-ui/editor": "^3.2.2",
     "@toast-ui/react-editor": "^3.2.3",
     "@toss/use-overlay": "^1.4.2",
+    "@vercel/analytics": "^2.0.1",
     "axios": "^1.13.2",
     "date-fns": "^4.1.0",
     "next": "15.5.9",

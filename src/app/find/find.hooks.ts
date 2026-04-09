@@ -99,7 +99,7 @@ export const useFindPage = () => {
       const params: GetItemListParams = {
         page: currentPage,
         size: itemsPerPage,
-        status: ['LOST'],
+        status: ['LOST', 'TO_BE_DISCARDED'],
       };
 
       if (filters.query) {

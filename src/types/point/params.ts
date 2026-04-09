@@ -1,5 +1,4 @@
 export interface GiveRewardRequest {
-  studentId: number;
   itemId: number;
 }
 
