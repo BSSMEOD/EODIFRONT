@@ -44,10 +44,11 @@ const StyledHeader = styled.header`
 
 const LogoWrapper = styled.div`
   cursor: pointer;
+  height: 36px;
 
   ${breakpoint.mobile} {
     svg {
-      height: 30px;
+      height: 32px;
       width: auto;
     }
   }
