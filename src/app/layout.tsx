@@ -9,6 +9,9 @@ import ToastProvider from '@/provider/ToastProvider';
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <html lang="ko">
+      <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </head>
       <body>
         <title>어디</title>
         <TanstackQueryProvider>

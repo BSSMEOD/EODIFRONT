@@ -1,7 +1,6 @@
 import Header from '@components/common/Header/Header';
 import Footer from '@components/common/Footer/Footer';
 import GlobalStyle from '@styles/global';
-import MobileBlock from '@components/common/MobileBlock/MobileBlock';
 import styled from '@emotion/styled';
 
 interface LayoutClientProps {
@@ -12,7 +11,6 @@ const LayoutClient = ({ children }: LayoutClientProps) => {
   return (
     <>
       <GlobalStyle />
-      <MobileBlock />
       <Body>
         <Header />
         <Main>{children}</Main>

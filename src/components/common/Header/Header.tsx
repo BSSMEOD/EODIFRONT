@@ -4,7 +4,9 @@ import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
 import { useRouter } from 'next/navigation';
 import { NavItemList } from '@components/common/Header/NavItemList/NavItemList';
+import { HamburgerMenu } from '@components/common/Header/HamburgerMenu/HamburgerMenu';
 import { EODILogo } from '@/icons';
+import breakpoint from '@styles/breakpoint';
 
 const Header = () => {
   const router = useRouter();
@@ -14,7 +16,10 @@ const Header = () => {
       <LogoWrapper onClick={() => router.push(ROUTES.MAIN)}>
         <EODILogo />
       </LogoWrapper>
-      <NavItemList />
+      <DesktopNav>
+        <NavItemList />
+      </DesktopNav>
+      <HamburgerMenu />
     </StyledHeader>
   );
 };
@@ -30,7 +35,26 @@ const StyledHeader = styled.header`
   justify-content: space-between;
   align-items: center;
   flex-shrink: 0;
+
+  ${breakpoint.mobile} {
+    height: 56px;
+    padding: 0 20px;
+  }
 `;
+
 const LogoWrapper = styled.div`
   cursor: pointer;
+
+  ${breakpoint.mobile} {
+    svg {
+      height: 30px;
+      width: auto;
+    }
+  }
+`;
+
+const DesktopNav = styled.div`
+  ${breakpoint.mobile} {
+    display: none;
+  }
 `;
