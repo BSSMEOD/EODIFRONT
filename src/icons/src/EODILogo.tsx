@@ -17,7 +17,7 @@ export const EODILogo = ({
       viewBox="0 0 124 36"
       fill="none"
     >
-      <g clip-path="url(#clip0_3548_7285)">
+      <g clipPath="url(#clip0_3548_7285)">
         <path
           d="M18.002 0C27.9429 0.000101074 36.002 8.05865 36.002 18.0001C36.002 19.0411 35.9112 20.0617 35.7415 21.0544C33.7679 18.7444 30.8358 17.2784 27.5594 17.2784C21.6166 17.2784 16.7984 22.0955 16.798 28.0385C16.7982 31.1246 18.0997 33.9064 20.1809 35.8687C19.4666 35.9548 18.7395 36 18.002 36C8.06109 36 0.0022415 27.9412 0.00195312 18.0001C0.00196514 8.05859 8.0609 0 18.002 0ZM27.5899 23.0879C30.075 23.0879 32.0895 25.1028 32.0899 27.588C32.0899 30.0733 30.0751 32.0891 27.5899 32.0891C25.1046 32.089 23.0898 30.0733 23.0898 27.588C23.0902 25.1029 25.1048 23.088 27.5899 23.0879Z"
           fill="url(#paint0_linear_3548_7285)"
@@ -36,9 +36,9 @@ export const EODILogo = ({
           y2="36"
           gradientUnits="userSpaceOnUse"
         >
-          <stop stop-color="#FEFFA8" />
-          <stop offset="0.264423" stop-color="#50C878" />
-          <stop offset="1" stop-color="#87CEEB" />
+          <stop stopColor="#FEFFA8" />
+          <stop offset="0.264423" stopColor="#50C878" />
+          <stop offset="1" stopColor="#87CEEB" />
         </linearGradient>
         <clipPath id="clip0_3548_7285">
           <rect width="123.388" height="36" fill="white" />
