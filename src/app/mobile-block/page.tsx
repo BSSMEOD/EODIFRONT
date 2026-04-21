@@ -4,52 +4,49 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
 import { EODILogo } from '@/icons';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Text from '@components/common/Text/Text';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import useMobile from '@hooks/useMobile';
 
 const MobileBlock = () => {
   const { isMobile, isInitialized } = useMobile();
   const router = useRouter();
-  const searchParams = useSearchParams();
-  const from = searchParams.get('from');
+  const [from, setFrom] = useState<string | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    setFrom(params.get('from'));
+  }, []);
 
   useEffect(() => {
     if (isInitialized && !isMobile && from) router.replace(from);
   }, [isInitialized, isMobile, from, router]);
 
   return (
-    <Overlay>
-      <Container>
-        <EODILogo height={40} />
-        <Text variant="H1">모바일 접속 불가</Text>
-        <Text variant="p2" color={color.gray500}>
-          해당 페이지는 PC 환경에서만 접속 가능합니다.
-          <br />
-        </Text>
-        <CloseButton onClick={() => router.back()}>돌아가기</CloseButton>
-      </Container>
-    </Overlay>
+    <StyledMobileBlock>
+      <EODILogo height={40} />
+      <Text variant="H1">모바일 접속 불가</Text>
+      <Text variant="p2" color={color.gray500}>
+        해당 페이지는 PC 환경에서만 접속 가능합니다.
+        <br />
+      </Text>
+      <CloseButton onClick={() => router.back()}>돌아가기</CloseButton>
+    </StyledMobileBlock>
   );
 };
 
 export default MobileBlock;
 
-const Overlay = styled.div`
+const StyledMobileBlock = styled.div`
   position: fixed;
   inset: 0;
   background-color: ${color.white};
   z-index: 9999;
   display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Container = styled.div`
-  display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   padding: 40px 24px;
   text-align: center;
