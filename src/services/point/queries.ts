@@ -3,6 +3,7 @@ import { fetchRewardHistory, fetchRewardRequestList } from './apis';
 import type { RewardHistoryParams } from '@/types/point/params';
 import { eodi } from '@/api/instance/instance';
 import type { GetItemListRes } from '@/types/item/response';
+import { getItemList } from '@services/item/apis';
 
 export const useRewardHistoryQuery = (params: RewardHistoryParams) => {
   const { data, ...restQuery } = useQuery({
@@ -23,20 +24,12 @@ export const useRewardRequestQuery = () => {
 export const useUnpaidRewardsQuery = () => {
   const { data, ...restQuery } = useQuery({
     queryKey: ['items', 'found', 'unpaid'],
-    queryFn: async () => {
-      const { data } = await eodi.get<GetItemListRes>('/items/search', {
-        params: {
-          status: 'GIVEN',
-          page: 1,
-          size: 3,
-        },
-      });
-      return data;
-    },
-    select: (data) => {
-      if (!data?.content) return [];
-      return data.content;
-    },
+    queryFn: async () =>
+      getItemList({
+        status: 'GIVEN',
+        page: 1,
+        size: 3,
+      }),
   });
-  return { data: data || [], ...restQuery };
+  return { data, ...restQuery };
 };
