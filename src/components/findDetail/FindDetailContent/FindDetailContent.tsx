@@ -15,6 +15,7 @@ import { Button } from '@components/common/Button/Button';
 import { toast } from 'react-toastify';
 import { ROUTES } from '@/constants/common/constants';
 import breakpoint from '@styles/breakpoint';
+import Visible from '@components/common/Visible/Visible';
 
 interface FindDetailContentProps {
   id: number;
@@ -65,13 +66,17 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
       <InfoSection>
         <Text variant="H1">{itemData.name}</Text>
         <Flex direction="row" gap={20} align="center">
-          <Text variant="p1">최초 발견 일시</Text>
-          <Divider orientation="vertical" length={16} color={color.gray400} />
+          <Visible on="desktop">
+            <Text variant="p1">최초 발견 일시</Text>
+            <Divider orientation="vertical" length={16} color={color.gray400} />
+          </Visible>
           <Text variant="p1">{formatDateKor(itemData.foundAt)}</Text>
         </Flex>
         <Flex direction="row" gap={20} align="center">
-          <Text variant="p1">최초 발견 장소</Text>
-          <Divider orientation="vertical" length={16} color={color.gray400} />
+          <Visible on="desktop">
+            <Text variant="p1">최초 발견 장소</Text>
+            <Divider orientation="vertical" length={16} color={color.gray400} />
+          </Visible>
           <Text variant="p1">
             {itemData.foundPlace}/{itemData.foundPlaceDetail}
           </Text>
@@ -122,7 +127,6 @@ const InfoSection = styled.div`
 
   ${breakpoint.mobile} {
     width: 100%;
-    gap: 12px;
   }
 `;
 

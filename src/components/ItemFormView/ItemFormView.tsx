@@ -16,6 +16,7 @@ import { useBooleanState } from '@hooks/useBooleanState';
 import type { Data } from '@components/common/Dropdown/Dropdown.types';
 import { getStringFormat } from '@/utils';
 import breakpoint from '@styles/breakpoint';
+import Visible from '@components/common/Visible/Visible';
 
 type ItemFormState = {
   fileRef: RefObject<HTMLInputElement>;
@@ -91,11 +92,11 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     <StyledItemForm>
       <Flex direction="row" justify="space-between" align="center">
         <Text variant="H2">분실물 {mode}하기</Text>
-        <DesktopOnly>
+        <Visible on="desktop">
           <Button styleType="SECONDARY" onClick={handleSubmit}>
             {mode}
           </Button>
-        </DesktopOnly>
+        </Visible>
       </Flex>
       <FormLayout>
         <ImageUploader
@@ -183,7 +184,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
           />
         </Flex>
       </FormLayout>
-      <MobileOnly>
+      <Visible on="mobile">
         <Button
           width="100%"
           size="big"
@@ -192,7 +193,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
         >
           {mode}
         </Button>
-      </MobileOnly>
+      </Visible>
     </StyledItemForm>
   );
 };
@@ -215,20 +216,6 @@ const FieldRow = styled.div`
 
   ${breakpoint.mobile} {
     flex-direction: column;
-  }
-`;
-
-const DesktopOnly = styled.div`
-  ${breakpoint.mobile} {
-    display: none;
-  }
-`;
-
-const MobileOnly = styled.div`
-  display: none;
-
-  ${breakpoint.mobile} {
-    display: block;
   }
 `;
 
