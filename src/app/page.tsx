@@ -79,7 +79,7 @@ const MainPage = () => {
             </Flex>
           )}
         </LeftPanel>
-        <MainRule canEdit={isManager} />
+        <MainRule canEdit={!isMobile && isManager} />
       </Flex>
       {isManager &&
         (isMobile ? (
