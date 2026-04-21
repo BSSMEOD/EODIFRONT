@@ -1,18 +1,19 @@
 import { useEffect, useState } from 'react';
+import { MOBILE_BLOCK_SIZE } from '@/constants/common/constants';
 
-const useMobile = (breakpoint = 768) => {
-  const [isMobile, setIsMobile] = useState(
-    () => typeof window !== 'undefined' && window.innerWidth < breakpoint
-  );
+const useMobile = (breakpoint = MOBILE_BLOCK_SIZE) => {
+  const [isMobile, setIsMobile] = useState(false);
+  const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < breakpoint);
     check();
+    setIsInitialized(true);
     window.addEventListener('resize', check);
     return () => window.removeEventListener('resize', check);
   }, [breakpoint]);
 
-  return isMobile;
+  return { isMobile, isInitialized };
 };
 
 export default useMobile;

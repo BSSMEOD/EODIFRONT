@@ -25,7 +25,7 @@ const MOBILE_DISPOSAL_LIMIT = 3;
 const MainPage = () => {
   const router = useRouter();
   const { authority, isLoggedIn } = useAuthStore();
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
   const { data: disposalProductListData } = useItemListQuery({
     status: ['TO_BE_DISCARDED'],
     size: 5,

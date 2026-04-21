@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 export const useMobileBlock = () => {
   const router = useRouter();
   const pathname = usePathname();
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
 
   useEffect(() => {
     if (isMobile) router.replace(`${ROUTES.MOBILE_BLOCK}?from=${pathname}`);

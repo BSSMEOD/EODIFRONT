@@ -17,7 +17,7 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 
 const FindPage = () => {
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
   const {
     currentPage,
     setCurrentPage,

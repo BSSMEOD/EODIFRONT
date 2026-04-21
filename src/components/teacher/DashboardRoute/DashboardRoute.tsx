@@ -17,7 +17,7 @@ const DashboardRoute = ({
   disposalCount,
 }: DashboardRouteProps) => {
   const router = useRouter();
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
   return (
     <StyledDashboard>
       <LeftSectionWrapper>

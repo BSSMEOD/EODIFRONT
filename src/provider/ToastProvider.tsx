@@ -9,7 +9,7 @@ interface ToastProviderProps {
 }
 
 export default function ToastProvider({ children }: ToastProviderProps) {
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
 
   return (
     <>

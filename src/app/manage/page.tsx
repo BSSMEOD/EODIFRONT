@@ -20,7 +20,7 @@ import { formatRangeDateDot } from '@utils/formatDate';
 const ManagePage = () => {
   useRequireRole('ADMIN');
 
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
   const [page, setPage] = useState<number>(1);
 
   const {

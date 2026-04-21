@@ -4,20 +4,20 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
 import { EODILogo } from '@/icons';
-import useMobile from '@hooks/useMobile';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Text from '@components/common/Text/Text';
 import { useEffect } from 'react';
+import useMobile from '@hooks/useMobile';
 
 const MobileBlock = () => {
-  const isMobile = useMobile();
+  const { isMobile, isInitialized } = useMobile();
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get('from');
 
   useEffect(() => {
-    if (!isMobile && from) router.replace(from);
-  }, [isMobile, from, router]);
+    if (isInitialized && !isMobile && from) router.replace(from);
+  }, [isInitialized, isMobile, from, router]);
 
   return (
     <Overlay>

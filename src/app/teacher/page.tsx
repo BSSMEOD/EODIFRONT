@@ -28,7 +28,7 @@ const TeacherMainPage = () => {
     size: 100,
     approvedAt: 'true',
   });
-  const isMobile = useMobile();
+  const { isMobile } = useMobile();
 
   return (
     <StyledTeacherMainPage>

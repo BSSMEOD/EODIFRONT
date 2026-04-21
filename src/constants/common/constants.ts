@@ -21,3 +21,5 @@ export const TOKEN = {
   ACCESS: 'access-token',
   REFRESH: 'refresh-token',
 } as const;
+
+export const MOBILE_BLOCK_SIZE = 768;
