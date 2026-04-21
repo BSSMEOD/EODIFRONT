@@ -62,12 +62,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         src={itemData.imageUrl}
         alt="상품 이미지"
       />
-      <Flex
-        direction="column"
-        gap={20}
-        style={{ flex: '1 0 auto' }}
-        width={400}
-      >
+      <InfoSection>
         <Text variant="H1">{itemData.name}</Text>
         <Flex direction="row" gap={20} align="center">
           <Text variant="p1">최초 발견 일시</Text>
@@ -99,7 +94,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
             내 물건이에요!
           </Button>
         )}
-      </Flex>
+      </InfoSection>
     </StyledFindDetailContent>
   );
 };
@@ -119,18 +114,30 @@ const StyledFindDetailContent = styled.div`
   }
 `;
 
+const InfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1 0 auto;
+
+  ${breakpoint.mobile} {
+    width: 100%;
+    gap: 12px;
+  }
+`;
+
 const ProductImage = styled(Image)`
   border-radius: 12px;
   width: 40%;
   min-width: 400px;
-  height: 400px;
+  aspect-ratio: 1;
   object-fit: contain;
   background: ${color.gray100};
 
   ${breakpoint.mobile} {
     width: 100%;
     min-width: 300px;
-    height: 300px;
+    max-height: 500px;
   }
 `;
 
