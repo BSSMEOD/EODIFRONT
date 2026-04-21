@@ -17,7 +17,6 @@ import BigProductList from '@components/common/ProductList/BigProductList';
 
 const TeacherMainPage = () => {
   useRequireRole('TEACHER');
-  useMobileBlock();
 
   const { data: unPointProductListData } = useUnpaidRewardsQuery();
   const { data: disposalProductListData = [] } = useImminentDisposalQuery();

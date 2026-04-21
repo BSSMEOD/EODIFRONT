@@ -3,13 +3,23 @@
 import styled from '@emotion/styled';
 import { ROUTES } from '@/constants/common/constants';
 import { useRouter } from 'next/navigation';
-import { NavItemList } from '@components/common/Header/NavItemList/NavItemList';
-import { HamburgerMenu } from '@components/common/Header/HamburgerMenu/HamburgerMenu';
-import { EODILogo } from '@/icons';
+import { NavItemList } from '@components/layout/Header/NavItemList/NavItemList';
+import { EODILogo, IconHamburger } from '@/icons';
 import breakpoint from '@styles/breakpoint';
+import { useOverlay } from '@toss/use-overlay';
+import { useAuthStore } from '@/stores/useAuthStore';
+import Sidebar from './Sidebar/Sidebar';
 
 const Header = () => {
   const router = useRouter();
+  const overlay = useOverlay();
+  const { isInitialized } = useAuthStore();
+
+  const handleOpenSidebar = () => {
+    overlay.open(({ isOpen, close }) => (
+      <Sidebar onClose={close} isOpen={isOpen} />
+    ));
+  };
 
   return (
     <StyledHeader>
@@ -19,7 +29,11 @@ const Header = () => {
       <DesktopNav>
         <NavItemList />
       </DesktopNav>
-      <HamburgerMenu />
+      {isInitialized && (
+        <MenuButton onClick={handleOpenSidebar}>
+          <IconHamburger />
+        </MenuButton>
+      )}
     </StyledHeader>
   );
 };
@@ -44,7 +58,7 @@ const StyledHeader = styled.header`
 
 const LogoWrapper = styled.div`
   cursor: pointer;
-  height: 36px;
+  height: 32px;
 
   ${breakpoint.mobile} {
     svg {
@@ -57,5 +71,18 @@ const LogoWrapper = styled.div`
 const DesktopNav = styled.div`
   ${breakpoint.mobile} {
     display: none;
+  }
+`;
+
+const MenuButton = styled.button`
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  align-items: center;
+  display: none;
+
+  ${breakpoint.mobile} {
+    display: flex;
   }
 `;

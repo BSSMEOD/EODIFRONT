@@ -1,5 +1,5 @@
-import Header from '@components/common/Header/Header';
-import Footer from '@components/common/Footer/Footer';
+import Header from '@components/layout/Header/Header';
+import Footer from '@components/layout/Footer/Footer';
 import GlobalStyle from '@styles/global';
 import styled from '@emotion/styled';
 import breakpoint from '@styles/breakpoint';
