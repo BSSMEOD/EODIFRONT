@@ -53,21 +53,6 @@ const Sidebar = ({ onClose, isOpen }: SidebarProps) => {
     }
   };
 
-  const AuthButton = () =>
-    isLoggedIn ? (
-      <Text variant="p3" color={color.gray500} onClick={handleLogout}>
-        로그아웃
-      </Text>
-    ) : (
-      <Text
-        variant="p3"
-        color={color.gray500}
-        onClick={() => handleNavClick(ROUTES.LOGIN)}
-      >
-        bsm 로그인
-      </Text>
-    );
-
   if (!isOpen) return null;
 
   return (
@@ -91,7 +76,19 @@ const Sidebar = ({ onClose, isOpen }: SidebarProps) => {
           ))}
         </Flex>
         <AuthSection>
-          <AuthButton />
+          {isLoggedIn ? (
+            <Text variant="p3" color={color.gray500} onClick={handleLogout}>
+              로그아웃
+            </Text>
+          ) : (
+            <Text
+              variant="p3"
+              color={color.gray500}
+              onClick={() => handleNavClick(ROUTES.LOGIN)}
+            >
+              bsm 로그인
+            </Text>
+          )}
         </AuthSection>
       </DrawerWrapper>
     </Overlay>
@@ -145,6 +142,7 @@ const CloseButton = styled.button`
 const NavItem = styled.div<{ $active?: boolean }>`
   ${font.p3}
   padding: 4px 20px;
+  border-radius: 4px;
   background-color: ${({ $active }) =>
     $active ? color.primary200 : 'transparent'};
   cursor: pointer;
