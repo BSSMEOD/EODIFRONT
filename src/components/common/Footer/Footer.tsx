@@ -1,5 +1,6 @@
 import styled from '@emotion/styled';
 import color from '@styles/color';
+import breakpoint from '@styles/breakpoint';
 import { EODILogo } from '@/icons/src/EODILogo';
 import { IconOpenInNew } from '@/icons/src/IconOpenInNew';
 import Flex from '@components/common/Flex/Flex';
@@ -13,7 +14,7 @@ const Footer = () => {
           <ResponsiveRow>
             <EODILogo textColor={color.white} width={150} height={54} />
             <RightSection>
-              <Flex gap={20}>
+              <StaffFlex>
                 <Flex align="center" gap={10}>
                   <Text variant="H3" color={color.white}>
                     생활부
@@ -38,7 +39,7 @@ const Footer = () => {
                     진예빈, 송지훈 선생님
                   </Text>
                 </Flex>
-              </Flex>
+              </StaffFlex>
               <Divider />
               <Flex align="center" gap={10}>
                 <Text variant="H3" color={color.white}>
@@ -92,7 +93,7 @@ const FooterContainer = styled.div`
     padding: 0 80px;
   }
 
-  @media (max-width: 768px) {
+  ${breakpoint.mobile} {
     padding: 0 20px;
   }
 `;
@@ -103,7 +104,7 @@ const ResponsiveRow = styled.div`
   align-items: center;
   width: 100%;
 
-  @media (max-width: 768px) {
+  ${breakpoint.mobile} {
     flex-direction: column;
     gap: 15px;
     align-items: flex-start;
@@ -119,7 +120,7 @@ const RightSection = styled.div`
     gap: 20px;
   }
 
-  @media (max-width: 768px) {
+  ${breakpoint.mobile} {
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
@@ -136,13 +137,23 @@ const ContactLink = styled.a`
   }
 `;
 
+const StaffFlex = styled.div`
+  display: flex;
+  gap: 20px;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+    gap: 0;
+  }
+`;
+
 const Divider = styled.span`
   width: 3px;
   height: 20px;
   background-color: ${color.white};
   border-radius: 10px;
 
-  @media (max-width: 768px) {
+  ${breakpoint.mobile} {
     display: none;
   }
 `;
