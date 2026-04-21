@@ -7,12 +7,12 @@ interface VisibleProps {
 }
 
 const Visible = ({ on, children }: VisibleProps) => {
-  return <StyledVisible on={on}>{children}</StyledVisible>;
+  return <StyledVisible $on={on}>{children}</StyledVisible>;
 };
 
-const StyledVisible = styled.div<{ on: 'mobile' | 'desktop' }>`
-  ${({ on }) =>
-    on === 'mobile'
+const StyledVisible = styled.div<{ $on: 'mobile' | 'desktop' }>`
+  ${({ $on }) =>
+    $on === 'mobile'
       ? `
     display: none;
     ${breakpoint.mobile} { display: contents; }
