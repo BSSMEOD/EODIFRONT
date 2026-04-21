@@ -14,6 +14,7 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { Button } from '@components/common/Button/Button';
 import { toast } from 'react-toastify';
 import { ROUTES } from '@/constants/common/constants';
+import breakpoint from '@styles/breakpoint';
 
 interface FindDetailContentProps {
   id: number;
@@ -67,7 +68,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         style={{ flex: '1 0 auto' }}
         width={400}
       >
-        <Text variant="H2">{itemData.name}</Text>
+        <Text variant="H1">{itemData.name}</Text>
         <Flex direction="row" gap={20} align="center">
           <Text variant="p1">최초 발견 일시</Text>
           <Divider orientation="vertical" length={16} color={color.gray400} />
@@ -110,6 +111,12 @@ const StyledFindDetailContent = styled.div`
   align-items: flex-end;
   width: 100%;
   height: 100%;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
 `;
 
 const ProductImage = styled(Image)`
@@ -119,6 +126,12 @@ const ProductImage = styled(Image)`
   height: 400px;
   object-fit: contain;
   background: ${color.gray100};
+
+  ${breakpoint.mobile} {
+    width: 100%;
+    min-width: 300px;
+    height: 300px;
+  }
 `;
 
 export default FindDetailContent;

@@ -13,12 +13,14 @@ import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown
 import Pagination from '@components/common/Pagination/Pagination';
 import { useEffect, useMemo, useState } from 'react';
 import { useRequireRole } from '@hooks/useRequireRole';
+import useMobile from '@hooks/useMobile';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import { formatRangeDateDot } from '@utils/formatDate';
 
 const ManagePage = () => {
   useRequireRole('ADMIN');
 
+  const isMobile = useMobile();
   const [page, setPage] = useState<number>(1);
 
   const {
@@ -104,8 +106,13 @@ const ManagePage = () => {
         value={filters.search}
         onChange={handleInputChange}
         name="search"
+        placeholder={
+          isMobile
+            ? '분실물을 검색해보세요.'
+            : '분실물의 이름을 검색해 분실물을 찾아보세요.'
+        }
       />
-      <Flex gap={12} align="center">
+      <Flex gap={12} align="center" wrap="wrap">
         <Dropdown
           data={CATEGORY}
           onChange={handleDropdownChange}
@@ -126,7 +133,7 @@ const ManagePage = () => {
           onChange={handleDropdownChange}
           placeholder="장소"
           name="placeIds"
-          width={200}
+          width={120}
         />
         <FilterActiveTags
           filters={displayFilters}

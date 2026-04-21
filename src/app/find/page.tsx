@@ -50,7 +50,15 @@ const FindPage = () => {
   return (
     <PageContainer>
       <Flex direction="column" gap={20} width="100%">
-        <SearchInput value={filters.query} onChange={handleSearchChange} />
+        <SearchInput
+          value={filters.query}
+          onChange={handleSearchChange}
+          placeholder={
+            isMobile
+              ? '분실물을 검색해보세요.'
+              : '분실물의 이름을 검색해 분실물을 찾아보세요.'
+          }
+        />
         <Flex align="center" gap={12} wrap="wrap">
           <Dropdown
             name="category"
@@ -58,7 +66,7 @@ const FindPage = () => {
             value={filters.category}
             onChange={handleDropdownChange}
             placeholder="물품"
-            width="120px"
+            width={120}
           />
           <FilterDateSelect
             startDate={filters.startDate}
@@ -71,7 +79,7 @@ const FindPage = () => {
             value={filters.location}
             onChange={handleMultiSelectFilterChange}
             placeholder="장소"
-            width="120px"
+            width={120}
           />
           <FilterActiveTags
             filters={displayFilters}

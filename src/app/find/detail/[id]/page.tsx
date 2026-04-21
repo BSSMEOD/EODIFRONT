@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import FindDetailContent from '@components/findDetail/FindDetailContent/FindDetailContent';
 import { useItemListQuery } from '@services/item/queries';
+import breakpoint from '@styles/breakpoint';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -22,10 +23,12 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   return (
     <StyledProductDetailPage>
       <FindDetailContent id={id} />
-      <SmallProductList
-        title="폐기 직전인 분실물"
-        productList={disposalProductListData?.content || []}
-      />
+      <DesktopOnly>
+        <SmallProductList
+          title="폐기 직전인 분실물"
+          productList={disposalProductListData?.content || []}
+        />
+      </DesktopOnly>
     </StyledProductDetailPage>
   );
 };
@@ -35,7 +38,14 @@ const StyledProductDetailPage = styled.div`
   flex-direction: column;
   gap: 92px;
   align-items: center;
-  padding: 46px;
+`;
+
+const DesktopOnly = styled.div`
+  width: 100%;
+
+  ${breakpoint.mobile} {
+    display: none;
+  }
 `;
 
 export default ProductDetailPage;

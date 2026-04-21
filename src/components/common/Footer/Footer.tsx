@@ -12,7 +12,9 @@ const Footer = () => {
       <FooterContainer>
         <Flex direction="column" gap={20}>
           <ResponsiveRow>
-            <EODILogo textColor={color.white} width={150} height={54} />
+            <LogoWrapper>
+              <EODILogo textColor={color.white} />
+            </LogoWrapper>
             <RightSection>
               <StaffFlex>
                 <Flex align="center" gap={10}>
@@ -137,13 +139,25 @@ const ContactLink = styled.a`
   }
 `;
 
+const LogoWrapper = styled.div`
+  svg {
+    height: 48px;
+  }
+
+  ${breakpoint.mobile} {
+    svg {
+      height: 32px;
+    }
+  }
+`;
+
 const StaffFlex = styled.div`
   display: flex;
   gap: 20px;
 
   ${breakpoint.mobile} {
     flex-direction: column;
-    gap: 0;
+    gap: 4px;
   }
 `;
 
