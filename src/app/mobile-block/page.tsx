@@ -1,34 +1,34 @@
 'use client';
 
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 import color from '@styles/color';
 import font from '@styles/font';
 import { EODILogo } from '@/icons';
+import useMobile from '@hooks/useMobile';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Text from '@components/common/Text/Text';
+import { useEffect } from 'react';
 
 const MobileBlock = () => {
-  const [isMobile, setIsMobile] = useState(false);
+  const isMobile = useMobile();
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get('from');
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < 768);
-    check();
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
-  }, []);
-
-  if (!isMobile) return null;
+    if (!isMobile && from) router.replace(from);
+  }, [isMobile, from, router]);
 
   return (
     <Overlay>
       <Container>
-        <EODILogo />
-        <Title>모바일 접속 불가</Title>
-        <Description>
-          해당 서비스는 PC 환경에서만 접속 가능합니다.
+        <EODILogo height={40} />
+        <Text variant="H1">모바일 접속 불가</Text>
+        <Text variant="p2" color={color.gray500}>
+          해당 페이지는 PC 환경에서만 접속 가능합니다.
           <br />
-          어디는 PC 환경에서 Chrome 브라우저로 접속하시는 것을 권장드립니다.
-        </Description>
-        <CloseButton onClick={() => window.close()}>페이지 닫기</CloseButton>
+        </Text>
+        <CloseButton onClick={() => router.back()}>돌아가기</CloseButton>
       </Container>
     </Overlay>
   );
@@ -53,19 +53,6 @@ const Container = styled.div`
   gap: 16px;
   padding: 40px 24px;
   text-align: center;
-`;
-
-const Title = styled.h1`
-  ${font.H1}
-  color: ${color.black};
-  margin: 0;
-`;
-
-const Description = styled.p`
-  ${font.p2}
-  color: ${color.gray500};
-  margin: 0;
-  line-height: 1.6;
 `;
 
 const CloseButton = styled.button`

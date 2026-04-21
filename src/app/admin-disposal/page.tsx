@@ -10,9 +10,11 @@ import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
 import Pagination from '@components/common/Pagination/Pagination';
 import { useRequireRole } from '@hooks/useRequireRole';
+import { useMobileBlock } from '@hooks/useMobileBlock';
 
 const AdminDisposalPage = () => {
   useRequireRole('ADMIN');
+  useMobileBlock();
 
   const { filters, options, modals, data } = useAdminDisposal();
 

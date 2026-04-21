@@ -11,9 +11,11 @@ import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterD
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import type { GetLogListParams } from '@/types/log/params';
 import { useRequireRole } from '@hooks/useRequireRole';
+import { useMobileBlock } from '@hooks/useMobileBlock';
 
 const LogPage = () => {
   useRequireRole('TEACHER');
+  useMobileBlock();
 
   const gradeOptions = ['1학년', '2학년', '3학년'];
   const classOptions = ['1반', '2반', '3반', '4반'];

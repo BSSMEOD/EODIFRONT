@@ -17,6 +17,8 @@ import type { Data } from '@components/common/Dropdown/Dropdown.types';
 import { getStringFormat } from '@/utils';
 import breakpoint from '@styles/breakpoint';
 import Visible from '@components/common/Visible/Visible';
+import { useOverlay } from '@toss/use-overlay';
+import BaseModal from '@components/common/Modal/BaseModal';
 
 type ItemFormState = {
   fileRef: RefObject<HTMLInputElement>;
@@ -41,6 +43,7 @@ type ItemFormViewProps = {
 const steps = ['year', 'month', 'date'] as const;
 
 const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
+  const overlay = useOverlay();
   const {
     fileRef,
     form,
@@ -58,6 +61,21 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     setTrue: setDateOpen,
     setFalse: setDateClose,
   } = useBooleanState(false);
+
+  const openConfirm = () => {
+    overlay.open(({ isOpen, close }) => (
+      <BaseModal
+        isOpen={isOpen}
+        onClose={close}
+        onConfirm={() => {
+          close();
+          handleSubmit();
+        }}
+      >
+        <Text variant="p1">분실물을 {mode}하시겠습니까?</Text>
+      </BaseModal>
+    ));
+  };
 
   const handleStepDateChange = (date: Date | null) => {
     handleDateChange(date, steps[nextStepIndex]);
@@ -93,7 +111,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
       <Flex direction="row" justify="space-between" align="center">
         <Text variant="H2">분실물 {mode}하기</Text>
         <Visible on="desktop">
-          <Button styleType="SECONDARY" onClick={handleSubmit}>
+          <Button styleType="SECONDARY" onClick={openConfirm}>
             {mode}
           </Button>
         </Visible>
@@ -189,7 +207,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
           width="100%"
           size="big"
           styleType="SECONDARY"
-          onClick={handleSubmit}
+          onClick={openConfirm}
         >
           {mode}
         </Button>
