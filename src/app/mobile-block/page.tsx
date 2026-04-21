@@ -20,7 +20,10 @@ const MobileBlock = () => {
   }, []);
 
   useEffect(() => {
-    if (isInitialized && !isMobile && from) router.replace(from);
+    if (isInitialized && !isMobile && from) {
+      const isSafeInternalPath = /^\/(?!\/)/.test(from);
+      router.replace(isSafeInternalPath ? from : '/');
+    }
   }, [isInitialized, isMobile, from, router]);
 
   return (
