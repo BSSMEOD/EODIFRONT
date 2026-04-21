@@ -7,7 +7,7 @@ import color from '@styles/color';
 type SearchInputProps = BaseInputProps;
 
 const SearchInput = ({
-  placeholder = '분실물의 이름, 잃어버린 위치 등을 검색해 분실물을 찾아보세요.',
+  placeholder = '분실물의 이름을 검색해 분실물을 찾아보세요.',
   value,
   onChange,
   name,
