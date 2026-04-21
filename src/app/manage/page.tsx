@@ -156,7 +156,7 @@ const ManagePage = () => {
 
 const StyledManagePage = styled.div`
   width: 100%;
-  padding-top: 59px;
+  padding-top: 32px;
   display: flex;
   flex-direction: column;
   gap: 20px;

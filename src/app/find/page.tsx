@@ -121,7 +121,7 @@ const FindPage = () => {
 export default FindPage;
 
 const PageContainer = styled.div`
-  padding-top: 40px;
+  padding-top: 32px;
 `;
 
 const ItemWrapper = styled.div`

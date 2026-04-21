@@ -187,7 +187,7 @@ const DateContainer = styled.div`
 `;
 
 const PageContainer = styled(Flex)`
-  padding-top: 59px;
+  padding-top: 32px;
 `;
 
 export default DisposalHistoryPage;

@@ -21,7 +21,7 @@ const AdminDisposalPage = () => {
       direction="column"
       gap={20}
       width="100%"
-      style={{ paddingTop: '59px' }}
+      style={{ paddingTop: '32px' }}
     >
       <Flex justify="space-between" align="center">
         <Flex gap={12} align="center" wrap="wrap">
