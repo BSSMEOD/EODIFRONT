@@ -15,6 +15,7 @@ import type { ItemForm } from '@/types/item/client';
 import { useBooleanState } from '@hooks/useBooleanState';
 import type { Data } from '@components/common/Dropdown/Dropdown.types';
 import { getStringFormat } from '@/utils';
+import breakpoint from '@styles/breakpoint';
 
 type ItemFormState = {
   fileRef: RefObject<HTMLInputElement>;
@@ -90,11 +91,13 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     <StyledItemForm>
       <Flex direction="row" justify="space-between" align="center">
         <Text variant="H2">분실물 {mode}하기</Text>
-        <Button styleType="SECONDARY" onClick={handleSubmit}>
-          {mode}
-        </Button>
+        <DesktopOnly>
+          <Button styleType="SECONDARY" onClick={handleSubmit}>
+            {mode}
+          </Button>
+        </DesktopOnly>
       </Flex>
-      <Flex direction="row" gap={52}>
+      <FormLayout>
         <ImageUploader
           ref={fileRef}
           defaultPreview={imagePreview}
@@ -108,7 +111,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
             value={form.name}
             onChange={handleFormChange}
           />
-          <Flex direction="row" gap={24}>
+          <FieldRow>
             <Input
               type="number"
               label="습득 신고자 학번(선택)"
@@ -124,7 +127,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               value={form.reporterName ?? ''}
               onChange={handleFormChange}
             />
-          </Flex>
+          </FieldRow>
           <DateSelector
             placeholderText="습득 날짜 선택"
             selected={form.foundAt ? new Date(form.foundAt) : null}
@@ -153,7 +156,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               />
             }
           />
-          <Flex direction="row" gap={24}>
+          <FieldRow>
             <InputDropdown
               data={placeOptions}
               label="습득 장소"
@@ -169,7 +172,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               name="foundPlaceDetail"
               onChange={handleFormChange}
             />
-          </Flex>
+          </FieldRow>
           <InputDropdown
             label="물품 카테고리"
             placeholder="물품 카테고리 선택"
@@ -179,10 +182,55 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
             name="category"
           />
         </Flex>
-      </Flex>
+      </FormLayout>
+      <MobileOnly>
+        <Button
+          width="100%"
+          size="big"
+          styleType="SECONDARY"
+          onClick={handleSubmit}
+        >
+          {mode}
+        </Button>
+      </MobileOnly>
     </StyledItemForm>
   );
 };
+
+const FormLayout = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 52px;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+    gap: 24px;
+  }
+`;
+
+const FieldRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+  }
+`;
+
+const DesktopOnly = styled.div`
+  ${breakpoint.mobile} {
+    display: none;
+  }
+`;
+
+const MobileOnly = styled.div`
+  display: none;
+
+  ${breakpoint.mobile} {
+    display: block;
+  }
+`;
 
 const StyledItemForm = styled.div`
   width: 100%;
