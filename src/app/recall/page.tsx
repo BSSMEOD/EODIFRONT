@@ -11,7 +11,6 @@ import { useRouter } from 'next/navigation';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 import { useFindDetailQuery } from '@services/item/queries';
 import { useRequireRole } from '@hooks/useRequireRole';
-import { useMobileBlock } from '@hooks/useMobileBlock';
 import React from 'react';
 
 interface PageProps {

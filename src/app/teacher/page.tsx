@@ -11,7 +11,6 @@ import {
 } from '@/services/disposal/queries';
 import { useLogListQuery } from '@/services/log/queries';
 import { useRequireRole } from '@hooks/useRequireRole';
-import { useMobileBlock } from '@hooks/useMobileBlock';
 import useMobile from '@hooks/useMobile';
 import BigProductList from '@components/common/ProductList/BigProductList';
 
