@@ -22,7 +22,6 @@ interface PageProps {
 
 const RecallPage = ({ searchParams }: PageProps) => {
   useRequireRole('ADMIN');
-  useMobileBlock();
   const router = useRouter();
 
   const { itemId: itemIdParam } = React.use(searchParams);
