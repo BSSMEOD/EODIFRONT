@@ -133,7 +133,11 @@ const ManagePage = () => {
           onRemove={handleRemoveFilter}
         />
       </Flex>
-      <BigProductList productList={productListData?.content || []} auth />
+      <BigProductList
+        productList={productListData?.content || []}
+        auth
+        showStatus
+      />
       <Pagination
         currentPage={page}
         totalPages={productListData?.totalPages || 1}
