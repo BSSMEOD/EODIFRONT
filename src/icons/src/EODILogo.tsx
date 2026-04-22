@@ -8,6 +8,7 @@ export const EODILogo = ({
   textColor = 'black',
   width = 'auto',
   height = 'auto',
+  ...props
 }: EODILogoProps & SVGProps<SVGSVGElement>) => {
   return (
     <svg
@@ -16,6 +17,7 @@ export const EODILogo = ({
       height={height}
       viewBox="0 0 124 36"
       fill="none"
+      {...props}
     >
       <g clipPath="url(#clip0_3548_7285)">
         <path
