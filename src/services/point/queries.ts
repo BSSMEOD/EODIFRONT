@@ -1,17 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import { fetchRewardHistory, fetchRewardRequestList } from './apis';
-import type { RewardHistoryParams } from '@/types/point/params';
-import { eodi } from '@/api/instance/instance';
-import type { GetItemListRes } from '@/types/item/response';
+import { fetchRewardRequestList } from './apis';
 import { getItemList } from '@services/item/apis';
-
-export const useRewardHistoryQuery = (params: RewardHistoryParams) => {
-  const { data, ...restQuery } = useQuery({
-    queryKey: ['reward', 'history', params],
-    queryFn: () => fetchRewardHistory(params),
-  });
-  return { data, ...restQuery };
-};
 
 export const useRewardRequestQuery = () => {
   const { data, ...restQuery } = useQuery({
