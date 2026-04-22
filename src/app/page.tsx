@@ -20,7 +20,7 @@ import {
 } from '@services/item/queries';
 import useMobile from '@hooks/useMobile';
 
-const MOBILE_DISPOSAL_LIMIT = 3;
+const MOBILE_LIST_LIMIT = 3;
 
 const MainPage = () => {
   const router = useRouter();
@@ -86,7 +86,7 @@ const MainPage = () => {
           <BigProductList
             title="회수 신청 요청이 있는 물품"
             productList={
-              recallProductListData?.items.slice(0, MOBILE_DISPOSAL_LIMIT) || []
+              recallProductListData?.items.slice(0, MOBILE_LIST_LIMIT) || []
             }
             href={ROUTES.RECALL}
           />
@@ -100,7 +100,7 @@ const MainPage = () => {
       {isMobile ? (
         <BigProductList
           title="폐기 직전인 분실물"
-          productList={disposalList.slice(0, MOBILE_DISPOSAL_LIMIT)}
+          productList={disposalList.slice(0, MOBILE_LIST_LIMIT)}
           href={isManager ? ROUTES.ADMIN_DISPOSAL : undefined}
         />
       ) : (
