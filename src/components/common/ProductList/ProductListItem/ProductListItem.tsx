@@ -14,6 +14,8 @@ import { formatDateDot } from '@utils/formatDate';
 import { useState } from 'react';
 import { useItemDeleteMutation } from '@services/item/mutations';
 import { useRouter } from 'next/navigation';
+import { useOverlay } from '@toss/use-overlay';
+import BaseModal from '@components/common/Modal/BaseModal';
 
 interface ProductListItem {
   product: Item & {
@@ -50,13 +52,22 @@ const ProductListItem = ({
   const [imageError, setImageError] = useState(false);
   const { mutate } = useItemDeleteMutation(id);
   const router = useRouter();
+  const overlay = useOverlay();
 
   const handleDelete = (e: React.MouseEvent<SVGSVGElement>) => {
     e.preventDefault();
-    const isConfirm = confirm(`${name} 분실물을 삭제하시겠습니까?`);
-    if (isConfirm) {
-      mutate();
-    }
+    overlay.open(({ isOpen, close }) => (
+      <BaseModal
+        isOpen={isOpen}
+        onClose={close}
+        onConfirm={() => {
+          close();
+          mutate();
+        }}
+      >
+        <Text variant="p1">{name} 분실물을 삭제하시겠습니까?</Text>
+      </BaseModal>
+    ));
   };
 
   const handleEditClick = (e: React.MouseEvent<SVGSVGElement>) => {

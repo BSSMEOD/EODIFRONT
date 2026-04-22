@@ -5,6 +5,7 @@ import styled from '@emotion/styled';
 import SmallProductList from '@components/common/ProductList/SmallProductList';
 import FindDetailContent from '@components/findDetail/FindDetailContent/FindDetailContent';
 import { useItemListQuery } from '@services/item/queries';
+import Visible from '@components/common/Visible/Visible';
 
 interface ProductDetailPageProps {
   params: Promise<{
@@ -22,10 +23,12 @@ const ProductDetailPage = ({ params }: ProductDetailPageProps) => {
   return (
     <StyledProductDetailPage>
       <FindDetailContent id={id} />
-      <SmallProductList
-        title="폐기 직전인 분실물"
-        productList={disposalProductListData?.content || []}
-      />
+      <Visible on="desktop">
+        <SmallProductList
+          title="폐기 직전인 분실물"
+          productList={disposalProductListData?.content || []}
+        />
+      </Visible>
     </StyledProductDetailPage>
   );
 };
@@ -35,7 +38,6 @@ const StyledProductDetailPage = styled.div`
   flex-direction: column;
   gap: 92px;
   align-items: center;
-  padding: 46px;
 `;
 
 export default ProductDetailPage;

@@ -5,9 +5,11 @@ import PointTable from '@components/point/PointTable/PointTable';
 import font from '@styles/font';
 import color from '@styles/color';
 import { useRequireRole } from '@hooks/useRequireRole';
+import { useMobileBlock } from '@hooks/useMobileBlock';
 
 const PointPage = () => {
   useRequireRole('TEACHER');
+  useMobileBlock();
 
   return (
     <StyledPointPage>

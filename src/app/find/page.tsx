@@ -4,10 +4,12 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import SearchInput from '@components/common/Input/SearchInput';
 import ProductListItem from '@components/common/ProductList/ProductListItem/ProductListItem';
+import BigProductList from '@components/common/ProductList/BigProductList';
 import MultiSelectDropdown from '@components/common/Dropdown/MultiSelectDropdown';
 import Pagination from '@components/common/Pagination/Pagination';
 import Flex from '@components/common/Flex/Flex';
 import { useFindPage } from './find.hooks';
+import useMobile from '@hooks/useMobile';
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import { CATEGORY } from '@/constants/item/constant';
 import Text from '@components/common/Text/Text';
@@ -15,6 +17,7 @@ import Dropdown from '@components/common/Dropdown/Dropdown';
 import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterActiveTags';
 
 const FindPage = () => {
+  const { isMobile } = useMobile();
   const {
     currentPage,
     setCurrentPage,
@@ -47,7 +50,15 @@ const FindPage = () => {
   return (
     <PageContainer>
       <Flex direction="column" gap={20} width="100%">
-        <SearchInput value={filters.query} onChange={handleSearchChange} />
+        <SearchInput
+          value={filters.query}
+          onChange={handleSearchChange}
+          placeholder={
+            isMobile
+              ? '분실물을 검색해보세요.'
+              : '분실물의 이름을 검색해 분실물을 찾아보세요.'
+          }
+        />
         <Flex align="center" gap={12} wrap="wrap">
           <Dropdown
             name="category"
@@ -55,7 +66,7 @@ const FindPage = () => {
             value={filters.category}
             onChange={handleDropdownChange}
             placeholder="물품"
-            width="120px"
+            width={120}
           />
           <FilterDateSelect
             startDate={filters.startDate}
@@ -68,30 +79,34 @@ const FindPage = () => {
             value={filters.location}
             onChange={handleMultiSelectFilterChange}
             placeholder="장소"
-            width="120px"
+            width={120}
           />
           <FilterActiveTags
             filters={displayFilters}
             onRemove={handleRemoveFilter}
           />
         </Flex>
-        <Flex direction="row" wrap="wrap" gap={20} width="100%">
-          {isLoading ? (
-            <Text width="100%" textAlign="center" color={color.gray500}>
-              분실물 목록을 불러오고 있습니다...
-            </Text>
-          ) : allItems.length > 0 ? (
-            allItems.map((item) => (
-              <ItemWrapper key={item.id}>
-                <ProductListItem product={item} size="big" />
-              </ItemWrapper>
-            ))
+        {isLoading ? (
+          <Text width="100%" textAlign="center" color={color.gray500}>
+            분실물 목록을 불러오고 있습니다...
+          </Text>
+        ) : allItems.length > 0 ? (
+          isMobile ? (
+            <BigProductList productList={allItems} />
           ) : (
-            <Text width="100%" textAlign="center" color={color.gray500}>
-              검색 결과가 없습니다.
-            </Text>
-          )}
-        </Flex>
+            <Flex direction="row" wrap="wrap" gap={20} width="100%">
+              {allItems.map((item) => (
+                <ItemWrapper key={item.id}>
+                  <ProductListItem product={item} size="big" />
+                </ItemWrapper>
+              ))}
+            </Flex>
+          )
+        ) : (
+          <Text width="100%" textAlign="center" color={color.gray500}>
+            검색 결과가 없습니다.
+          </Text>
+        )}
 
         <Pagination
           currentPage={currentPage}
@@ -106,7 +121,7 @@ const FindPage = () => {
 export default FindPage;
 
 const PageContainer = styled.div`
-  padding-top: 40px;
+  padding-top: 32px;
 `;
 
 const ItemWrapper = styled.div`

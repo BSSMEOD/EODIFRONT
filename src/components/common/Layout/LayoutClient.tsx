@@ -1,8 +1,8 @@
-import Header from '@components/common/Header/Header';
-import Footer from '@components/common/Footer/Footer';
+import Header from '@components/layout/Header/Header';
+import Footer from '@components/layout/Footer/Footer';
 import GlobalStyle from '@styles/global';
-import MobileBlock from '@components/common/MobileBlock/MobileBlock';
 import styled from '@emotion/styled';
+import breakpoint from '@styles/breakpoint';
 
 interface LayoutClientProps {
   children: React.ReactNode;
@@ -12,7 +12,6 @@ const LayoutClient = ({ children }: LayoutClientProps) => {
   return (
     <>
       <GlobalStyle />
-      <MobileBlock />
       <Body>
         <Header />
         <Main>{children}</Main>
@@ -30,6 +29,7 @@ const Body = styled.div`
   min-height: 100vh;
   width: 100%;
   height: 100%;
+  flex: 1;
 `;
 
 const Main = styled.main`
@@ -37,4 +37,8 @@ const Main = styled.main`
   width: 100%;
   height: fit-content;
   padding: 0 180px;
+
+  ${breakpoint.mobile} {
+    padding: 0 20px;
+  }
 `;

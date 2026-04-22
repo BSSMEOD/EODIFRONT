@@ -10,6 +10,8 @@ import { RECALL_STATUS } from '@/constants/recall/constant';
 import font from '@styles/font';
 import { formatDateDot } from '@utils/formatDate';
 import { useState } from 'react';
+import breakpoint from '@styles/breakpoint';
+import { Divider } from '@components/common/Divider/Divider';
 
 interface RecallListItemProps {
   item: RecallRequestItem;
@@ -55,16 +57,7 @@ const RecallListItem = ({
           <ProductImagePlaceholder />
         )}
         <InfoSection>
-          <Flex direction="row" gap={8} align="end">
-            <StatusBadge
-              bgColor={
-                recallStatusColor[
-                  recallStatus as keyof typeof recallStatusColor
-                ]
-              }
-            >
-              {RECALL_STATUS[recallStatus as keyof typeof RECALL_STATUS]}
-            </StatusBadge>
+          <Flex direction="row" gap={8} align="center">
             <Text variant="H2">{name}</Text>
             {requesterName && (
               <Text variant="p2" color={color.gray400}>
@@ -85,7 +78,7 @@ const RecallListItem = ({
         </InfoSection>
       </Flex>
 
-      <Flex gap={10} align="center">
+      <Flex gap={10} align="center" justify="center">
         {recallStatus === 'PENDING' ? (
           <>
             <Button
@@ -95,6 +88,7 @@ const RecallListItem = ({
               outlined
               active={isRejectModalOpen}
               width={60}
+              style={{ flexGrow: 1 }}
             >
               반려
             </Button>
@@ -103,6 +97,7 @@ const RecallListItem = ({
               size="small"
               onClick={() => onApprove(id)}
               width={60}
+              style={{ flexGrow: 1 }}
             >
               승인
             </Button>
@@ -118,13 +113,18 @@ const RecallListItem = ({
 };
 
 const StyledRecallListItem = styled.div`
+  display: flex;
   width: 100%;
   flex-shrink: 0;
   padding: 12px;
-  display: flex;
   justify-content: space-between;
   border: ${color.gray200} 1px solid;
   border-radius: 8px;
+  gap: 20px;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+  }
 `;
 
 const ProductImage = styled(Image)`
