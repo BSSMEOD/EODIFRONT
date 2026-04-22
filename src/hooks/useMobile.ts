@@ -6,11 +6,12 @@ const useMobile = (breakpoint = MOBILE_BLOCK_SIZE) => {
   const [isInitialized, setIsInitialized] = useState(false);
 
   useEffect(() => {
-    const check = () => setIsMobile(window.innerWidth < breakpoint);
+    const mql = window.matchMedia(`(max-width: ${breakpoint}px)`);
+    const check = () => setIsMobile(mql.matches);
     check();
     setIsInitialized(true);
-    window.addEventListener('resize', check);
-    return () => window.removeEventListener('resize', check);
+    mql.addEventListener('change', check);
+    return () => mql.removeEventListener('change', check);
   }, [breakpoint]);
 
   return { isMobile, isInitialized };
