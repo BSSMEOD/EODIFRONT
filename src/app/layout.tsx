@@ -11,9 +11,9 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
     <html lang="ko">
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>어디</title>
       </head>
       <body>
-        <title>어디</title>
         <TanstackQueryProvider>
           <EmotionProvider>
             <OverlayProvider>
