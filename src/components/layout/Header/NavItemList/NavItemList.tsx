@@ -5,11 +5,30 @@ import { ROUTES } from '@/constants/common/constants';
 import { NavItem } from './NavItem/NavItem';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { toast } from 'react-toastify';
+import { useState, useRef, useEffect } from 'react';
+import color from '@styles/color';
+import font from '@styles/font';
 
 export const NavItemList = () => {
   const router = useRouter();
-  const { isLoggedIn, logout } = useAuthStore();
+  const { isLoggedIn, logout, email } = useAuthStore();
   const { authority, isInitialized } = useAuthStore();
+  const [showDropdown, setShowDropdown] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   if (!isInitialized) return null;
 
@@ -24,6 +43,15 @@ export const NavItemList = () => {
       router.push(ROUTES.MAIN);
       toast.success('로그아웃 되었습니다.');
     }
+  };
+
+  const getUserDisplayName = () => {
+    if (email) {
+      // 이메일에서 사용자 정보 추출 (예: 3206문소정@bssm.hs.kr -> 3206문소정)
+      const username = email.split('@')[0];
+      return username;
+    }
+    return '사용자';
   };
 
   const ManagerNav = () => (
@@ -78,9 +106,31 @@ export const NavItemList = () => {
     <StyledNavItemsList>
       <NavItem onClick={() => router.push(ROUTES.FIND)}>분실물 찾기</NavItem>
       {isLoggedIn ? (
-        <Button styleType="PRIMARY" onClick={() => handleLogout()} outlined>
-          로그아웃
-        </Button>
+        <UserDropdownContainer ref={dropdownRef}>
+          <UserInfo onClick={() => setShowDropdown(!showDropdown)}>
+            {getUserDisplayName()}
+          </UserInfo>
+          {showDropdown && (
+            <DropdownMenu>
+              <DropdownItem
+                onClick={() => {
+                  router.push(ROUTES.MYPAGE);
+                  setShowDropdown(false);
+                }}
+              >
+                회수 요청 내역
+              </DropdownItem>
+              <DropdownItem
+                onClick={() => {
+                  handleLogout();
+                  setShowDropdown(false);
+                }}
+              >
+                로그아웃
+              </DropdownItem>
+            </DropdownMenu>
+          )}
+        </UserDropdownContainer>
       ) : (
         <Button styleType="PRIMARY" onClick={() => handleLogin()}>
           bsm 로그인
@@ -99,4 +149,57 @@ const StyledNavItemsList = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 10px;
+`;
+
+const UserDropdownContainer = styled.div`
+  position: relative;
+`;
+
+const UserInfo = styled.div`
+  ${font.p3};
+  color: ${color.gray500};
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${color.gray100};
+  }
+`;
+
+const DropdownMenu = styled.div`
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: ${color.white};
+  border-radius: 8px;
+  box-shadow:
+    -4px -4px 4px 0px rgba(0, 0, 0, 0.05),
+    4px 4px 4px 0px rgba(0, 0, 0, 0.05);
+  min-width: 140px;
+  white-space: nowrap;
+  z-index: 1000;
+  margin-top: 4px;
+`;
+
+const DropdownItem = styled.div`
+  ${font.p3};
+  padding: 12px 16px;
+  cursor: pointer;
+  color: ${color.black};
+  text-align: center;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: ${color.gray100};
+  }
+
+  &:first-of-type {
+    border-radius: 8px 8px 0 0;
+  }
+
+  &:last-of-type {
+    border-radius: 0 0 8px 8px;
+  }
 `;
