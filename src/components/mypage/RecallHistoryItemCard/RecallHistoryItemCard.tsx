@@ -1,5 +1,7 @@
 'use client';
 
+import { useState } from 'react';
+import Image from 'next/image';
 import styled from '@emotion/styled';
 import color from '@styles/color';
 import font from '@styles/font';
@@ -7,6 +9,7 @@ import breakpoint from '@styles/breakpoint';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import { Button } from '@components/common/Button/Button';
+import { formatDateDot } from '@utils/formatDate';
 import type { MyRecallItem } from '@/types/mypage/client';
 
 interface RecallHistoryItemCardProps {
@@ -18,6 +21,8 @@ const RecallHistoryItemCard = ({
   item,
   onCancel,
 }: RecallHistoryItemCardProps) => {
+  const [imageError, setImageError] = useState(false);
+
   const renderStatus = () => {
     switch (item.status) {
       case 'APPROVED':
@@ -43,13 +48,23 @@ const RecallHistoryItemCard = ({
   return (
     <ItemCard>
       <Flex align="center" gap={10}>
-        <ItemImage src={item.imageUrl} alt={item.itemName} />
+        {item.imageUrl && !imageError ? (
+          <ItemImage
+            src={item.imageUrl}
+            alt={item.itemName}
+            width={98}
+            height={98}
+            onError={() => setImageError(true)}
+          />
+        ) : (
+          <ItemImagePlaceholder />
+        )}
         <Flex direction="column" gap={8}>
           <Text variant="H3" color={color.black}>
             {item.itemName}
           </Text>
           <Text variant="p2" color={color.black}>
-            {item.requestedAt}
+            {formatDateDot(item.requestedAt)}
           </Text>
         </Flex>
       </Flex>
@@ -77,13 +92,22 @@ const ItemCard = styled.div`
   }
 `;
 
-const ItemImage = styled.img`
+const ItemImage = styled(Image)`
   width: 98px;
   height: 98px;
   border-radius: 12px;
   object-fit: cover;
   opacity: 0.8;
   background-color: ${color.gray100};
+  flex-shrink: 0;
+`;
+
+const ItemImagePlaceholder = styled.div`
+  width: 98px;
+  height: 98px;
+  border-radius: 12px;
+  background-color: ${color.gray100};
+  flex-shrink: 0;
 `;
 
 const StatusWrapper = styled.div`
