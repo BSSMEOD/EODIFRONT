@@ -97,7 +97,6 @@ const ItemImage = styled(Image)`
   height: 98px;
   border-radius: 12px;
   object-fit: cover;
-  opacity: 0.8;
   background-color: ${color.gray100};
   flex-shrink: 0;
 `;
