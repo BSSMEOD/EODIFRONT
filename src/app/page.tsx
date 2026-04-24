@@ -24,7 +24,8 @@ const MOBILE_LIST_LIMIT = 3;
 
 const MainPage = () => {
   const router = useRouter();
-  const { authority, isLoggedIn } = useAuthStore();
+  const { authority, isLoggedIn, isLogoutRedirecting, resetLogoutRedirecting } =
+    useAuthStore();
   const { isMobile } = useMobile();
   const { data: disposalProductListData } = useItemListQuery({
     status: ['TO_BE_DISCARDED'],
@@ -35,11 +36,18 @@ const MainPage = () => {
 
   const isManager = authority === 'ADMIN';
   const isTeacher = authority === 'TEACHER';
+
   useEffect(() => {
     if (isTeacher) {
       router.replace(ROUTES.TEACHER);
     }
   }, [isLoggedIn, authority, router]);
+
+  useEffect(() => {
+    if (isLogoutRedirecting) {
+      resetLogoutRedirecting();
+    }
+  }, [isLogoutRedirecting, resetLogoutRedirecting]);
 
   const disposalList = disposalProductListData?.content || [];
 
