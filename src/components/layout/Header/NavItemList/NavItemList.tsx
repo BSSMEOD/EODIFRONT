@@ -11,8 +11,8 @@ import font from '@styles/font';
 
 export const NavItemList = () => {
   const router = useRouter();
-  const { isLoggedIn, logout, email } = useAuthStore();
-  const { authority, isInitialized } = useAuthStore();
+  const { isLoggedIn, logout, email, authority, isInitialized } =
+    useAuthStore();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
