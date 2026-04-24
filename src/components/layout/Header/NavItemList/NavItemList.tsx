@@ -30,6 +30,17 @@ export const NavItemList = () => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    const handleEscapeKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setShowDropdown(false);
+      }
+    };
+
+    document.addEventListener('keydown', handleEscapeKeyDown);
+    return () => document.removeEventListener('keydown', handleEscapeKeyDown);
+  }, []);
+
   if (!isInitialized) return null;
 
   const handleLogin = () => {
@@ -107,12 +118,19 @@ export const NavItemList = () => {
       <NavItem onClick={() => router.push(ROUTES.FIND)}>분실물 찾기</NavItem>
       {isLoggedIn ? (
         <UserDropdownContainer ref={dropdownRef}>
-          <UserInfo onClick={() => setShowDropdown(!showDropdown)}>
+          <UserInfo
+            type="button"
+            aria-haspopup="menu"
+            aria-expanded={showDropdown}
+            onClick={() => setShowDropdown((prev) => !prev)}
+          >
             {getUserDisplayName()}
           </UserInfo>
           {showDropdown && (
-            <DropdownMenu>
+            <DropdownMenu role="menu">
               <DropdownItem
+                type="button"
+                role="menuitem"
                 onClick={() => {
                   router.push(ROUTES.MYPAGE);
                   setShowDropdown(false);
@@ -121,6 +139,8 @@ export const NavItemList = () => {
                 회수 요청 내역
               </DropdownItem>
               <DropdownItem
+                type="button"
+                role="menuitem"
                 onClick={() => {
                   handleLogout();
                   setShowDropdown(false);
@@ -155,10 +175,14 @@ const UserDropdownContainer = styled.div`
   position: relative;
 `;
 
-const UserInfo = styled.div`
+const UserInfo = styled.button`
   ${font.p3};
   color: ${color.gray500};
   cursor: pointer;
+  box-sizing: border-box;
+  display: block;
+  background: none;
+  border: none;
   padding: 8px 12px;
   border-radius: 4px;
   transition: background-color 0.2s;
@@ -183,12 +207,17 @@ const DropdownMenu = styled.div`
   margin-top: 4px;
 `;
 
-const DropdownItem = styled.div`
+const DropdownItem = styled.button`
   ${font.p3};
+  box-sizing: border-box;
+  display: block;
   padding: 12px 16px;
   cursor: pointer;
   color: ${color.black};
   text-align: center;
+  width: 100%;
+  border: none;
+  background: none;
   transition: background-color 0.2s;
 
   &:hover {
