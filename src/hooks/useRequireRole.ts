@@ -13,6 +13,11 @@ export const useRequireRole = (role: UserAuthority) => {
   useEffect(() => {
     if (!isInitialized) return;
 
+    if (!isLoggedIn && isLogoutRedirecting) {
+      router.replace(ROUTES.MAIN);
+      return;
+    }
+
     if (!isLoggedIn) {
       toast.error('로그인이 필요합니다.');
       router.replace(ROUTES.LOGIN);
