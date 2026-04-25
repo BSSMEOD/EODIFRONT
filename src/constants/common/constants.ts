@@ -15,6 +15,7 @@ export const ROUTES = {
   RULES: '/rules',
   MARKDOWN: '/markdown',
   MOBILE_BLOCK: '/mobile-block',
+  MYPAGE: '/mypage',
 };
 
 export const TOKEN = {

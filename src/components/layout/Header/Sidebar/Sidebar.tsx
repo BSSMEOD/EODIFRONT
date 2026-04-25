@@ -21,6 +21,7 @@ const PATHS: Record<UserAuthority, Record<string, string>> = {
   USER: {
     홈: ROUTES.MAIN,
     '분실물 찾기': ROUTES.FIND,
+    '회수 요청 내역': ROUTES.MYPAGE,
   },
   ADMIN: {
     홈: ROUTES.MAIN,
