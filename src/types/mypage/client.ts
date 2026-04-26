@@ -1,7 +1,7 @@
 import type { RecallStatus } from '@/types/recall/client';
 
 export interface MyRecallItem {
-  requestId: number;
+  claimId: number;
   itemId: number;
   itemName: string;
   requestedAt: string;

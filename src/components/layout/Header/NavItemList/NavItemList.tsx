@@ -57,12 +57,7 @@ export const NavItemList = () => {
   };
 
   const getUserDisplayName = () => {
-    if (email) {
-      // 이메일에서 사용자 정보 추출 (예: 3206문소정@bssm.hs.kr -> 3206문소정)
-      const username = email.split('@')[0];
-      return username;
-    }
-    return '사용자';
+    return email.split('@')[0];
   };
 
   const ManagerNav = () => (
