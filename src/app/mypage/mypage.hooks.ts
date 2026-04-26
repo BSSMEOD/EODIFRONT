@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useMyClaimsQuery } from '@/services/mypage/queries';
 import { useCancelMyClaimMutation } from '@/services/mypage/mutations';
 import type { MyRecallItem } from '@/types/mypage/client';
@@ -26,6 +26,12 @@ export const useMyPage = () => {
 
   const totalPages =
     data && data.size > 0 ? Math.ceil(data.total / data.size) : 1;
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
 
   const isCancelModalOpen = selectedClaimId !== null;
 

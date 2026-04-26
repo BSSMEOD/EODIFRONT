@@ -18,23 +18,12 @@ const MyPage = () => {
     setCurrentPage,
     totalPages,
     isLoading,
-    error,
     recallItems,
     isCancelModalOpen,
     handleCancelClick,
     handleCancelClose,
     handleCancelConfirm,
   } = useMyPage();
-
-  if (error) {
-    return (
-      <PageContainer>
-        <Text color={color.red} textAlign="center">
-          회수 요청 내역을 불러오는 중 오류가 발생했습니다.
-        </Text>
-      </PageContainer>
-    );
-  }
 
   return (
     <PageContainer>
