@@ -11,8 +11,15 @@ import font from '@styles/font';
 
 export const NavItemList = () => {
   const router = useRouter();
-  const { isLoggedIn, logout, email, authority, isInitialized } =
-    useAuthStore();
+  const {
+    isLoggedIn,
+    logout,
+    email,
+    authority,
+    isInitialized,
+    name,
+    studentCode,
+  } = useAuthStore();
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -57,6 +64,14 @@ export const NavItemList = () => {
   };
 
   const getUserDisplayName = () => {
+    if (studentCode && name) {
+      return `${studentCode} ${name}`;
+    }
+
+    if (name) {
+      return name;
+    }
+
     return email.split('@')[0];
   };
 
