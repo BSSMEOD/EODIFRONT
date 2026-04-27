@@ -17,7 +17,7 @@ export const useMyPage = () => {
   const recallItems: MyRecallItem[] = data?.claims ?? [];
 
   const totalPages =
-    data && data.size > 0 ? Math.ceil(data.total / data.size) : 1;
+    data && data.size > 0 ? Math.max(1, Math.ceil(data.total / data.size)) : 1;
 
   useEffect(() => {
     if (currentPage > totalPages) {
