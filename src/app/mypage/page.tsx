@@ -4,6 +4,7 @@ import styled from '@emotion/styled';
 import color from '@styles/color';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
+import Pagination from '@components/common/Pagination/Pagination';
 import BaseModal from '@components/common/Modal/BaseModal';
 import { useRequireRole } from '@hooks/useRequireRole';
 import RecallHistoryItemCard from '@components/mypage/RecallHistoryItemCard/RecallHistoryItemCard';
@@ -13,6 +14,10 @@ const MyPage = () => {
   useRequireRole('USER');
 
   const {
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    isLoading,
     recallItems,
     isCancelModalOpen,
     handleCancelClick,
@@ -27,10 +32,18 @@ const MyPage = () => {
           회수 요청 내역
         </Text>
         <Flex direction="column" gap={8} width="100%">
-          {recallItems.length > 0 ? (
+          {isLoading ? (
+            <EmptyStateText
+              variant="p2"
+              color={color.gray500}
+              textAlign="center"
+            >
+              회수 요청 내역을 불러오는 중입니다...
+            </EmptyStateText>
+          ) : recallItems.length > 0 ? (
             recallItems.map((item) => (
               <RecallHistoryItemCard
-                key={item.requestId}
+                key={item.claimId}
                 item={item}
                 onCancel={handleCancelClick}
               />
@@ -45,8 +58,12 @@ const MyPage = () => {
             </EmptyStateText>
           )}
         </Flex>
+        <Pagination
+          currentPage={currentPage}
+          totalPages={totalPages}
+          onPageChange={setCurrentPage}
+        />
       </Flex>
-
       <BaseModal
         isOpen={isCancelModalOpen}
         onClose={handleCancelClose}

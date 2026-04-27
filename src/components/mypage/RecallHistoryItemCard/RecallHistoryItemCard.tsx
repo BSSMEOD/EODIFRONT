@@ -14,7 +14,7 @@ import type { MyRecallItem } from '@/types/mypage/client';
 
 interface RecallHistoryItemCardProps {
   item: MyRecallItem;
-  onCancel: (requestId: number) => void;
+  onCancel?: (claimId: number) => void;
 }
 
 const RecallHistoryItemCard = ({
@@ -30,15 +30,17 @@ const RecallHistoryItemCard = ({
       case 'REJECTED':
         return <StatusText statusColor={color.red}>반려</StatusText>;
       case 'PENDING':
-        return (
+        return onCancel ? (
           <Button
             size="small"
             styleType="PRIMARY"
             outlined
-            onClick={() => onCancel(item.requestId)}
+            onClick={() => onCancel(item.claimId)}
           >
             신청 취소
           </Button>
+        ) : (
+          <StatusText statusColor={color.gray500}>대기중</StatusText>
         );
       default:
         return null;

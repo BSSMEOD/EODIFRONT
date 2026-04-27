@@ -1,61 +1,53 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { useMyClaimsQuery } from '@/services/mypage/queries';
+import { useCancelMyClaimMutation } from '@/services/mypage/mutations';
 import type { MyRecallItem } from '@/types/mypage/client';
 
-const INITIAL_RECALL_ITEMS: MyRecallItem[] = [
-  {
-    requestId: 1,
-    itemId: 101,
-    itemName: '긱시크 안경',
-    requestedAt: '2025-08-05',
-    imageUrl: '/icon.svg',
-    status: 'REJECTED',
-  },
-  {
-    requestId: 2,
-    itemId: 102,
-    itemName: '긱시크 안경',
-    requestedAt: '2025-08-05',
-    imageUrl: '/icon.svg',
-    status: 'APPROVED',
-  },
-  {
-    requestId: 3,
-    itemId: 103,
-    itemName: '긱시크 안경',
-    requestedAt: '2025-08-05',
-    imageUrl: '/icon.svg',
-    status: 'PENDING',
-  },
-];
+const PAGE_SIZE = 10;
 
 export const useMyPage = () => {
-  const [recallItems, setRecallItems] =
-    useState<MyRecallItem[]>(INITIAL_RECALL_ITEMS);
-  const [selectedRequestId, setSelectedRequestId] = useState<number | null>(
-    null
-  );
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedClaimId, setSelectedClaimId] = useState<number | null>(null);
+  const { data, isLoading, error } = useMyClaimsQuery({
+    page: currentPage,
+    size: PAGE_SIZE,
+  });
+  const { mutate: cancelMyClaim } = useCancelMyClaimMutation();
 
-  const isCancelModalOpen = selectedRequestId !== null;
+  const recallItems: MyRecallItem[] = data?.claims ?? [];
 
-  const handleCancelClick = (requestId: number) => {
-    setSelectedRequestId(requestId);
+  const totalPages =
+    data && data.size > 0 ? Math.max(1, Math.ceil(data.total / data.size)) : 1;
+
+  useEffect(() => {
+    if (currentPage > totalPages) {
+      setCurrentPage(totalPages);
+    }
+  }, [currentPage, totalPages]);
+
+  const isCancelModalOpen = selectedClaimId !== null;
+
+  const handleCancelClick = (claimId: number) => {
+    setSelectedClaimId(claimId);
   };
 
   const handleCancelClose = () => {
-    setSelectedRequestId(null);
+    setSelectedClaimId(null);
   };
 
   const handleCancelConfirm = () => {
-    if (selectedRequestId === null) return;
+    if (selectedClaimId === null) return;
 
-    // TODO: Replace with cancel recall request mutation.
-    setRecallItems((prevItems) =>
-      prevItems.filter((item) => item.requestId !== selectedRequestId)
-    );
-    setSelectedRequestId(null);
+    cancelMyClaim(selectedClaimId);
+    setSelectedClaimId(null);
   };
 
   return {
+    currentPage,
+    setCurrentPage,
+    totalPages,
+    isLoading,
+    error,
     recallItems,
     isCancelModalOpen,
     handleCancelClick,
