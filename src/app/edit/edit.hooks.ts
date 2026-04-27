@@ -88,9 +88,6 @@ export const useEditForm = (id: number) => {
   };
 
   const handleSubmit = async () => {
-    const isConfirm = confirm('분실물 정보를 수정하시겠습니까?');
-    if (!isConfirm) return;
-
     const hasImage = !!(selectedFile || imagePreview);
     const isFormInvalid =
       !hasImage ||

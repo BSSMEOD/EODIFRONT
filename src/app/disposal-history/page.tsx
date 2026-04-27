@@ -13,8 +13,11 @@ import ProductListItem from '@components/common/ProductList/ProductListItem/Prod
 import IconMinus from '@/icons/src/IconMinus';
 import color from '@styles/color';
 import { useRequireRole } from '@hooks/useRequireRole';
+import { useMobileBlock } from '@hooks/useMobileBlock';
+
 const DisposalHistoryPage = () => {
   useRequireRole('ADMIN');
+  useMobileBlock();
 
   const { filters, options, data, utils } = useDisposalHistory();
 
@@ -187,7 +190,7 @@ const DateContainer = styled.div`
 `;
 
 const PageContainer = styled(Flex)`
-  padding-top: 59px;
+  padding-top: 32px;
 `;
 
 export default DisposalHistoryPage;

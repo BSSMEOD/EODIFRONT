@@ -15,6 +15,10 @@ import type { ItemForm } from '@/types/item/client';
 import { useBooleanState } from '@hooks/useBooleanState';
 import type { Data } from '@components/common/Dropdown/Dropdown.types';
 import { getStringFormat } from '@/utils';
+import breakpoint from '@styles/breakpoint';
+import Visible from '@components/common/Visible/Visible';
+import { useOverlay } from '@toss/use-overlay';
+import BaseModal from '@components/common/Modal/BaseModal';
 
 type ItemFormState = {
   fileRef: RefObject<HTMLInputElement>;
@@ -39,6 +43,7 @@ type ItemFormViewProps = {
 const steps = ['year', 'month', 'date'] as const;
 
 const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
+  const overlay = useOverlay();
   const {
     fileRef,
     form,
@@ -56,6 +61,21 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     setTrue: setDateOpen,
     setFalse: setDateClose,
   } = useBooleanState(false);
+
+  const openConfirm = () => {
+    overlay.open(({ isOpen, close }) => (
+      <BaseModal
+        isOpen={isOpen}
+        onClose={close}
+        onConfirm={() => {
+          close();
+          handleSubmit();
+        }}
+      >
+        <Text variant="p1">분실물을 {mode}하시겠습니까?</Text>
+      </BaseModal>
+    ));
+  };
 
   const handleStepDateChange = (date: Date | null) => {
     handleDateChange(date, steps[nextStepIndex]);
@@ -90,11 +110,13 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
     <StyledItemForm>
       <Flex direction="row" justify="space-between" align="center">
         <Text variant="H2">분실물 {mode}하기</Text>
-        <Button styleType="SECONDARY" onClick={handleSubmit}>
-          {mode}
-        </Button>
+        <Visible on="desktop">
+          <Button styleType="SECONDARY" onClick={openConfirm}>
+            {mode}
+          </Button>
+        </Visible>
       </Flex>
-      <Flex direction="row" gap={52}>
+      <FormLayout>
         <ImageUploader
           ref={fileRef}
           defaultPreview={imagePreview}
@@ -108,7 +130,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
             value={form.name}
             onChange={handleFormChange}
           />
-          <Flex direction="row" gap={24}>
+          <FieldRow>
             <Input
               type="number"
               label="습득 신고자 학번(선택)"
@@ -124,7 +146,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               value={form.reporterName ?? ''}
               onChange={handleFormChange}
             />
-          </Flex>
+          </FieldRow>
           <DateSelector
             placeholderText="습득 날짜 선택"
             selected={form.foundAt ? new Date(form.foundAt) : null}
@@ -153,7 +175,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               />
             }
           />
-          <Flex direction="row" gap={24}>
+          <FieldRow>
             <InputDropdown
               data={placeOptions}
               label="습득 장소"
@@ -169,7 +191,7 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
               name="foundPlaceDetail"
               onChange={handleFormChange}
             />
-          </Flex>
+          </FieldRow>
           <InputDropdown
             label="물품 카테고리"
             placeholder="물품 카테고리 선택"
@@ -179,10 +201,41 @@ const ItemFormView = ({ mode, formState }: ItemFormViewProps) => {
             name="category"
           />
         </Flex>
-      </Flex>
+      </FormLayout>
+      <Visible on="mobile">
+        <Button
+          width="100%"
+          size="big"
+          styleType="SECONDARY"
+          onClick={openConfirm}
+        >
+          {mode}
+        </Button>
+      </Visible>
     </StyledItemForm>
   );
 };
+
+const FormLayout = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 52px;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+    gap: 24px;
+  }
+`;
+
+const FieldRow = styled.div`
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+  }
+`;
 
 const StyledItemForm = styled.div`
   width: 100%;

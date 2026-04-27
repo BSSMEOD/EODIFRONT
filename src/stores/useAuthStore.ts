@@ -12,6 +12,7 @@ interface AuthState extends User {
   accessToken: string | null;
   login: (user: User, token: string) => void;
   logout: () => Promise<void>;
+  resetLogoutRedirecting: () => void;
   updateAccessToken: (token: string) => void;
 }
 
@@ -30,6 +31,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           ...user,
           isLoggedIn: true,
+          isLogoutRedirecting: false,
           accessToken: token,
         });
       },
@@ -48,6 +50,10 @@ export const useAuthStore = create<AuthState>()(
             accessToken: null,
           });
         }
+      },
+
+      resetLogoutRedirecting: () => {
+        set({ isLogoutRedirecting: false });
       },
 
       updateAccessToken: (token) => {

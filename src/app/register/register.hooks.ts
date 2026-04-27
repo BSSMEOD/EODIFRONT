@@ -59,9 +59,6 @@ export const useRegisterForm = () => {
   };
 
   const handleSubmit = async () => {
-    const isConfirm = confirm('분실물을 등록하시겠습니까?');
-    if (!isConfirm) return;
-
     const isFormInvalid =
       !selectedFile ||
       !form.name.trim() ||

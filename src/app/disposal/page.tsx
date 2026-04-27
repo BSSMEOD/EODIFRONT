@@ -11,9 +11,11 @@ import FilterActiveTags from '@components/common/Filter/FilterActiveTags/FilterA
 import FilterDateSelect from '@components/common/Filter/FilterDateSelect/FilterDateSelect';
 import type { GetItemListParams } from '@/types/item/params';
 import { useRequireRole } from '@hooks/useRequireRole';
+import { useMobileBlock } from '@hooks/useMobileBlock';
 
 const DisposalPage = () => {
   useRequireRole('TEACHER');
+  useMobileBlock();
 
   const approvalOptions = [
     { label: '보류', value: 'PENDING' },

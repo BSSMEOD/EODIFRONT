@@ -14,9 +14,13 @@ export const ROUTES = {
   REGISTER: '/register',
   RULES: '/rules',
   MARKDOWN: '/markdown',
+  MOBILE_BLOCK: '/mobile-block',
+  MYPAGE: '/mypage',
 };
 
 export const TOKEN = {
   ACCESS: 'access-token',
   REFRESH: 'refresh-token',
 } as const;
+
+export const MOBILE_BLOCK_SIZE = 768;
