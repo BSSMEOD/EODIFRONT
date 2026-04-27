@@ -14,15 +14,7 @@ export const useMyPage = () => {
   });
   const { mutate: cancelMyClaim } = useCancelMyClaimMutation();
 
-  const recallItems: MyRecallItem[] =
-    data?.claims.map((claim) => ({
-      claimId: claim.claimId,
-      itemId: claim.itemId,
-      itemName: claim.itemName,
-      imageUrl: claim.imageUrl,
-      requestedAt: claim.requestedAt,
-      status: claim.status,
-    })) ?? [];
+  const recallItems: MyRecallItem[] = data?.claims ?? [];
 
   const totalPages =
     data && data.size > 0 ? Math.ceil(data.total / data.size) : 1;
