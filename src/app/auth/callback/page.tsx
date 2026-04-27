@@ -47,6 +47,8 @@ const AuthCallbackPage = () => {
           {
             email: userEmail,
             authority,
+            name: payload.name || '',
+            studentCode: payload.studentCode ?? null,
           },
           token
         );
