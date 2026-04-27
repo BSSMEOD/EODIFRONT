@@ -64,7 +64,7 @@ export const NavItemList = () => {
   };
 
   const getUserDisplayName = () => {
-    if (studentCode && name) {
+    if (studentCode != null && name) {
       return `${studentCode} ${name}`;
     }
 
