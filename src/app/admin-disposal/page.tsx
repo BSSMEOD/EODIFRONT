@@ -61,6 +61,12 @@ const AdminDisposalPage = () => {
             물품 목록을 불러오는 중 오류가 발생했습니다.
           </Text>
         </Flex>
+      ) : data.disposalItems.length === 0 ? (
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.gray500}>
+            폐기 예정 물품이 없습니다.
+          </Text>
+        </Flex>
       ) : (
         <>
           <BigProductList
