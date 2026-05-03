@@ -1,4 +1,5 @@
 import { Global, css } from '@emotion/react';
+import breakpoint from '@styles/breakpoint';
 
 const GlobalStyle = () => (
   <Global
@@ -32,6 +33,10 @@ const GlobalStyle = () => (
         -webkit-font-smoothing: antialiased;
         -ms-overflow-style: none;
         scrollbar-width: none;
+
+        ${breakpoint.mobile} {
+          min-width: auto;
+        }
       }
 
       a {

@@ -5,6 +5,7 @@ import Image from 'next/image';
 import Flex from '@components/common/Flex/Flex';
 import Text from '@components/common/Text/Text';
 import { IconUploadFile } from '@/icons';
+import breakpoint from '@styles/breakpoint';
 
 interface ImageUploaderProps {
   ref: LegacyRef<HTMLInputElement>;
@@ -80,6 +81,11 @@ const StyledImageUploader = styled.label<{ hasPreview: boolean }>`
   &:hover {
     border-color: ${color.gray400};
     background: ${color.gray200};
+  }
+
+  ${breakpoint.mobile} {
+    width: 100%;
+    min-width: unset;
   }
 `;
 

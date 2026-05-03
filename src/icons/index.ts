@@ -5,3 +5,4 @@ export { IconUploadFile } from './src/IconUploadFile';
 export { IconEdit } from './src/IconEdit';
 export { IconClose } from './src/IconClose';
 export { IconSearch } from './src/IconSearch';
+export { IconHamburger } from './src/IconHamburger';

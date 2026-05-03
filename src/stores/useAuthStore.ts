@@ -12,6 +12,7 @@ interface AuthState extends User {
   accessToken: string | null;
   login: (user: User, token: string) => void;
   logout: () => Promise<void>;
+  resetLogoutRedirecting: () => void;
   updateAccessToken: (token: string) => void;
 }
 
@@ -20,6 +21,8 @@ export const useAuthStore = create<AuthState>()(
     (set) => ({
       email: '',
       authority: 'USER',
+      name: '',
+      studentCode: null,
       isLoggedIn: false,
       isInitialized: false,
       isLogoutRedirecting: false,
@@ -30,6 +33,7 @@ export const useAuthStore = create<AuthState>()(
         set({
           ...user,
           isLoggedIn: true,
+          isLogoutRedirecting: false,
           accessToken: token,
         });
       },
@@ -44,10 +48,16 @@ export const useAuthStore = create<AuthState>()(
           set({
             email: '',
             authority: 'USER',
+            name: '',
+            studentCode: null,
             isLoggedIn: false,
             accessToken: null,
           });
         }
+      },
+
+      resetLogoutRedirecting: () => {
+        set({ isLogoutRedirecting: false });
       },
 
       updateAccessToken: (token) => {
@@ -61,6 +71,8 @@ export const useAuthStore = create<AuthState>()(
       partialize: (state) => ({
         email: state.email,
         authority: state.authority,
+        name: state.name,
+        studentCode: state.studentCode,
         isLoggedIn: state.isLoggedIn,
         accessToken: state.accessToken,
       }),

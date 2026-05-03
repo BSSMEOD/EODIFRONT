@@ -3,6 +3,8 @@ interface JwtPayload {
   email: string;
   role: string;
   type: string;
+  name?: string;
+  studentCode?: number;
   iat: number;
   exp: number;
 }

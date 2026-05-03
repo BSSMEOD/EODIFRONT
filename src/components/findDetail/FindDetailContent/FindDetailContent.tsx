@@ -14,6 +14,8 @@ import { useAuthStore } from '@/stores/useAuthStore';
 import { Button } from '@components/common/Button/Button';
 import { toast } from 'react-toastify';
 import { ROUTES } from '@/constants/common/constants';
+import breakpoint from '@styles/breakpoint';
+import Visible from '@components/common/Visible/Visible';
 
 interface FindDetailContentProps {
   id: number;
@@ -61,21 +63,20 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
         src={itemData.imageUrl}
         alt="상품 이미지"
       />
-      <Flex
-        direction="column"
-        gap={20}
-        style={{ flex: '1 0 auto' }}
-        width={400}
-      >
-        <Text variant="H2">{itemData.name}</Text>
+      <InfoSection>
+        <Text variant="H1">{itemData.name}</Text>
         <Flex direction="row" gap={20} align="center">
-          <Text variant="p1">최초 발견 일시</Text>
-          <Divider orientation="vertical" length={16} color={color.gray400} />
+          <Visible on="desktop">
+            <Text variant="p1">최초 발견 일시</Text>
+            <Divider orientation="vertical" length={16} color={color.gray400} />
+          </Visible>
           <Text variant="p1">{formatDateKor(itemData.foundAt)}</Text>
         </Flex>
         <Flex direction="row" gap={20} align="center">
-          <Text variant="p1">최초 발견 장소</Text>
-          <Divider orientation="vertical" length={16} color={color.gray400} />
+          <Visible on="desktop">
+            <Text variant="p1">최초 발견 장소</Text>
+            <Divider orientation="vertical" length={16} color={color.gray400} />
+          </Visible>
           <Text variant="p1">
             {itemData.foundPlace}/{itemData.foundPlaceDetail}
           </Text>
@@ -98,7 +99,7 @@ const FindDetailContent = ({ id }: FindDetailContentProps) => {
             내 물건이에요!
           </Button>
         )}
-      </Flex>
+      </InfoSection>
     </StyledFindDetailContent>
   );
 };
@@ -110,15 +111,38 @@ const StyledFindDetailContent = styled.div`
   align-items: flex-end;
   width: 100%;
   height: 100%;
+
+  ${breakpoint.mobile} {
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+`;
+
+const InfoSection = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1 0 auto;
+
+  ${breakpoint.mobile} {
+    width: 100%;
+  }
 `;
 
 const ProductImage = styled(Image)`
   border-radius: 12px;
   width: 40%;
   min-width: 400px;
-  height: 400px;
+  aspect-ratio: 1;
   object-fit: contain;
   background: ${color.gray100};
+
+  ${breakpoint.mobile} {
+    width: 100%;
+    min-width: 300px;
+    max-height: 500px;
+  }
 `;
 
 export default FindDetailContent;

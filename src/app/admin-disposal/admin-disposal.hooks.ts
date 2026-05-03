@@ -145,7 +145,6 @@ export const useAdminDisposal = () => {
       toast.error('연장 처리 중 오류가 발생했습니다.');
     }
   };
-
   const handleCloseModals = () => {
     setIsExtensionModalOpen(false);
     setSelectedItem(null);

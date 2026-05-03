@@ -10,9 +10,11 @@ import color from '@styles/color';
 import IconHistory from '@/icons/src/IconHistory';
 import Pagination from '@components/common/Pagination/Pagination';
 import { useRequireRole } from '@hooks/useRequireRole';
+import { useMobileBlock } from '@hooks/useMobileBlock';
 
 const AdminDisposalPage = () => {
   useRequireRole('ADMIN');
+  useMobileBlock();
 
   const { filters, options, modals, data } = useAdminDisposal();
 
@@ -21,7 +23,7 @@ const AdminDisposalPage = () => {
       direction="column"
       gap={20}
       width="100%"
-      style={{ paddingTop: '59px' }}
+      style={{ paddingTop: '32px' }}
     >
       <Flex justify="space-between" align="center">
         <Flex gap={12} align="center" wrap="wrap">
@@ -57,6 +59,12 @@ const AdminDisposalPage = () => {
         <Flex justify="center" align="center" height={200}>
           <Text variant="p1" color={color.red}>
             물품 목록을 불러오는 중 오류가 발생했습니다.
+          </Text>
+        </Flex>
+      ) : data.disposalItems.length === 0 ? (
+        <Flex justify="center" align="center" height={200}>
+          <Text variant="p1" color={color.gray500}>
+            폐기 예정 물품이 없습니다.
           </Text>
         </Flex>
       ) : (

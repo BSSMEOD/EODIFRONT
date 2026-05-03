@@ -15,9 +15,13 @@ export const ROUTES = {
   RULES: '/rules',
   MARKDOWN: '/markdown',
   DISCORD_VERIFY: '/discord-verify',
+  MOBILE_BLOCK: '/mobile-block',
+  MYPAGE: '/mypage',
 };
 
 export const TOKEN = {
   ACCESS: 'access-token',
   REFRESH: 'refresh-token',
 } as const;
+
+export const MOBILE_BLOCK_SIZE = 768;
