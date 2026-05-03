@@ -14,6 +14,7 @@ export const ROUTES = {
   REGISTER: '/register',
   RULES: '/rules',
   MARKDOWN: '/markdown',
+  DISCORD_VERIFY: '/discord-verify',
 };
 
 export const TOKEN = {
